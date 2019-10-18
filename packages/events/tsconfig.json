@@ -1,0 +1,10 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": "." /* Base directory to resolve non-absolute module names. */,
+    "paths": {
+      "*": ["node_modules/*", "src/types/*"]
+    }
+  },
+  "include": ["src/**/*"]
+}

@@ -1,0 +1,27 @@
+{
+  "name": "@freshbooks/events",
+  "version": "0.1.0",
+  "description": "Webhook events for FreshBooks API",
+  "author": "FreshBooks",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "clean": "shx rm -rf ./dist ./coverage",
+    "test": "jest --coverage --verbose",
+    "lint": "tsc --noEmit && eslint \"**/*.{js,ts}\" --quiet --fix"
+  },
+  "dependencies": {
+    "axios": "^0.19.0",
+    "winston": "^3.2.1"
+  },
+  "devDependencies": {},
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node"
+  }
+}
