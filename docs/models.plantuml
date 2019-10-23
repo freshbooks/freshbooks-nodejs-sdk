@@ -293,6 +293,32 @@ object Invoice {
     fName: string
     createdAt: Date
     autobill: boolean
+    lines: Line[]
+}
+
+enum LineType {
+    0: 'normal'
+    1: 'rebilling'
+}
+
+object Line {
+    amount: Money
+    basecampId: string
+    compoundedTax: boolean
+    date: Date
+    description: string
+    expenseId: string
+    invoiceId: string
+    lineId: string
+    name: string
+    qty: number
+    taxName1: string
+    taxAmount1: number
+    taxName2: string
+    taxAmount2: number
+    type: LineType
+    unitCost: Money
+    updated: Date
 }
 
 object ExpenseCategory {
@@ -396,6 +422,10 @@ Invoice *-- Money
 Invoice *-- VisState
 Invoice <-- User
 Invoice <-- Client
+Invoice *-- Line
+Line *-- Money
+Line <-- Expense
+Line <-- Invoice
 Expense <-- ExpenseCategory
 Expense *-- ExpenseStatus
 Expense *-- VisState
