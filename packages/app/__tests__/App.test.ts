@@ -1,7 +1,7 @@
 import request from 'supertest'
 import app from '../src/App'
 
-describe('@freshbooks/express', () => {
+describe('@freshbooks/app', () => {
 	describe('App', () => {
 		test('GET /', async () => {
 			const response = await request(app).get('/')

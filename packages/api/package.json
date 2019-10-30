@@ -5,6 +5,7 @@
 	"author": "FreshBooks",
 	"license": "MIT",
 	"repository": {
+		"type": "git",
 		"url": "ssh://git@github.com:secretmissionsoftware/api-sdk.git"
 	},
 	"main": "dist/index.js",
@@ -25,5 +26,6 @@
 	"jest": {
 		"preset": "ts-jest",
 		"testEnvironment": "node"
-	}
+	},
+	"gitHead": "41bde79b8651d72fbaeda2f570f6e09984106914"
 }
