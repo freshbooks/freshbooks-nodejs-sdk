@@ -1,6 +1,6 @@
-#  FreshBooks NodeJS SDK
+# FreshBooks NodeJS SDK
 
-![](https://github.com/secretmissionsoftware/api-sdk/workflows/Node%20CI/badge.svg)
+![](https://github.com/freshbooks/api-sdk/workflows/Node%20CI/badge.svg)
 
 ## Installation
 

@@ -6,7 +6,7 @@
 	"license": "MIT",
 	"repository": {
 		"type": "git",
-		"url": "ssh://git@github.com:secretmissionsoftware/api-sdk.git"
+		"url": "ssh://git@github.com:freshbooks/api-sdk.git"
 	},
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
@@ -27,5 +27,5 @@
 		"preset": "ts-jest",
 		"testEnvironment": "node"
 	},
-	"gitHead": "41bde79b8651d72fbaeda2f570f6e09984106914"
+	"gitHead": "83ba7a76dab1f84bb8c828c2ea4b8364925914e9"
 }
