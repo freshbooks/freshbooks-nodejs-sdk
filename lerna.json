@@ -1,8 +1,9 @@
 {
-  "packages": [
-    "packages/*"
-  ],
-  "version": "independent",
-  "npmClient": "yarn",
-  "useWorkspaces": true
+	"packages": ["packages/*"],
+	"version": "independent",
+	"npmClient": "yarn",
+	"useWorkspaces": true,
+	"command": {
+		"registry": "https://npm.pkg.github.com/"
+	}
 }
