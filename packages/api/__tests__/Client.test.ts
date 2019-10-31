@@ -13,7 +13,10 @@ describe('@freshbooks/api', () => {
 			const res = await client.users.me()
 			expect(res.ok).toBeFalsy()
 			expect(res.error).not.toBeUndefined()
-			expect(res.error.code).toEqual('unauthenticated')
+
+			if (res.error) {
+				expect(res.error.code).toEqual('unauthenticated')
+			}
 		})
 
 		test('Test pagination', async () => {
@@ -22,7 +25,11 @@ describe('@freshbooks/api', () => {
 			)
 			const res = await client.invoices.list('xZNQ1X')
 			expect(res.ok).toBeTruthy()
-			expect(res.pages).not.toBeUndefined()
+			expect(res.data).not.toBeUndefined()
+
+			if (res.data) {
+				expect(res.data.pages).not.toBeUndefined()
+			}
 		})
 	})
 })

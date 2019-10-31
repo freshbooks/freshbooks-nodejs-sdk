@@ -2,8 +2,9 @@
 import axios, { AxiosInstance, AxiosRequestConfig, Method } from 'axios'
 import { Logger } from 'winston'
 import _logger from './logger'
-import { User, Error, Pagination } from './models'
-import { Invoice } from './models/Invoices'
+import { Error, Pagination, Invoice, User } from './models'
+import { transformUserResponse } from './models/User'
+import { transformListInvoicesResponse } from './models/Invoices'
 
 // defaults
 const API_URL = 'https://api.freshbooks.com'
@@ -48,11 +49,11 @@ export default class Client {
 		this.logger.debug(`Initialized with apiUrl: ${apiUrl}`)
 	}
 
-	private async call<T>(
+	private async call<S, T>(
 		method: Method,
 		url: string,
-		data?: T,
-		config?: AxiosRequestConfig
+		config?: AxiosRequestConfig,
+		data?: S
 	): Promise<Result<T>> {
 		this.logger.debug(`Request: ${method} ${url}`)
 		try {
@@ -62,50 +63,33 @@ export default class Client {
 				data,
 				...config,
 			})
-			const { result } = response.data.response
-			const pagination: { pages: Pagination } | {} = result
-				? {
-						pages: {
-							page: result.page,
-							pages: result.pages,
-							size: result.per_page,
-							total: result.total,
-						},
-				  }
-				: {}
 
 			return {
 				ok: true,
 				data: response.data,
-				...pagination,
 			}
 		} catch (err) {
-			const {
-				response: {
-					data: { error, error_description },
-				},
-			} = err
 			return {
 				ok: false,
-				error: {
-					code: error,
-					message: error_description,
-				},
+				error: err.response.data,
 			}
 		}
 	}
 
 	public readonly users = {
 		me: (): Promise<Result<User>> =>
-			this.call<User>('GET', '/auth/api/v1/users/me'),
+			this.call('GET', '/auth/api/v1/users/me', {
+				transformResponse: transformUserResponse,
+			}),
 	}
 
 	public readonly invoices = {
-		list: (accountId: string): Promise<Result<Invoice[]>> =>
-			this.call<Invoice[]>(
-				'GET',
-				`/accounting/account/${accountId}/invoices/invoices`
-			),
+		list: (
+			accountId: string
+		): Promise<Result<{ invoices: Invoice[]; pages: Pagination }>> =>
+			this.call('GET', `/accounting/account/${accountId}/invoices/invoices`, {
+				transformResponse: transformListInvoicesResponse,
+			}),
 	}
 }
 
@@ -117,5 +101,4 @@ export interface Result<T> {
 	ok: boolean
 	data?: T
 	error?: Error
-	pages?: Pagination
 }

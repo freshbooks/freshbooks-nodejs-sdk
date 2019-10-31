@@ -1,14 +1,4 @@
-export { User } from './User'
-export { Invoice } from './Invoices'
-
-export interface Error {
-	code: string
-	message?: string
-}
-
-export interface Pagination {
-	page: number
-	pages: number
-	total: number
-	size: number
-}
+export { default as User } from './User'
+export { default as Invoice } from './Invoices'
+export { default as Error } from './Error'
+export { default as Pagination } from './Pagination'
