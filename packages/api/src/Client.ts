@@ -51,7 +51,7 @@ export default class Client {
 	private async call<T>(
 		method: Method,
 		url: string,
-		data?: any,
+		data?: T,
 		config?: AxiosRequestConfig
 	): Promise<Result<T>> {
 		this.logger.debug(`Request: ${method} ${url}`)
