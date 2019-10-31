@@ -27,5 +27,8 @@
 		"preset": "ts-jest",
 		"testEnvironment": "node"
 	},
-	"gitHead": "83ba7a76dab1f84bb8c828c2ea4b8364925914e9"
+	"gitHead": "83ba7a76dab1f84bb8c828c2ea4b8364925914e9",
+	"devDependencies": {
+		"axios-mock-adapter": "^1.17.0"
+	}
 }
