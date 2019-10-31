@@ -21,7 +21,7 @@ describe('@freshbooks/api', () => {
 
 		test('Test pagination', async () => {
 			const client = new Client(
-				'14e5829e705971582c1c1f2d9bf5546fd815f3c5948eb771e6800cc417e5f54a'
+				'af29ed8f8d5d3399791212ce5be512018214b7aebc8d942744a8a45e8177919a'
 			)
 			const res = await client.invoices.list('xZNQ1X')
 			expect(res.ok).toBeTruthy()
