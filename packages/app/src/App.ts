@@ -28,9 +28,9 @@ export default function(
 	)
 
 	const router = express.Router()
-	router.use('/freshbooks', passport.authenticate('freshbooks'))
+	router.use('/redirect', passport.authenticate('freshbooks'))
 
-	app.use('/auth', router)
+	app.use('/auth/freshbooks', router)
 
 	return app
 }
