@@ -1,0 +1,44 @@
+{
+	"private": true,
+	"workspaces": [
+		"packages/*"
+	],
+	"scripts": {
+		"build": "lerna run build",
+		"clean": "lerna run clean",
+		"test": "lerna run test"
+	},
+	"devDependencies": {
+		"@babel/core": "^7.6.4",
+		"@babel/preset-env": "^7.6.3",
+		"@babel/preset-typescript": "^7.6.0",
+		"@types/jest": "^24.0.21",
+		"@typescript-eslint/eslint-plugin": "^2.3.2",
+		"@typescript-eslint/parser": "^2.3.2",
+		"babel-jest": "^24.9.0",
+		"eslint": "^6.5.1",
+		"eslint-config-airbnb-base": "^14.0.0",
+		"eslint-config-prettier": "^6.3.0",
+		"eslint-plugin-import": "^2.18.2",
+		"eslint-plugin-prettier": "^3.1.1",
+		"husky": "^3.0.9",
+		"jest": "^24.9.0",
+		"lerna": "^3.18.1",
+		"lint-staged": "^9.4.2",
+		"prettier": "1.18.2",
+		"shx": "^0.3.2",
+		"ts-jest": "^24.1.0",
+		"typescript": "^3.6.3"
+	},
+	"husky": {
+		"hooks": {
+			"pre-commit": "lint-staged"
+		}
+	},
+	"lint-staged": {
+		"**/*.ts": [
+			"./node_modules/.bin/eslint \"**/*.{js,ts}\" --quiet --fix",
+			"git add"
+		]
+	}
+}

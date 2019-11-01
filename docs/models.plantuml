@@ -1,0 +1,439 @@
+@startuml Freshbooks API models
+object User {
+    id: string
+    firstName: string
+    lastName: string
+    emails: string
+    phoneNumbers: PhoneNumber[]
+    addresses: Address[]
+    professions: Profession[]
+    groups: Group[]
+    links: Map<string, string>
+    permissions: Map<string, Map<string, any>>
+    subscriptionStatuses: Map<string, string>
+    businessMemberships: BusinessMembership[]
+    roles: Role[]
+}
+
+object PhoneNumber {
+    title: string
+    number: string
+}
+
+object Address {
+    id: number
+    street: string
+    city: string
+    province: string
+    postalCode: string
+}
+
+object Profession {
+    id: string
+    title: string
+    company: string
+    designation: string
+}
+
+object Group {
+    id: string
+    groupId: string
+    role: string
+    firstName: string
+    lastName: string
+    email: string
+    company: string
+    businessId: string
+    active: boolean
+}
+
+object BusinessMembership {
+    id: string
+    role: string
+    business: Business
+}
+
+object ClientBusiness {
+    id: string
+}
+
+object AccountBusiness {
+    accountId: string
+    accountBusinessId: string
+}
+
+object BusinessClient {
+    id: string
+    businessId: string
+    accountId: string
+    userId: string
+    clientBusiness: ClientBusiness
+    accountBusiness: AccountBusiness
+}
+
+object Business {
+    id: string
+    name: string
+    accountId: string
+    address: Address
+    phoneNumber: PhoneNumber
+    businessClients: BusinessClient[]
+}
+
+object Role {
+    id: string
+    role: string
+    systemId: string
+    userId: string
+    accountId: string
+    createdAt: Date
+    links: Map<string, string>
+}
+
+object Client {
+    id: string
+    allowLateNotifications: boolean
+    sCode: string,
+    fax: string,
+    lastActivity: string,
+    numLogins: number,
+    vatNumber: string,
+    prefEmail: boolean,
+    directLinkToken: string,
+    sProvince: string,
+    vatName: string,
+    lName: string,
+    sCity: string,
+    sStreet2: string,
+    statementToken: string,
+    note: string,
+    mobPhone: string,
+    lastLogin: Date,
+    homePhone: string,
+    companyIndustry: string,
+    subdomain: string,
+    email: string,
+    username: string,
+    updated: Date,
+    pProvince: string,
+    pCity: string,
+    busPhone: string,
+    allowLateFees: boolean,
+    pStreet: string,
+    companySize: string,
+    accountingSystemId: string,
+    pCode: string,
+    signupDate: string,
+    language: string,
+    level: number,
+    notified: boolean,
+    userId: string,
+    pStreet2: string,
+    prefGmail: boolean,
+    visState: number,
+    sCountry: string,
+    sStreet: string,
+    fName: string,
+    organization: string,
+    pCountry: string,
+    currencyCode: string
+}
+
+object Item {
+    id: string
+    accountingSystemId: string
+    updated: Date
+    name: string
+    description: string
+    qty: number
+    sku: string
+    inventory: number
+    unitCost: Money
+    tax1: string
+    tax2: string
+    visState: VisState
+}
+
+object Service {
+    id: string
+    businessId: string
+    name: string
+    billable: boolean
+    visState: VisState
+}
+
+object Money {
+    amount: number
+    code: string
+}
+
+enum VisState {
+    0: active
+    1: deleted
+}
+
+enum InvoiceStatus {
+    0: disputed
+    1: draft
+    2: sent
+    3: viewed
+    4: paid
+    5: auto_paid
+    6: retry
+    7: failed
+    8: partial
+}
+
+enum InvoiceV3Status {
+    created: created
+    draft: draft
+    sent: sent
+    viewed: viewed
+    failed: failed
+    retry: retry
+    success: success
+    autopaid: autopaid
+    paid: paid
+    partial: partial
+    disputed: disputed
+    resolved: resolved
+    overdue: overdue
+    deposit-partial: depositPartial
+    deposit-paid: depositPaid
+    declined: declined
+    pending: pending
+}
+
+enum DepositStatus {
+    paid
+    unpaid
+    partial
+    none
+    converted
+}
+
+enum PaymentStatus {
+    unpaid
+    partial
+    paid
+    auto-paid
+}
+
+enum DisplayStatus {
+    draft
+    created
+    sent
+    viewed
+    outstanding
+}
+
+enum AutobillStatus {
+    retry
+    failed
+    success
+}
+
+object Invoice {
+    id: string
+    ownerId: string
+    estimateId: string
+    basecampId: string
+    customerId: string
+    accountingSystemId: string
+    accountId: string
+    createDate: Date
+    generationDate: Date
+    dueDate: Date
+    updated: Date
+    status: InvoiceStatus
+    v3Status: InvoiceV3Status
+    depositStatus: DepositStatus
+    disputeStatus: string
+    paymentStatus: PaymentStatus
+    displayStatus: DisplayStatus
+    autobillStatus: AutobillStatus
+    depositPercentage: string
+    code: string
+    outstanding: Money
+    gmail: boolean
+    vatNumber: string
+    vatName: string
+    parent: string
+    country: string
+    lName: string
+    extArchive: string
+    template: string
+    showAttachments: boolean
+    visState: VisState
+    currentOrganization: string
+    province: string
+    terms: string
+    description: string
+    discountDescription: string
+    lastOrderStatus: string
+    street2: string
+    depositAmount: Money
+    paid: Money
+    discountTotal: Money
+    address: string
+    invoiceNumber: string
+    discountValue: number
+    organization: string
+    dueOffsetDays: number
+    language: string
+    poNumber: string
+    notes: string
+    datePaid: Date
+    amount: Money
+    street: string
+    city: string
+    currencyCode: string
+    sentId: string
+    returnUri: string
+    fName: string
+    createdAt: Date
+    autobill: boolean
+    lines: Line[]
+}
+
+enum LineType {
+    0: 'normal'
+    1: 'rebilling'
+}
+
+object Line {
+    amount: Money
+    basecampId: string
+    compoundedTax: boolean
+    date: Date
+    description: string
+    expenseId: string
+    invoiceId: string
+    lineId: string
+    name: string
+    qty: number
+    taxName1: string
+    taxAmount1: number
+    taxName2: string
+    taxAmount2: number
+    type: LineType
+    unitCost: Money
+    updated: Date
+}
+
+object ExpenseCategory {
+    id: string
+    parentId: string
+    category: string
+    isEditable: boolean
+    isCogs: boolean
+    visState: VisState
+}
+
+enum ExpenseStatus {
+    0: internal
+    1: outstanding
+    2: invoiced
+    4: recouped
+}
+
+object Expense {
+    id: string
+    categoryId: string
+    projectId: string
+    profileId: string
+    transactionId: string
+    invoiceId: string
+    staffId: string
+    accountId: string
+    accountingSystemId: string
+    extSystemId: string
+    extInvoiceId: string
+    backgroundJobId: string
+    markupPercent: number
+    taxName1: string
+    taxPercent1: number
+    taxAmount1: Money
+    taxName2: string
+    taxPercent2: number
+    taxAmount2: Money
+    isDuplicate: boolean
+    accountName: string
+    status: ExpenseStatus
+    bankName: string
+    updated: Date
+    vendor: string
+    date: Date
+    hasReceipt: boolean
+    notes: string
+    amount: Money
+    compoundedTax: boolean
+}
+
+enum CategoryName {
+    advertising
+    in_person_sales
+    online_sales
+    rentals
+    other
+}
+
+object Tax {
+    amount: number
+    name: string
+}
+
+object OtherIncome {
+    id: string
+    amount: Money
+    categoryName: CategoryName
+    createdAt: Date
+    date: Date
+    note: string
+    paymentType: string
+    source: string
+    taxes: Tax[]
+    updatedAt: Date
+    visState: VisState
+}
+
+User *-- PhoneNumber
+User *-- Address
+User *-- Profession
+User *-- Group
+User *-- BusinessMembership
+User *-- Role
+BusinessMembership *-- Business
+Business *-- Address
+Business *-- PhoneNumber
+Business *-- BusinessClient
+BusinessClient *-- ClientBusiness
+BusinessClient *-- AccountBusiness
+Item *-- Money
+Item *-- VisState
+Service *-- VisState
+Invoice *-- InvoiceStatus
+Invoice *-- InvoiceV3Status
+Invoice *-- DepositStatus
+Invoice *-- PaymentStatus
+Invoice *-- DisplayStatus
+Invoice *-- AutobillStatus
+Invoice *-- Money
+Invoice *-- VisState
+Invoice <-- User
+Invoice <-- Client
+Invoice *-- Line
+Line *-- Money
+Line <-- Expense
+Line <-- Invoice
+Expense <-- ExpenseCategory
+Expense *-- ExpenseStatus
+Expense *-- VisState
+Expense *-- Money
+Expense <-- Invoice
+OtherIncome *-- Money
+OtherIncome *-- CategoryName
+OtherIncome *-- Tax
+OtherIncome *-- VisState
+
+@enduml
