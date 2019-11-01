@@ -2,6 +2,9 @@
 # build artefacts
 dist/*
 coverage/*
+packages/**/dist/*
+packages/**/coverage/*
+
 # data definition files
 **/*.d.ts
 # 3rd party libs
