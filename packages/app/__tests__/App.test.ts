@@ -1,4 +1,5 @@
 import request from 'supertest'
+import passport from 'passport'
 import createApp from '../src/app'
 import { AUTHORIZATION_URL } from '../src/PassportStrategy'
 
@@ -20,11 +21,23 @@ describe('@freshbooks/app', () => {
 	describe('Auth', () => {
 		test('GET /auth/freshbooks', async () => {
 			const app = createApp(CLIENT_ID, CLIENT_SECRET, CALLBACK_URL, verify)
+
+			// setup route
+			app.get(
+				'/auth/freshbooks',
+				passport.authenticate('freshbooks', {
+					successRedirect: '/success',
+					failureRedirect: '/failure',
+				})
+			)
+
 			const response = await request(app).get('/auth/freshbooks')
+			const {
+				header: { location },
+				status,
+			} = response
 
-			expect(response.status).toBe(302)
-
-			const { location } = response.header
+			expect(status).toBe(302)
 			expect(location.startsWith(AUTHORIZATION_URL)).toBeTruthy()
 		})
 	})
