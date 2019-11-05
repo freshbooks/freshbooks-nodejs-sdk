@@ -14,7 +14,7 @@
 		"dist/**/*"
 	],
 	"scripts": {
-		"build": "tsc",
+		"build": "tsc --declaration",
 		"clean": "shx rm -rf ./dist ./coverage",
 		"test": "jest --coverage --verbose",
 		"lint": "tsc --noEmit && eslint \"**/*.{js,ts}\" --quiet --fix"

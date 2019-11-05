@@ -1,5 +1,5 @@
 import request from 'supertest'
-import createApp from '../src/App'
+import createApp from '../src/app'
 import { AUTHORIZATION_URL } from '../src/PassportStrategy'
 
 const CLIENT_ID = 'client_id'

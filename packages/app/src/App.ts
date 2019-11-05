@@ -1,8 +1,8 @@
 import express from 'express'
 import passport from 'passport'
 import helmet from 'helmet'
-import morgan from 'morgan'
 import OAuth2Strategy from 'passport-oauth2'
+import { User } from '@freshbooks/api'
 import FreshbooksStrategy from './PassportStrategy'
 
 export default function(
@@ -19,18 +19,21 @@ export default function(
 
 	// set up middleware
 	app.use(helmet())
-	app.use(morgan(process.env.NODE_ENV !== 'production' ? 'dev' : 'common'))
 
 	// set up auth
+	app.use(passport.initialize())
+
 	passport.use(
 		'freshbooks',
 		new FreshbooksStrategy(clientId, clientSecret, callbackURL, verify)
 	)
 
-	const router = express.Router()
-	router.use('/redirect', passport.authenticate('freshbooks'))
-
-	app.use('/auth/freshbooks', router)
+	passport.serializeUser<User, string>((user, done) => {
+		done(null, user.id)
+	})
+	passport.deserializeUser<User, string>((id: string, done) => {
+		done(null, { id, firstName: '', lastName: '' })
+	})
 
 	return app
 }
