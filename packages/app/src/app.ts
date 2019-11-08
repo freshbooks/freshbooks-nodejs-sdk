@@ -48,6 +48,14 @@ const defaultDeserializeUserFn = (
 	done(null, { id })
 }
 
+/**
+ * Returns an {@link https://expressjs.com/ | ExpressJS} app, pre-configured with FreshBooks API
+ *
+ * @param clientId - Client ID of application
+ * @param clientSecret - Client secret of application
+ * @param callbackURL - URL to redirect to, after user authorizes application
+ * @param options - App configuration options
+ */
 export default function(
 	clientId: string,
 	clientSecret: string,

@@ -27,6 +27,12 @@ export default class Client {
 
 	private logger: Logger
 
+	/**
+	 * FreshBooks API client
+	 * @param token Bearer token
+	 * @param options Client config options
+	 * @param logger Custom logger
+	 */
 	constructor(token: string, options?: Options, logger = _logger) {
 		const { apiUrl = API_URL } = options || {}
 
@@ -77,6 +83,9 @@ export default class Client {
 	}
 
 	public readonly users = {
+		/**
+		 * Get own identity user
+		 */
 		me: (): Promise<Result<User>> =>
 			this.call('GET', '/auth/api/v1/users/me', {
 				transformResponse: transformUserResponse,
@@ -84,6 +93,9 @@ export default class Client {
 	}
 
 	public readonly invoices = {
+		/**
+		 * Get list of invoices
+		 */
 		list: (
 			accountId: string
 		): Promise<Result<{ invoices: Invoice[]; pages: Pagination }>> =>
