@@ -1,2 +1,2 @@
-export { default as Client, ClientOptions } from './Client'
+export { default as Client, Options } from './Client'
 export { User } from './models'

@@ -27,7 +27,7 @@ export default class Client {
 
 	private logger: Logger
 
-	constructor(token: string, options?: ClientOptions, logger = _logger) {
+	constructor(token: string, options?: Options, logger = _logger) {
 		const { apiUrl = API_URL } = options || {}
 
 		this.token = token
@@ -93,7 +93,7 @@ export default class Client {
 	}
 }
 
-export interface ClientOptions {
+export interface Options {
 	apiUrl?: string
 }
 
