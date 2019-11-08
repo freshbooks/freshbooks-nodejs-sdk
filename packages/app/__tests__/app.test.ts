@@ -7,12 +7,10 @@ const CLIENT_ID = 'client_id'
 const CLIENT_SECRET = 'client_secret'
 const CALLBACK_URL = 'https://freshbooks.app/auth/freshbooks/redirect'
 
-const verify = (): void => {}
-
 describe('@freshbooks/app', () => {
 	describe('App', () => {
 		test('GET /', async () => {
-			const app = createApp(CLIENT_ID, CLIENT_SECRET, CALLBACK_URL, verify)
+			const app = createApp(CLIENT_ID, CLIENT_SECRET, CALLBACK_URL)
 			const response = await request(app).get('/')
 			expect(response.status).toBe(404)
 		})
@@ -20,7 +18,7 @@ describe('@freshbooks/app', () => {
 
 	describe('Auth', () => {
 		test('GET /auth/freshbooks', async () => {
-			const app = createApp(CLIENT_ID, CLIENT_SECRET, CALLBACK_URL, verify)
+			const app = createApp(CLIENT_ID, CLIENT_SECRET, CALLBACK_URL)
 
 			// setup route
 			app.get(

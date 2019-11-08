@@ -1,15 +1,63 @@
 import express from 'express'
+import session, { SessionOptions } from 'express-session'
 import passport from 'passport'
 import helmet from 'helmet'
-import OAuth2Strategy from 'passport-oauth2'
-import { User } from '@freshbooks/api'
-import FreshbooksStrategy from './PassportStrategy'
+import OAuth2Strategy, { VerifyCallback } from 'passport-oauth2'
+import { Client } from '@freshbooks/api'
+import FreshbooksStrategy, { SessionUser } from './PassportStrategy'
+
+const defaultVerifyFn = async (
+	token: string,
+	refreshToken: string,
+	profile: object,
+	done: VerifyCallback
+): Promise<void> => {
+	const client = new Client(token)
+	try {
+		const { data } = await client.users.me()
+		if (data !== null && data !== undefined) {
+			const user: SessionUser = {
+				id: data.id,
+				token,
+				refreshToken,
+			}
+			done(null, user)
+		}
+	} catch (err) {
+		done(err)
+	}
+}
+
+const defaultSessionOptions: SessionOptions = {
+	secret: 'changeme',
+	resave: false,
+	saveUninitialized: true,
+}
+
+const defaultSerializeUserFn = (
+	user: SessionUser,
+	done: (err: any, id?: string) => void
+): void => {
+	done(null, user.id)
+}
+
+const defaultDeserializeUserFn = (
+	id: string,
+	done: (err: any, user?: SessionUser) => void
+): void => {
+	done(null, { id })
+}
 
 export default function(
 	clientId: string,
 	clientSecret: string,
 	callbackURL: string,
-	verify: OAuth2Strategy.VerifyFunction
+	{
+		verify = defaultVerifyFn,
+		sessionOptions = defaultSessionOptions,
+		serializeUser = defaultSerializeUserFn,
+		deserializeUser = defaultDeserializeUserFn,
+	}: Options = {}
 ): express.Express {
 	const app = express()
 
@@ -19,21 +67,32 @@ export default function(
 
 	// set up middleware
 	app.use(helmet())
+	app.use(session(sessionOptions))
 
 	// set up auth
+	passport.serializeUser(serializeUser)
+	passport.deserializeUser(deserializeUser)
+
 	app.use(passport.initialize())
+	app.use(passport.session())
 
 	passport.use(
 		'freshbooks',
 		new FreshbooksStrategy(clientId, clientSecret, callbackURL, verify)
 	)
 
-	passport.serializeUser<User, string>((user, done) => {
-		done(null, user.id)
-	})
-	passport.deserializeUser<User, string>((id: string, done) => {
-		done(null, { id, firstName: '', lastName: '' })
-	})
-
 	return app
+}
+
+export interface Options {
+	verify?: OAuth2Strategy.VerifyFunction
+	sessionOptions?: SessionOptions
+	serializeUser?: (
+		user: SessionUser,
+		done: (err: any, id?: string) => void
+	) => void
+	deserializeUser?: (
+		id: string,
+		done: (err: any, user?: SessionUser) => void
+	) => void
 }
