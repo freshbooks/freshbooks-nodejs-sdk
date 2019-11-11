@@ -12,7 +12,7 @@ describe('@freshbooks/api', () => {
 
 			mock
 				.onGet(`/auth/api/v1/users/me`)
-				.replyOnce(200, '{"response":{"result":{"id":"123"}}}')
+				.replyOnce(200, '{"response":{"id":"123"}}')
 
 			const response = await client.users.me()
 			const user = response.data
