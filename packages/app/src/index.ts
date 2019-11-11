@@ -1,3 +1,2 @@
-import App from './App'
-
-export default App
+export { default as Strategy, SessionUser } from './PassportStrategy'
+export { default as createApp } from './app'

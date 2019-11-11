@@ -1,6 +1,6 @@
 {
 	"name": "@freshbooks/api",
-	"version": "0.1.0-alpha.1",
+	"version": "0.1.0-alpha.4",
 	"description": "NodeJS SDK for FreshBooks API",
 	"author": "FreshBooks",
 	"license": "MIT",
@@ -14,7 +14,7 @@
 		"dist/**/*"
 	],
 	"scripts": {
-		"build": "tsc",
+		"build": "tsc --declaration",
 		"clean": "shx rm -rf ./dist ./coverage",
 		"test": "jest --coverage --verbose",
 		"lint": "tsc --noEmit && eslint \"**/*.{js,ts}\" --quiet --fix"

@@ -1,6 +1,6 @@
 {
 	"name": "@freshbooks/app",
-	"version": "0.1.0-alpha.1",
+	"version": "0.1.0-alpha.6",
 	"description": "ExpressJS app for FreshBooks API",
 	"author": "FreshBooks",
 	"license": "MIT",
@@ -14,24 +14,24 @@
 		"dist/**/*"
 	],
 	"scripts": {
-		"build": "tsc",
+		"build": "tsc --declaration",
 		"clean": "shx rm -rf ./dist ./coverage",
 		"test": "jest --coverage --verbose",
 		"lint": "tsc --noEmit && eslint \"**/*.{js,ts}\" --quiet --fix"
 	},
 	"dependencies": {
-		"@freshbooks/api": "./packages/api",
+		"@freshbooks/api": "^0.1.0-alpha.4",
 		"express": "^4.17.1",
+		"express-session": "^1.17.0",
 		"helmet": "^3.21.1",
-		"morgan": "^1.9.1",
 		"passport": "^0.4.0",
 		"passport-oauth2": "^1.5.0",
 		"winston": "^3.2.1"
 	},
 	"devDependencies": {
 		"@types/express": "^4.17.1",
+		"@types/express-session": "^1.15.15",
 		"@types/helmet": "^0.0.44",
-		"@types/morgan": "^1.7.37",
 		"@types/passport-oauth2": "^1.4.8",
 		"@types/supertest": "^2.0.8",
 		"supertest": "^4.0.2"
