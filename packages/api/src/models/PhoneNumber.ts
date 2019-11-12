@@ -6,9 +6,10 @@ export default interface PhoneNumber {
 /**
  * Parse a JSON string to @PhoneNumber object
  * @param json JSON string
+ * eg: '{ "title": "Mobile", "phone_number": "555-555-5555"}'
  */
 export function transformPhoneNumberJSON(json: string): PhoneNumber {
-	const { title, number } = JSON.parse(json)
+	const { title, phone_number: number } = JSON.parse(json)
 
 	return {
 		title,
@@ -18,22 +19,13 @@ export function transformPhoneNumberJSON(json: string): PhoneNumber {
 
 /**
  * @param data Phone number object
- * eg: { title: 'Mobile', '555-555-5555'}
+ * eg: { title: 'Mobile', number: '555-555-5555'}
  * @returns Phone number object
  */
 export function transformPhoneNumberResponse(data: any): PhoneNumber {
-	const { title, number } = data
+	const { title, phone_number: number } = data
 	return {
 		title,
 		number,
 	}
-}
-
-/**
- * Convert a @PhoneNumber object to JSON string
- * @param phoneNumber @PhoneNumber object
- * @returns JSON string representing a phone number
- */
-export function transformUserRequest(phoneNumber: PhoneNumber): string {
-	return JSON.stringify(phoneNumber)
 }

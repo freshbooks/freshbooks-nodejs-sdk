@@ -2,13 +2,19 @@
 import Error from './Error'
 import PhoneNumber, { transformPhoneNumberResponse } from './PhoneNumber'
 import Address, { transformAddressResponse } from './Address'
+import Profession, { transformProfessionResponse } from './Profession'
+import Group, { transformGroupResponse } from './Group'
 
 export default interface User {
 	id: string
 	firstName: string
 	lastName: string
+	email: string
 	phoneNumbers?: PhoneNumber[]
 	addresses?: Address[]
+	profession?: Profession
+	groups?: Group[]
+	links?: Map<string, string>
 }
 
 export function transformUserResponse(data: string): User | Error {
@@ -25,18 +31,26 @@ export function transformUserResponse(data: string): User | Error {
 		id,
 		first_name,
 		last_name,
-		phoneNumbers = [],
+		email,
+		phone_numbers: phoneNumbers = [],
 		addresses = [],
+		profession,
+		groups = [],
+		links = {},
 	} = response
 	return {
-		id,
+		id: id.toString(),
 		firstName: first_name,
 		lastName: last_name,
+		email,
 		phoneNumbers: phoneNumbers.map((phoneNumber: any) =>
 			transformPhoneNumberResponse(phoneNumber)
 		),
-		addresses: addresses.map((address: any) =>
-			transformAddressResponse(address)
-		),
+		addresses: addresses
+			.filter((entry: any) => entry)
+			.map((address: any) => transformAddressResponse(address)),
+		profession: transformProfessionResponse(profession),
+		groups: groups.map((group: any) => transformGroupResponse(group)),
+		links,
 	}
 }
