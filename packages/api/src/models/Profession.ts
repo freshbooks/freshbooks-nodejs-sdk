@@ -14,13 +14,13 @@ export default interface Profession {
  * @returns Profession object
  */
 export function transformProfessionJSON(json: string): Profession {
-	const { id, title, company, designation, business_id = '' } = JSON.parse(json)
+	const { id, title, company, designation, business_id } = JSON.parse(json)
 	return {
 		id: id.toString(),
 		title,
 		company,
 		designation,
-		businessId: business_id.toString(),
+		businessId: business_id ? business_id.toString() : undefined,
 	}
 }
 
@@ -31,12 +31,12 @@ export function transformProfessionJSON(json: string): Profession {
  * @returns Profession object
  */
 export function transformProfessionResponse(data: any): Profession {
-	const { id, title, company, designation, business_id = '' } = data
+	const { id, title, company, designation, business_id } = data
 	return {
 		id: id.toString(),
 		title,
 		company,
 		designation,
-		businessId: business_id.toString(),
+		businessId: business_id ? business_id.toString() : undefined,
 	}
 }

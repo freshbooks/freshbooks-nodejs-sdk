@@ -32,26 +32,26 @@ export default interface Group {
 export function transformGroupJSON(json: string): Group {
 	const {
 		id,
-		group_id: groupId = '',
+		group_id,
 		role,
-		identity_id: identityId = '',
+		identity_id,
 		first_name: firstName,
 		last_name: lastName,
 		email,
 		company,
-		business_id: businessId = '',
+		business_id,
 		active,
 	} = JSON.parse(json)
 	return {
 		id: id.toString(),
-		groupId: groupId.toString(),
+		groupId: group_id ? group_id.toString() : undefined,
 		role,
-		identityId: identityId.toString(),
+		identityId: identity_id ? identity_id.toString() : undefined,
 		firstName,
 		lastName,
 		email,
 		company,
-		businessId: businessId.toString(),
+		businessId: business_id ? business_id.toString() : undefined,
 		active,
 	}
 }
@@ -76,26 +76,26 @@ export function transformGroupJSON(json: string): Group {
 export function transformGroupResponse(data: any): Group {
 	const {
 		id,
-		group_id: groupId = '',
+		group_id,
 		role,
-		identity_id: identityId = '',
+		identity_id,
 		first_name: firstName,
 		last_name: lastName,
 		email,
 		company,
-		business_id: businessId = '',
+		business_id,
 		active,
 	} = data
 	return {
 		id: id.toString(),
-		groupId: groupId.toString(),
+		groupId: group_id ? group_id.toString() : undefined,
 		role,
-		identityId: identityId.toString(),
+		identityId: identity_id ? identity_id.toString() : undefined,
 		firstName,
 		lastName,
 		email,
 		company,
-		businessId: businessId.toString(),
+		businessId: business_id ? business_id.toString() : undefined,
 		active,
 	}
 }
