@@ -21,7 +21,7 @@ export function transformClientBusinessJSON(json: string): ClientBusiness {
 /**
  * Format a ClientBusiness response object
  * @param data Client business object
- * eg: { business_id: 77128 }
+ * eg: { "business_id": 77128 }
  * @returns Client business object
  */
 export function transformClientBusinessResponse(data: any): ClientBusiness {

@@ -27,7 +27,7 @@ export function transformAccountBusinessJSON(json: string): AccountBusiness {
 /**
  * Format a AccountBusiness response object
  * @param data Account business object
- * eg: { account_business_id: 363103, "account_id": "Xr82w" }
+ * eg: { "account_business_id": 363103, "account_id": "Xr82w" }
  * @returns Account business object
  */
 export function transformAccountBusinessResponse(data: any): AccountBusiness {
