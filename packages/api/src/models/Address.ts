@@ -1,5 +1,5 @@
 export default interface Address {
-	id: number
+	id: string
 	street: string
 	city: string
 	province: string
@@ -9,11 +9,15 @@ export default interface Address {
 /**
  * Parse a JSON string to @Address object
  * @param json JSON string
+ * eg: '{ 'id': 1, 'street': 'King Street', 'city': 'Toronto', 'province': 'Ontario', 'postal_code': 'K3I6R9'}'
+ * @returns Address object
  */
 export function transformAddressJSON(json: string): Address {
-	const { id, street, city, province, postalCode } = JSON.parse(json)
+	const { id, street, city, province, postal_code: postalCode } = JSON.parse(
+		json
+	)
 	return {
-		id,
+		id: id.toString(),
 		street,
 		city,
 		province,
@@ -24,26 +28,17 @@ export function transformAddressJSON(json: string): Address {
 /**
  * Format an Address response object
  * @param data Address object
- * eg: { 'id': 1, 'street': 'King Street', 'city': 'Toronto', 'province': 'Ontario', 'postalCode': 'K3I6R9'}
+ * eg: { 'id': 1, 'street': 'King Street', 'city': 'Toronto', 'province': 'Ontario', 'postal_code': 'K3I6R9'}
  * @returns Address object
  */
 export function transformAddressResponse(data: any): Address {
-	const { id, street, city, province, postalCode } = data
+	const { id, street, city, province, postal_code: postalCode } = data
 
 	return {
-		id,
+		id: id.toString(),
 		street,
 		city,
 		province,
 		postalCode,
 	}
-}
-
-/**
- * Convert a @Address object to JSON string
- * @param address @Address object
- * @returns JSON string representing an address
- */
-export function transformAddressRequest(address: Address): string {
-	return JSON.stringify(address)
 }
