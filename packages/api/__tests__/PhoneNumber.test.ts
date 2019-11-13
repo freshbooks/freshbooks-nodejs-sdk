@@ -9,14 +9,20 @@ describe('@freshbooks/api', () => {
 		test('Verify JSON -> model transform', () => {
 			const json = '{ "title": "Mobile", "phone_number": "555-555-5555"}'
 			const model = transformPhoneNumberJSON(json)
-			expect(model.title).toEqual('Mobile')
-			expect(model.number).toEqual('555-555-5555')
+			const expected = {
+				title: 'Mobile',
+				number: '555-555-5555',
+			}
+			expect(model).toEqual(expected)
 		})
 		test('Verify parsed JSON -> model transform', () => {
 			const data = { title: 'Mobile', phone_number: '555-555-5555' }
 			const model = transformPhoneNumberResponse(data)
-			expect(model.title).toEqual('Mobile')
-			expect(model.number).toEqual('555-555-5555')
+			const expected = {
+				title: 'Mobile',
+				number: '555-555-5555',
+			}
+			expect(model).toEqual(expected)
 		})
 	})
 })

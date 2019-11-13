@@ -44,14 +44,14 @@ export function transformGroupJSON(json: string): Group {
 	} = JSON.parse(json)
 	return {
 		id: id.toString(),
-		groupId: group_id ? group_id.toString() : undefined,
+		groupId: group_id && group_id.toString(),
 		role,
-		identityId: identity_id ? identity_id.toString() : undefined,
+		identityId: identity_id && identity_id.toString(),
 		firstName,
 		lastName,
 		email,
 		company,
-		businessId: business_id ? business_id.toString() : undefined,
+		businessId: business_id && business_id.toString(),
 		active,
 	}
 }
@@ -86,16 +86,17 @@ export function transformGroupResponse(data: any): Group {
 		business_id,
 		active,
 	} = data
+
 	return {
 		id: id.toString(),
-		groupId: group_id ? group_id.toString() : undefined,
+		groupId: group_id && group_id.toString(),
 		role,
-		identityId: identity_id ? identity_id.toString() : undefined,
+		identityId: identity_id && identity_id.toString(),
 		firstName,
 		lastName,
 		email,
 		company,
-		businessId: business_id ? business_id.toString() : undefined,
+		businessId: business_id && business_id.toString(),
 		active,
 	}
 }

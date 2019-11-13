@@ -1,20 +1,35 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import {
+import Profession, {
 	transformProfessionJSON,
 	transformProfessionResponse,
 } from '../src/models/Profession'
 
 describe('@freshbooks/api', () => {
-	describe('Group', () => {
+	describe('Profession', () => {
+		test('Verify JSON with null values -> model transform', () => {
+			const json =
+				'{"id": 17748, "title": null, "company": "BillSpring", "designation": null, "business_id": null}'
+			const model = transformProfessionJSON(json)
+			const expected: Profession = {
+				id: '17748',
+				company: 'BillSpring',
+			}
+
+			expect(model).toEqual(expected)
+		})
 		test('Verify JSON -> model transform', () => {
 			const json =
-				'{"id": 17748, "title": "Accounting", "company": "BillSpring", "designation": null, "business_id": 2122866}'
+				'{"id": 17748, "title": "Accounting", "company": "BillSpring", "designation": "Carpenter", "business_id": 2122866}'
 			const model = transformProfessionJSON(json)
-			expect(model.id).toEqual('17748')
-			expect(model.title).toEqual('Accounting')
-			expect(model.company).toEqual('BillSpring')
-			expect(model.designation).toEqual(null)
-			expect(model.businessId).toEqual('2122866')
+			const expected: Profession = {
+				id: '17748',
+				title: 'Accounting',
+				company: 'BillSpring',
+				designation: 'Carpenter',
+				businessId: '2122866',
+			}
+
+			expect(model).toEqual(expected)
 		})
 		test('Verify parsed JSON -> model transform', () => {
 			const data = {
@@ -25,11 +40,13 @@ describe('@freshbooks/api', () => {
 				business_id: 2122866,
 			}
 			const model = transformProfessionResponse(data)
-			expect(model.id).toEqual('17748')
-			expect(model.title).toEqual('Accounting')
-			expect(model.company).toEqual('BillSpring')
-			expect(model.designation).toEqual(null)
-			expect(model.businessId).toEqual('2122866')
+			const expected = {
+				id: '17748',
+				title: 'Accounting',
+				company: 'BillSpring',
+				businessId: '2122866',
+			}
+			expect(model).toEqual(expected)
 		})
 	})
 })

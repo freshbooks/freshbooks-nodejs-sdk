@@ -1,10 +1,12 @@
 /* eslint-disable @typescript-eslint/camelcase */
+import { filterNullKeys } from './helpers'
+
 export default interface Profession {
 	id: string
-	title: string
+	title?: string
 	company: string
-	businessId: string
-	designation: string
+	businessId?: string
+	designation?: string
 }
 
 /**
@@ -14,14 +16,22 @@ export default interface Profession {
  * @returns Profession object
  */
 export function transformProfessionJSON(json: string): Profession {
-	const { id, title, company, designation, business_id } = JSON.parse(json)
-	return {
+	const {
+		id,
+		title,
+		company,
+		designation,
+		business_id: businessId,
+	} = JSON.parse(json)
+	const model = {
 		id: id.toString(),
 		title,
 		company,
 		designation,
-		businessId: business_id ? business_id.toString() : undefined,
+		businessId: businessId && businessId.toString(),
 	}
+	filterNullKeys(model)
+	return model
 }
 
 /**
@@ -31,12 +41,14 @@ export function transformProfessionJSON(json: string): Profession {
  * @returns Profession object
  */
 export function transformProfessionResponse(data: any): Profession {
-	const { id, title, company, designation, business_id } = data
-	return {
+	const { id, title, company, designation, business_id: businessId } = data
+	const model = {
 		id: id.toString(),
 		title,
 		company,
 		designation,
-		businessId: business_id ? business_id.toString() : undefined,
+		businessId: businessId && businessId.toString(),
 	}
+	filterNullKeys(model)
+	return model
 }
