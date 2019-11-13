@@ -2,7 +2,6 @@ import ClientBusiness, {
 	transformClientBusinessResponse,
 } from './ClientBusiness'
 import AccountBusiness, {
-	transformAccountBusinessJSON,
 	transformAccountBusinessResponse,
 } from './AccountBusiness'
 

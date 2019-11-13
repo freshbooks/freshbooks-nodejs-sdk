@@ -2,6 +2,10 @@
 import Error from './Error'
 import PhoneNumber, { transformPhoneNumberResponse } from './PhoneNumber'
 import Address, { transformAddressResponse } from './Address'
+import BusinessMembership, {
+	transformBusinessMembershipResponse,
+} from './BusinessMembership'
+import Role, { transformRoleResponse } from './Role'
 
 export default interface User {
 	id: string
@@ -9,6 +13,10 @@ export default interface User {
 	lastName: string
 	phoneNumbers?: PhoneNumber[]
 	addresses?: Address[]
+	permissions: Map<string, Map<string, any>>
+	subscriptionStatuses: Map<string, string>
+	businessMemberships?: BusinessMembership[]
+	roles?: Role[]
 }
 
 export function transformUserResponse(data: string): User | Error {
@@ -27,6 +35,10 @@ export function transformUserResponse(data: string): User | Error {
 		last_name,
 		phoneNumbers = [],
 		addresses = [],
+		permissions,
+		subscriptionStatuses,
+		businessMemberships = [],
+		roles = [],
 	} = response
 	return {
 		id,
@@ -38,5 +50,11 @@ export function transformUserResponse(data: string): User | Error {
 		addresses: addresses.map((address: any) =>
 			transformAddressResponse(address)
 		),
+		permissions,
+		subscriptionStatuses,
+		businessMemberships: businessMemberships.map((businessMembership: any) =>
+			transformBusinessMembershipResponse(businessMembership)
+		),
+		roles: roles.map((role: any) => transformRoleResponse(role)),
 	}
 }

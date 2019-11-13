@@ -16,7 +16,7 @@ describe('@freshbooks/api', () => {
 
 			const response = await client.users.me()
 			const user = response.data
-			expect(user.id).toEqual(123)
+			expect(user.id).toEqual('123')
 		})
 	})
 })
