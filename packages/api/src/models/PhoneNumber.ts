@@ -1,31 +1,38 @@
+import { filterNullKeys } from './helpers'
+
 export default interface PhoneNumber {
 	title: string
-	number: string
+	number?: string
 }
 
 /**
  * Parse a JSON string to @PhoneNumber object
  * @param json JSON string
  * eg: '{ "title": "Mobile", "phone_number": "555-555-5555"}'
+ * @returns @PhoneNumber object
  */
 export function transformPhoneNumberJSON(json: string): PhoneNumber {
 	const { title, phone_number: number } = JSON.parse(json)
-
-	return {
+	const model = {
 		title,
 		number,
 	}
+	filterNullKeys(model)
+	return model
 }
 
 /**
- * @param data Phone number object
+ * Format a phone number response object
+ * @param data @PhoneNumber object
  * eg: { title: 'Mobile', number: '555-555-5555'}
- * @returns Phone number object
+ * @returns @PhoneNumber object
  */
 export function transformPhoneNumberResponse(data: any): PhoneNumber {
 	const { title, phone_number: number } = data
-	return {
+	const model = {
 		title,
 		number,
 	}
+	filterNullKeys(model)
+	return model
 }

@@ -1,9 +1,12 @@
+import { filterNullKeys } from './helpers'
+
 export default interface Address {
 	id: string
-	street: string
-	city: string
-	province: string
-	postalCode: string
+	street?: string
+	city?: string
+	province?: string
+	county?: string
+	postalCode?: string
 }
 
 /**
@@ -16,13 +19,15 @@ export function transformAddressJSON(json: string): Address {
 	const { id, street, city, province, postal_code: postalCode } = JSON.parse(
 		json
 	)
-	return {
+	const model = {
 		id: id.toString(),
 		street,
 		city,
 		province,
 		postalCode,
 	}
+	filterNullKeys(model)
+	return model
 }
 
 /**
@@ -34,11 +39,13 @@ export function transformAddressJSON(json: string): Address {
 export function transformAddressResponse(data: any): Address {
 	const { id, street, city, province, postal_code: postalCode } = data
 
-	return {
+	const model = {
 		id: id.toString(),
 		street,
 		city,
 		province,
 		postalCode,
 	}
+	filterNullKeys(model)
+	return model
 }
