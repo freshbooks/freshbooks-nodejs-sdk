@@ -7,7 +7,10 @@ import {
 describe('@freshbooks/api', () => {
 	describe('PhoneNumber', () => {
 		test('Verify JSON -> model transform', () => {
-			const json = '{ "title": "Mobile", "phone_number": "555-555-5555"}'
+			const json = `{ 
+				"title": "Mobile",
+				"phone_number": "555-555-5555"
+			}`
 			const model = transformPhoneNumberJSON(json)
 			const expected = {
 				title: 'Mobile',

@@ -7,8 +7,13 @@ import {
 describe('@freshbooks/api', () => {
 	describe('Address', () => {
 		test('Verify JSON -> model transform', () => {
-			const json =
-				'{ "id": 1, "street": "10 King Street", "city": "Toronto", "province": "Ontario", "postal_code": "K3I6R9"}'
+			const json = `{
+					"id": 1,
+					"street": "10 King Street",
+					"city": "Toronto",
+					"province": "Ontario",
+					"postal_code": "K3I6R9"
+				}`
 			const model = transformAddressJSON(json)
 			const expected = {
 				id: '1',
@@ -20,8 +25,14 @@ describe('@freshbooks/api', () => {
 			expect(model).toEqual(expected)
 		})
 		test('Verify JSON with null values -> model transform', () => {
-			const json =
-				'{"id": 3292884,"street": null,"city": null,"province": null,"country": "Canada","postal_code": null}'
+			const json = `{
+					"id": 3292884,
+					"street": null,
+					"city": null,
+					"province": null,
+					"country": "Canada",
+					"postal_code": null
+				}`
 			const model = transformAddressJSON(json)
 			const expected = {
 				id: '3292884',
