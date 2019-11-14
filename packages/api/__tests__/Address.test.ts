@@ -12,6 +12,7 @@ describe('@freshbooks/api', () => {
 					"street": "10 King Street",
 					"city": "Toronto",
 					"province": "Ontario",
+					"country": "Canada",
 					"postal_code": "K3I6R9"
 				}`
 			const model = transformAddressJSON(json)
@@ -20,6 +21,7 @@ describe('@freshbooks/api', () => {
 				street: '10 King Street',
 				city: 'Toronto',
 				province: 'Ontario',
+				country: 'Canada',
 				postalCode: 'K3I6R9',
 			}
 			expect(model).toEqual(expected)
@@ -30,7 +32,7 @@ describe('@freshbooks/api', () => {
 					"street": null,
 					"city": null,
 					"province": null,
-					"country": "Canada",
+					"country": null,
 					"postal_code": null
 				}`
 			const model = transformAddressJSON(json)
@@ -45,6 +47,7 @@ describe('@freshbooks/api', () => {
 				street: '10 King Street',
 				city: 'Toronto',
 				province: 'Ontario',
+				country: 'Canada',
 				postal_code: 'K3I6R9',
 			}
 			const model = transformAddressResponse(data)
@@ -53,6 +56,7 @@ describe('@freshbooks/api', () => {
 				street: '10 King Street',
 				city: 'Toronto',
 				province: 'Ontario',
+				country: 'Canada',
 				postalCode: 'K3I6R9',
 			}
 			expect(model).toEqual(expected)

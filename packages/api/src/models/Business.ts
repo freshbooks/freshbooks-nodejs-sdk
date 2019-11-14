@@ -3,6 +3,7 @@ import PhoneNumber, { transformPhoneNumberResponse } from './PhoneNumber'
 import BusinessClient, {
 	transformBusinessClientResponse,
 } from './BusinessClient'
+import { filterNullKeys } from './helpers'
 
 export default interface Business {
 	id: string
@@ -57,12 +58,18 @@ export function transformBusinessJSON(json: string): Business {
 		business_clients: businessClients,
 	} = JSON.parse(json)
 
+	const model = {
+		phoneNumber,
+	}
+
+	filterNullKeys(model)
+
 	return {
 		id: id.toString(),
 		name,
 		accountId: accountId.toString(),
 		address: transformAddressResponse(address),
-		phoneNumber: transformPhoneNumberResponse(phoneNumber) || null,
+		phoneNumber: transformPhoneNumberResponse(model),
 		businessClients: businessClients.map((businessClient: any) =>
 			transformBusinessClientResponse(businessClient)
 		),
@@ -112,12 +119,19 @@ export function transformBusinessResponse(data: any): Business {
 		phone_number: phoneNumber,
 		business_clients: businessClients,
 	} = data
+
+	const model = {
+		phoneNumber,
+	}
+
+	filterNullKeys(model)
+
 	return {
 		id: id.toString(),
 		name,
 		accountId: accountId.toString(),
 		address: transformAddressResponse(address),
-		phoneNumber: transformPhoneNumberResponse(phoneNumber),
+		phoneNumber: transformPhoneNumberResponse(model),
 		businessClients: businessClients.map((businessClient: any) =>
 			transformBusinessClientResponse(businessClient)
 		),

@@ -5,7 +5,7 @@ export default interface Address {
 	street?: string
 	city?: string
 	province?: string
-	county?: string
+	country?: string
 	postalCode?: string
 }
 
@@ -16,14 +16,20 @@ export default interface Address {
  * @returns Address object
  */
 export function transformAddressJSON(json: string): Address {
-	const { id, street, city, province, postal_code: postalCode } = JSON.parse(
-		json
-	)
+	const {
+		id,
+		street,
+		city,
+		province,
+		country,
+		postal_code: postalCode,
+	} = JSON.parse(json)
 	const model = {
 		id: id.toString(),
 		street,
 		city,
 		province,
+		country,
 		postalCode,
 	}
 	filterNullKeys(model)
@@ -37,13 +43,14 @@ export function transformAddressJSON(json: string): Address {
  * @returns Address object
  */
 export function transformAddressResponse(data: any): Address {
-	const { id, street, city, province, postal_code: postalCode } = data
+	const { id, street, city, province, country, postal_code: postalCode } = data
 
 	const model = {
 		id: id.toString(),
 		street,
 		city,
 		province,
+		country,
 		postalCode,
 	}
 	filterNullKeys(model)
