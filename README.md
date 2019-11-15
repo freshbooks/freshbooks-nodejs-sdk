@@ -109,7 +109,7 @@ Setting up the ExpressJS app requires a FreshBooks `client__id` and `client_secr
 
 ```typescript
 import { Client } from '@freshbooks/api'
-import createApp from '@freshbooks/app`
+import createApp from '@freshbooks/app'
 
 const CLIENT_ID = process.env.CLIENT_ID
 const CLIENT_SECRET = process.env.CLIENT_SECRET
