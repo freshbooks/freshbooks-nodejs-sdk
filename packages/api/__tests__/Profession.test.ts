@@ -12,7 +12,10 @@ describe('@freshbooks/api', () => {
 			const model = transformProfessionJSON(json)
 			const expected: Profession = {
 				id: '17748',
+				title: null,
 				company: 'BillSpring',
+				designation: null,
+				businessId: null,
 			}
 
 			expect(model).toEqual(expected)
@@ -44,6 +47,7 @@ describe('@freshbooks/api', () => {
 				id: '17748',
 				title: 'Accounting',
 				company: 'BillSpring',
+				designation: null,
 				businessId: '2122866',
 			}
 			expect(model).toEqual(expected)

@@ -12,48 +12,17 @@ export default interface Group {
 	active: boolean
 }
 
-/**
- * Parse a JSON string to @Group object
- * @param json JSON string
- * eg: '{
- *       "id": 90610,
- *       "group_id": 23738,
- *       "role": "owner",
- *       "identity_id": 712052,
- *       "first_name": "Bruce",
- *       "last_name": "Wayne",
- *       "email": "b@example.com",
- *       "company": "BillSpring",
- *       "business_id": 77128,
- *       "active": true
- *     }'
- * @returns Group object
- */
-export function transformGroupJSON(json: string): Group {
-	const {
-		id,
-		group_id,
-		role,
-		identity_id,
-		first_name: firstName,
-		last_name: lastName,
-		email,
-		company,
-		business_id,
-		active,
-	} = JSON.parse(json)
-	return {
-		id: id.toString(),
-		groupId: group_id && group_id.toString(),
-		role,
-		identityId: identity_id && identity_id.toString(),
-		firstName,
-		lastName,
-		email,
-		company,
-		businessId: business_id && business_id.toString(),
-		active,
-	}
+export interface GroupResponse {
+	id: number
+	group_id: number
+	role: string
+	identity_id: number
+	first_name: string
+	last_name: string
+	email: string
+	company: string
+	business_id: number
+	active: boolean
 }
 
 /**
@@ -73,30 +42,50 @@ export function transformGroupJSON(json: string): Group {
  *    }
  * @returns Group object
  */
-export function transformGroupResponse(data: any): Group {
-	const {
-		id,
-		group_id,
-		role,
-		identity_id,
-		first_name: firstName,
-		last_name: lastName,
-		email,
-		company,
-		business_id,
-		active,
-	} = data
-
+export function transformGroupResponse({
+	id,
+	group_id,
+	role,
+	identity_id,
+	first_name: firstName,
+	last_name: lastName,
+	email,
+	company,
+	business_id,
+	active,
+}: GroupResponse): Group {
 	return {
 		id: id.toString(),
-		groupId: group_id && group_id.toString(),
+		groupId: group_id.toString(),
 		role,
-		identityId: identity_id && identity_id.toString(),
+		identityId: identity_id.toString(),
 		firstName,
 		lastName,
 		email,
 		company,
-		businessId: business_id && business_id.toString(),
+		businessId: business_id.toString(),
 		active,
 	}
+}
+
+/**
+ * Parse a JSON string to @Group object
+ * @param json JSON string
+ * eg: '{
+ *       "id": 90610,
+ *       "group_id": 23738,
+ *       "role": "owner",
+ *       "identity_id": 712052,
+ *       "first_name": "Bruce",
+ *       "last_name": "Wayne",
+ *       "email": "b@example.com",
+ *       "company": "BillSpring",
+ *       "business_id": 77128,
+ *       "active": true
+ *     }'
+ * @returns Group object
+ */
+export function transformGroupJSON(json: string): Group {
+	const response: GroupResponse = JSON.parse(json)
+	return transformGroupResponse(response)
 }

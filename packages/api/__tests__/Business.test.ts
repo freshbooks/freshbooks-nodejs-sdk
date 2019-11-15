@@ -51,7 +51,7 @@ describe('@freshbooks/api', () => {
 						country: 'Canada',
 						postalCode: 'A1B2C3',
 					},
-					phoneNumber: {},
+					phoneNumber: null,
 					businessClients: [
 						{
 							id: '22347',
@@ -115,7 +115,7 @@ describe('@freshbooks/api', () => {
 						country: 'Canada',
 						postalCode: 'A1B2C3',
 					},
-					phoneNumber: {},
+					phoneNumber: null,
 					businessClients: [
 						{
 							id: '22347',

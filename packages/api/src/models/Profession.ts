@@ -1,12 +1,42 @@
-/* eslint-disable @typescript-eslint/camelcase */
-import { filterNullKeys } from './helpers'
+import { Nullable } from './helpers'
 
+/* eslint-disable @typescript-eslint/camelcase */
 export default interface Profession {
 	id: string
-	title?: string
+	title?: Nullable<string>
 	company: string
-	businessId?: string
-	designation?: string
+	businessId?: Nullable<string>
+	designation?: Nullable<string>
+}
+
+interface ProfessionResponse {
+	id: number
+	title: Nullable<string>
+	company: string
+	business_id: Nullable<number>
+	designation: Nullable<string>
+}
+
+/**
+ * Format an Profession response object
+ * @param data Profession object
+ * eg: {"id": 17748, "title": "Accounting", "company": "BillSpring", "designation": null, "business_id": 2122866}
+ * @returns Profession object
+ */
+export function transformProfessionResponse({
+	id,
+	title,
+	company,
+	designation,
+	business_id,
+}: ProfessionResponse): Profession {
+	return {
+		id: id.toString(),
+		title,
+		company,
+		designation,
+		businessId: business_id !== null ? business_id.toString() : null,
+	}
 }
 
 /**
@@ -16,39 +46,6 @@ export default interface Profession {
  * @returns Profession object
  */
 export function transformProfessionJSON(json: string): Profession {
-	const {
-		id,
-		title,
-		company,
-		designation,
-		business_id: businessId,
-	} = JSON.parse(json)
-	const model = {
-		id: id.toString(),
-		title,
-		company,
-		designation,
-		businessId: businessId && businessId.toString(),
-	}
-	filterNullKeys(model)
-	return model
-}
-
-/**
- * Format an Profession response object
- * @param data Profession object
- * eg: {"id": 17748, "title": "Accounting", "company": "BillSpring", "designation": null, "business_id": 2122866}
- * @returns Profession object
- */
-export function transformProfessionResponse(data: any): Profession {
-	const { id, title, company, designation, business_id: businessId } = data
-	const model = {
-		id: id.toString(),
-		title,
-		company,
-		designation,
-		businessId: businessId && businessId.toString(),
-	}
-	filterNullKeys(model)
-	return model
+	const response: ProfessionResponse = JSON.parse(json)
+	return transformProfessionResponse(response)
 }

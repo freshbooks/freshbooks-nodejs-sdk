@@ -1,5 +1,24 @@
+/* eslint-disable @typescript-eslint/camelcase */
 export default interface ClientBusiness {
 	businessId: string
+}
+
+export interface ClientBusinessResponse {
+	business_id: number
+}
+
+/**
+ * Format a ClientBusiness response object
+ * @param data Client business object
+ * eg: { "business_id": 77128 }
+ * @returns Client business object
+ */
+export function transformClientBusinessResponse({
+	business_id,
+}: ClientBusinessResponse): ClientBusiness {
+	return {
+		businessId: business_id.toString(),
+	}
 }
 
 /**
@@ -11,22 +30,6 @@ export default interface ClientBusiness {
  * @returns ClientBusiness object
  */
 export function transformClientBusinessJSON(json: string): ClientBusiness {
-	const { business_id: businessId = '' } = JSON.parse(json)
-
-	return {
-		businessId: businessId.toString(),
-	}
-}
-
-/**
- * Format a ClientBusiness response object
- * @param data Client business object
- * eg: { "business_id": 77128 }
- * @returns Client business object
- */
-export function transformClientBusinessResponse(data: any): ClientBusiness {
-	const { business_id: businessId } = data
-	return {
-		businessId: businessId.toString(),
-	}
+	const response: ClientBusinessResponse = JSON.parse(json)
+	return transformClientBusinessResponse(response)
 }

@@ -1,28 +1,30 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import Error from './Error'
 import PhoneNumber, { transformPhoneNumberResponse } from './PhoneNumber'
-import Address, { transformAddressResponse } from './Address'
+import Address, { transformAddressResponse, AddressResponse } from './Address'
 import BusinessMembership, {
 	transformBusinessMembershipResponse,
 } from './BusinessMembership'
 import Role, { transformRoleResponse } from './Role'
 import Profession, { transformProfessionResponse } from './Profession'
 import Group, { transformGroupResponse } from './Group'
+import Permission from './Permission'
+import { Nullable } from './helpers'
 
 export default interface User {
 	id: string
 	firstName: string
 	lastName: string
 	email: string
-	phoneNumbers?: PhoneNumber[]
-	addresses?: Address[]
-	permissions: Map<string, Map<string, any>>
+	phoneNumbers?: Nullable<PhoneNumber[]>
+	addresses?: Nullable<Address[]>
+	permissions: Map<string, Map<string, Permission>>
 	subscriptionStatuses: Map<string, string>
-	businessMemberships?: BusinessMembership[]
-	roles?: Role[]
-	profession?: Profession
-	groups?: Group[]
-	links?: Map<string, string>
+	businessMemberships?: Nullable<BusinessMembership[]>
+	roles?: Nullable<Role[]>
+	profession?: Nullable<Profession>
+	groups?: Nullable<Group[]>
+	links?: Nullable<Map<string, string>>
 }
 
 export function transformUserResponse(data: string): User | Error {
@@ -42,7 +44,7 @@ export function transformUserResponse(data: string): User | Error {
 		email,
 		phone_numbers: phoneNumbers = [],
 		addresses = [],
-		permissions,
+		permissions = {},
 		subscriptionStatuses,
 		businessMemberships = [],
 		roles = [],
@@ -51,24 +53,22 @@ export function transformUserResponse(data: string): User | Error {
 		links = {},
 	} = response
 	return {
-		id: id.toString(),
+		id: id.toString(), // store ids as string
 		firstName: first_name,
 		lastName: last_name,
 		email,
-		phoneNumbers: phoneNumbers.map((phoneNumber: any) =>
-			transformPhoneNumberResponse(phoneNumber)
-		),
+		phoneNumbers: phoneNumbers.map(transformPhoneNumberResponse),
 		permissions,
 		subscriptionStatuses,
-		businessMemberships: businessMemberships.map((businessMembership: any) =>
-			transformBusinessMembershipResponse(businessMembership)
+		businessMemberships: businessMemberships.map(
+			transformBusinessMembershipResponse
 		),
-		roles: roles.map((role: any) => transformRoleResponse(role)),
+		roles: roles.map(transformRoleResponse),
 		addresses: addresses
-			.filter((entry: any) => entry)
-			.map((address: any) => transformAddressResponse(address)),
+			.filter((address: Nullable<AddressResponse>) => address !== null)
+			.map(transformAddressResponse),
 		profession: transformProfessionResponse(profession),
-		groups: groups.map((group: any) => transformGroupResponse(group)),
+		groups: groups.map(transformGroupResponse),
 		links,
 	}
 }

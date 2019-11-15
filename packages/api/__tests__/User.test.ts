@@ -272,6 +272,7 @@ describe('@freshbooks/api', () => {
 				phoneNumbers: expect.arrayContaining([
 					{
 						title: '',
+						number: null,
 					},
 				]),
 				addresses: [],

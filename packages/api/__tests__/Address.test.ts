@@ -38,6 +38,11 @@ describe('@freshbooks/api', () => {
 			const model = transformAddressJSON(json)
 			const expected = {
 				id: '3292884',
+				street: null,
+				city: null,
+				province: null,
+				country: null,
+				postalCode: null,
 			}
 			expect(model).toEqual(expected)
 		})

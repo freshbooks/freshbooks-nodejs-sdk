@@ -1,8 +1,30 @@
-import { filterNullKeys } from './helpers'
+import { Nullable } from './helpers'
 
+/* eslint-disable @typescript-eslint/camelcase */
 export default interface PhoneNumber {
 	title: string
-	number?: string
+	number?: Nullable<string>
+}
+
+export interface PhoneNumberResponse {
+	title: string
+	phone_number: Nullable<string>
+}
+
+/**
+ * Format a phone number response object
+ * @param data @PhoneNumber object
+ * eg: { title: 'Mobile', number: '555-555-5555'}
+ * @returns @PhoneNumber object
+ */
+export function transformPhoneNumberResponse({
+	title,
+	phone_number,
+}: PhoneNumberResponse): PhoneNumber {
+	return {
+		title,
+		number: phone_number,
+	}
 }
 
 /**
@@ -12,27 +34,6 @@ export default interface PhoneNumber {
  * @returns @PhoneNumber object
  */
 export function transformPhoneNumberJSON(json: string): PhoneNumber {
-	const { title, phone_number: number } = JSON.parse(json)
-	const model = {
-		title,
-		number,
-	}
-	filterNullKeys(model)
-	return model
-}
-
-/**
- * Format a phone number response object
- * @param data @PhoneNumber object
- * eg: { title: 'Mobile', number: '555-555-5555'}
- * @returns @PhoneNumber object
- */
-export function transformPhoneNumberResponse(data: any): PhoneNumber {
-	const { title, phone_number: number } = data
-	const model = {
-		title,
-		number,
-	}
-	filterNullKeys(model)
-	return model
+	const response: PhoneNumberResponse = JSON.parse(json)
+	return transformPhoneNumberResponse(response)
 }

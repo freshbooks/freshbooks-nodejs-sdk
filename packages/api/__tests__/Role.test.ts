@@ -24,7 +24,7 @@ describe('@freshbooks/api', () => {
 					systemId: '1953394',
 					userId: '1',
 					accountId: 'zDmNq',
-					createdAt: '2016-01-26T16:00:44Z',
+					createdAt: new Date('2016-01-26T16:00:44Z'),
 					links: expect.objectContaining({
 						destroy: '/service/auth/api/v1/users/role/682608',
 					}),
@@ -52,7 +52,7 @@ describe('@freshbooks/api', () => {
 					systemId: '1953394',
 					userId: '1',
 					accountId: 'zDmNq',
-					createdAt: '2016-01-26T16:00:44Z',
+					createdAt: new Date('2016-01-26T16:00:44Z'),
 					links: expect.objectContaining({
 						destroy: '/service/auth/api/v1/users/role/682608',
 					}),

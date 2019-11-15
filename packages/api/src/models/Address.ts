@@ -1,12 +1,46 @@
-import { filterNullKeys } from './helpers'
+import { Nullable } from './helpers'
 
+/* eslint-disable @typescript-eslint/camelcase */
 export default interface Address {
 	id: string
-	street?: string
-	city?: string
-	province?: string
-	country?: string
-	postalCode?: string
+	street?: Nullable<string>
+	city?: Nullable<string>
+	province?: Nullable<string>
+	country?: Nullable<string>
+	postalCode?: Nullable<string>
+}
+
+export interface AddressResponse {
+	id: number
+	street: Nullable<string>
+	city: Nullable<string>
+	province: Nullable<string>
+	country: Nullable<string>
+	postal_code: Nullable<string>
+}
+
+/**
+ * Format an Address response object
+ * @param data Address object
+ * eg: { 'id': 1, 'street': 'King Street', 'city': 'Toronto', 'province': 'Ontario', 'postal_code': 'K3I6R9'}
+ * @returns Address object
+ */
+export function transformAddressResponse({
+	id,
+	street,
+	city,
+	province,
+	country,
+	postal_code,
+}: AddressResponse): Address {
+	return {
+		id: id.toString(),
+		street,
+		city,
+		province,
+		country,
+		postalCode: postal_code,
+	}
 }
 
 /**
@@ -16,43 +50,6 @@ export default interface Address {
  * @returns Address object
  */
 export function transformAddressJSON(json: string): Address {
-	const {
-		id,
-		street,
-		city,
-		province,
-		country,
-		postal_code: postalCode,
-	} = JSON.parse(json)
-	const model = {
-		id: id.toString(),
-		street,
-		city,
-		province,
-		country,
-		postalCode,
-	}
-	filterNullKeys(model)
-	return model
-}
-
-/**
- * Format an Address response object
- * @param data Address object
- * eg: { 'id': 1, 'street': 'King Street', 'city': 'Toronto', 'province': 'Ontario', 'postal_code': 'K3I6R9'}
- * @returns Address object
- */
-export function transformAddressResponse(data: any): Address {
-	const { id, street, city, province, country, postal_code: postalCode } = data
-
-	const model = {
-		id: id.toString(),
-		street,
-		city,
-		province,
-		country,
-		postalCode,
-	}
-	filterNullKeys(model)
-	return model
+	const response: AddressResponse = JSON.parse(json)
+	return transformAddressResponse(response)
 }

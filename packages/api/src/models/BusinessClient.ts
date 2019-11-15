@@ -1,8 +1,11 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import ClientBusiness, {
 	transformClientBusinessResponse,
+	ClientBusinessResponse,
 } from './ClientBusiness'
 import AccountBusiness, {
 	transformAccountBusinessResponse,
+	AccountBusinessResponse,
 } from './AccountBusiness'
 
 export default interface BusinessClient {
@@ -14,42 +17,13 @@ export default interface BusinessClient {
 	accountBusiness: AccountBusiness
 }
 
-/**
- * Parse a JSON string to @BusinessClient object
- * @param json JSON string
- * eg: '{
- *          "id": 22347,
- *          "business_id": 77128,
- *          "account_id": "Xr82w",
- *          "userid": 74353,
- *          "client_business": {
- *              "business_id": 77128
- *          },
- *          "account_business": {
- *              "account_business_id": 363103,
- *              "account_id": "Xr82w"
- *          }
- *      }'
- * @returns BusinessClient object
- */
-export function transformBusinessClientJSON(json: string): BusinessClient {
-	const {
-		id,
-		business_id: businessId = '',
-		account_id: accountId = '',
-		userid: userId = '',
-		client_business: clientBusiness,
-		account_business: accountBusiness,
-	} = JSON.parse(json)
-
-	return {
-		id: id.toString(),
-		businessId: businessId.toString(),
-		accountId: accountId.toString(),
-		userId: userId.toString(),
-		clientBusiness: transformClientBusinessResponse(clientBusiness),
-		accountBusiness: transformAccountBusinessResponse(accountBusiness),
-	}
+export interface BusinessClientResponse {
+	id: number
+	business_id: number
+	account_id: string
+	userid: number
+	client_business: ClientBusinessResponse
+	account_business: AccountBusinessResponse
 }
 
 /**
@@ -70,21 +44,42 @@ export function transformBusinessClientJSON(json: string): BusinessClient {
  *      }
  * @returns Business client object
  */
-export function transformBusinessClientResponse(data: any): BusinessClient {
-	const {
-		id,
-		business_id: businessId = '',
-		account_id: accountId = '',
-		userid: userId = '',
-		client_business: clientBusiness,
-		account_business: accountBusiness,
-	} = data
+export function transformBusinessClientResponse({
+	id,
+	business_id,
+	account_id,
+	userid,
+	client_business,
+	account_business,
+}: BusinessClientResponse): BusinessClient {
 	return {
 		id: id.toString(),
-		businessId: businessId.toString(),
-		accountId: accountId.toString(),
-		userId: userId.toString(),
-		clientBusiness: transformClientBusinessResponse(clientBusiness),
-		accountBusiness: transformAccountBusinessResponse(accountBusiness),
+		businessId: business_id.toString(),
+		accountId: account_id.toString(),
+		userId: userid.toString(),
+		clientBusiness: transformClientBusinessResponse(client_business),
+		accountBusiness: transformAccountBusinessResponse(account_business),
 	}
+}
+/**
+ * Parse a JSON string to @BusinessClient object
+ * @param json JSON string
+ * eg: '{
+ *          "id": 22347,
+ *          "business_id": 77128,
+ *          "account_id": "Xr82w",
+ *          "userid": 74353,
+ *          "client_business": {
+ *              "business_id": 77128
+ *          },
+ *          "account_business": {
+ *              "account_business_id": 363103,
+ *              "account_id": "Xr82w"
+ *          }
+ *      }'
+ * @returns BusinessClient object
+ */
+export function transformBusinessClientJSON(json: string): BusinessClient {
+	const response: BusinessClientResponse = JSON.parse(json)
+	return transformBusinessClientResponse(response)
 }
