@@ -40,10 +40,19 @@ const token = process.env.FRESHBOOKS_TOKEN
 const client = new Client(token)
 ```
 
-#### `users`
+#### Get/set data from REST API
 
-The `users` namespace provides access to the current user identity model.
+All REST API methods return a response in the shape of:
 
+```typescript
+{
+  ok: boolean
+  data?: T // model type of result
+  error?: Error
+}
+```
+
+Example API client call:
 ```typescript
 try {
   // Get the current user
@@ -54,4 +63,38 @@ try {
   // Handle error if API call failed
   console.error(`Error fetching user: ${code} - ${message}`)
 }
+```
+
+##### Errors
+If an API error occurs, the response object contains an `error` object, with the following shape:
+```typescript
+{
+  code: string
+  message?: string
+}
+```
+
+##### Pagination
+If the endpoint is enabled for pagination, the response `data` object contains the response model and a `pages` property, with the following shape:
+```typescript
+{
+  page: number
+  pages: number
+  total: number
+  size: number
+}
+```
+
+Example request with pagination:
+```typescript
+// Get list of invoices for account
+const { invoices, pages } = await client.invoices.list('xZNQ1X')
+
+// Print invoices
+invoices.map(invoice => console.log(JSON.stringify(invoice)))
+
+// Print pagination
+console.log(`Page ${pages.page} of ${pages.total} pages`)
+console.log(`Showing ${pages.size} per page`)
+console.log(`${pages.size} total invoices`)
 ```
