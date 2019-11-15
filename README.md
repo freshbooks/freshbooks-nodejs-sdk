@@ -6,9 +6,9 @@ The FreshBooks NodeJS SDK is a collection of single-purpose packages designed to
 
 | Package              | What it's for |
 | ---------------------|---------------|
-| `@freshbooks/api`    | Get/set data from FreshBooks using the REST API.
+| [`@freshbooks/api`](#freshbooksapi)    | Get/set data from FreshBooks using the REST API.
 | `@freshbooks/events` | Register/listen for incoming events via webhooks.
-| `@freshbooks/app`    | Pre-configured [ExpressJS](https://expressjs.com/) app. Includes authentication via [PassportJS](http://www.passportjs.org/).
+| [`@freshbooks/app`](#freshbooksapp)    | Pre-configured [ExpressJS](https://expressjs.com/) app. Includes authentication via [PassportJS](http://www.passportjs.org/).
 
 ## Installation
 
@@ -97,4 +97,41 @@ invoices.map(invoice => console.log(JSON.stringify(invoice)))
 console.log(`Page ${pages.page} of ${pages.total} pages`)
 console.log(`Showing ${pages.size} per page`)
 console.log(`${pages.size} total invoices`)
+```
+
+### `@freshbooks/app`
+
+The FreshBooks SDK provides a pre-configured `ExpressJS` app. This app provides OAuth2 authentication flow, a `PassportJS` middleware for authenticating requests, and session middleware to retrieve tokens for a session.
+
+#### Using the ExpressJS app
+
+Setting up the ExpressJS app requires a FreshBooks `client__id` and `client_secret`, as well as a callback URL to receive user authentication and refresh tokens. Once configured, routes can be configured as in any other `ExpressJS` app.
+
+```typescript
+import { Client } from '@freshbooks/api'
+import createApp from '@freshbooks/app`
+
+const CLIENT_ID = process.env.CLIENT_ID
+const CLIENT_SECRET = process.env.CLIENT_SECRET
+const CALLBACK_URL = process.env.CALLBACK_URL
+
+const app = createApp(CLIENT_ID, CLIENT_SECRET, CALLBACK)
+
+// set up callback route
+app.get('/auth/freshbooks/redirect', passport.authorize('freshbooks')
+
+// set up an authenticated route
+app.get('/settings', passport.authorize('freshbooks'), async (req, res) => {
+  // get an API client
+  const { token } = req.user
+  const client = new Client(token)
+  
+  // fetch the current user
+  try {
+    const { data } = await client.users.me()
+    res.send(data.id)
+  } catch ({ code, message }) {
+    res.status(500, `Error - ${code}: ${message}`)
+  }
+})
 ```
