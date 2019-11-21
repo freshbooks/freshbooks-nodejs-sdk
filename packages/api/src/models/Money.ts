@@ -1,6 +1,6 @@
 export default interface Money {
-	amount: number
-	code: string
+	amount?: number
+	code?: string
 }
 
 export interface MoneyResponse {
@@ -33,4 +33,11 @@ export function transformMoneyResponse({ amount, code }: MoneyResponse): Money {
 export function transformMoneyJSON(json: string): Money {
 	const response: MoneyResponse = JSON.parse(json)
 	return transformMoneyResponse(response)
+}
+
+export function transformMoneyRequest({ amount, code }: Money = {}): any {
+	return {
+		amount,
+		code,
+	}
 }

@@ -5,7 +5,11 @@ import _logger from './logger'
 import { Error, Pagination, Invoice, User, Item } from './models'
 import { transformUserResponse } from './models/User'
 import { transformListInvoicesResponse } from './models/Invoices'
-import { transformItemResponse } from './models/Item'
+import {
+	transformItemResponse,
+	transformItemListResponse,
+	transformItemRequest,
+} from './models/Item'
 
 // defaults
 const API_URL = 'https://api.freshbooks.com'
@@ -113,10 +117,45 @@ export default class Client {
 		/**
 		 * Get single item
 		 */
-		single: (accountId: string, id: string): Promise<Result<Item>> =>
-			this.call('GET', `/accounting/account/${accountId}/items/items/${id}`, {
-				transformResponse: transformItemResponse,
+		single: (accountId: string, itemId: string): Promise<Result<Item>> =>
+			this.call(
+				'GET',
+				`/accounting/account/${accountId}/items/items/${itemId}`,
+				{
+					transformResponse: transformItemResponse,
+				}
+			),
+
+		list: (
+			accountId: string
+		): Promise<Result<{ items: Item[]; pages: Pagination }>> =>
+			this.call('GET', `/accounting/account/${accountId}/items/items`, {
+				transformResponse: transformItemListResponse,
 			}),
+		update: (
+			accountId: string,
+			itemId: string,
+			data: any
+		): Promise<Result<Item>> =>
+			this.call(
+				'PUT',
+				`/accounting/account/${accountId}/items/items/${itemId}`,
+				{
+					transformResponse: transformItemResponse,
+					transformRequest: transformItemRequest,
+				},
+				data
+			),
+		create: (accountId: string, data: any): Promise<Result<Item>> =>
+			this.call(
+				'POST',
+				`/accounting/account/${accountId}/items/items`,
+				{
+					transformResponse: transformItemResponse,
+					transformRequest: transformItemRequest,
+				},
+				data
+			),
 	}
 }
 
