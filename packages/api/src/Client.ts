@@ -4,7 +4,11 @@ import { Logger } from 'winston'
 import _logger from './logger'
 import { Error, Pagination, Invoice, User } from './models'
 import { transformUserResponse } from './models/User'
-import { transformListInvoicesResponse } from './models/Invoices'
+import {
+	transformListInvoicesResponse,
+	transformInvoiceResponse,
+	transformInvoiceRequest,
+} from './models/Invoices'
 
 // defaults
 const API_URL = 'https://api.freshbooks.com'
@@ -101,6 +105,25 @@ export default class Client {
 		): Promise<Result<{ invoices: Invoice[]; pages: Pagination }>> =>
 			this.call('GET', `/accounting/account/${accountId}/invoices/invoices`, {
 				transformResponse: transformListInvoicesResponse,
+			}),
+		/**
+		 * Get single invoice
+		 */
+		single: (accountId: string, invoiceId: string): Promise<Result<Invoice>> =>
+			this.call(
+				'GET',
+				`/accounting/account/${accountId}/invoices/invoices/${invoiceId}`,
+				{
+					transformResponse: transformInvoiceResponse,
+				}
+			),
+		/**
+		 * Post invoice
+		 */
+		create: (invoice: Invoice, accountId: string): Promise<Result<Invoice>> =>
+			this.call('POST', `/accounting/account/${accountId}/invoices/invoices`, {
+				transformResponse: transformInvoiceResponse,
+				transformRequest: transformInvoiceRequest,
 			}),
 	}
 }

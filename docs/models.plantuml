@@ -294,6 +294,8 @@ object Invoice {
     createdAt: Date
     autobill: boolean
     lines: Line[]
+    paymentDetails: string
+    
 }
 
 enum LineType {
