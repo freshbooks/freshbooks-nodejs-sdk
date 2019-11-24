@@ -1,2 +1,2 @@
-export { default as Client, Options } from './Client'
+export { default as Client, Options } from './APIClient'
 export { User } from './models'

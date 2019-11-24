@@ -136,7 +136,10 @@ object Client {
     fName: string,
     organization: string,
     pCountry: string,
-    currencyCode: string
+    currencyCode: string,
+    retainerId: string,
+    hasRetainer: boolean,
+    role: string
 }
 
 object Item {

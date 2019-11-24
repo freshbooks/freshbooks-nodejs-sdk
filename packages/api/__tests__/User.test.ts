@@ -1,6 +1,6 @@
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
-import Client from '../src/Client'
+import APIClient from '../src/APIClient'
 
 const mock = new MockAdapter(axios) // set mock adapter on default axios instance
 
@@ -8,7 +8,7 @@ describe('@freshbooks/api', () => {
 	describe('User', () => {
 		test('GET /users/me', async () => {
 			const token = 'token'
-			const client = new Client(token)
+			const client = new APIClient(token)
 
 			const mockResponse = `{ 
 					"response":{ 
