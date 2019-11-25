@@ -2,9 +2,14 @@
 import axios, { AxiosInstance, AxiosRequestConfig, Method } from 'axios'
 import { Logger } from 'winston'
 import _logger from './logger'
-import { Error, Pagination, Invoice, User } from './models'
+import { Error, Pagination, Invoice, User, Item } from './models'
 import { transformUserResponse } from './models/User'
 import { transformListInvoicesResponse } from './models/Invoices'
+import {
+	transformItemResponse,
+	transformItemListResponse,
+	transformItemRequest,
+} from './models/Item'
 import Client, {
 	transformClientResponse,
 	transformClientListResponse,
@@ -68,6 +73,8 @@ export default class APIClient {
 		data?: S
 	): Promise<Result<T>> {
 		this.logger.debug(`Request: ${method} ${url}`)
+		this.logger.debug(`Request2: ${config}`)
+		this.logger.debug(`Request3: ${data}`)
 		try {
 			const response = await this.axios({
 				method,
@@ -75,12 +82,14 @@ export default class APIClient {
 				data,
 				...config,
 			})
+			this.logger.debug(`Response: ${method} ${url} ${data}`)
 
 			return {
 				ok: true,
 				data: response.data,
 			}
 		} catch (err) {
+			this.logger.debug(`Error: ${err}`)
 			return {
 				ok: false,
 				error: err.response.data,
@@ -171,6 +180,51 @@ export default class APIClient {
 			this.call('GET', `/accounting/account/${accountId}/invoices/invoices`, {
 				transformResponse: transformListInvoicesResponse,
 			}),
+	}
+
+	public readonly items = {
+		/**
+		 * Get single item
+		 */
+		single: (accountId: string, itemId: string): Promise<Result<Item>> =>
+			this.call(
+				'GET',
+				`/accounting/account/${accountId}/items/items/${itemId}`,
+				{
+					transformResponse: transformItemResponse,
+				}
+			),
+
+		list: (
+			accountId: string
+		): Promise<Result<{ items: Item[]; pages: Pagination }>> =>
+			this.call('GET', `/accounting/account/${accountId}/items/items`, {
+				transformResponse: transformItemListResponse,
+			}),
+		update: (
+			accountId: string,
+			itemId: string,
+			data: any
+		): Promise<Result<Item>> =>
+			this.call(
+				'PUT',
+				`/accounting/account/${accountId}/items/items/${itemId}`,
+				{
+					transformResponse: transformItemResponse,
+					transformRequest: transformItemRequest,
+				},
+				data
+			),
+		create: (accountId: string, data: any): Promise<Result<Item>> =>
+			this.call(
+				'POST',
+				`/accounting/account/${accountId}/items/items`,
+				{
+					transformResponse: transformItemResponse,
+					transformRequest: transformItemRequest,
+				},
+				data
+			),
 	}
 }
 
