@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
-import Client from '../src/Client'
+import Client from '../src/APIClient'
 import { Invoice } from '../src/models'
 
 const mock = new MockAdapter(axios) // set mock adapter on default axios instance

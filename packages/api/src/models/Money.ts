@@ -34,3 +34,10 @@ export function transformMoneyJSON(json: string): Money {
 	const response: MoneyResponse = JSON.parse(json)
 	return transformMoneyResponse(response)
 }
+
+export function transformMoneyRequest({ amount, code }: Money = {}): any {
+	return {
+		amount,
+		code,
+	}
+}
