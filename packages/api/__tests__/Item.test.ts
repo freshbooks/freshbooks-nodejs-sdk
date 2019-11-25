@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
-import Client from '../src/Client'
+import APIClient from '../src/APIClient'
 import Item from '../src/models/Item'
 
 const mock = new MockAdapter(axios) // set mock adapter on default axios instance
@@ -72,7 +72,7 @@ describe('@freshbooks/api', () => {
 	describe('Item', () => {
 		test('GET /accounting/account/<accountid>/items/items/<id>', async () => {
 			const token = 'token'
-			const client = new Client(token)
+			const client = new APIClient(token)
 
 			const mockResponse = `{ 
 					"response":{
@@ -94,7 +94,7 @@ describe('@freshbooks/api', () => {
 		})
 		test('GET /accounting/account/<accountid>/items/items', async () => {
 			const token = 'token'
-			const client = new Client(token)
+			const client = new APIClient(token)
 
 			const mockResponse = `{ 
 					"response":{
@@ -128,7 +128,7 @@ describe('@freshbooks/api', () => {
 		})
 		test('PUT /accounting/account/<accountid>/items/items/<id>', async () => {
 			const token = 'token'
-			const client = new Client(token)
+			const client = new APIClient(token)
 
 			const mockResponse = `{ 
 					"response":{
@@ -157,7 +157,7 @@ describe('@freshbooks/api', () => {
 
 		test('PUT /accounting/account/<accountid>/items/items/<id> (delete)', async () => {
 			const token = 'token'
-			const client = new Client(token)
+			const client = new APIClient(token)
 
 			const mockResponse = `{
 					"response":{
@@ -184,7 +184,7 @@ describe('@freshbooks/api', () => {
 
 		test('POST /accounting/account/<accountid>/items/items', async () => {
 			const token = 'token'
-			const client = new Client(token)
+			const client = new APIClient(token)
 
 			const mockResponse = `{
 					"response":{

@@ -10,6 +10,12 @@ import {
 	transformItemListResponse,
 	transformItemRequest,
 } from './models/Item'
+import Client, {
+	transformClientResponse,
+	transformClientListResponse,
+	transformClientRequest,
+	SearchQueryBuilder,
+} from './models/Client'
 
 // defaults
 const API_URL = 'https://api.freshbooks.com'
@@ -17,7 +23,7 @@ const API_URL = 'https://api.freshbooks.com'
 /**
  * Client for FreshBooks API
  */
-export default class Client {
+export default class APIClient {
 	/**
 	 * Base URL for FreshBooks API
 	 */
@@ -99,6 +105,69 @@ export default class Client {
 			this.call('GET', '/auth/api/v1/users/me', {
 				transformResponse: transformUserResponse,
 			}),
+	}
+
+	public readonly clients = {
+		/**
+		 * Get own identity user
+		 */
+		list: (
+			accountId: string,
+			searchQueryBuilder?: SearchQueryBuilder
+		): Promise<Result<{ clients: Client[]; pages: Pagination }>> => {
+			return this.call(
+				'GET',
+				`/accounting/account/${accountId}/users/clients`,
+				{
+					transformResponse: transformClientListResponse,
+					params: searchQueryBuilder && searchQueryBuilder.build(),
+				}
+			)
+		},
+		get: (accountId: string, clientId: string): Promise<Result<Client>> =>
+			this.call(
+				'GET',
+				`/accounting/account/${accountId}/users/clients/${clientId}`,
+				{
+					transformResponse: transformClientResponse,
+				}
+			),
+		create: (client: Client, accountId: string): Promise<Result<Client>> =>
+			this.call(
+				'POST',
+				`/accounting/account/${accountId}/users/clients`,
+				{
+					transformResponse: transformClientResponse,
+					transformRequest: transformClientRequest,
+				},
+				client
+			),
+		update: (
+			client: Client,
+			accountId: string,
+			clientId: string
+		): Promise<Result<Client>> =>
+			this.call(
+				'PUT',
+				`/accounting/account/${accountId}/users/clients/${clientId}`,
+				{
+					transformResponse: transformClientResponse,
+					transformRequest: transformClientRequest,
+				},
+				client
+			),
+		delete: (accountId: string, clientId: string): Promise<Result<Client>> =>
+			this.call(
+				'PUT',
+				`/accounting/account/${accountId}/users/clients/${clientId}`,
+				{
+					transformResponse: transformClientResponse,
+					transformRequest: transformClientRequest,
+				},
+				{
+					visState: 1,
+				}
+			),
 	}
 
 	public readonly invoices = {
