@@ -238,6 +238,15 @@ export default class APIClient {
 				},
 				data
 			),
+		delete: (accountId: string, invoiceId: string): Promise<Result<Invoice>> =>
+			this.call(
+				'PUT',
+				`/accounting/account/${accountId}/invoices/invoices/${invoiceId}`,
+				{
+					transformResponse: transformInvoiceResponse,
+				},
+				{ invoice: { vis_state: 1 } }
+			),
 	}
 
 	public readonly items = {

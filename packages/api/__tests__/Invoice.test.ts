@@ -470,5 +470,31 @@ describe('@freshbooks/api', () => {
 
 			expect(data).toEqual(invoice)
 		})
+		test('PUT /accounting/account/<accountId>/invoices/invoices/<invoiceId> (delete)', async () => {
+			const token = 'token'
+			const client = new Client(token)
+			const INVOICE_ID = '217506'
+
+			const mockResponse = `
+            {"response": 
+                {
+                    "result": {
+                        "invoice": ${buildMockResponse({ vis_state: 1 })}
+                    }
+                }
+            }`
+			const mockRequest = { invoice: { vis_state: 1 } }
+			mock
+				.onPut(
+					`/accounting/account/${ACCOUNT_ID}/invoices/invoices/${INVOICE_ID}`,
+					mockRequest
+				)
+				.replyOnce(200, mockResponse)
+
+			const { data } = await client.invoices.delete(ACCOUNT_ID, INVOICE_ID)
+			const invoice = buildInvoice({ visState: 1 })
+
+			expect(data).toEqual(invoice)
+		})
 	})
 })
