@@ -310,7 +310,6 @@ object Line {
     amount: Money
     basecampId: string
     compoundedTax: boolean
-    date: Date
     description: string
     expenseId: string
     invoiceId: string

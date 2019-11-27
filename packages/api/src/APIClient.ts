@@ -18,8 +18,9 @@ import Client, {
 	transformClientResponse,
 	transformClientListResponse,
 	transformClientRequest,
-	SearchQueryBuilder,
 } from './models/Client'
+import { SearchQueryBuilder } from '../dist/models/Client'
+import { IncludesQueryBuilder } from './models/builders/IncludesQueryBuilder'
 
 // defaults
 const API_URL = 'https://api.freshbooks.com'
@@ -121,10 +122,11 @@ export default class APIClient {
 		): Promise<Result<{ clients: Client[]; pages: Pagination }>> => {
 			return this.call(
 				'GET',
-				`/accounting/account/${accountId}/users/clients`,
+				`/accounting/account/${accountId}/users/clients${
+					searchQueryBuilder ? `?${searchQueryBuilder.build()}` : ''
+				}`,
 				{
 					transformResponse: transformClientListResponse,
-					params: searchQueryBuilder && searchQueryBuilder.build(),
 				}
 			)
 		},
@@ -179,11 +181,18 @@ export default class APIClient {
 		 * Get list of invoices
 		 */
 		list: (
-			accountId: string
+			accountId: string,
+			includesQueryBuilder?: IncludesQueryBuilder
 		): Promise<Result<{ invoices: Invoice[]; pages: Pagination }>> =>
-			this.call('GET', `/accounting/account/${accountId}/invoices/invoices`, {
-				transformResponse: transformListInvoicesResponse,
-			}),
+			this.call(
+				'GET',
+				`/accounting/account/${accountId}/invoices/invoices${
+					includesQueryBuilder ? `?${includesQueryBuilder.build()}` : ''
+				}`,
+				{
+					transformResponse: transformListInvoicesResponse,
+				}
+			),
 		/**
 		 * Get single invoice
 		 */
@@ -198,11 +207,37 @@ export default class APIClient {
 		/**
 		 * Post invoice
 		 */
-		create: (invoice: Invoice, accountId: string): Promise<Result<Invoice>> =>
-			this.call('POST', `/accounting/account/${accountId}/invoices/invoices`, {
-				transformResponse: transformInvoiceResponse,
-				transformRequest: transformInvoiceRequest,
-			}),
+		create: (
+			invoice: Invoice,
+			accountId: string,
+			includesQueryBuilder?: IncludesQueryBuilder
+		): Promise<Result<Invoice>> =>
+			this.call(
+				'POST',
+				`/accounting/account/${accountId}/invoices/invoices`,
+				{
+					transformResponse: transformInvoiceResponse,
+					transformRequest: transformInvoiceRequest,
+					params: includesQueryBuilder && includesQueryBuilder.build(),
+				},
+				invoice
+			),
+		update: (
+			accountId: string,
+			invoiceId: string,
+			data: any,
+			includesQueryBuilder?: IncludesQueryBuilder
+		): Promise<Result<Invoice>> =>
+			this.call(
+				'PUT',
+				`/accounting/account/${accountId}/invoices/invoices/${invoiceId}`,
+				{
+					transformResponse: transformInvoiceResponse,
+					transformRequest: transformInvoiceRequest,
+					params: includesQueryBuilder && includesQueryBuilder.build(),
+				},
+				data
+			),
 	}
 
 	public readonly items = {
