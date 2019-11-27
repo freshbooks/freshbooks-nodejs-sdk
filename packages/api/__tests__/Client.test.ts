@@ -4,6 +4,7 @@ import MockAdapter from 'axios-mock-adapter'
 import APIClient from '../src/APIClient'
 import { Client } from '../src'
 import { SearchQueryBuilder } from '../src/models/builders/SearchQueryBuilder'
+import { joinQueries } from '../src/models/builders'
 
 const mock = new MockAdapter(axios) // set mock adapter on default axios instance
 
@@ -159,13 +160,12 @@ describe('@freshbooks/api', () => {
 			const builder = new SearchQueryBuilder()
 				.like('address', '1655 Dupont')
 				.equals('userid', '217648')
+			const qs = joinQueries([builder])
 			mock
-				.onGet(
-					`/accounting/account/${ACCOUNT_ID}/users/clients?${builder.build()}`
-				)
+				.onGet(`/accounting/account/${ACCOUNT_ID}/users/clients${qs}`)
 				.replyOnce(200, response)
 
-			const { data } = await APIclient.clients.list(ACCOUNT_ID, builder)
+			const { data } = await APIclient.clients.list(ACCOUNT_ID, [builder])
 			expect(data).toEqual(expected)
 		})
 		test('GET /accounting/account/<accountId>/users/clients', async () => {

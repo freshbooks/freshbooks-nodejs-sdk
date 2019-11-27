@@ -1,5 +1,6 @@
 import { IncludesQueryBuilder } from '../src/models/builders/IncludesQueryBuilder'
 import { SearchQueryBuilder } from '../src/models/builders/SearchQueryBuilder'
+import { joinQueries } from '../src/models/builders'
 
 describe('@freshbooks/api', () => {
 	describe('Accounting Endpoint Builders', () => {
@@ -22,6 +23,20 @@ describe('@freshbooks/api', () => {
 				.build()
 			const expected =
 				'search[address_like]=21+Peter+Street&search[userid]=1234&search[userids]=1&search[userids]=2&search[userids]=3&search[userids]=4&search[updated_min]=2000-01-01&search[updated_max]=2015-12-15'
+			expect(result).toEqual(expected)
+		})
+		test('joinQueries', () => {
+			const searchBuilder = new SearchQueryBuilder()
+				.like('address', '21 Peter Street')
+				.equals('userid', 1234)
+			const includesBuilder = new IncludesQueryBuilder()
+				.includes('lines')
+				.includes('direct_links')
+
+			const result = joinQueries([searchBuilder, includesBuilder])
+
+			const expected =
+				'?search[address_like]=21+Peter+Street&search[userid]=1234&include[]=lines&include[]=direct_links'
 			expect(result).toEqual(expected)
 		})
 	})

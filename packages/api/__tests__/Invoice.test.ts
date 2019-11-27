@@ -4,6 +4,7 @@ import MockAdapter from 'axios-mock-adapter'
 import Client from '../src/APIClient'
 import { Invoice } from '../src/models'
 import { IncludesQueryBuilder } from '../src/models/builders/IncludesQueryBuilder'
+import { SearchQueryBuilder } from '../src/models/builders/SearchQueryBuilder'
 
 const mock = new MockAdapter(axios) // set mock adapter on default axios instance
 const ACCOUNT_ID = 'xZNQ1X'
@@ -372,7 +373,46 @@ describe('@freshbooks/api', () => {
 					total: 1,
 				},
 			}
-			const { data } = await client.invoices.list(ACCOUNT_ID, builder)
+			const { data } = await client.invoices.list(ACCOUNT_ID, [builder])
+
+			expect(data).toEqual(expected)
+		})
+
+		test('GET /accounting/account/<accountId>/invoices/invoices?search[invoice_id]=217506', async () => {
+			const token = 'token'
+			const client = new Client(token)
+
+			const mockResponse = `
+                {"response": 
+                    {
+                        "result": {
+                            "invoices": [
+								${buildMockResponse()}
+                            ],
+                            "page": 1,
+                            "pages": 1,
+                            "per_page": 15,
+                            "total": 1
+                        }
+                    }
+                }`
+			const builder = new SearchQueryBuilder().equals('invoice_id', '217506')
+			mock
+				.onGet(
+					`/accounting/account/${ACCOUNT_ID}/invoices/invoices?${builder.build()}`
+				)
+				.replyOnce(200, mockResponse)
+
+			const expected = {
+				invoices: [buildInvoice()],
+				pages: {
+					page: 1,
+					pages: 1,
+					size: 15,
+					total: 1,
+				},
+			}
+			const { data } = await client.invoices.list(ACCOUNT_ID, [builder])
 
 			expect(data).toEqual(expected)
 		})

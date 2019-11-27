@@ -19,8 +19,7 @@ import Client, {
 	transformClientListResponse,
 	transformClientRequest,
 } from './models/Client'
-import { SearchQueryBuilder } from '../dist/models/Client'
-import { IncludesQueryBuilder } from './models/builders/IncludesQueryBuilder'
+import { QueryBuilderType, joinQueries } from './models/builders'
 
 // defaults
 const API_URL = 'https://api.freshbooks.com'
@@ -118,18 +117,17 @@ export default class APIClient {
 		 */
 		list: (
 			accountId: string,
-			searchQueryBuilder?: SearchQueryBuilder
-		): Promise<Result<{ clients: Client[]; pages: Pagination }>> => {
-			return this.call(
+			queryBuilders?: QueryBuilderType[]
+		): Promise<Result<{ clients: Client[]; pages: Pagination }>> =>
+			this.call(
 				'GET',
-				`/accounting/account/${accountId}/users/clients${
-					searchQueryBuilder ? `?${searchQueryBuilder.build()}` : ''
-				}`,
+				`/accounting/account/${accountId}/users/clients${joinQueries(
+					queryBuilders
+				)}`,
 				{
 					transformResponse: transformClientListResponse,
 				}
-			)
-		},
+			),
 		get: (accountId: string, clientId: string): Promise<Result<Client>> =>
 			this.call(
 				'GET',
@@ -182,13 +180,13 @@ export default class APIClient {
 		 */
 		list: (
 			accountId: string,
-			includesQueryBuilder?: IncludesQueryBuilder
+			queryBuilders?: QueryBuilderType[]
 		): Promise<Result<{ invoices: Invoice[]; pages: Pagination }>> =>
 			this.call(
 				'GET',
-				`/accounting/account/${accountId}/invoices/invoices${
-					includesQueryBuilder ? `?${includesQueryBuilder.build()}` : ''
-				}`,
+				`/accounting/account/${accountId}/invoices/invoices${joinQueries(
+					queryBuilders
+				)}`,
 				{
 					transformResponse: transformListInvoicesResponse,
 				}
@@ -210,15 +208,16 @@ export default class APIClient {
 		create: (
 			invoice: Invoice,
 			accountId: string,
-			includesQueryBuilder?: IncludesQueryBuilder
+			queryBuilders?: QueryBuilderType[]
 		): Promise<Result<Invoice>> =>
 			this.call(
 				'POST',
-				`/accounting/account/${accountId}/invoices/invoices`,
+				`/accounting/account/${accountId}/invoices/invoices${joinQueries(
+					queryBuilders
+				)}`,
 				{
 					transformResponse: transformInvoiceResponse,
 					transformRequest: transformInvoiceRequest,
-					params: includesQueryBuilder && includesQueryBuilder.build(),
 				},
 				invoice
 			),
@@ -226,15 +225,16 @@ export default class APIClient {
 			accountId: string,
 			invoiceId: string,
 			data: any,
-			includesQueryBuilder?: IncludesQueryBuilder
+			queryBuilders?: QueryBuilderType[]
 		): Promise<Result<Invoice>> =>
 			this.call(
 				'PUT',
-				`/accounting/account/${accountId}/invoices/invoices/${invoiceId}`,
+				`/accounting/account/${accountId}/invoices/invoices/${invoiceId}${joinQueries(
+					queryBuilders
+				)}`,
 				{
 					transformResponse: transformInvoiceResponse,
 					transformRequest: transformInvoiceRequest,
-					params: includesQueryBuilder && includesQueryBuilder.build(),
 				},
 				data
 			),
