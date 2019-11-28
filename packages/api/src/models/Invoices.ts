@@ -12,6 +12,7 @@ import InvoiceV3Status from './InvoiceV3Status'
 import VisState from './VisState'
 import Line, { transformLineRequest, transformLineResponse } from './Line'
 import { transformDateResponse, DateFormat } from './Date'
+import Owner, { transformOwnerResponse } from './Owner'
 
 export default interface Invoice {
 	id?: string
@@ -57,6 +58,7 @@ export default interface Invoice {
 	notes?: string
 	organization?: string
 	outstanding?: Money
+	owner?: Owner
 	ownerId?: string
 	paid?: Money
 	parent?: string
@@ -123,6 +125,7 @@ function transformInvoiceData({
 	notes,
 	organization,
 	outstanding,
+	owner,
 	ownerid: ownerId,
 	paid,
 	parent,
@@ -191,6 +194,7 @@ function transformInvoiceData({
 		notes,
 		organization,
 		outstanding: transformMoneyResponse(outstanding),
+		owner: owner && transformOwnerResponse(owner),
 		ownerId,
 		paid: transformMoneyResponse(paid),
 		parent,
