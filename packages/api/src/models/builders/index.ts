@@ -6,5 +6,7 @@ export type QueryBuilderType = IncludesQueryBuilder | SearchQueryBuilder
 
 export const joinQueries = (queryBuilders?: QueryBuilderType[]): string =>
 	queryBuilders
-		? `?${queryBuilders.map(builder => builder.build()).join('&')}`
+		? `?${queryBuilders
+				.map(builder => builder.build())
+				.join(encodeURIComponent('&'))}`
 		: ''

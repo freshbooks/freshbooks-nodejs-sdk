@@ -3,16 +3,66 @@ import Pagination from './Pagination'
 import Error from './Error'
 import Money, { transformMoneyResponse } from './Money'
 import { Nullable } from './helpers'
-import AutoBillStatus from './AutoBillStatus'
-import DisplayStatus from './DisplayStatus'
-import PaymentStatus from './PaymentStatus'
-import InvoiceStatus from './InvoiceStatus'
-import DepositStatus from './DepositStatus'
-import InvoiceV3Status from './InvoiceV3Status'
 import VisState from './VisState'
 import Line, { transformLineRequest, transformLineResponse } from './Line'
 import { transformDateResponse, DateFormat } from './Date'
 import Owner, { transformOwnerResponse } from './Owner'
+
+enum AutoBillStatus {
+	retry = 'retry',
+	failed = 'failed',
+	success = 'success',
+}
+enum DisplayStatus {
+	draft = 'draft',
+	created = 'created',
+	sent = 'sent',
+	viewed = 'viewed',
+	outstanding = 'outstanding',
+}
+enum PaymentStatus {
+	unpaid = 'unpaid',
+	partial = 'partial',
+	paid = 'paid',
+	autoPaid = 'auto-paid',
+}
+enum InvoiceStatus {
+	disputed = 'disputed',
+	draft = 'draft',
+	sent = 'sent',
+	viewed = 'viewed',
+	paid = 'paid',
+	autoPaid = 'auto-paid',
+	retry = 'retry',
+	failed = 'failed',
+	partial = 'partial',
+}
+enum DepositStatus {
+	paid = 'paid',
+	unpaid = 'unpaid',
+	partial = 'partial',
+	none = 'none',
+	converted = 'converted',
+}
+enum InvoiceV3Status {
+	created = 'created',
+	draft = 'draft',
+	sent = 'sent',
+	viewed = 'viewed',
+	failed = 'failed',
+	retry = 'retry',
+	success = 'success',
+	autopaid = 'autopaid',
+	paid = 'paid',
+	partial = 'partial',
+	disputed = 'disputed',
+	resolved = 'resolved',
+	overdue = 'overdue',
+	declined = 'declined',
+	pending = 'pending',
+	depositPartial = 'deposit-partial',
+	depositPaid = 'deposit-paid',
+}
 
 export default interface Invoice {
 	id?: string

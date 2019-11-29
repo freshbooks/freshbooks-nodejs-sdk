@@ -1,19 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 export type Nullable<T> = T | null
 
-function encode(val: string): string {
-	return encodeURIComponent(val)
-		.replace(/%40/gi, '@')
-		.replace(/%3A/gi, ':')
-		.replace(/%24/g, '$')
-		.replace(/%2C/gi, ',')
-		.replace(/%20/g, '+')
-		.replace(/%5B/gi, '[')
-		.replace(/%5D/gi, ']')
-		.replace(/%26/g, '&')
-		.replace(/%3D/gi, '=')
-}
-
 export type ParamType = string | boolean | number | object
 export type QueryParamType = { [key: string]: ParamType }
 export const buildQueryString = (params: QueryParamType): string => {
@@ -22,11 +9,11 @@ export const buildQueryString = (params: QueryParamType): string => {
 		const value = params[key]
 		if (value instanceof Array) {
 			for (let i = 0; i < value.length; i += 1) {
-				queryString = queryString.concat(encode(`&${key}=${value[i]}`))
+				queryString = queryString.concat(`&${key}=${value[i]}`)
 			}
 		} else {
-			queryString = queryString.concat(encode(`&${key}=${value}`))
+			queryString = queryString.concat(`&${key}=${value}`)
 		}
 	})
-	return queryString.substr(1)
+	return encodeURIComponent(queryString.substr(1))
 }
