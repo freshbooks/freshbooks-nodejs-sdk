@@ -297,6 +297,8 @@ object Invoice {
     createdAt: Date
     autobill: boolean
     lines: Line[]
+    paymentDetails: string
+    
 }
 
 enum LineType {
@@ -308,7 +310,6 @@ object Line {
     amount: Money
     basecampId: string
     compoundedTax: boolean
-    date: Date
     description: string
     expenseId: string
     invoiceId: string

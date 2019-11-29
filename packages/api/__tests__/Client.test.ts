@@ -2,8 +2,9 @@
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 import APIClient from '../src/APIClient'
-import { SearchQueryBuilder } from '../src/models/Client'
 import { Client } from '../src'
+import { SearchQueryBuilder } from '../src/models/builders/SearchQueryBuilder'
+import { joinQueries } from '../src/models/builders'
 
 const mock = new MockAdapter(axios) // set mock adapter on default axios instance
 
@@ -129,25 +130,6 @@ const buildExpectedClientResult = (clientProperties: any = {}): Client => ({
 
 describe('@freshbooks/api', () => {
 	describe('User', () => {
-		test('SearchQueryBuilder', () => {
-			const result = new SearchQueryBuilder()
-				.like('address', '21 Peter Street')
-				.equals('userid', 1234)
-				.in('userids', [1, 2, 3, 4])
-				.between('updated', {
-					min: new Date('January 1, 2000'),
-					max: new Date('December 15, 2015'),
-				})
-				.build()
-			const expected = {
-				'search[address_like]': '21 Peter Street',
-				'search[userid]': 1234,
-				'search[userids]': [1, 2, 3, 4],
-				'search[updated_min]': '2000-01-01',
-				'search[updated_max]': '2015-12-15',
-			}
-			expect(result).toEqual(expected)
-		})
 		test('GET /accounting/account/<accountId>/users/clients?...searchQuery', async () => {
 			const token = 'token'
 			const APIclient = new APIClient(token)
@@ -175,20 +157,15 @@ describe('@freshbooks/api', () => {
 					total: 1,
 				},
 			}
-			mock
-				.onGet(`/accounting/account/${ACCOUNT_ID}/users/clients`, {
-					params: {
-						'search[address_like]': '1655 Dupont',
-						'search[userid]': '217648',
-					},
-				})
-				.replyOnce(200, response)
-
 			const builder = new SearchQueryBuilder()
 				.like('address', '1655 Dupont')
 				.equals('userid', '217648')
+			const qs = joinQueries([builder])
+			mock
+				.onGet(`/accounting/account/${ACCOUNT_ID}/users/clients${qs}`)
+				.replyOnce(200, response)
 
-			const { data } = await APIclient.clients.list(ACCOUNT_ID, builder)
+			const { data } = await APIclient.clients.list(ACCOUNT_ID, [builder])
 			expect(data).toEqual(expected)
 		})
 		test('GET /accounting/account/<accountId>/users/clients', async () => {
