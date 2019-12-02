@@ -55,69 +55,6 @@ export default interface Client {
 	role?: Nullable<string>
 }
 
-interface RangeType {
-	min?: string | number | Date
-	max?: string | number | Date
-}
-
-type ValueType = string | boolean | number | object
-type QueryParamType = { [key: string]: ValueType }
-
-/**
- * Builder to build AxiosRequestConfig params
- * for the `/accounting/account/<accountId>/users/clients` endpoint
- */
-export class SearchQueryBuilder {
-	queryParams: QueryParamType
-
-	constructor() {
-		this.queryParams = {}
-	}
-
-	private static handleDate(date: Date): string {
-		const year = date.getFullYear()
-		const month = date.toLocaleDateString(undefined, { month: '2-digit' })
-		const day = date.toLocaleDateString(undefined, { day: '2-digit' })
-		return `${year}-${month}-${day}`
-	}
-
-	in(key: string, values: ValueType[]): SearchQueryBuilder {
-		this.queryParams = { ...this.queryParams, [`search[${key}]`]: values }
-		return this
-	}
-
-	equals(key: string, value: ValueType): SearchQueryBuilder {
-		this.queryParams = { ...this.queryParams, [`search[${key}]`]: value }
-		return this
-	}
-
-	like(key: string, value: ValueType): SearchQueryBuilder {
-		this.queryParams = { ...this.queryParams, [`search[${key}_like]`]: value }
-		return this
-	}
-
-	between(key: string, { min, max }: RangeType): SearchQueryBuilder {
-		if (min) {
-			const value =
-				min instanceof Date ? SearchQueryBuilder.handleDate(min) : min
-			this.queryParams = { ...this.queryParams, [`search[${key}_min]`]: value }
-		}
-		if (max) {
-			const value =
-				max instanceof Date ? SearchQueryBuilder.handleDate(max) : max
-			this.queryParams = {
-				...this.queryParams,
-				[`search[${key}_max]`]: value,
-			}
-		}
-		return this
-	}
-
-	build(): QueryParamType {
-		return this.queryParams
-	}
-}
-
 function transformClientData(client: any): Client {
 	return {
 		id: client.id,

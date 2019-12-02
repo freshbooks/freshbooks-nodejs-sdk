@@ -4,7 +4,11 @@ import { Logger } from 'winston'
 import _logger from './logger'
 import { Error, Pagination, Invoice, User, Item } from './models'
 import { transformUserResponse } from './models/User'
-import { transformListInvoicesResponse } from './models/Invoices'
+import {
+	transformListInvoicesResponse,
+	transformInvoiceResponse,
+	transformInvoiceRequest,
+} from './models/Invoices'
 import {
 	transformItemResponse,
 	transformItemListResponse,
@@ -14,8 +18,8 @@ import Client, {
 	transformClientResponse,
 	transformClientListResponse,
 	transformClientRequest,
-	SearchQueryBuilder,
 } from './models/Client'
+import { QueryBuilderType, joinQueries } from './models/builders'
 
 // defaults
 const API_URL = 'https://api.freshbooks.com'
@@ -113,17 +117,17 @@ export default class APIClient {
 		 */
 		list: (
 			accountId: string,
-			searchQueryBuilder?: SearchQueryBuilder
-		): Promise<Result<{ clients: Client[]; pages: Pagination }>> => {
-			return this.call(
+			queryBuilders?: QueryBuilderType[]
+		): Promise<Result<{ clients: Client[]; pages: Pagination }>> =>
+			this.call(
 				'GET',
-				`/accounting/account/${accountId}/users/clients`,
+				`/accounting/account/${accountId}/users/clients${joinQueries(
+					queryBuilders
+				)}`,
 				{
 					transformResponse: transformClientListResponse,
-					params: searchQueryBuilder && searchQueryBuilder.build(),
 				}
-			)
-		},
+			),
 		get: (accountId: string, clientId: string): Promise<Result<Client>> =>
 			this.call(
 				'GET',
@@ -175,11 +179,74 @@ export default class APIClient {
 		 * Get list of invoices
 		 */
 		list: (
-			accountId: string
+			accountId: string,
+			queryBuilders?: QueryBuilderType[]
 		): Promise<Result<{ invoices: Invoice[]; pages: Pagination }>> =>
-			this.call('GET', `/accounting/account/${accountId}/invoices/invoices`, {
-				transformResponse: transformListInvoicesResponse,
-			}),
+			this.call(
+				'GET',
+				`/accounting/account/${accountId}/invoices/invoices${joinQueries(
+					queryBuilders
+				)}`,
+				{
+					transformResponse: transformListInvoicesResponse,
+				}
+			),
+		/**
+		 * Get single invoice
+		 */
+		single: (accountId: string, invoiceId: string): Promise<Result<Invoice>> =>
+			this.call(
+				'GET',
+				`/accounting/account/${accountId}/invoices/invoices/${invoiceId}`,
+				{
+					transformResponse: transformInvoiceResponse,
+				}
+			),
+		/**
+		 * Post invoice
+		 */
+		create: (
+			invoice: Invoice,
+			accountId: string,
+			queryBuilders?: QueryBuilderType[]
+		): Promise<Result<Invoice>> =>
+			this.call(
+				'POST',
+				`/accounting/account/${accountId}/invoices/invoices${joinQueries(
+					queryBuilders
+				)}`,
+				{
+					transformResponse: transformInvoiceResponse,
+					transformRequest: transformInvoiceRequest,
+				},
+				invoice
+			),
+		update: (
+			accountId: string,
+			invoiceId: string,
+			data: any,
+			queryBuilders?: QueryBuilderType[]
+		): Promise<Result<Invoice>> =>
+			this.call(
+				'PUT',
+				`/accounting/account/${accountId}/invoices/invoices/${invoiceId}${joinQueries(
+					queryBuilders
+				)}`,
+				{
+					transformResponse: transformInvoiceResponse,
+					transformRequest: transformInvoiceRequest,
+				},
+				data
+			),
+		delete: (accountId: string, invoiceId: string): Promise<Result<Invoice>> =>
+			this.call(
+				'PUT',
+				`/accounting/account/${accountId}/invoices/invoices/${invoiceId}`,
+				{
+					transformResponse: transformInvoiceResponse,
+				},
+				{ invoice: { vis_state: 1 } }
+			),
 	}
 
 	public readonly items = {
