@@ -19,7 +19,18 @@ import Client, {
 	transformClientListResponse,
 	transformClientRequest,
 } from './models/Client'
+import Payment, {
+	transformPaymentListResponse,
+	transformPaymentResponse,
+	transformPaymentRequest,
+	transformPaymentUpdateRequest,
+} from './models/Payment'
 import { QueryBuilderType, joinQueries } from './models/builders'
+import Expense, {
+	transformExpenseResponse,
+	transformExpenseListResponse,
+	transformExpenseRequest,
+} from './models/Expense'
 
 // defaults
 const API_URL = 'https://api.freshbooks.com'
@@ -249,6 +260,81 @@ export default class APIClient {
 			),
 	}
 
+	public readonly expenses = {
+		single: (
+			accountId: string,
+			expenseId: string,
+			queryBuilders?: QueryBuilderType[]
+		): Promise<Result<Expense>> =>
+			this.call(
+				'GET',
+				`/accounting/account/${accountId}/expenses/expenses/${expenseId}${joinQueries(
+					queryBuilders
+				)}`,
+				{
+					transformResponse: transformExpenseResponse,
+				}
+			),
+		list: (
+			accountId: string,
+			queryBuilders?: QueryBuilderType[]
+		): Promise<Result<{ expenses: Expense[]; pages: Pagination }>> =>
+			this.call(
+				'GET',
+				`/accounting/account/${accountId}/expenses/expenses${joinQueries(
+					queryBuilders
+				)}`,
+				{
+					transformResponse: transformExpenseListResponse,
+				}
+			),
+
+		create: (
+			expense: Expense,
+			accountId: string,
+			queryBuilders?: QueryBuilderType[]
+		): Promise<Result<Expense>> =>
+			this.call(
+				'POST',
+				`/accounting/account/${accountId}/expenses/expenses${joinQueries(
+					queryBuilders
+				)}`,
+				{
+					transformResponse: transformExpenseResponse,
+					transformRequest: transformExpenseRequest,
+				},
+				expense
+			),
+
+		update: (
+			expense: Expense,
+			accountId: string,
+			expenseId: string,
+			queryBuilders?: QueryBuilderType[]
+		): Promise<Result<Expense>> =>
+			this.call(
+				'PUT',
+				`/accounting/account/${accountId}/expenses/expenses/${expenseId}${joinQueries(
+					queryBuilders
+				)}`,
+				{
+					transformResponse: transformExpenseResponse,
+					transformRequest: transformExpenseRequest,
+				},
+				expense
+			),
+
+		delete: (accountId: string, expenseId: string): Promise<Result<Expense>> =>
+			this.call(
+				'PUT',
+				`/accounting/account/${accountId}/expenses/expenses/${expenseId}`,
+				{
+					transformResponse: transformExpenseResponse,
+				},
+				{ expense: { vis_state: 1 } }
+			),
+	}
+
 	public readonly items = {
 		/**
 		 * Get single item
@@ -291,6 +377,67 @@ export default class APIClient {
 					transformRequest: transformItemRequest,
 				},
 				data
+			),
+	}
+
+	public readonly payments = {
+		single: (accountId: string, paymentId: string): Promise<Result<Payment>> =>
+			this.call(
+				'GET',
+				`/accounting/account/${accountId}/payments/payments/${paymentId}`,
+				{
+					transformResponse: transformPaymentResponse,
+				}
+			),
+		list: (
+			accountId: string,
+			queryBuilders?: QueryBuilderType[]
+		): Promise<Result<{ payments: Payment[]; pages: Pagination }>> =>
+			this.call(
+				'GET',
+				`/accounting/account/${accountId}/payments/payments${joinQueries(
+					queryBuilders
+				)}`,
+				{
+					transformResponse: transformPaymentListResponse,
+				}
+			),
+		create: (accountId: string, data: any): Promise<Result<Payment>> =>
+			this.call(
+				'POST',
+				`/accounting/account/${accountId}/payments/payments`,
+				{
+					transformResponse: transformPaymentResponse,
+					transformRequest: transformPaymentRequest,
+				},
+				data
+			),
+		update: (
+			accountId: string,
+			paymentId: string,
+			data: any
+		): Promise<Result<Payment>> =>
+			this.call(
+				'PUT',
+				`/accounting/account/${accountId}/payments/payments/${paymentId}`,
+				{
+					transformResponse: transformPaymentResponse,
+					transformRequest: transformPaymentUpdateRequest,
+				},
+				data
+			),
+		delete: (accountId: string, paymentId: string): Promise<Result<Payment>> =>
+			this.call(
+				'PUT',
+				`/accounting/account/${accountId}/payments/payments/${paymentId}`,
+				{
+					transformResponse: transformPaymentResponse,
+				},
+				{
+					payment: {
+						vis_state: 1,
+					},
+				}
 			),
 	}
 }
