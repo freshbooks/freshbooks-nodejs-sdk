@@ -17,3 +17,8 @@ export const buildQueryString = (params: QueryParamType): string => {
 	})
 	return encodeURIComponent(queryString.substr(1))
 }
+
+export const isNumber = (value: any): boolean => typeof value === 'number'
+
+export const transformIdResponse = (value: any): any =>
+	isNumber(value) ? value.toString() : value

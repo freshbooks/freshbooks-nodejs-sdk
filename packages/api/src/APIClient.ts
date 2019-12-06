@@ -20,6 +20,11 @@ import Client, {
 	transformClientRequest,
 } from './models/Client'
 import { QueryBuilderType, joinQueries } from './models/builders'
+import Expense, {
+	transformExpenseResponse,
+	transformExpenseListResponse,
+	transformExpenseRequest,
+} from './models/Expense'
 
 // defaults
 const API_URL = 'https://api.freshbooks.com'
@@ -246,6 +251,81 @@ export default class APIClient {
 					transformResponse: transformInvoiceResponse,
 				},
 				{ invoice: { vis_state: 1 } }
+			),
+	}
+
+	public readonly expenses = {
+		single: (
+			accountId: string,
+			expenseId: string,
+			queryBuilders?: QueryBuilderType[]
+		): Promise<Result<Expense>> =>
+			this.call(
+				'GET',
+				`/accounting/account/${accountId}/expenses/expenses/${expenseId}${joinQueries(
+					queryBuilders
+				)}`,
+				{
+					transformResponse: transformExpenseResponse,
+				}
+			),
+		list: (
+			accountId: string,
+			queryBuilders?: QueryBuilderType[]
+		): Promise<Result<{ expenses: Expense[]; pages: Pagination }>> =>
+			this.call(
+				'GET',
+				`/accounting/account/${accountId}/expenses/expenses${joinQueries(
+					queryBuilders
+				)}`,
+				{
+					transformResponse: transformExpenseListResponse,
+				}
+			),
+
+		create: (
+			expense: Expense,
+			accountId: string,
+			queryBuilders?: QueryBuilderType[]
+		): Promise<Result<Expense>> =>
+			this.call(
+				'POST',
+				`/accounting/account/${accountId}/expenses/expenses${joinQueries(
+					queryBuilders
+				)}`,
+				{
+					transformResponse: transformExpenseResponse,
+					transformRequest: transformExpenseRequest,
+				},
+				expense
+			),
+
+		update: (
+			expense: Expense,
+			accountId: string,
+			expenseId: string,
+			queryBuilders?: QueryBuilderType[]
+		): Promise<Result<Expense>> =>
+			this.call(
+				'PUT',
+				`/accounting/account/${accountId}/expenses/expenses/${expenseId}${joinQueries(
+					queryBuilders
+				)}`,
+				{
+					transformResponse: transformExpenseResponse,
+					transformRequest: transformExpenseRequest,
+				},
+				expense
+			),
+
+		delete: (accountId: string, expenseId: string): Promise<Result<Expense>> =>
+			this.call(
+				'PUT',
+				`/accounting/account/${accountId}/expenses/expenses/${expenseId}`,
+				{
+					transformResponse: transformExpenseResponse,
+				},
+				{ expense: { vis_state: 1 } }
 			),
 	}
 
