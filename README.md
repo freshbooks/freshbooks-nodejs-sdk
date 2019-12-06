@@ -126,6 +126,28 @@ try {
 }
 ```
 
+##### Optional fields
+Optional fields are specified in the API data model as `optional` using Typescript's `?` operator, as well as marked as `Nullable<T>`, where `T` is the type of value, and `Nullable` is a type definition to allow `null` values.
+```typescript
+// create a user model with required fields. set other fields as undefined
+const user: User = {
+  id: '123',
+  firstName: 'Johnny',
+  lastName: 'Appleseed'
+}
+
+// explicity set an optional field
+user.phoneNumbers = [
+  {
+    title: 'Home',
+    number: '555-555-5555'
+  }
+]
+
+// explicitly unset an optional field
+user.phoneNumbers = null
+```
+
 ##### Errors
 
 If an API error occurs, the response object contains an `error` object, with the following shape:
