@@ -4,11 +4,11 @@
 
 The FreshBooks NodeJS SDK is a collection of single-purpose packages designed to easily build FreshBooks apps. Each package delivers part of the FreshBooks [REST API](https://www.freshbooks.com/api), so that you can choose the packages that fit your needs.
 
-| Package              | What it's for |
-| ---------------------|---------------|
-| [`@freshbooks/api`](#freshbooksapi)    | Get/set data from FreshBooks using the REST API.
-| `@freshbooks/events` | Register/listen for incoming events via webhooks.
-| [`@freshbooks/app`](#freshbooksapp)    | Pre-configured [ExpressJS](https://expressjs.com/) app. Includes authentication via [PassportJS](http://www.passportjs.org/).
+| Package                             | What it's for                                                                                                                 |
+| ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| [`@freshbooks/api`](#freshbooksapi) | Get/set data from FreshBooks using the REST API.                                                                              |
+| `@freshbooks/events`                | Register/listen for incoming events via webhooks.                                                                             |
+| [`@freshbooks/app`](#freshbooksapp) | Pre-configured [ExpressJS](https://expressjs.com/) app. Includes authentication via [PassportJS](http://www.passportjs.org/). |
 
 ## Installation
 
@@ -53,20 +53,83 @@ All REST API methods return a response in the shape of:
 ```
 
 Example API client call:
+
 ```typescript
 try {
-  // Get the current user
-  const { data } = await client.users.me()
-  
-  console.log(`Hello, ${data.id}`)
+	// Get the current user
+	const { data } = await client.users.me()
+
+	console.log(`Hello, ${data.id}`)
 } catch ({ code, message }) {
-  // Handle error if API call failed
-  console.error(`Error fetching user: ${code} - ${message}`)
+	// Handle error if API call failed
+	console.error(`Error fetching user: ${code} - ${message}`)
+}
+```
+
+#### Building custom queries
+
+If an endpoint supports searching or custom inclusions via query parameters, these parameters
+can be specified using a `QueryBuilderType`:
+
+```typescript
+type QueryBuilderType = IncludesQueryBuilder | SearchQueryBuilder
+```
+
+An appropriate method on the API client will support an array of builders:
+
+```typescript
+public readonly invoices = {
+  list: (accountId: string, queryBuilders?: QueryBuilderType[]) => Promise<Result<{
+      invoices: Invoice[];
+      pages: Pagination;
+  }>>;
+}
+```
+
+The `SearchQueryBuilder` supports the patterns: `Equals`, `In`, `Like` and `Between`.
+
+Example API client call with `SearchQueryBuilder`:
+
+```typescript
+//create and populate SearchQueryBuilder
+const searchQueryBuilder = new SearchQueryBuilder()
+	.like('address', '200 King Street')
+	.between('date', { min: new Date('2010-05-06'), max: new Date('2019-11-10') })
+
+try {
+	// Get invoices matching search query
+	const { data } = await client.invoices.list('xZNQ1X', [searchQueryBuilder])
+
+	console.log('Invoices: ', data)
+} catch ({ code, message }) {
+	// Handle error if API call failed
+	console.error(`Error fetching user: ${code} - ${message}`)
+}
+```
+
+The `IncludesQueryBuilder` simply requires the name of the key to be included.
+
+Example API client call with `IncludesQueryBuilder`:
+
+```typescript
+//create and populate IncludesQueryBuilder
+const includesQueryBuilder = new IncludesQueryBuilder().includes('lines')
+
+try {
+	// Get invoices with included line items
+	const { data } = await client.invoices.list('xZNQ1X', [includesQueryBuilder])
+
+	console.log('Invoices: ', data)
+} catch ({ code, message }) {
+	// Handle error if API call failed
+	console.error(`Error fetching user: ${code} - ${message}`)
 }
 ```
 
 ##### Errors
+
 If an API error occurs, the response object contains an `error` object, with the following shape:
+
 ```typescript
 {
   code: string
@@ -75,17 +138,20 @@ If an API error occurs, the response object contains an `error` object, with the
 ```
 
 ##### Pagination
+
 If the endpoint is enabled for pagination, the response `data` object contains the response model and a `pages` property, with the following shape:
+
 ```typescript
 {
-  page: number
-  pages: number
-  total: number
-  size: number
+	page: number
+	pages: number
+	total: number
+	size: number
 }
 ```
 
 Example request with pagination:
+
 ```typescript
 // Get list of invoices for account
 const { invoices, pages } = await client.invoices.list('xZNQ1X')
@@ -125,7 +191,7 @@ app.get('/settings', passport.authorize('freshbooks'), async (req, res) => {
   // get an API client
   const { token } = req.user
   const client = new Client(token)
-  
+
   // fetch the current user
   try {
     const { data } = await client.users.me()
