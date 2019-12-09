@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import Pagination from './Pagination'
-import Error from './Error'
+import { transformErrorResponse, isErrorResponse, ErrorResponse } from './Error'
 import Money, { transformMoneyResponse } from './Money'
 import { Nullable } from './helpers'
 import VisState from './VisState'
@@ -270,19 +270,14 @@ function transformInvoiceData({
 
 export function transformListInvoicesResponse(
 	data: string
-): { invoices: Invoice[]; pages: Pagination } | Error {
-	const {
-		response: { errors, result },
-	} = JSON.parse(data)
+): { invoices: Invoice[]; pages: Pagination } | ErrorResponse {
+	const response = JSON.parse(data)
 
-	if (errors) {
-		return {
-			code: errors[0].errno,
-			message: errors[0].message,
-		}
+	if (isErrorResponse(response)) {
+		return transformErrorResponse(response)
 	}
 
-	const { invoices, per_page, total, page, pages } = result
+	const { invoices, per_page, total, page, pages } = response.response.result
 	return {
 		invoices: invoices.map((invoice: any) => transformInvoiceData(invoice)),
 		pages: {
@@ -294,18 +289,18 @@ export function transformListInvoicesResponse(
 	}
 }
 
-export function transformInvoiceResponse(data: string): Invoice | Error {
-	const {
-		response: { errors, result },
-	} = JSON.parse(data)
+export function transformInvoiceResponse(
+	data: string
+): Invoice | ErrorResponse {
+	const response = JSON.parse(data)
 
-	if (errors) {
-		return {
-			code: errors[0].errno,
-			message: errors[0].message,
-		}
+	if (isErrorResponse(response)) {
+		return transformErrorResponse(response)
 	}
 
+	const {
+		response: { result },
+	} = response
 	const { invoice } = result
 	return transformInvoiceData(invoice)
 }

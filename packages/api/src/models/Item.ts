@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import Money, { transformMoneyResponse, transformMoneyRequest } from './Money'
-import Error from './Error'
+import { ErrorResponse, isErrorResponse, transformErrorResponse } from './Error'
 import { Nullable } from './helpers'
 import Pagination from './Pagination'
 
@@ -54,40 +54,35 @@ function transformItemData({
 	}
 }
 
-export function transformItemResponse(data: string): Item | Error {
+export function transformItemResponse(data: string): Item | ErrorResponse {
+	const response = JSON.parse(data)
+
+	if (isErrorResponse(response)) {
+		return transformErrorResponse(response)
+	}
 	const {
 		response: {
 			result: { item },
 		},
-		error,
-		error_description,
-	} = JSON.parse(data)
-
-	if (error) {
-		return {
-			code: error,
-			message: error_description,
-		}
-	}
+	} = response
 
 	return transformItemData(item)
 }
 
 export function transformItemListResponse(
 	data: string
-): { items: Item[]; pages: Pagination } | Error {
-	const {
-		response: { errors, result },
-	} = JSON.parse(data)
+): { items: Item[]; pages: Pagination } | ErrorResponse {
+	const response = JSON.parse(data)
 
-	if (errors) {
-		return {
-			code: errors[0].errno,
-			message: errors[0].message,
-		}
+	if (isErrorResponse(response)) {
+		return transformErrorResponse(response)
 	}
 
-	const { items, per_page, total, page, pages } = result
+	const {
+		response: {
+			result: { items, per_page, total, page, pages },
+		},
+	} = response
 
 	return {
 		items: items.map((item: any) => transformItemData(item)),

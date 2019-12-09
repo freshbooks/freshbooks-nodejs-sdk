@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import Error from './Error'
+import { isErrorResponse, transformErrorResponse, ErrorResponse } from './Error'
 import PhoneNumber, { transformPhoneNumberResponse } from './PhoneNumber'
 import Address, { transformAddressResponse, AddressResponse } from './Address'
 import BusinessMembership, {
@@ -27,14 +27,11 @@ export default interface User {
 	links?: Nullable<Map<string, string>>
 }
 
-export function transformUserResponse(data: string): User | Error {
-	const { response, error, error_description } = JSON.parse(data)
+export function transformUserResponse(data: string): User | ErrorResponse {
+	const response = JSON.parse(data)
 
-	if (error) {
-		return {
-			code: error,
-			message: error_description,
-		}
+	if (isErrorResponse(response)) {
+		return transformErrorResponse(response)
 	}
 
 	const {
@@ -51,7 +48,7 @@ export function transformUserResponse(data: string): User | Error {
 		profession,
 		groups = [],
 		links = {},
-	} = response
+	} = response.response
 	return {
 		id: id.toString(), // store ids as string
 		firstName: first_name,

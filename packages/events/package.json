@@ -1,12 +1,12 @@
 {
 	"name": "@freshbooks/events",
-	"version": "0.1.0-alpha.2",
+	"version": "0.1.1-alpha.0",
 	"description": "Webhook events for FreshBooks API",
 	"author": "FreshBooks",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
-		"url": "ssh://git@github.com:freshbooks/api-sdk.git"
+		"url": "ssh://git@github.com:freshbooks/api-nodejs-sdk.git"
 	},
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",

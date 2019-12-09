@@ -215,7 +215,7 @@ describe('@freshbooks/api', () => {
 
 			const expected = buildExpectedClientResult()
 
-			const { data } = await APIclient.clients.get(ACCOUNT_ID, CLIENT_ID)
+			const { data } = await APIclient.clients.single(ACCOUNT_ID, CLIENT_ID)
 
 			expect(expected).toEqual(data)
 		})

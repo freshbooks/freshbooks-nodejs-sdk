@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import Error from './Error'
+import { ErrorResponse, isErrorResponse, transformErrorResponse } from './Error'
 import Pagination from './Pagination'
 import { Nullable } from './helpers'
 
@@ -114,17 +114,15 @@ function transformClientData(client: any): Client {
  * @param data representing JSON response
  * @returns @Client | @Error
  */
-export function transformClientResponse(data: any): Client | Error {
-	const {
-		response: { result, errors },
-	} = JSON.parse(data)
+export function transformClientResponse(data: any): Client | ErrorResponse {
+	const response = JSON.parse(data)
 
-	if (errors) {
-		return {
-			code: errors[0].errno,
-			message: errors[0].message,
-		}
+	if (isErrorResponse(response)) {
+		return transformErrorResponse(response)
 	}
+	const {
+		response: { result },
+	} = response
 	const { client } = result
 	return transformClientData(client)
 }
@@ -136,17 +134,15 @@ export function transformClientResponse(data: any): Client | Error {
  */
 export function transformClientListResponse(
 	data: string
-): { clients: Client[]; pages: Pagination } | Error {
-	const {
-		response: { result, errors },
-	} = JSON.parse(data)
+): { clients: Client[]; pages: Pagination } | ErrorResponse {
+	const response = JSON.parse(data)
 
-	if (errors) {
-		return {
-			code: errors[0].errno,
-			message: errors[0].message,
-		}
+	if (isErrorResponse(response)) {
+		return transformErrorResponse(response)
 	}
+	const {
+		response: { result },
+	} = response
 	const { clients, per_page, total, page, pages } = result
 	return {
 		pages: {

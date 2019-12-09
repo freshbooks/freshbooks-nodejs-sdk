@@ -21,13 +21,80 @@ describe('@freshbooks/api', () => {
 				)
 
 			const client = new APIClient('foo')
-			const res = await client.users.me()
+			try {
+				await client.users.me()
+			} catch (err) {
+				expect(err.code).toEqual('unauthenticated')
+				expect(err.message).toEqual(
+					'This action requires authentication to continue.'
+				)
+			}
+		})
 
-			expect(res.ok).toBeFalsy()
-			expect(res.error).not.toBeUndefined()
+		test('Test freshbook API errors', async () => {
+			const mockResponse = JSON.stringify({
+				response: {
+					errors: [
+						{
+							message:
+								'The server could not verify that you are authorized to access the URL requested.',
+							errno: 1003,
+						},
+					],
+				},
+			})
+			mock
+				.onGet('/accounting/account/zDmNq/invoices/invoices')
+				.replyOnce(401, mockResponse)
 
-			if (res.error) {
-				expect(res.error.code).toEqual('unauthenticated')
+			const client = new APIClient('foo')
+			try {
+				await client.invoices.list('zDmNq')
+			} catch (error) {
+				expect(error.name).toEqual('List Invoices')
+				expect(error.code).toEqual('401')
+				expect(error.errors).toEqual([
+					{
+						number: 1003,
+						message:
+							'The server could not verify that you are authorized to access the URL requested.',
+					},
+				])
+			}
+		})
+
+		test('Test not found errors', async () => {
+			const mockResponse = JSON.stringify({
+				// eslint-disable-next-line @typescript-eslint/camelcase
+				error_type: 'not_found',
+				message: 'The requested resource was not found.',
+			})
+			mock
+				.onGet('/accounting/account/zDmNq/invoices/invoices/1')
+				.replyOnce(401, mockResponse)
+
+			const client = new APIClient('foo')
+			try {
+				await client.invoices.single('zDmNq', '1')
+			} catch (error) {
+				expect(error.code).toEqual('not_found')
+				expect(error.message).toEqual('The requested resource was not found.')
+			}
+		})
+
+		test('Test unhandled errors', async () => {
+			const unhandledError = new Error('Unhandled Error!')
+			const client = new APIClient('foo')
+
+			// mock list method
+			client.invoices.list = jest.fn(() => {
+				throw unhandledError
+			})
+
+			try {
+				await client.invoices.list('zDmNq')
+			} catch (error) {
+				expect(error).toBe(unhandledError)
 			}
 		})
 
