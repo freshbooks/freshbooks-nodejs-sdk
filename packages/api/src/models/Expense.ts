@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import Money, { transformMoneyResponse, transformMoneyRequest } from './Money'
-import Error from './Error'
+import { ErrorResponse, isErrorResponse, transformErrorResponse } from './Error'
 import { Nullable, transformIdResponse } from './helpers'
 import Pagination from './Pagination'
 import VisState from './VisState'
@@ -125,43 +125,42 @@ function transformExpenseData({
 	}
 }
 
-export function transformExpenseResponse(data: string): Expense | Error {
+export function transformExpenseResponse(
+	data: string
+): Expense | ErrorResponse {
+	const response = JSON.parse(data)
+
+	if (isErrorResponse(response)) {
+		return transformErrorResponse(response)
+	}
 	const {
 		response: {
 			result: { expense },
 		},
-		error,
-		error_description,
-	} = JSON.parse(data)
-
-	if (error) {
-		return {
-			code: error,
-			message: error_description,
-		}
-	}
+	} = response
 
 	return transformExpenseData(expense)
 }
 
 export function transformExpenseListResponse(
 	data: string
-): { expenses: Expense[]; pages: Pagination } | Error {
-	const {
-		response: { errors, result },
-	} = JSON.parse(data)
+): { expenses: Expense[]; pages: Pagination } | ErrorResponse {
+	const response = JSON.parse(data)
 
-	if (errors) {
-		return {
-			code: errors[0].errno,
-			message: errors[0].message,
-		}
+	if (isErrorResponse(response)) {
+		return transformErrorResponse(response)
 	}
 
-	const { expenses, per_page, total, page, pages } = result
+	const {
+		response: {
+			result: { expenses, per_page, total, page, pages },
+		},
+	} = response
 
 	return {
-		expenses: expenses.map((expense: any) => transformExpenseData(expense)),
+		expenses: expenses.map(
+			(expense: any): Expense => transformExpenseData(expense)
+		),
 		pages: {
 			size: per_page,
 			total,

@@ -1,6 +1,6 @@
 import Money, { transformMoneyRequest, transformMoneyResponse } from './Money'
 import VisState from './VisState'
-import Error from './Error'
+import { ErrorResponse, isErrorResponse, transformErrorResponse } from './Error'
 import Pagination from './Pagination'
 import { transformDateRequest, DateFormat, transformDateResponse } from './Date'
 import { Nullable } from './helpers'
@@ -99,37 +99,34 @@ function transformPaymentData({
  *      }
  * @returns Payment object
  */
-export function transformPaymentResponse(data: any): Payment | Error {
-	const {
-		response: { errors, result },
-	} = JSON.parse(data)
+export function transformPaymentResponse(data: any): Payment | ErrorResponse {
+	const response = JSON.parse(data)
 
-	if (errors) {
-		return {
-			code: errors[0].errno,
-			message: errors[0].message,
-		}
+	if (isErrorResponse(response)) {
+		return transformErrorResponse(response)
 	}
-
+	const {
+		response: { result },
+	} = response
 	const { payment } = result
 	return transformPaymentData(payment)
 }
 
 export function transformPaymentListResponse(
 	data: string
-): { payments: Payment[]; pages: Pagination } | Error {
-	const {
-		response: { errors, result },
-	} = JSON.parse(data)
+): { payments: Payment[]; pages: Pagination } | ErrorResponse {
+	const response = JSON.parse(data)
 
-	if (errors) {
-		return {
-			code: errors[0].errno,
-			message: errors[0].message,
-		}
+	if (isErrorResponse(response)) {
+		return transformErrorResponse(response)
 	}
 
-	const { payments, per_page, total, page, pages } = result
+	const {
+		response: {
+			result: { payments, per_page, total, page, pages },
+		},
+	} = response
+
 	return {
 		payments: payments.map((payment: any) => transformPaymentData(payment)),
 		pages: {
@@ -153,7 +150,7 @@ export function transformPaymentListResponse(
  *      }`
  * @returns Payment object
  */
-export function transformPaymentJSON(json: string): Payment | Error {
+export function transformPaymentJSON(json: string): Payment | ErrorResponse {
 	const response = JSON.parse(json)
 	return transformPaymentResponse(response)
 }

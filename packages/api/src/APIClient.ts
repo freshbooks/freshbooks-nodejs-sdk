@@ -26,6 +26,7 @@ import Payment, {
 	transformPaymentUpdateRequest,
 } from './models/Payment'
 import { QueryBuilderType, joinQueries } from './models/builders'
+import APIClientError from './models/Error'
 import Expense, {
 	transformExpenseResponse,
 	transformExpenseListResponse,
@@ -85,11 +86,13 @@ export default class APIClient {
 		method: Method,
 		url: string,
 		config?: AxiosRequestConfig,
-		data?: S
+		data?: S,
+		name?: string
 	): Promise<Result<T>> {
 		this.logger.debug(`Request: ${method} ${url}`)
 		this.logger.debug(`Request2: ${config}`)
 		this.logger.debug(`Request3: ${data}`)
+
 		try {
 			const response = await this.axios({
 				method,
@@ -98,17 +101,23 @@ export default class APIClient {
 				...config,
 			})
 			this.logger.debug(`Response: ${method} ${url} ${data}`)
-
 			return {
 				ok: true,
 				data: response.data,
 			}
-		} catch (err) {
-			this.logger.debug(`Error: ${err}`)
-			return {
-				ok: false,
-				error: err.response.data,
-			}
+		} catch ({
+			response: {
+				status,
+				statusText,
+				data: { code, message, errors },
+			},
+		}) {
+			throw new APIClientError(
+				name || '',
+				message || statusText,
+				(code && code.toString()) || (status && status.toString()),
+				errors
+			)
 		}
 	}
 
@@ -117,9 +126,15 @@ export default class APIClient {
 		 * Get own identity user
 		 */
 		me: (): Promise<Result<User>> =>
-			this.call('GET', '/auth/api/v1/users/me', {
-				transformResponse: transformUserResponse,
-			}),
+			this.call(
+				'GET',
+				'/auth/api/v1/users/me',
+				{
+					transformResponse: transformUserResponse,
+				},
+				{},
+				'Get Identity'
+			),
 	}
 
 	public readonly clients = {
@@ -137,15 +152,19 @@ export default class APIClient {
 				)}`,
 				{
 					transformResponse: transformClientListResponse,
-				}
+				},
+				{},
+				'List Clients'
 			),
-		get: (accountId: string, clientId: string): Promise<Result<Client>> =>
+		single: (accountId: string, clientId: string): Promise<Result<Client>> =>
 			this.call(
 				'GET',
 				`/accounting/account/${accountId}/users/clients/${clientId}`,
 				{
 					transformResponse: transformClientResponse,
-				}
+				},
+				{},
+				'Get Client'
 			),
 		create: (client: Client, accountId: string): Promise<Result<Client>> =>
 			this.call(
@@ -155,7 +174,8 @@ export default class APIClient {
 					transformResponse: transformClientResponse,
 					transformRequest: transformClientRequest,
 				},
-				client
+				client,
+				'Create Client'
 			),
 		update: (
 			client: Client,
@@ -169,7 +189,8 @@ export default class APIClient {
 					transformResponse: transformClientResponse,
 					transformRequest: transformClientRequest,
 				},
-				client
+				client,
+				'Update Client'
 			),
 		delete: (accountId: string, clientId: string): Promise<Result<Client>> =>
 			this.call(
@@ -181,7 +202,8 @@ export default class APIClient {
 				},
 				{
 					visState: 1,
-				}
+				},
+				'Delete Client'
 			),
 	}
 
@@ -200,7 +222,9 @@ export default class APIClient {
 				)}`,
 				{
 					transformResponse: transformListInvoicesResponse,
-				}
+				},
+				{},
+				'List Invoices'
 			),
 		/**
 		 * Get single invoice
@@ -211,7 +235,9 @@ export default class APIClient {
 				`/accounting/account/${accountId}/invoices/invoices/${invoiceId}`,
 				{
 					transformResponse: transformInvoiceResponse,
-				}
+				},
+				{},
+				'Get Invoice'
 			),
 		/**
 		 * Post invoice
@@ -230,7 +256,8 @@ export default class APIClient {
 					transformResponse: transformInvoiceResponse,
 					transformRequest: transformInvoiceRequest,
 				},
-				invoice
+				invoice,
+				'Create Invoice'
 			),
 		update: (
 			accountId: string,
@@ -247,7 +274,8 @@ export default class APIClient {
 					transformResponse: transformInvoiceResponse,
 					transformRequest: transformInvoiceRequest,
 				},
-				data
+				data,
+				'Update Invoice'
 			),
 		delete: (accountId: string, invoiceId: string): Promise<Result<Invoice>> =>
 			this.call(
@@ -256,7 +284,8 @@ export default class APIClient {
 				{
 					transformResponse: transformInvoiceResponse,
 				},
-				{ invoice: { vis_state: 1 } }
+				{ invoice: { vis_state: 1 } },
+				'Delete Invoice'
 			),
 	}
 
@@ -273,7 +302,9 @@ export default class APIClient {
 				)}`,
 				{
 					transformResponse: transformExpenseResponse,
-				}
+				},
+				{},
+				'Get Expense'
 			),
 		list: (
 			accountId: string,
@@ -286,7 +317,9 @@ export default class APIClient {
 				)}`,
 				{
 					transformResponse: transformExpenseListResponse,
-				}
+				},
+				{},
+				'List Expenses'
 			),
 
 		create: (
@@ -303,7 +336,8 @@ export default class APIClient {
 					transformResponse: transformExpenseResponse,
 					transformRequest: transformExpenseRequest,
 				},
-				expense
+				expense,
+				'Create Expense'
 			),
 
 		update: (
@@ -321,7 +355,8 @@ export default class APIClient {
 					transformResponse: transformExpenseResponse,
 					transformRequest: transformExpenseRequest,
 				},
-				expense
+				expense,
+				'Update Expense'
 			),
 
 		delete: (accountId: string, expenseId: string): Promise<Result<Expense>> =>
@@ -331,7 +366,8 @@ export default class APIClient {
 				{
 					transformResponse: transformExpenseResponse,
 				},
-				{ expense: { vis_state: 1 } }
+				{ expense: { vis_state: 1 } },
+				'Delete Expense'
 			),
 	}
 
@@ -345,15 +381,23 @@ export default class APIClient {
 				`/accounting/account/${accountId}/items/items/${itemId}`,
 				{
 					transformResponse: transformItemResponse,
-				}
+				},
+				{},
+				'Get Item'
 			),
 
 		list: (
 			accountId: string
 		): Promise<Result<{ items: Item[]; pages: Pagination }>> =>
-			this.call('GET', `/accounting/account/${accountId}/items/items`, {
-				transformResponse: transformItemListResponse,
-			}),
+			this.call(
+				'GET',
+				`/accounting/account/${accountId}/items/items`,
+				{
+					transformResponse: transformItemListResponse,
+				},
+				{},
+				'List Items'
+			),
 		update: (
 			accountId: string,
 			itemId: string,
@@ -366,7 +410,8 @@ export default class APIClient {
 					transformResponse: transformItemResponse,
 					transformRequest: transformItemRequest,
 				},
-				data
+				data,
+				'Update Item'
 			),
 		create: (accountId: string, data: any): Promise<Result<Item>> =>
 			this.call(
@@ -376,7 +421,8 @@ export default class APIClient {
 					transformResponse: transformItemResponse,
 					transformRequest: transformItemRequest,
 				},
-				data
+				data,
+				'Create Item'
 			),
 	}
 
@@ -387,7 +433,9 @@ export default class APIClient {
 				`/accounting/account/${accountId}/payments/payments/${paymentId}`,
 				{
 					transformResponse: transformPaymentResponse,
-				}
+				},
+				{},
+				'Get Payment'
 			),
 		list: (
 			accountId: string,
@@ -400,7 +448,9 @@ export default class APIClient {
 				)}`,
 				{
 					transformResponse: transformPaymentListResponse,
-				}
+				},
+				{},
+				'List Payments'
 			),
 		create: (accountId: string, data: any): Promise<Result<Payment>> =>
 			this.call(
@@ -410,7 +460,8 @@ export default class APIClient {
 					transformResponse: transformPaymentResponse,
 					transformRequest: transformPaymentRequest,
 				},
-				data
+				data,
+				'Create Payment'
 			),
 		update: (
 			accountId: string,
@@ -424,7 +475,8 @@ export default class APIClient {
 					transformResponse: transformPaymentResponse,
 					transformRequest: transformPaymentUpdateRequest,
 				},
-				data
+				data,
+				'Update Payment'
 			),
 		delete: (accountId: string, paymentId: string): Promise<Result<Payment>> =>
 			this.call(
@@ -437,7 +489,8 @@ export default class APIClient {
 					payment: {
 						vis_state: 1,
 					},
-				}
+				},
+				'Delete Payment'
 			),
 	}
 }
