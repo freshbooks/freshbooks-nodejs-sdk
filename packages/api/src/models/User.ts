@@ -64,7 +64,7 @@ export function transformUserResponse(data: string): User | ErrorResponse {
 		addresses: addresses
 			.filter((address: Nullable<AddressResponse>) => address !== null)
 			.map(transformAddressResponse),
-		profession: transformProfessionResponse(profession),
+		profession: profession && transformProfessionResponse(profession),
 		groups: groups.map(transformGroupResponse),
 		links,
 	}
