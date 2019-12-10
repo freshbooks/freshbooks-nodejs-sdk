@@ -98,6 +98,29 @@ describe('@freshbooks/api', () => {
 			}
 		})
 
+		test('Test failed request retry', async () => {
+			mock
+				.onGet('/auth/api/v1/users/me')
+				.replyOnce(
+					500,
+					'{"error":"internal_server_error","error_description":"internal server error"}'
+				)
+				.onGet('/auth/api/v1/users/me')
+				.replyOnce(
+					200,
+					`{ 
+					"response":{ 
+					   "id":2192788}}`
+				)
+
+			const client = new APIClient('foo')
+			const res = await client.users.me()
+
+			expect(res.ok).toBeTruthy()
+			expect(res.error).toBeUndefined()
+			expect(res.data).not.toBeUndefined()
+		})
+
 		test('Test pagination', async () => {
 			const accountId = 'xZNQ1X'
 			mock

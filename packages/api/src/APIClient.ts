@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import axios, { AxiosInstance, AxiosRequestConfig, Method } from 'axios'
+import axiosRetry, { IAxiosRetryConfig } from 'axios-retry'
 import { Logger } from 'winston'
 import _logger from './logger'
 import { Error, Pagination, Invoice, User, Item } from './models'
@@ -61,7 +62,7 @@ export default class APIClient {
 	 * @param logger Custom logger
 	 */
 	constructor(token: string, options?: Options, logger = _logger) {
-		const { apiUrl = API_URL } = options || {}
+		const { apiUrl = API_URL, retryOptions } = options || {}
 
 		this.token = token
 		this.apiUrl = apiUrl
@@ -75,6 +76,9 @@ export default class APIClient {
 				'Content-Type': 'application/json',
 			},
 		})
+
+		// setup retry logic
+		axiosRetry(this.axios, retryOptions)
 
 		this.logger = logger
 
@@ -497,6 +501,7 @@ export default class APIClient {
 
 export interface Options {
 	apiUrl?: string
+	retryOptions?: IAxiosRetryConfig
 }
 
 export interface Result<T> {
