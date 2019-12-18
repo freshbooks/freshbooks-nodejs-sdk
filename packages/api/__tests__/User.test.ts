@@ -282,7 +282,14 @@ describe('@freshbooks/api', () => {
 					title: 'Apple Consulting',
 					company: 'Fruity Loops',
 				}),
-
+				businessMemberships: expect.arrayContaining([
+					expect.objectContaining({
+						business: expect.objectContaining({
+							id: '2122866',
+							accountId: 'xZNQ1X',
+						}),
+					}),
+				]),
 				groups: expect.arrayContaining([
 					expect.objectContaining({
 						id: '6765686',
