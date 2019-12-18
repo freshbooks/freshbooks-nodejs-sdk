@@ -5,11 +5,7 @@ import {
 } from '../src/models/BusinessMembership'
 
 describe('@freshbooks/api', () => {
-<<<<<<< Updated upstream
-	describe('Business Memberships', () => {
-=======
 	describe('Business Membership', () => {
->>>>>>> Stashed changes
 		test('Verify JSON -> model transform', async () => {
 			const json = `{
                 "id": 168372,
