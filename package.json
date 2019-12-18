@@ -30,6 +30,11 @@
 		"ts-jest": "^24.1.0",
 		"typescript": "^3.6.3"
 	},
+	"husky": {
+		"hooks": {
+			"pre-commit": "lint-staged"
+		}
+	},
 	"lint-staged": {
 		"**/*.ts": [
 			"./node_modules/.bin/eslint \"**/*.{js,ts}\" --quiet --fix",
