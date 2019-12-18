@@ -45,7 +45,7 @@ const defaultDeserializeUserFn = (
 	id: string,
 	done: (err: any, user?: SessionUser) => void
 ): void => {
-	done(null, { id })
+	done(null, { id, token: '', refreshToken: '' })
 }
 
 /**
