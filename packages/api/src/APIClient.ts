@@ -152,7 +152,7 @@ export default class APIClient {
 				{
 					transformResponse: transformClientListResponse,
 				},
-				{},
+				null,
 				'List Clients'
 			),
 		single: (accountId: string, clientId: string): Promise<Result<Client>> =>
@@ -162,7 +162,7 @@ export default class APIClient {
 				{
 					transformResponse: transformClientResponse,
 				},
-				{},
+				null,
 				'Get Client'
 			),
 		create: (client: Client, accountId: string): Promise<Result<Client>> =>
@@ -222,7 +222,7 @@ export default class APIClient {
 				{
 					transformResponse: transformListInvoicesResponse,
 				},
-				{},
+				null,
 				'List Invoices'
 			),
 		/**
@@ -235,7 +235,7 @@ export default class APIClient {
 				{
 					transformResponse: transformInvoiceResponse,
 				},
-				{},
+				null,
 				'Get Invoice'
 			),
 		/**
@@ -302,7 +302,7 @@ export default class APIClient {
 				{
 					transformResponse: transformExpenseResponse,
 				},
-				{},
+				null,
 				'Get Expense'
 			),
 		list: (
@@ -317,7 +317,7 @@ export default class APIClient {
 				{
 					transformResponse: transformExpenseListResponse,
 				},
-				{},
+				null,
 				'List Expenses'
 			),
 
@@ -381,7 +381,7 @@ export default class APIClient {
 				{
 					transformResponse: transformItemResponse,
 				},
-				{},
+				null,
 				'Get Item'
 			),
 
@@ -394,7 +394,7 @@ export default class APIClient {
 				{
 					transformResponse: transformItemListResponse,
 				},
-				{},
+				null,
 				'List Items'
 			),
 		update: (
@@ -433,7 +433,7 @@ export default class APIClient {
 				{
 					transformResponse: transformPaymentResponse,
 				},
-				{},
+				null,
 				'Get Payment'
 			),
 		list: (
@@ -448,7 +448,7 @@ export default class APIClient {
 				{
 					transformResponse: transformPaymentListResponse,
 				},
-				{},
+				null,
 				'List Payments'
 			),
 		create: (accountId: string, data: any): Promise<Result<Payment>> =>
