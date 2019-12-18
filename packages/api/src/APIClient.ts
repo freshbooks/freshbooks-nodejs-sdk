@@ -93,10 +93,6 @@ export default class APIClient {
 		data?: S,
 		name?: string
 	): Promise<Result<T>> {
-		this.logger.debug(`Request: ${method} ${url}`)
-		this.logger.debug(`Request2: ${config}`)
-		this.logger.debug(`Request3: ${data}`)
-
 		try {
 			const response = await this.axios({
 				method,
@@ -104,7 +100,6 @@ export default class APIClient {
 				data,
 				...config,
 			})
-			this.logger.debug(`Response: ${method} ${url} ${data}`)
 			return {
 				ok: true,
 				data: response.data,
@@ -136,7 +131,7 @@ export default class APIClient {
 				{
 					transformResponse: transformUserResponse,
 				},
-				{},
+				null,
 				'Get Identity'
 			),
 	}
