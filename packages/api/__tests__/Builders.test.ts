@@ -1,5 +1,6 @@
 import { IncludesQueryBuilder } from '../src/models/builders/IncludesQueryBuilder'
 import { SearchQueryBuilder } from '../src/models/builders/SearchQueryBuilder'
+import { PaginationQueryBuilder } from '../src/models/builders/PaginationQueryBuilder'
 import { joinQueries } from '../src/models/builders'
 
 describe('@freshbooks/api', () => {
@@ -26,6 +27,14 @@ describe('@freshbooks/api', () => {
 			const expected = encodeURIComponent(
 				'search[address_like]=21 Peter Street&search[userid]=1234&search[userids]=1&search[userids]=2&search[userids]=3&search[userids]=4&search[updated_min]=2000-01-01&search[updated_max]=2015-12-15'
 			)
+			expect(result).toEqual(expected)
+		})
+		test('PaginationQueryBuilder', () => {
+			const result = new PaginationQueryBuilder()
+				.page('10')
+				.perPage('20')
+				.build()
+			const expected = encodeURIComponent('page=10&per_page=20')
 			expect(result).toEqual(expected)
 		})
 		test('joinQueries', () => {
