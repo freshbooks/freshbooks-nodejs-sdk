@@ -386,11 +386,14 @@ export default class APIClient {
 			),
 
 		list: (
-			accountId: string
+			accountId: string,
+			queryBuilders?: QueryBuilderType[]
 		): Promise<Result<{ items: Item[]; pages: Pagination }>> =>
 			this.call(
 				'GET',
-				`/accounting/account/${accountId}/items/items`,
+				`/accounting/account/${accountId}/items/items${joinQueries(
+					queryBuilders
+				)}`,
 				{
 					transformResponse: transformItemListResponse,
 				},
