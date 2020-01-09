@@ -4,7 +4,7 @@ import { buildQueryString, QueryParamType } from '../helpers'
 /* eslint-disable import/prefer-default-export */
 
 /**
- * Builder to build AxiosRequestConfig 'include' params
+ * Builder to build AxiosRequestConfig pagination params
  * for the `/accounting/account/<accountId>/users/clients` endpoint
  */
 export class PaginationQueryBuilder {
