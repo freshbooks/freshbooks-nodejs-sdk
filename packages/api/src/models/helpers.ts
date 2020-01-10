@@ -15,7 +15,7 @@ export const buildQueryString = (params: QueryParamType): string => {
 			queryString = queryString.concat(`&${key}=${value}`)
 		}
 	})
-	return encodeURIComponent(queryString.substr(1))
+	return queryString.substr(1)
 }
 
 export const isNumber = (value: any): boolean => typeof value === 'number'
