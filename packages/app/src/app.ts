@@ -101,6 +101,9 @@ export interface Options {
 	) => void
 	deserializeUser?: (
 		id: string,
-		done: (err: any, user?: SessionUser) => void
+		done: <SessionUserType = SessionUser>(
+			err: any,
+			user?: SessionUserType
+		) => void
 	) => void
 }
