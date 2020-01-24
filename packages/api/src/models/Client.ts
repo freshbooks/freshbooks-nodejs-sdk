@@ -5,9 +5,9 @@ import { Nullable } from './helpers'
 
 export default interface Client {
 	id?: string
-	fName: Nullable<string>
-	lName: Nullable<string>
-	organization: Nullable<string>
+	fName?: Nullable<string>
+	lName?: Nullable<string>
+	organization?: Nullable<string>
 	email: Nullable<string>
 	allowLateNotifications?: boolean
 	sCode?: string
