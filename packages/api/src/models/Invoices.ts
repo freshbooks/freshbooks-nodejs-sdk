@@ -5,7 +5,7 @@ import Money, { transformMoneyResponse } from './Money'
 import { Nullable } from './helpers'
 import VisState from './VisState'
 import Line, { transformLineRequest, transformLineResponse } from './Line'
-import { transformDateResponse, DateFormat } from './Date'
+import { transformDateResponse, DateFormat, transformDateRequest } from './Date'
 import Owner, { transformOwnerResponse } from './Owner'
 
 enum AutoBillStatus {
@@ -316,6 +316,7 @@ export function transformInvoiceRequest(invoice: Invoice): string {
 			country: invoice.country,
 			currency_code: invoice.currencyCode,
 			customerid: invoice.customerId,
+			create_date: transformDateRequest(invoice.createDate),
 			deposit_amount: invoice.depositAmount,
 			deposit_percentage: invoice.depositPercentage,
 			discount_description: invoice.discountDescription,
