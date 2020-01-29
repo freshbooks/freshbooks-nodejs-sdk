@@ -175,6 +175,7 @@ const buildMockRequest = (invoiceProperties: any = {}): any => ({
 		city: 'Toronto',
 		code: 'M5V0P3',
 		country: 'Canada',
+		create_date: '2019-11-14',
 		currency_code: 'USD',
 		customerid: 217572,
 		deposit_amount: null,
