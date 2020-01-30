@@ -93,6 +93,7 @@ export default interface Invoice {
 	disputeStatus?: Nullable<string>
 	dueDate?: Date
 	dueOffsetDays?: number
+	email?: string
 	estimateId?: string
 	extArchive?: string
 	fName?: string
@@ -159,6 +160,7 @@ function transformInvoiceData({
 	dispute_status: disputeStatus,
 	due_date: dueDate,
 	due_offset_days: dueOffsetDays,
+	email,
 	estimateid: estimateId,
 	ext_archive: extArchive,
 	fname: fName,
@@ -229,6 +231,7 @@ function transformInvoiceData({
 		disputeStatus,
 		dueDate: transformDateResponse(dueDate, DateFormat['YYYY-MM-DD']),
 		dueOffsetDays,
+		email,
 		estimateId,
 		extArchive,
 		fName,
@@ -322,6 +325,7 @@ export function transformInvoiceRequest(invoice: Invoice): string {
 			discount_description: invoice.discountDescription,
 			discount_value: invoice.discountValue,
 			due_offset_days: invoice.dueOffsetDays,
+			email: invoice.email,
 			estimateid: invoice.estimateId,
 			ext_archive: invoice.extArchive,
 			fname: invoice.fName,
