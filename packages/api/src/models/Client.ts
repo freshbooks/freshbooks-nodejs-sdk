@@ -8,7 +8,7 @@ export default interface Client {
 	fName?: Nullable<string>
 	lName?: Nullable<string>
 	organization?: Nullable<string>
-	email: Nullable<string>
+	email?: Nullable<string>
 	allowLateNotifications?: boolean
 	sCode?: string
 	fax?: string
