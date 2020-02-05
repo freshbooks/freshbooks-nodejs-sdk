@@ -1,6 +1,6 @@
 {
 	"name": "@freshbooks/app",
-	"version": "1.0.5-alpha.2",
+	"version": "1.0.5-alpha.3",
 	"description": "ExpressJS app for FreshBooks API",
 	"author": "FreshBooks",
 	"license": "MIT",
@@ -20,7 +20,7 @@
 		"lint": "tsc --noEmit && eslint \"**/*.{js,ts}\" --quiet --fix"
 	},
 	"dependencies": {
-		"@freshbooks/api": "^1.0.6-alpha.3",
+		"@freshbooks/api": "^1.0.6-alpha.4",
 		"express": "^4.17.1",
 		"express-session": "^1.17.0",
 		"helmet": "^3.21.1",

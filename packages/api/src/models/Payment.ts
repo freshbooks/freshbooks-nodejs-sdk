@@ -167,7 +167,7 @@ export function transformPaymentRequest({
 }: Payment): string {
 	const result = JSON.stringify({
 		payment: {
-			amount: transformMoneyRequest(amount),
+			amount: amount && transformMoneyRequest(amount),
 			date: transformDateRequest(date),
 			invoiceid,
 			note,
@@ -190,8 +190,8 @@ export function transformPaymentUpdateRequest({
 }: Payment): string {
 	const result = JSON.stringify({
 		payment: {
-			amount: transformMoneyRequest(amount),
-			date: transformDateRequest(date),
+			amount: amount && transformMoneyRequest(amount),
+			date: date && transformDateRequest(date),
 			note,
 			orderid,
 			transactionid,

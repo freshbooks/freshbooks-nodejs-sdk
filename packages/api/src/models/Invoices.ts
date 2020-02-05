@@ -204,18 +204,18 @@ function transformInvoiceData({
 		accountId,
 		accountingSystemId,
 		address,
-		amount: transformMoneyResponse(amount),
+		amount: amount && transformMoneyResponse(amount),
 		autoBill,
 		autobillStatus,
 		basecampId,
 		city,
 		code,
 		country,
-		createDate: transformDateResponse(createDate, DateFormat['YYYY-MM-DD']),
-		createdAt: transformDateResponse(
-			createdAt,
-			DateFormat['YYYY-MM-DD hh:mm:ss']
-		),
+		createDate:
+			createDate && transformDateResponse(createDate, DateFormat['YYYY-MM-DD']),
+		createdAt:
+			createdAt &&
+			transformDateResponse(createdAt, DateFormat['YYYY-MM-DD hh:mm:ss']),
 		currencyCode,
 		currentOrganization,
 		customerId,
@@ -225,11 +225,12 @@ function transformInvoiceData({
 		depositStatus,
 		description,
 		discountDescription,
-		discountTotal: transformMoneyResponse(discountTotal),
+		discountTotal: discountTotal && transformMoneyResponse(discountTotal),
 		discountValue,
 		displayStatus,
 		disputeStatus,
-		dueDate: transformDateResponse(dueDate, DateFormat['YYYY-MM-DD']),
+		dueDate:
+			dueDate && transformDateResponse(dueDate, DateFormat['YYYY-MM-DD']),
 		dueOffsetDays,
 		email,
 		estimateId,
@@ -246,10 +247,10 @@ function transformInvoiceData({
 		lName,
 		notes,
 		organization,
-		outstanding: transformMoneyResponse(outstanding),
+		outstanding: outstanding && transformMoneyResponse(outstanding),
 		owner: owner && transformOwnerResponse(owner),
 		ownerId,
-		paid: transformMoneyResponse(paid),
+		paid: paid && transformMoneyResponse(paid),
 		parent,
 		paymentDetails,
 		paymentStatus,
@@ -263,7 +264,9 @@ function transformInvoiceData({
 		street2,
 		template,
 		terms,
-		updated: transformDateResponse(updated, DateFormat['YYYY-MM-DD hh:mm:ss']),
+		updated:
+			updated &&
+			transformDateResponse(updated, DateFormat['YYYY-MM-DD hh:mm:ss']),
 		v3Status,
 		vatName,
 		vatNumber,
@@ -319,7 +322,8 @@ export function transformInvoiceRequest(invoice: Invoice): string {
 			country: invoice.country,
 			currency_code: invoice.currencyCode,
 			customerid: invoice.customerId,
-			create_date: transformDateRequest(invoice.createDate),
+			create_date:
+				invoice.createDate && transformDateRequest(invoice.createDate),
 			deposit_amount: invoice.depositAmount,
 			deposit_percentage: invoice.depositPercentage,
 			discount_description: invoice.discountDescription,
