@@ -18,8 +18,6 @@ const defaultVerifyFn = async (
 		if (data !== null && data !== undefined) {
 			const user: SessionUser = {
 				id: data.id,
-				token,
-				refreshToken,
 			}
 			done(null, user)
 		}
@@ -34,8 +32,8 @@ const defaultSessionOptions: SessionOptions = {
 	saveUninitialized: true,
 }
 
-const defaultSerializeUserFn = (
-	user: SessionUser,
+const defaultSerializeUserFn = <T extends SessionUser>(
+	user: T,
 	done: (err: any, id?: string) => void
 ): void => {
 	done(null, user.id)
@@ -45,7 +43,7 @@ const defaultDeserializeUserFn = (
 	id: string,
 	done: (err: any, user?: SessionUser) => void
 ): void => {
-	done(null, { id, token: '', refreshToken: '' })
+	done(null, { id })
 }
 
 /**
@@ -78,8 +76,8 @@ export default function(
 	app.use(session(sessionOptions))
 
 	// set up auth
-	passport.serializeUser(serializeUser)
-	passport.deserializeUser(deserializeUser)
+	passport.serializeUser<SessionUser, string>(serializeUser)
+	passport.deserializeUser<SessionUser, string>(deserializeUser)
 
 	app.use(passport.initialize())
 	app.use(passport.session())
@@ -95,15 +93,12 @@ export default function(
 export interface Options {
 	verify?: OAuth2Strategy.VerifyFunction
 	sessionOptions?: SessionOptions
-	serializeUser?: (
-		user: SessionUser,
+	serializeUser?: <T extends SessionUser>(
+		user: T,
 		done: (err: any, id?: string) => void
 	) => void
 	deserializeUser?: (
 		id: string,
-		done: <SessionUserType = SessionUser>(
-			err: any,
-			user?: SessionUserType
-		) => void
+		done: <T extends SessionUser>(err: any, user?: T) => void
 	) => void
 }
