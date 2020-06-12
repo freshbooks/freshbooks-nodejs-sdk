@@ -12,6 +12,16 @@ describe('@freshbooks/api', () => {
 			expect(client).not.toBeNull()
 		})
 
+		// test('Test user agent', () => {
+			
+		// 	const token = 'token'
+		// 	// const testOptions  = {appName:'test-app',sdkVersion:'test-version'}
+		// 	const client  = new APIClient(token)
+			
+		// 	expect(client.appName).toEqual('test-app')
+		// 	expect(client.sdkVersion).toEqual('test-version ')
+		// })
+
 		test('Test unauthorized request', async () => {
 			mock
 				.onGet('/auth/api/v1/users/me')

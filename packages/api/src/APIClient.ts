@@ -51,6 +51,16 @@ export default class APIClient {
 	 */
 	public readonly token: string
 
+	/**
+	 * App name
+	 */
+	public readonly appName: string | undefined
+
+	/**
+	 * Sdk version
+	 */
+	public readonly sdkVersion: string | undefined
+
 	private axios: AxiosInstance
 
 	private logger: Logger
@@ -66,6 +76,13 @@ export default class APIClient {
 
 		this.token = token
 		this.apiUrl = apiUrl
+		this.logger = logger
+
+		if(options){
+			this.appName = options.appName
+			this.sdkVersion = options.sdkVersion
+			this.logger.debug("App Name is " + this.logger + " and sdk version is " + this.sdkVersion)
+		}
 
 		// setup axios
 		this.axios = axios.create({
@@ -74,13 +91,13 @@ export default class APIClient {
 				Authorization: `Bearer ${token}`,
 				'Api-Version': 'alpha',
 				'Content-Type': 'application/json',
+				'User-Agent': this.sdkVersion,
+				'Sdk-Version': this.sdkVersion,
 			},
 		})
 
 		// setup retry logic
 		axiosRetry(this.axios, retryOptions)
-
-		this.logger = logger
 
 		// init
 		this.logger.debug(`Initialized with apiUrl: ${apiUrl}`)
@@ -508,6 +525,8 @@ export default class APIClient {
 export interface Options {
 	apiUrl?: string
 	retryOptions?: IAxiosRetryConfig
+	appName?: string
+	sdkVersion?: string
 }
 
 export interface Result<T> {
