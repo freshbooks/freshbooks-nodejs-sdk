@@ -526,7 +526,6 @@ export interface Options {
 	apiUrl?: string
 	retryOptions?: IAxiosRetryConfig
 	appName?: string
-	sdkVersion?: string
 }
 
 export interface Result<T> {
