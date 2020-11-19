@@ -80,7 +80,7 @@ export default class APIClient {
 		this.apiUrl = apiUrl
 		this.logger = logger
 		this.sdkVersion = VERSION
-        this.appName = DEFAULT_APP
+		this.appName = DEFAULT_APP
 
 		if (options?.appName) {
 			this.appName = options.appName
