@@ -56,13 +56,13 @@ Example API client call:
 
 ```typescript
 try {
-	// Get the current user
-	const { data } = await client.users.me()
+    // Get the current user
+    const { data } = await client.users.me()
 
-	console.log(`Hello, ${data.id}`)
+    console.log(`Hello, ${data.id}`)
 } catch ({ code, message }) {
-	// Handle error if API call failed
-	console.error(`Error fetching user: ${code} - ${message}`)
+    // Handle error if API call failed
+    console.error(`Error fetching user: ${code} - ${message}`)
 }
 ```
 
@@ -93,17 +93,17 @@ Example API client call with `SearchQueryBuilder`:
 ```typescript
 //create and populate SearchQueryBuilder
 const searchQueryBuilder = new SearchQueryBuilder()
-	.like('address', '200 King Street')
-	.between('date', { min: new Date('2010-05-06'), max: new Date('2019-11-10') })
+    .like('address', '200 King Street')
+    .between('date', { min: new Date('2010-05-06'), max: new Date('2019-11-10') })
 
 try {
-	// Get invoices matching search query
-	const { data } = await client.invoices.list('xZNQ1X', [searchQueryBuilder])
+    // Get invoices matching search query
+    const { data } = await client.invoices.list('xZNQ1X', [searchQueryBuilder])
 
-	console.log('Invoices: ', data)
+    console.log('Invoices: ', data)
 } catch ({ code, message }) {
-	// Handle error if API call failed
-	console.error(`Error fetching user: ${code} - ${message}`)
+    // Handle error if API call failed
+    console.error(`Error fetching user: ${code} - ${message}`)
 }
 ```
 
@@ -116,18 +116,20 @@ Example API client call with `IncludesQueryBuilder`:
 const includesQueryBuilder = new IncludesQueryBuilder().includes('lines')
 
 try {
-	// Get invoices with included line items
-	const { data } = await client.invoices.list('xZNQ1X', [includesQueryBuilder])
+    // Get invoices with included line items
+    const { data } = await client.invoices.list('xZNQ1X', [includesQueryBuilder])
 
-	console.log('Invoices: ', data)
+    console.log('Invoices: ', data)
 } catch ({ code, message }) {
-	// Handle error if API call failed
-	console.error(`Error fetching user: ${code} - ${message}`)
+    // Handle error if API call failed
+    console.error(`Error fetching user: ${code} - ${message}`)
 }
 ```
 
 ##### Optional fields
+
 Optional fields are specified in the API data model as `optional` using Typescript's `?` operator, as well as marked as `Nullable<T>`, where `T` is the type of value, and `Nullable` is a type definition to allow `null` values.
+
 ```typescript
 // create a user model with required fields. set other fields as undefined
 const user: User = {
@@ -165,10 +167,10 @@ If the endpoint is enabled for pagination, the response `data` object contains t
 
 ```typescript
 {
-	page: number
-	pages: number
-	total: number
-	size: number
+    page: number
+    pages: number
+    total: number
+    size: number
 }
 ```
 
@@ -222,4 +224,18 @@ app.get('/settings', passport.authorize('freshbooks'), async (req, res) => {
     res.status(500, `Error - ${code}: ${message}`)
   }
 })
+```
+
+## Development
+
+Updating the version:
+
+```bash
+lerna version major|minor|patch
+```
+
+Releasing:
+
+```bash
+lerna publish bump from-git
 ```
