@@ -6,7 +6,7 @@
 	"license": "MIT",
 	"repository": {
 		"type": "git",
-		"url": "ssh://git@github.com:freshbooks/api-nodejs-sdk.git"
+		"url": "ssh://git@github.com:freshbooks/freshbooks-nodejs-sdk.git"
 	},
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",

@@ -6,5 +6,5 @@ what problem(s) it solves.
 
 # Related Material
 
-See Issue https://github.com/freshbooks/api-nodejs-sdk/issues/<number>
+See Issue https://github.com/freshbooks/freshbooks-nodejs-sdk/issues/<number>
 <!-- Please do not reference internal bug trackers as this is a public project -->
