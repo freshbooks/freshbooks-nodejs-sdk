@@ -62,7 +62,11 @@ export default class APIClient {
 	 * @param logger Custom logger
 	 */
 	constructor(token: string, options?: Options, logger = _logger) {
-		const { apiUrl = API_URL, retryOptions } = options || {}
+		const defaultRetry = {
+			retries: 3,
+			retryDelay: axiosRetry.exponentialDelay, // ~100ms, 200ms, 400ms, 800ms
+		}
+		const { apiUrl = API_URL, retryOptions = defaultRetry } = options || {}
 
 		this.token = token
 		this.apiUrl = apiUrl
