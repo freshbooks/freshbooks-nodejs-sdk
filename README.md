@@ -228,14 +228,17 @@ app.get('/settings', passport.authorize('freshbooks'), async (req, res) => {
 
 ## Development
 
-Updating the version:
+### Testing
 
-```bash
-lerna version major|minor|patch
+```shell
+npm test
 ```
 
-Releasing:
+### Releasing
 
-```bash
+```shell
 lerna publish bump from-git
 ```
+
+*Note:* lerna publishing artifacts to github doesn't play too nicely with the git commit hooks installed by
+_husky_. If you run into trouble, delete them from `./git/hooks/` and give it a try.
