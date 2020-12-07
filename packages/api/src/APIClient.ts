@@ -55,6 +55,13 @@ export default class APIClient {
 
 	private logger: Logger
 
+    public isNetworkRateLimitOrIdempotentRequestError(error: any) {
+        if (!error.config) {
+            return false;
+        }
+
+        return (error.response.status == 429) || axiosRetry.isNetworkOrIdempotentRequestError(error);
+    }
 	/**
 	 * FreshBooks API client
 	 * @param token Bearer token
@@ -64,7 +71,8 @@ export default class APIClient {
 	constructor(token: string, options?: Options, logger = _logger) {
 		const defaultRetry = {
 			retries: 3,
-			retryDelay: axiosRetry.exponentialDelay, // ~100ms, 200ms, 400ms, 800ms
+            retryDelay: axiosRetry.exponentialDelay, // ~100ms, 200ms, 400ms, 800ms
+            retryCondition: this.isNetworkRateLimitOrIdempotentRequestError // 429, 5xx, or network error
 		}
 		const { apiUrl = API_URL, retryOptions = defaultRetry } = options || {}
 
