@@ -1,6 +1,6 @@
 {
 	"name": "@freshbooks/events",
-	"version": "0.1.2",
+	"version": "0.1.3",
 	"description": "Webhook events for FreshBooks API",
 	"author": "FreshBooks",
 	"license": "MIT",
@@ -25,10 +25,10 @@
 	},
 	"jest": {
 		"preset": "ts-jest",
-        "testEnvironment": "node",
-        "collectCoverageFrom": [
-            "src/**/*.ts"
-        ]
+		"testEnvironment": "node",
+		"collectCoverageFrom": [
+			"src/**/*.ts"
+		]
 	},
 	"gitHead": "83ba7a76dab1f84bb8c828c2ea4b8364925914e9"
 }
