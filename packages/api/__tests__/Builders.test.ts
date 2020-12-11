@@ -24,7 +24,7 @@ describe('@freshbooks/api', () => {
 				})
 				.build()
 			const expected =
-				'search[address_like]=21 Peter Street&search[userid]=1234&search[userids]=1&search[userids]=2&search[userids]=3&search[userids]=4&search[updated_min]=2000-01-01&search[updated_max]=2015-12-15'
+				'search[address_like]=21 Peter Street&search[userid]=1234&search[userids][]=1&search[userids][]=2&search[userids][]=3&search[userids][]=4&search[updated_min]=2000-01-01&search[updated_max]=2015-12-15'
 
 			expect(result).toEqual(expected)
 		})
