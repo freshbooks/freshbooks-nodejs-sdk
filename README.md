@@ -236,8 +236,8 @@ npm test
 
 ### Releasing
 
-```shell
-lerna publish bump from-git
+```bash
+HUSKY_SKIP_HOOKS=1 lerna publish
 ```
 
 *Note:* lerna publishing artifacts to github doesn't play too nicely with the git commit hooks installed by
