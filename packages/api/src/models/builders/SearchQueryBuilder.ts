@@ -25,7 +25,7 @@ export class SearchQueryBuilder {
 	}
 
 	in(key: string, values: ParamType[]): SearchQueryBuilder {
-		this.queryParams = { ...this.queryParams, [`search[${key}]`]: values }
+		this.queryParams = { ...this.queryParams, [`search[${key}][]`]: values }
 		return this
 	}
 
