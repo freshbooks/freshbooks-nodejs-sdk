@@ -15,7 +15,7 @@ describe('@freshbooks/api', () => {
 		})
 		test('SearchQueryBuilder', () => {
 			const result = new SearchQueryBuilder()
-				.like('address', '21 Peter Street')
+				.like('address_like', '21 Peter Street')
 				.equals('userid', 1234)
 				.in('userids', [1, 2, 3, 4])
 				.between('updated', {
@@ -38,7 +38,7 @@ describe('@freshbooks/api', () => {
 		})
 		test('joinQueries', () => {
 			const searchBuilder = new SearchQueryBuilder()
-				.like('address', '21 Peter Street')
+				.like('address_like', '21 Peter Street')
 				.equals('userid', 1234)
 			const includesBuilder = new IncludesQueryBuilder()
 				.includes('lines')

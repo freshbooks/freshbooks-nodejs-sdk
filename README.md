@@ -93,7 +93,7 @@ Example API client call with `SearchQueryBuilder`:
 ```typescript
 //create and populate SearchQueryBuilder
 const searchQueryBuilder = new SearchQueryBuilder()
-    .like('address', '200 King Street')
+    .like('address_like', '200 King Street')
     .between('date', { min: new Date('2010-05-06'), max: new Date('2019-11-10') })
 
 try {
