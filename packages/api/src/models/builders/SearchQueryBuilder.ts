@@ -35,7 +35,7 @@ export class SearchQueryBuilder {
 	}
 
 	like(key: string, value: ParamType): SearchQueryBuilder {
-		this.queryParams = { ...this.queryParams, [`search[${key}_like]`]: value }
+		this.queryParams = { ...this.queryParams, [`search[${key}]`]: value }
 		return this
 	}
 
