@@ -33,5 +33,6 @@
 		"collectCoverageFrom": [
 			"src/**/*.ts"
 		]
-	}
+	},
+	"gitHead": "14f287c3d1ec8de7721adad9d96ac202870a099e"
 }
