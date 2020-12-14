@@ -1,6 +1,6 @@
 {
 	"name": "@freshbooks/app",
-	"version": "1.0.13",
+	"version": "1.0.14",
 	"description": "ExpressJS app for FreshBooks API",
 	"author": "FreshBooks",
 	"license": "MIT",
