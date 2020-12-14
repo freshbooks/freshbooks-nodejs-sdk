@@ -1,0 +1,51 @@
+# This workflows will build and publish to npm when a release is created
+
+name: Publish Node.js Package
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  build-api:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    # Setup .npmrc file to publish to npm
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '14.x'
+        registry-url: 'https://registry.npmjs.org'
+    - run: cd packages/api
+    - run: npm install
+    - run: npm publish
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+  build-app:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    # Setup .npmrc file to publish to npm
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '14.x'
+        registry-url: 'https://registry.npmjs.org'
+    - run: cd packages/app
+    - run: npm install
+    - run: npm publish
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+  build-events:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    # Setup .npmrc file to publish to npm
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '14.x'
+        registry-url: 'https://registry.npmjs.org'
+    - run: cd packages/events
+    - run: npm install
+    - run: npm publish
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
