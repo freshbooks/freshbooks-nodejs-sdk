@@ -22,7 +22,7 @@
 	"dependencies": {
 		"axios": "^0.19.2",
 		"axios-retry": "^3.1.9",
-		"winston": "^3.2.1"
+		"winston": "^3.3.0"
 	},
 	"devDependencies": {
 		"axios-mock-adapter": "^1.17.0"
