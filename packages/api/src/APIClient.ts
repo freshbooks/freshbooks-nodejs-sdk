@@ -3,36 +3,27 @@ import axios, { AxiosInstance, AxiosRequestConfig, Method } from 'axios'
 import axiosRetry, { IAxiosRetryConfig } from 'axios-retry'
 import { Logger } from 'winston'
 import _logger from './logger'
-import { Error, Pagination, Invoice, User, Item } from './models'
-import { transformUserResponse } from './models/User'
+import APIClientError from './models/Error'
+
+import { Client, Error, Expense, Invoice, Item, Pagination, Payment, TimeEntry, User } from './models'
+import { transformClientResponse, transformClientListResponse, transformClientRequest } from './models/Client'
+import { transformListInvoicesResponse, transformInvoiceResponse, transformInvoiceRequest } from './models/Invoices'
+import { transformItemResponse, transformItemListResponse, transformItemRequest } from './models/Item'
 import {
-	transformListInvoicesResponse,
-	transformInvoiceResponse,
-	transformInvoiceRequest,
-} from './models/Invoices'
-import {
-	transformItemResponse,
-	transformItemListResponse,
-	transformItemRequest,
-} from './models/Item'
-import Client, {
-	transformClientResponse,
-	transformClientListResponse,
-	transformClientRequest,
-} from './models/Client'
-import Payment, {
 	transformPaymentListResponse,
 	transformPaymentResponse,
 	transformPaymentRequest,
 	transformPaymentUpdateRequest,
 } from './models/Payment'
 import { QueryBuilderType, joinQueries } from './models/builders'
-import APIClientError from './models/Error'
-import Expense, {
-	transformExpenseResponse,
-	transformExpenseListResponse,
-	transformExpenseRequest,
-} from './models/Expense'
+
+import { transformExpenseResponse, transformExpenseListResponse, transformExpenseRequest } from './models/Expense'
+import {
+	transformTimeEntryResponse,
+	transformTimeEntryListResponse,
+	transformTimeEntryRequest,
+} from './models/TimeEntry'
+import { transformUserResponse } from './models/User'
 
 // defaults
 const API_URL = 'https://api.freshbooks.com'
@@ -55,13 +46,14 @@ export default class APIClient {
 
 	private logger: Logger
 
-    public isNetworkRateLimitOrIdempotentRequestError(error: any) {
-        if (!error.config) {
-            return false;
-        }
+	public static isNetworkRateLimitOrIdempotentRequestError(error: any): boolean {
+		if (!error.config) {
+			return false
+		}
 
-        return (error.response.status == 429) || axiosRetry.isNetworkOrIdempotentRequestError(error);
-    }
+		return error.response.status === 429 || axiosRetry.isNetworkOrIdempotentRequestError(error)
+	}
+
 	/**
 	 * FreshBooks API client
 	 * @param token Bearer token
@@ -71,8 +63,8 @@ export default class APIClient {
 	constructor(token: string, options?: Options, logger = _logger) {
 		const defaultRetry = {
 			retries: 10,
-            retryDelay: axiosRetry.exponentialDelay, // ~100ms, 200ms, 400ms, 800ms
-            retryCondition: this.isNetworkRateLimitOrIdempotentRequestError // 429, 5xx, or network error
+			retryDelay: axiosRetry.exponentialDelay, // ~100ms, 200ms, 400ms, 800ms
+			retryCondition: APIClient.isNetworkRateLimitOrIdempotentRequestError, // 429, 5xx, or network error
 		}
 		const { apiUrl = API_URL, retryOptions = defaultRetry } = options || {}
 
@@ -125,8 +117,7 @@ export default class APIClient {
 				throw new APIClientError(
 					name || '',
 					(errData && errData.message) || statusText,
-					(errData && errData.code && errData.code.toString()) ||
-						(status && status.toString()),
+					(errData && errData.code && errData.code.toString()) || (status && status.toString()),
 					errData && errData.errors
 				)
 			}
@@ -151,18 +142,13 @@ export default class APIClient {
 	}
 
 	public readonly clients = {
-		/**
-		 * Get own identity user
-		 */
 		list: (
 			accountId: string,
 			queryBuilders?: QueryBuilderType[]
 		): Promise<Result<{ clients: Client[]; pages: Pagination }>> =>
 			this.call(
 				'GET',
-				`/accounting/account/${accountId}/users/clients${joinQueries(
-					queryBuilders
-				)}`,
+				`/accounting/account/${accountId}/users/clients${joinQueries(queryBuilders)}`,
 				{
 					transformResponse: transformClientListResponse,
 				},
@@ -190,11 +176,7 @@ export default class APIClient {
 				client,
 				'Create Client'
 			),
-		update: (
-			client: Client,
-			accountId: string,
-			clientId: string
-		): Promise<Result<Client>> =>
+		update: (client: Client, accountId: string, clientId: string): Promise<Result<Client>> =>
 			this.call(
 				'PUT',
 				`/accounting/account/${accountId}/users/clients/${clientId}`,
@@ -230,9 +212,7 @@ export default class APIClient {
 		): Promise<Result<{ invoices: Invoice[]; pages: Pagination }>> =>
 			this.call(
 				'GET',
-				`/accounting/account/${accountId}/invoices/invoices${joinQueries(
-					queryBuilders
-				)}`,
+				`/accounting/account/${accountId}/invoices/invoices${joinQueries(queryBuilders)}`,
 				{
 					transformResponse: transformListInvoicesResponse,
 				},
@@ -242,16 +222,10 @@ export default class APIClient {
 		/**
 		 * Get single invoice
 		 */
-		single: (
-			accountId: string,
-			invoiceId: string,
-			queryBuilders?: QueryBuilderType[]
-		): Promise<Result<Invoice>> =>
+		single: (accountId: string, invoiceId: string, queryBuilders?: QueryBuilderType[]): Promise<Result<Invoice>> =>
 			this.call(
 				'GET',
-				`/accounting/account/${accountId}/invoices/invoices/${invoiceId}${joinQueries(
-					queryBuilders
-				)}`,
+				`/accounting/account/${accountId}/invoices/invoices/${invoiceId}${joinQueries(queryBuilders)}`,
 				{
 					transformResponse: transformInvoiceResponse,
 				},
@@ -261,16 +235,10 @@ export default class APIClient {
 		/**
 		 * Post invoice
 		 */
-		create: (
-			invoice: Invoice,
-			accountId: string,
-			queryBuilders?: QueryBuilderType[]
-		): Promise<Result<Invoice>> =>
+		create: (invoice: Invoice, accountId: string, queryBuilders?: QueryBuilderType[]): Promise<Result<Invoice>> =>
 			this.call(
 				'POST',
-				`/accounting/account/${accountId}/invoices/invoices${joinQueries(
-					queryBuilders
-				)}`,
+				`/accounting/account/${accountId}/invoices/invoices${joinQueries(queryBuilders)}`,
 				{
 					transformResponse: transformInvoiceResponse,
 					transformRequest: transformInvoiceRequest,
@@ -286,9 +254,7 @@ export default class APIClient {
 		): Promise<Result<Invoice>> =>
 			this.call(
 				'PUT',
-				`/accounting/account/${accountId}/invoices/invoices/${invoiceId}${joinQueries(
-					queryBuilders
-				)}`,
+				`/accounting/account/${accountId}/invoices/invoices/${invoiceId}${joinQueries(queryBuilders)}`,
 				{
 					transformResponse: transformInvoiceResponse,
 					transformRequest: transformInvoiceRequest,
@@ -309,16 +275,10 @@ export default class APIClient {
 	}
 
 	public readonly expenses = {
-		single: (
-			accountId: string,
-			expenseId: string,
-			queryBuilders?: QueryBuilderType[]
-		): Promise<Result<Expense>> =>
+		single: (accountId: string, expenseId: string, queryBuilders?: QueryBuilderType[]): Promise<Result<Expense>> =>
 			this.call(
 				'GET',
-				`/accounting/account/${accountId}/expenses/expenses/${expenseId}${joinQueries(
-					queryBuilders
-				)}`,
+				`/accounting/account/${accountId}/expenses/expenses/${expenseId}${joinQueries(queryBuilders)}`,
 				{
 					transformResponse: transformExpenseResponse,
 				},
@@ -331,9 +291,7 @@ export default class APIClient {
 		): Promise<Result<{ expenses: Expense[]; pages: Pagination }>> =>
 			this.call(
 				'GET',
-				`/accounting/account/${accountId}/expenses/expenses${joinQueries(
-					queryBuilders
-				)}`,
+				`/accounting/account/${accountId}/expenses/expenses${joinQueries(queryBuilders)}`,
 				{
 					transformResponse: transformExpenseListResponse,
 				},
@@ -341,16 +299,10 @@ export default class APIClient {
 				'List Expenses'
 			),
 
-		create: (
-			expense: Expense,
-			accountId: string,
-			queryBuilders?: QueryBuilderType[]
-		): Promise<Result<Expense>> =>
+		create: (expense: Expense, accountId: string, queryBuilders?: QueryBuilderType[]): Promise<Result<Expense>> =>
 			this.call(
 				'POST',
-				`/accounting/account/${accountId}/expenses/expenses${joinQueries(
-					queryBuilders
-				)}`,
+				`/accounting/account/${accountId}/expenses/expenses${joinQueries(queryBuilders)}`,
 				{
 					transformResponse: transformExpenseResponse,
 					transformRequest: transformExpenseRequest,
@@ -367,9 +319,7 @@ export default class APIClient {
 		): Promise<Result<Expense>> =>
 			this.call(
 				'PUT',
-				`/accounting/account/${accountId}/expenses/expenses/${expenseId}${joinQueries(
-					queryBuilders
-				)}`,
+				`/accounting/account/${accountId}/expenses/expenses/${expenseId}${joinQueries(queryBuilders)}`,
 				{
 					transformResponse: transformExpenseResponse,
 					transformRequest: transformExpenseRequest,
@@ -411,20 +361,14 @@ export default class APIClient {
 		): Promise<Result<{ items: Item[]; pages: Pagination }>> =>
 			this.call(
 				'GET',
-				`/accounting/account/${accountId}/items/items${joinQueries(
-					queryBuilders
-				)}`,
+				`/accounting/account/${accountId}/items/items${joinQueries(queryBuilders)}`,
 				{
 					transformResponse: transformItemListResponse,
 				},
 				null,
 				'List Items'
 			),
-		update: (
-			accountId: string,
-			itemId: string,
-			data: any
-		): Promise<Result<Item>> =>
+		update: (accountId: string, itemId: string, data: any): Promise<Result<Item>> =>
 			this.call(
 				'PUT',
 				`/accounting/account/${accountId}/items/items/${itemId}`,
@@ -465,9 +409,7 @@ export default class APIClient {
 		): Promise<Result<{ payments: Payment[]; pages: Pagination }>> =>
 			this.call(
 				'GET',
-				`/accounting/account/${accountId}/payments/payments${joinQueries(
-					queryBuilders
-				)}`,
+				`/accounting/account/${accountId}/payments/payments${joinQueries(queryBuilders)}`,
 				{
 					transformResponse: transformPaymentListResponse,
 				},
@@ -485,11 +427,7 @@ export default class APIClient {
 				data,
 				'Create Payment'
 			),
-		update: (
-			accountId: string,
-			paymentId: string,
-			data: any
-		): Promise<Result<Payment>> =>
+		update: (accountId: string, paymentId: string, data: any): Promise<Result<Payment>> =>
 			this.call(
 				'PUT',
 				`/accounting/account/${accountId}/payments/payments/${paymentId}`,
@@ -513,6 +451,62 @@ export default class APIClient {
 					},
 				},
 				'Delete Payment'
+			),
+	}
+
+	public readonly timeEntries = {
+		list: (
+			businessId: number,
+			queryBuilders?: QueryBuilderType[]
+		): Promise<Result<{ timeEntries: TimeEntry[]; pages: Pagination }>> =>
+			this.call(
+				'GET',
+				`/timetracking/business/${businessId}/time_entries${joinQueries(queryBuilders)}`,
+				{
+					transformResponse: transformTimeEntryListResponse,
+				},
+				null,
+				'List Time Entries'
+			),
+		single: (businessId: number, timeEntryId: number): Promise<Result<TimeEntry>> =>
+			this.call(
+				'GET',
+				`/timetracking/business/${businessId}/time_entries/${timeEntryId}`,
+				{
+					transformResponse: transformTimeEntryResponse,
+				},
+				null,
+				'Get Time Entry'
+			),
+		create: (timeEntry: TimeEntry, businessId: number): Promise<Result<TimeEntry>> =>
+			this.call(
+				'POST',
+				`/timetracking/business/${businessId}/time_entries`,
+				{
+					transformResponse: transformTimeEntryResponse,
+					transformRequest: transformTimeEntryRequest,
+				},
+				timeEntry,
+				'Create Time Entry'
+			),
+		update: (timeEntry: TimeEntry, businessId: number, timeEntryId: number): Promise<Result<TimeEntry>> =>
+			this.call(
+				'PUT',
+				`/timetracking/business/${businessId}/time_entries/${timeEntryId}`,
+				{
+					transformResponse: transformTimeEntryResponse,
+					transformRequest: transformTimeEntryRequest,
+				},
+				timeEntry,
+				'Update Time Entry'
+			),
+		delete: (businessId: number, timeEntryId: number): Promise<Result<TimeEntry>> =>
+			this.call(
+				'DELETE',
+				`/timetracking/business/${businessId}/time_entries/${timeEntryId}`,
+				{},
+				null,
+				'Delete Time Entry'
 			),
 	}
 }

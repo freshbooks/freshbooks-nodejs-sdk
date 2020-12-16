@@ -1,10 +1,8 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { isErrorResponse, transformErrorResponse, ErrorResponse } from './Error'
+import { isAccountingErrorResponse, transformErrorResponse, ErrorResponse } from './Error'
 import PhoneNumber, { transformPhoneNumberResponse } from './PhoneNumber'
 import Address, { transformAddressResponse, AddressResponse } from './Address'
-import BusinessMembership, {
-	transformBusinessMembershipResponse,
-} from './BusinessMembership'
+import BusinessMembership, { transformBusinessMembershipResponse } from './BusinessMembership'
 import Role, { transformRoleResponse } from './Role'
 import Profession, { transformProfessionResponse } from './Profession'
 import Group, { transformGroupResponse } from './Group'
@@ -30,7 +28,7 @@ export default interface User {
 export function transformUserResponse(data: string): User | ErrorResponse {
 	const response = JSON.parse(data)
 
-	if (isErrorResponse(response)) {
+	if (isAccountingErrorResponse(response)) {
 		return transformErrorResponse(response)
 	}
 
@@ -57,13 +55,9 @@ export function transformUserResponse(data: string): User | ErrorResponse {
 		phoneNumbers: phoneNumbers.map(transformPhoneNumberResponse),
 		permissions,
 		subscriptionStatuses,
-		businessMemberships: businessMemberships.map(
-			transformBusinessMembershipResponse
-		),
+		businessMemberships: businessMemberships.map(transformBusinessMembershipResponse),
 		roles: roles.map(transformRoleResponse),
-		addresses: addresses
-			.filter((address: Nullable<AddressResponse>) => address !== null)
-			.map(transformAddressResponse),
+		addresses: addresses.filter((address: Nullable<AddressResponse>) => address !== null).map(transformAddressResponse),
 		profession: profession && transformProfessionResponse(profession),
 		groups: groups.map(transformGroupResponse),
 		links,

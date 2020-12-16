@@ -64,9 +64,7 @@ const buildClientResponse = (clientResponseProperties: any = {}): any => ({
 	...clientResponseProperties,
 })
 
-const buildMockClientJSONResponse = (
-	clientResponseProperties: any = {}
-): string =>
+const buildMockClientJSONResponse = (clientResponseProperties: any = {}): string =>
 	JSON.stringify({
 		response: {
 			result: {
@@ -129,7 +127,7 @@ const buildExpectedClientResult = (clientProperties: any = {}): Client => ({
 })
 
 describe('@freshbooks/api', () => {
-	describe('User', () => {
+	describe('Client', () => {
 		test('GET /accounting/account/<accountId>/users/clients?...searchQuery', async () => {
 			const token = 'token'
 			const APIclient = new APIClient(token)
@@ -157,13 +155,9 @@ describe('@freshbooks/api', () => {
 					total: 1,
 				},
 			}
-			const builder = new SearchQueryBuilder()
-				.like('address', '1655 Dupont')
-				.equals('userid', '217648')
+			const builder = new SearchQueryBuilder().like('address', '1655 Dupont').equals('userid', '217648')
 			const qs = joinQueries([builder])
-			mock
-				.onGet(`/accounting/account/${ACCOUNT_ID}/users/clients${qs}`)
-				.replyOnce(200, response)
+			mock.onGet(`/accounting/account/${ACCOUNT_ID}/users/clients${qs}`).replyOnce(200, response)
 
 			const { data } = await APIclient.clients.list(ACCOUNT_ID, [builder])
 			expect(data).toEqual(expected)
@@ -196,9 +190,7 @@ describe('@freshbooks/api', () => {
 				},
 			}
 
-			mock
-				.onGet(`/accounting/account/${ACCOUNT_ID}/users/clients`)
-				.replyOnce(200, response)
+			mock.onGet(`/accounting/account/${ACCOUNT_ID}/users/clients`).replyOnce(200, response)
 
 			const { data } = await APIclient.clients.list(ACCOUNT_ID)
 			expect(data).toEqual(expected)
@@ -209,9 +201,7 @@ describe('@freshbooks/api', () => {
 			const APIclient = new APIClient(token)
 
 			const mockResponse = buildMockClientJSONResponse()
-			mock
-				.onGet(`/accounting/account/${ACCOUNT_ID}/users/clients/${CLIENT_ID}`)
-				.replyOnce(200, mockResponse)
+			mock.onGet(`/accounting/account/${ACCOUNT_ID}/users/clients/${CLIENT_ID}`).replyOnce(200, mockResponse)
 
 			const expected = buildExpectedClientResult()
 
@@ -246,9 +236,7 @@ describe('@freshbooks/api', () => {
 				},
 			}
 
-			mock
-				.onPost(`/accounting/account/${ACCOUNT_ID}/users/clients`, mockRequest)
-				.replyOnce(200, mockResponse)
+			mock.onPost(`/accounting/account/${ACCOUNT_ID}/users/clients`, mockRequest).replyOnce(200, mockResponse)
 
 			const expected = buildExpectedClientResult(clientModel)
 
@@ -271,12 +259,7 @@ describe('@freshbooks/api', () => {
 
 		const expected = buildExpectedClientResult({ visState: 1 })
 
-		mock
-			.onPut(
-				`/accounting/account/${ACCOUNT_ID}/users/clients/${CLIENT_ID}`,
-				mockRequest
-			)
-			.replyOnce(200, mockResponse)
+		mock.onPut(`/accounting/account/${ACCOUNT_ID}/users/clients/${CLIENT_ID}`, mockRequest).replyOnce(200, mockResponse)
 
 		const { data } = await APIclient.clients.delete(ACCOUNT_ID, CLIENT_ID)
 		expect(data).toEqual(expected)
@@ -297,12 +280,7 @@ describe('@freshbooks/api', () => {
 			},
 		}
 
-		mock
-			.onPut(
-				`/accounting/account/${ACCOUNT_ID}/users/clients/${CLIENT_ID}`,
-				mockRequest
-			)
-			.replyOnce(200, mockResponse)
+		mock.onPut(`/accounting/account/${ACCOUNT_ID}/users/clients/${CLIENT_ID}`, mockRequest).replyOnce(200, mockResponse)
 
 		const clientModel = {
 			fName: 'Johnathan',
@@ -313,11 +291,7 @@ describe('@freshbooks/api', () => {
 
 		const expected = buildExpectedClientResult(clientModel)
 
-		const { data } = await APIclient.clients.update(
-			clientModel,
-			ACCOUNT_ID,
-			CLIENT_ID
-		)
+		const { data } = await APIclient.clients.update(clientModel, ACCOUNT_ID, CLIENT_ID)
 
 		expect(data).toEqual(expected)
 	})

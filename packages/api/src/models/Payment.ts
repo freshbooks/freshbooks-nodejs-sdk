@@ -1,6 +1,6 @@
 import Money, { transformMoneyRequest, transformMoneyResponse } from './Money'
 import VisState from './VisState'
-import { ErrorResponse, isErrorResponse, transformErrorResponse } from './Error'
+import { ErrorResponse, isAccountingErrorResponse, transformErrorResponse } from './Error'
 import Pagination from './Pagination'
 import { transformDateRequest, DateFormat, transformDateResponse } from './Date'
 import { Nullable } from './helpers'
@@ -102,7 +102,7 @@ function transformPaymentData({
 export function transformPaymentResponse(data: any): Payment | ErrorResponse {
 	const response = JSON.parse(data)
 
-	if (isErrorResponse(response)) {
+	if (isAccountingErrorResponse(response)) {
 		return transformErrorResponse(response)
 	}
 	const {
@@ -112,12 +112,10 @@ export function transformPaymentResponse(data: any): Payment | ErrorResponse {
 	return transformPaymentData(payment)
 }
 
-export function transformPaymentListResponse(
-	data: string
-): { payments: Payment[]; pages: Pagination } | ErrorResponse {
+export function transformPaymentListResponse(data: string): { payments: Payment[]; pages: Pagination } | ErrorResponse {
 	const response = JSON.parse(data)
 
-	if (isErrorResponse(response)) {
+	if (isAccountingErrorResponse(response)) {
 		return transformErrorResponse(response)
 	}
 
