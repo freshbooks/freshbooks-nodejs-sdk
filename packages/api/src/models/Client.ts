@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { ErrorResponse, isErrorResponse, transformErrorResponse } from './Error'
+import { ErrorResponse, isAccountingErrorResponse, transformErrorResponse } from './Error'
 import Pagination from './Pagination'
 import { Nullable } from './helpers'
 
 export default interface Client {
-	id?: string
+	id?: number
 	fName?: Nullable<string>
 	lName?: Nullable<string>
 	organization?: Nullable<string>
@@ -36,13 +36,13 @@ export default interface Client {
 	allowLateFees?: boolean
 	pStreet?: string
 	companySize?: Nullable<string>
-	accountingSystemId?: Nullable<string>
+	accountingSystemId?: number
 	pCode?: string
 	signupDate?: Nullable<Date>
 	language?: Nullable<string>
 	level?: number
 	notified?: boolean
-	userId?: Nullable<string>
+	userId?: number
 	pStreet2?: string
 	prefGmail?: boolean
 	visState?: number
@@ -50,8 +50,8 @@ export default interface Client {
 	sStreet?: string
 	pCountry?: string
 	currencyCode?: string
-	hasRetainer?: Nullable<string>
-	retainerId?: Nullable<string>
+	hasRetainer?: Nullable<boolean>
+	retainerId?: Nullable<number>
 	role?: Nullable<string>
 }
 
@@ -116,8 +116,7 @@ function transformClientData(client: any): Client {
  */
 export function transformClientResponse(data: any): Client | ErrorResponse {
 	const response = JSON.parse(data)
-
-	if (isErrorResponse(response)) {
+	if (isAccountingErrorResponse(response)) {
 		return transformErrorResponse(response)
 	}
 	const {
@@ -132,12 +131,10 @@ export function transformClientResponse(data: any): Client | ErrorResponse {
  * @param data representing JSON response
  * @returns client list response
  */
-export function transformClientListResponse(
-	data: string
-): { clients: Client[]; pages: Pagination } | ErrorResponse {
+export function transformClientListResponse(data: string): { clients: Client[]; pages: Pagination } | ErrorResponse {
 	const response = JSON.parse(data)
 
-	if (isErrorResponse(response)) {
+	if (isAccountingErrorResponse(response)) {
 		return transformErrorResponse(response)
 	}
 	const {

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import Money, { transformMoneyResponse, transformMoneyRequest } from './Money'
-import { ErrorResponse, isErrorResponse, transformErrorResponse } from './Error'
+import { ErrorResponse, isAccountingErrorResponse, transformErrorResponse } from './Error'
 import { Nullable } from './helpers'
 import Pagination from './Pagination'
 
@@ -57,7 +57,7 @@ function transformItemData({
 export function transformItemResponse(data: string): Item | ErrorResponse {
 	const response = JSON.parse(data)
 
-	if (isErrorResponse(response)) {
+	if (isAccountingErrorResponse(response)) {
 		return transformErrorResponse(response)
 	}
 	const {
@@ -69,12 +69,10 @@ export function transformItemResponse(data: string): Item | ErrorResponse {
 	return transformItemData(item)
 }
 
-export function transformItemListResponse(
-	data: string
-): { items: Item[]; pages: Pagination } | ErrorResponse {
+export function transformItemListResponse(data: string): { items: Item[]; pages: Pagination } | ErrorResponse {
 	const response = JSON.parse(data)
 
-	if (isErrorResponse(response)) {
+	if (isAccountingErrorResponse(response)) {
 		return transformErrorResponse(response)
 	}
 

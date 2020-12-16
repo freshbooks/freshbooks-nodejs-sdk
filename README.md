@@ -1,8 +1,8 @@
 # FreshBooks NodeJS SDK
 
-![](https://github.com/freshbooks/api-sdk/workflows/Node%20CI/badge.svg)
+![Run Tests](https://github.com/freshbooks/freshbooks-nodejs-sdk/workflows/Run%20Tests/badge.svg)
 
-The FreshBooks NodeJS SDK is a collection of single-purpose packages designed to easily build FreshBooks apps. Each package delivers part of the FreshBooks [REST API](https://www.freshbooks.com/api), so that you can choose the packages that fit your needs.
+The FreshBooks NodeJS SDK is a collection of single-purpose packages designed to easily build FreshBooks apps. Each package delivers part of the [FreshBooks API](https://www.freshbooks.com/api), so that you can choose the packages that fit your needs.
 
 | Package                             | What it's for                                                                                                                 |
 | ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
