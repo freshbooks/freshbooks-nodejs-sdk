@@ -1,4 +1,4 @@
-import EventEmitter from 'events'
+import { EventEmitter } from 'events'
 import { Logger } from 'winston'
 import _logger from './logger'
 
