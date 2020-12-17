@@ -40,5 +40,8 @@
 			"./node_modules/.bin/eslint \"**/*.{js,ts}\" --quiet --fix",
 			"git add"
 		]
+	},
+	"dependencies": {
+		"axios": "^0.21.0"
 	}
 }
