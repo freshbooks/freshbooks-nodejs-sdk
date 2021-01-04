@@ -5,28 +5,29 @@ import APIClient, { Options, Result } from '../src/APIClient'
 const mock = new MockAdapter(axios) // set mock adapter on default axios instance
 
 describe('@freshbooks/api', () => {
+	const testOptions: Options = { clientId: 'test-client-id' }
 	describe('Client', () => {
 		test('Default init', () => {
 			const token = 'token'
-			const client = new APIClient(token)
+			const client = new APIClient(token, testOptions)
 			expect(client).not.toBeNull()
+		})
+
+		test('Test user agent throws error when clientId not set', () => {
+			const token = 'test-token'
+			try {
+				const client: APIClient = new APIClient(token)
+			} catch (err) {
+				expect(err.name).toEqual('missing clientId')
+				expect(err.message).toEqual('missing clientId')
+			}
 		})
 
 		test('Test user agent when set returns correct value', () => {
 			const token = 'test-token'
-			const testOptions: Options = { appName: 'test-app' }
 			const client: APIClient = new APIClient(token, testOptions)
 
-			expect(client.appName).toEqual('test-app')
-			expect(client.sdkVersion).toEqual('1.0.10-alpha.0')
-		})
-
-		test('Test user agent when not set returns default value', () => {
-			const token = 'test-token'
-			const client: APIClient = new APIClient(token)
-
-			expect(client.appName).toEqual('Default-App')
-			expect(client.sdkVersion).toEqual('1.0.10-alpha.0')
+			expect(client.clientId).toEqual('test-client-id')
 		})
 
 		test('Test unauthorized request', async () => {
@@ -37,7 +38,7 @@ describe('@freshbooks/api', () => {
 					'{"error":"unauthenticated","error_description":"This action requires authentication to continue."}'
 				)
 
-			const client = new APIClient('foo')
+			const client = new APIClient('foo', testOptions)
 			try {
 				await client.users.me()
 			} catch (err) {
@@ -64,7 +65,7 @@ describe('@freshbooks/api', () => {
 				.onGet('/accounting/account/zDmNq/invoices/invoices')
 				.replyOnce(401, mockResponse)
 
-			const client = new APIClient('foo')
+			const client = new APIClient('foo', testOptions)
 			try {
 				await client.invoices.list('zDmNq')
 			} catch (error) {
@@ -90,7 +91,7 @@ describe('@freshbooks/api', () => {
 				.onGet('/accounting/account/zDmNq/invoices/invoices/1')
 				.replyOnce(401, mockResponse)
 
-			const client = new APIClient('foo')
+			const client = new APIClient('foo', testOptions)
 			try {
 				await client.invoices.single('zDmNq', '1')
 			} catch (error) {
@@ -101,7 +102,7 @@ describe('@freshbooks/api', () => {
 
 		test('Test unhandled errors', async () => {
 			const unhandledError = new Error('Unhandled Error!')
-			const client = new APIClient('foo')
+			const client = new APIClient('foo', testOptions)
 
 			// mock list method
 			client.invoices.list = jest.fn(() => {
@@ -130,7 +131,7 @@ describe('@freshbooks/api', () => {
 					   "id":2192788}}`
 				)
 
-			const client = new APIClient('foo')
+			const client = new APIClient('foo', testOptions)
 			const res = await client.users.me()
 
 			expect(res.ok).toBeTruthy()
@@ -147,7 +148,7 @@ describe('@freshbooks/api', () => {
 					'{"response":{"result":{"invoices": [],"page": 1,"pages": 1,"per_page": 15,"total": 7}}}'
 				)
 
-			const client = new APIClient('foo')
+			const client = new APIClient('foo', testOptions)
 			const res = await client.invoices.list('xZNQ1X')
 			expect(res.ok).toBeTruthy()
 			expect(res.data).not.toBeUndefined()

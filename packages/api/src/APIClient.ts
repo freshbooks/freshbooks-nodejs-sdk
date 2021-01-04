@@ -36,8 +36,6 @@ import Expense, {
 
 // defaults
 const API_URL = 'https://api.freshbooks.com'
-const VERSION = '1.0.10-alpha.0' // TODO : Figure out a good way to set that
-const DEFAULT_APP = 'Default-App'
 
 /**
  * Client for FreshBooks API
@@ -56,12 +54,7 @@ export default class APIClient {
 	/**
 	 * App name
 	 */
-	public readonly appName: string | undefined
-
-	/**
-	 * Sdk version
-	 */
-	public readonly sdkVersion: string | undefined
+	public readonly clientId: string
 
 	private readonly axios: AxiosInstance
 
@@ -74,17 +67,21 @@ export default class APIClient {
 	 * @param logger Custom logger
 	 */
 	constructor(token: string, options?: Options, logger = _logger) {
-		const { apiUrl = API_URL, retryOptions } = options || {}
+		const defaultRetry = {
+			retries: 3,
+			retryDelay: axiosRetry.exponentialDelay, // ~100ms, 200ms, 400ms, 800ms
+		}
+		const { apiUrl = API_URL, retryOptions = defaultRetry } = options || {}
 
 		this.token = token
 		this.apiUrl = apiUrl
 		this.logger = logger
-		this.sdkVersion = VERSION
-		this.appName = DEFAULT_APP
 
-		if (options?.appName) {
-			this.appName = options.appName
+		if (!options?.clientId) {
+			throw new APIClientError('missing clientId', 'missing clientId')
 		}
+
+		this.clientId = options.clientId
 
 		// setup axios
 		this.axios = axios.create({
@@ -93,14 +90,12 @@ export default class APIClient {
 				Authorization: `Bearer ${token}`,
 				'Api-Version': 'alpha',
 				'Content-Type': 'application/json',
-				'User-Agent': this.appName,
-				'Sdk-Version': this.sdkVersion,
+				'User-Agent': this.clientId,
 			},
 		})
 
 		// setup retry logic
 		axiosRetry(this.axios, retryOptions)
-
 	}
 
 	private async call<S, T>(
@@ -525,7 +520,7 @@ export default class APIClient {
 export interface Options {
 	apiUrl?: string
 	retryOptions?: IAxiosRetryConfig
-	appName?: string
+	clientId: string
 }
 
 export interface Result<T> {
