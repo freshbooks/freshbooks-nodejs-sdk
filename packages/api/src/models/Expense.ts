@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import Money, { transformMoneyResponse, transformMoneyRequest } from './Money'
-import { ErrorResponse, isErrorResponse, transformErrorResponse } from './Error'
+import { ErrorResponse, isAccountingErrorResponse, transformErrorResponse } from './Error'
 import { Nullable, transformIdResponse } from './helpers'
 import Pagination from './Pagination'
 import VisState from './VisState'
@@ -125,12 +125,10 @@ function transformExpenseData({
 	}
 }
 
-export function transformExpenseResponse(
-	data: string
-): Expense | ErrorResponse {
+export function transformExpenseResponse(data: string): Expense | ErrorResponse {
 	const response = JSON.parse(data)
 
-	if (isErrorResponse(response)) {
+	if (isAccountingErrorResponse(response)) {
 		return transformErrorResponse(response)
 	}
 	const {
@@ -142,12 +140,10 @@ export function transformExpenseResponse(
 	return transformExpenseData(expense)
 }
 
-export function transformExpenseListResponse(
-	data: string
-): { expenses: Expense[]; pages: Pagination } | ErrorResponse {
+export function transformExpenseListResponse(data: string): { expenses: Expense[]; pages: Pagination } | ErrorResponse {
 	const response = JSON.parse(data)
 
-	if (isErrorResponse(response)) {
+	if (isAccountingErrorResponse(response)) {
 		return transformErrorResponse(response)
 	}
 
@@ -158,9 +154,7 @@ export function transformExpenseListResponse(
 	} = response
 
 	return {
-		expenses: expenses.map(
-			(expense: any): Expense => transformExpenseData(expense)
-		),
+		expenses: expenses.map((expense: any): Expense => transformExpenseData(expense)),
 		pages: {
 			size: per_page,
 			total,
@@ -187,10 +181,8 @@ export function transformExpenseRequest(expense: Expense): string {
 			transactionid: expense.transactionId,
 			invoiceid: expense.invoiceId,
 			id: expense.id,
-			taxAmount2:
-				expense.taxAmount2 && transformMoneyRequest(expense.taxAmount2),
-			taxAmount1:
-				expense.taxAmount1 && transformMoneyRequest(expense.taxAmount1),
+			taxAmount2: expense.taxAmount2 && transformMoneyRequest(expense.taxAmount2),
+			taxAmount1: expense.taxAmount1 && transformMoneyRequest(expense.taxAmount1),
 			vis_state: expense.visState,
 			status: expense.status,
 			bank_name: expense.bankName,

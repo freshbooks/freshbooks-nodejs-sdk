@@ -1,8 +1,8 @@
 # FreshBooks NodeJS SDK
 
-![Run Tests](https://github.com/freshbooks/freshbooks-nodejs-sdk/workflows/Run%20Tests/badge.svg)
+![](https://github.com/freshbooks/api-sdk/workflows/Node%20CI/badge.svg)
 
-The FreshBooks NodeJS SDK is a collection of single-purpose packages designed to easily build FreshBooks apps. Each package delivers part of the [FreshBooks API](https://www.freshbooks.com/api), so that you can choose the packages that fit your needs.
+The FreshBooks NodeJS SDK is a collection of single-purpose packages designed to easily build FreshBooks apps. Each package delivers part of the FreshBooks [REST API](https://www.freshbooks.com/api), so that you can choose the packages that fit your needs.
 
 | Package                             | What it's for                                                                                                                 |
 | ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
@@ -188,60 +188,3 @@ console.log(`Page ${pages.page} of ${pages.total} pages`)
 console.log(`Showing ${pages.size} per page`)
 console.log(`${pages.size} total invoices`)
 ```
-
-### `@freshbooks/app`
-
-The FreshBooks SDK provides a pre-configured `ExpressJS` app. This app provides OAuth2 authentication flow, a `PassportJS` middleware for authenticating requests, and session middleware to retrieve tokens for a session.
-
-#### Using the ExpressJS app
-
-Setting up the ExpressJS app requires a FreshBooks `client__id` and `client_secret`, as well as a callback URL to receive user authentication and refresh tokens. Once configured, routes can be configured as in any other `ExpressJS` app.
-
-```typescript
-import { Client } from '@freshbooks/api'
-import createApp from '@freshbooks/app'
-
-const CLIENT_ID = process.env.CLIENT_ID
-const CLIENT_SECRET = process.env.CLIENT_SECRET
-const CALLBACK_URL = process.env.CALLBACK_URL
-
-const app = createApp(CLIENT_ID, CLIENT_SECRET, CALLBACK)
-
-// set up callback route
-app.get('/auth/freshbooks/redirect', passport.authorize('freshbooks')
-
-// set up an authenticated route
-app.get('/settings', passport.authorize('freshbooks'), async (req, res) => {
-  // get an API client
-  const { token } = req.user
-  const client = new Client(token)
-
-  // fetch the current user
-  try {
-    const { data } = await client.users.me()
-    res.send(data.id)
-  } catch ({ code, message }) {
-    res.status(500, `Error - ${code}: ${message}`)
-  }
-})
-```
-
-## Development
-
-### Testing
-
-```shell
-npm test
-```
-
-### Releasing
-
-```bash
-HUSKY_SKIP_HOOKS=1 ./node_modules/.bin/lerna publish
-```
-
-*Note:* lerna publishing artifacts to github doesn't play too nicely with the git commit hooks installed by
-_husky_. If you run into trouble, delete them from `./git/hooks/` and give it a try.
-
-After the new tags have been pushed to github, log in there and create a release from one of the new
-tags to push to npm.

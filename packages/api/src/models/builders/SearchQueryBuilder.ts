@@ -25,7 +25,7 @@ export class SearchQueryBuilder {
 	}
 
 	in(key: string, values: ParamType[]): SearchQueryBuilder {
-		this.queryParams = { ...this.queryParams, [`search[${key}]`]: values }
+		this.queryParams = { ...this.queryParams, [`search[${key}][]`]: values }
 		return this
 	}
 
@@ -35,19 +35,17 @@ export class SearchQueryBuilder {
 	}
 
 	like(key: string, value: ParamType): SearchQueryBuilder {
-		this.queryParams = { ...this.queryParams, [`search[${key}_like]`]: value }
+		this.queryParams = { ...this.queryParams, [`search[${key}]`]: value }
 		return this
 	}
 
 	between(key: string, { min, max }: RangeType): SearchQueryBuilder {
 		if (min) {
-			const value =
-				min instanceof Date ? SearchQueryBuilder.handleDate(min) : min
+			const value = min instanceof Date ? SearchQueryBuilder.handleDate(min) : min
 			this.queryParams = { ...this.queryParams, [`search[${key}_min]`]: value }
 		}
 		if (max) {
-			const value =
-				max instanceof Date ? SearchQueryBuilder.handleDate(max) : max
+			const value = max instanceof Date ? SearchQueryBuilder.handleDate(max) : max
 			this.queryParams = {
 				...this.queryParams,
 				[`search[${key}_max]`]: value,

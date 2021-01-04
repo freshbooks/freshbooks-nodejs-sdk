@@ -1,0 +1,24 @@
+# This workflows will build and publish to npm when a release is created
+
+name: Publish Node.js Package
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    # Setup .npmrc file to publish to npm
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '14.x'
+        registry-url: 'https://registry.npmjs.org'
+    - run: npm install
+    - run: ./node_modules/.bin/lerna bootstrap
+    - run: ./node_modules/.bin/lerna run build
+    - run: ./node_modules/.bin/lerna publish from-package --yes
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

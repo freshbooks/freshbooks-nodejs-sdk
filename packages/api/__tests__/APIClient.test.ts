@@ -43,9 +43,7 @@ describe('@freshbooks/api', () => {
 				await client.users.me()
 			} catch (err) {
 				expect(err.code).toEqual('unauthenticated')
-				expect(err.message).toEqual(
-					'This action requires authentication to continue.'
-				)
+				expect(err.message).toEqual('This action requires authentication to continue.')
 			}
 		})
 
@@ -54,16 +52,13 @@ describe('@freshbooks/api', () => {
 				response: {
 					errors: [
 						{
-							message:
-								'The server could not verify that you are authorized to access the URL requested.',
+							message: 'The server could not verify that you are authorized to access the URL requested.',
 							errno: 1003,
 						},
 					],
 				},
 			})
-			mock
-				.onGet('/accounting/account/zDmNq/invoices/invoices')
-				.replyOnce(401, mockResponse)
+			mock.onGet('/accounting/account/zDmNq/invoices/invoices').replyOnce(401, mockResponse)
 
 			const client = new APIClient('foo', testOptions)
 			try {
@@ -74,8 +69,7 @@ describe('@freshbooks/api', () => {
 				expect(error.errors).toEqual([
 					{
 						number: 1003,
-						message:
-							'The server could not verify that you are authorized to access the URL requested.',
+						message: 'The server could not verify that you are authorized to access the URL requested.',
 					},
 				])
 			}
@@ -87,9 +81,7 @@ describe('@freshbooks/api', () => {
 				error_type: 'not_found',
 				message: 'The requested resource was not found.',
 			})
-			mock
-				.onGet('/accounting/account/zDmNq/invoices/invoices/1')
-				.replyOnce(401, mockResponse)
+			mock.onGet('/accounting/account/zDmNq/invoices/invoices/1').replyOnce(401, mockResponse)
 
 			const client = new APIClient('foo', testOptions)
 			try {
@@ -119,10 +111,7 @@ describe('@freshbooks/api', () => {
 		test('Test failed request retry', async () => {
 			mock
 				.onGet('/auth/api/v1/users/me')
-				.replyOnce(
-					500,
-					'{"error":"internal_server_error","error_description":"internal server error"}'
-				)
+				.replyOnce(500, '{"error":"internal_server_error","error_description":"internal server error"}')
 				.onGet('/auth/api/v1/users/me')
 				.replyOnce(
 					200,
@@ -139,14 +128,31 @@ describe('@freshbooks/api', () => {
 			expect(res.data).not.toBeUndefined()
 		})
 
+		test('Test rate limited request retry', async () => {
+			mock
+				.onGet('/auth/api/v1/users/me')
+				.replyOnce(429, '{"error":"internal_server_error","error_description":"internal server error"}')
+				.onGet('/auth/api/v1/users/me')
+				.replyOnce(
+					200,
+					`{
+                    "response":{
+                       "id":2192788}}`
+				)
+
+			const client = new APIClient('foo', testOptions)
+			const res = await client.users.me()
+
+			expect(res.ok).toBeTruthy()
+			expect(res.error).toBeUndefined()
+			expect(res.data).not.toBeUndefined()
+		})
+
 		test('Test pagination', async () => {
 			const accountId = 'xZNQ1X'
 			mock
 				.onGet(`/accounting/account/${accountId}/invoices/invoices`)
-				.replyOnce(
-					200,
-					'{"response":{"result":{"invoices": [],"page": 1,"pages": 1,"per_page": 15,"total": 7}}}'
-				)
+				.replyOnce(200, '{"response":{"result":{"invoices": [],"page": 1,"pages": 1,"per_page": 15,"total": 7}}}')
 
 			const client = new APIClient('foo', testOptions)
 			const res = await client.invoices.list('xZNQ1X')
