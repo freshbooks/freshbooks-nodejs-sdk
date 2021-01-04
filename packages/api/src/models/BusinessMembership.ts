@@ -1,7 +1,4 @@
-import Business, {
-	transformBusinessResponse,
-	BusinessResponse,
-} from './Business'
+import Business, { transformBusinessResponse, BusinessResponse } from './Business'
 
 export default interface BusinessMembership {
 	id: string
@@ -103,9 +100,7 @@ export function transformBusinessMembershipResponse({
  *      }'
  * @returns BusinessMembership object
  */
-export function transformBusinessMembershipJSON(
-	json: string
-): BusinessMembership {
+export function transformBusinessMembershipJSON(json: string): BusinessMembership {
 	const response: BusinessMembershipResponse = JSON.parse(json)
 	return transformBusinessMembershipResponse(response)
 }

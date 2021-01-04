@@ -1,7 +1,6 @@
 import OAuth2Strategy from 'passport-oauth2'
 
-export const AUTHORIZATION_URL =
-	'https://my.freshbooks.com/service/auth/oauth/authorize'
+export const AUTHORIZATION_URL = 'https://my.freshbooks.com/service/auth/oauth/authorize'
 export const TOKEN_URL = 'https://api.freshbooks.com/auth/oauth/token'
 
 export interface SessionUser {
@@ -15,12 +14,7 @@ export default class FreshbooksStrategy extends OAuth2Strategy {
 
 	private readonly callbackURL: string
 
-	constructor(
-		clientId: string,
-		clientSecret: string,
-		callbackURL: string,
-		verify: OAuth2Strategy.VerifyFunction
-	) {
+	constructor(clientId: string, clientSecret: string, callbackURL: string, verify: OAuth2Strategy.VerifyFunction) {
 		super(
 			{
 				authorizationURL: AUTHORIZATION_URL,

@@ -3,9 +3,9 @@ import MockAdapter from 'axios-mock-adapter'
 import APIClient, { Options, Result } from '../src/APIClient'
 
 const mock = new MockAdapter(axios) // set mock adapter on default axios instance
+const testOptions: Options = { clientId: 'test-client-id' }
 
 describe('@freshbooks/api', () => {
-	const testOptions: Options = { clientId: 'test-client-id' }
 	describe('Client', () => {
 		test('Default init', () => {
 			const token = 'token'

@@ -10,10 +10,7 @@ export const transformDateRequest = (date: Date): string => {
 	return `${year}-${month}-${day}`
 }
 
-export const transformDateResponse = (
-	dateString: string,
-	dateFormat: DateFormat = DateFormat['YYYY-MM-DD']
-): Date => {
+export const transformDateResponse = (dateString: string, dateFormat: DateFormat = DateFormat['YYYY-MM-DD']): Date => {
 	switch (dateFormat) {
 		case DateFormat['YYYY-MM-DD hh:mm:ss']:
 			return new Date(dateString)
