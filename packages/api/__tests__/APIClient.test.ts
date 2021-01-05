@@ -1,6 +1,6 @@
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
-import APIClient, { Options, Result } from '../src/APIClient'
+import APIClient, { Options } from '../src/APIClient'
 
 const mock = new MockAdapter(axios) // set mock adapter on default axios instance
 const testOptions: Options = { clientId: 'test-client-id' }

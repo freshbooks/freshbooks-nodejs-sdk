@@ -4,6 +4,7 @@ import axiosRetry, { IAxiosRetryConfig } from 'axios-retry'
 import { Logger } from 'winston'
 import _logger from './logger'
 import APIClientError from './models/Error'
+import dotenv from 'dotenv'
 
 import { Client, Error, Expense, Invoice, Item, Pagination, Payment, TimeEntry, User } from './models'
 import { transformClientResponse, transformClientListResponse, transformClientRequest } from './models/Client'
@@ -25,8 +26,11 @@ import {
 } from './models/TimeEntry'
 import { transformUserResponse } from './models/User'
 
+dotenv.config()
+
 // defaults
 const API_URL = 'https://api.freshbooks.com'
+const API_VERSION = process.env.VERSION
 
 /**
  * Client for FreshBooks API
@@ -43,7 +47,7 @@ export default class APIClient {
 	public readonly token: string
 
 	/**
-	 * App name
+	 * clientId
 	 */
 	public readonly clientId: string
 
@@ -90,7 +94,7 @@ export default class APIClient {
 				Authorization: `Bearer ${token}`,
 				'Api-Version': 'alpha',
 				'Content-Type': 'application/json',
-				'User-Agent': this.clientId,
+				'User-Agent': `FreshBooks nodejs sdk/${API_VERSION} client_id ${this.clientId}`,
 			},
 		})
 
