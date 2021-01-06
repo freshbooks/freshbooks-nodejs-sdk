@@ -1,8 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import {
-	transformBusinessMembershipJSON,
-	transformBusinessMembershipResponse,
-} from '../src/models/BusinessMembership'
+import { transformBusinessMembershipJSON, transformBusinessMembershipResponse } from '../src/models/BusinessMembership'
 
 describe('@freshbooks/api', () => {
 	describe('Business Membership', () => {

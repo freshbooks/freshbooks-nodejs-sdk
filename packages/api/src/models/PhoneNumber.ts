@@ -17,10 +17,7 @@ export interface PhoneNumberResponse {
  * eg: { title: 'Mobile', number: '555-555-5555'}
  * @returns @PhoneNumber object
  */
-export function transformPhoneNumberResponse({
-	title,
-	phone_number,
-}: PhoneNumberResponse): PhoneNumber {
+export function transformPhoneNumberResponse({ title, phone_number }: PhoneNumberResponse): PhoneNumber {
 	return {
 		title,
 		number: phone_number,

@@ -4,6 +4,7 @@ import axiosRetry, { IAxiosRetryConfig } from 'axios-retry'
 import { Logger } from 'winston'
 import _logger from './logger'
 import APIClientError from './models/Error'
+import dotenv from 'dotenv'
 
 import { Client, Error, Expense, Invoice, Item, Pagination, Payment, TimeEntry, User } from './models'
 import { transformClientResponse, transformClientListResponse, transformClientRequest } from './models/Client'
@@ -25,8 +26,11 @@ import {
 } from './models/TimeEntry'
 import { transformUserResponse } from './models/User'
 
+dotenv.config()
+
 // defaults
 const API_URL = 'https://api.freshbooks.com'
+const API_VERSION = process.env.VERSION
 
 /**
  * Client for FreshBooks API
@@ -42,9 +46,14 @@ export default class APIClient {
 	 */
 	public readonly token: string
 
-	private axios: AxiosInstance
+	/**
+	 * clientId
+	 */
+	public readonly clientId: string
 
-	private logger: Logger
+	private readonly axios: AxiosInstance
+
+	private readonly logger: Logger
 
 	public static isNetworkRateLimitOrIdempotentRequestError(error: any): boolean {
 		if (!error.config) {
@@ -70,6 +79,13 @@ export default class APIClient {
 
 		this.token = token
 		this.apiUrl = apiUrl
+		this.logger = logger
+
+		if (!options?.clientId) {
+			throw new APIClientError('missing clientId', 'missing clientId')
+		}
+
+		this.clientId = options.clientId
 
 		// setup axios
 		this.axios = axios.create({
@@ -78,16 +94,12 @@ export default class APIClient {
 				Authorization: `Bearer ${token}`,
 				'Api-Version': 'alpha',
 				'Content-Type': 'application/json',
+				'User-Agent': `FreshBooks nodejs sdk/${API_VERSION} client_id ${this.clientId}`,
 			},
 		})
 
 		// setup retry logic
 		axiosRetry(this.axios, retryOptions)
-
-		this.logger = logger
-
-		// init
-		this.logger.debug(`Initialized with apiUrl: ${apiUrl}`)
 	}
 
 	private async call<S, T>(
@@ -514,6 +526,7 @@ export default class APIClient {
 export interface Options {
 	apiUrl?: string
 	retryOptions?: IAxiosRetryConfig
+	clientId: string
 }
 
 export interface Result<T> {

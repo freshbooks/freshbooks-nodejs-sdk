@@ -1,8 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import {
-	transformPhoneNumberJSON,
-	transformPhoneNumberResponse,
-} from '../src/models/PhoneNumber'
+import { transformPhoneNumberJSON, transformPhoneNumberResponse } from '../src/models/PhoneNumber'
 
 describe('@freshbooks/api', () => {
 	describe('PhoneNumber', () => {

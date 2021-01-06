@@ -45,18 +45,12 @@ export function transformCategoryResponse({
 	return {
 		category,
 		categoryId: transformIdResponse(categoryId),
-		createdAt: transformDateResponse(
-			createdAt,
-			DateFormat['YYYY-MM-DD hh:mm:ss']
-		),
+		createdAt: transformDateResponse(createdAt, DateFormat['YYYY-MM-DD hh:mm:ss']),
 		id: transformIdResponse(id),
 		isCogs,
 		isEditable,
 		parentId: transformIdResponse(parentId),
-		updatedAt: transformDateResponse(
-			updatedAt,
-			DateFormat['YYYY-MM-DD hh:mm:ss']
-		),
+		updatedAt: transformDateResponse(updatedAt, DateFormat['YYYY-MM-DD hh:mm:ss']),
 		visState,
 	}
 }

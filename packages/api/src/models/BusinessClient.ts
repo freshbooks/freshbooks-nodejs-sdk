@@ -1,12 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import ClientBusiness, {
-	transformClientBusinessResponse,
-	ClientBusinessResponse,
-} from './ClientBusiness'
-import AccountBusiness, {
-	transformAccountBusinessResponse,
-	AccountBusinessResponse,
-} from './AccountBusiness'
+import ClientBusiness, { transformClientBusinessResponse, ClientBusinessResponse } from './ClientBusiness'
+import AccountBusiness, { transformAccountBusinessResponse, AccountBusinessResponse } from './AccountBusiness'
 
 export default interface BusinessClient {
 	id: string

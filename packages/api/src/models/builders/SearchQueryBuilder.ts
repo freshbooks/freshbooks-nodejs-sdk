@@ -41,13 +41,11 @@ export class SearchQueryBuilder {
 
 	between(key: string, { min, max }: RangeType): SearchQueryBuilder {
 		if (min) {
-			const value =
-				min instanceof Date ? SearchQueryBuilder.handleDate(min) : min
+			const value = min instanceof Date ? SearchQueryBuilder.handleDate(min) : min
 			this.queryParams = { ...this.queryParams, [`search[${key}_min]`]: value }
 		}
 		if (max) {
-			const value =
-				max instanceof Date ? SearchQueryBuilder.handleDate(max) : max
+			const value = max instanceof Date ? SearchQueryBuilder.handleDate(max) : max
 			this.queryParams = {
 				...this.queryParams,
 				[`search[${key}_max]`]: value,

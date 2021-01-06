@@ -1,13 +1,14 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
-import APIClient from '../src/APIClient'
+import APIClient, { Options } from '../src/APIClient'
 import Item from '../src/models/Item'
 
 const mock = new MockAdapter(axios) // set mock adapter on default axios instance
 
 const ACCOUNT_ID = 'zDmNq'
 const ITEM_ID = '201225'
+const testOptions: Options = { clientId: 'test-client-id' }
 
 const buildMockResponse = (itemProperties: any = {}): string =>
 	JSON.stringify({
@@ -72,7 +73,7 @@ describe('@freshbooks/api', () => {
 	describe('Item', () => {
 		test('GET /accounting/account/<accountid>/items/items/<id>', async () => {
 			const token = 'token'
-			const client = new APIClient(token)
+			const client = new APIClient(token, testOptions)
 
 			const mockResponse = `{ 
 					"response":{
@@ -82,9 +83,7 @@ describe('@freshbooks/api', () => {
 					}
 				 }`
 
-			mock
-				.onGet(`/accounting/account/${ACCOUNT_ID}/items/items/${ITEM_ID}`)
-				.replyOnce(200, mockResponse)
+			mock.onGet(`/accounting/account/${ACCOUNT_ID}/items/items/${ITEM_ID}`).replyOnce(200, mockResponse)
 
 			const { data } = await client.items.single(ACCOUNT_ID, ITEM_ID)
 
@@ -94,7 +93,7 @@ describe('@freshbooks/api', () => {
 		})
 		test('GET /accounting/account/<accountid>/items/items', async () => {
 			const token = 'token'
-			const client = new APIClient(token)
+			const client = new APIClient(token, testOptions)
 
 			const mockResponse = `{ 
 					"response":{
@@ -108,9 +107,7 @@ describe('@freshbooks/api', () => {
 					}
 				 }`
 
-			mock
-				.onGet(`/accounting/account/${ACCOUNT_ID}/items/items`)
-				.replyOnce(200, mockResponse)
+			mock.onGet(`/accounting/account/${ACCOUNT_ID}/items/items`).replyOnce(200, mockResponse)
 
 			const { data } = await client.items.list(ACCOUNT_ID)
 
@@ -128,7 +125,7 @@ describe('@freshbooks/api', () => {
 		})
 		test('PUT /accounting/account/<accountid>/items/items/<id>', async () => {
 			const token = 'token'
-			const client = new APIClient(token)
+			const client = new APIClient(token, testOptions)
 
 			const mockResponse = `{ 
 					"response":{
@@ -141,12 +138,7 @@ describe('@freshbooks/api', () => {
 			const mockRequest = buildMockRequest({
 				qty: 10,
 			})
-			mock
-				.onPut(
-					`/accounting/account/${ACCOUNT_ID}/items/items/${ITEM_ID}`,
-					mockRequest
-				)
-				.replyOnce(200, mockResponse)
+			mock.onPut(`/accounting/account/${ACCOUNT_ID}/items/items/${ITEM_ID}`, mockRequest).replyOnce(200, mockResponse)
 
 			const itemData = buildItem({ qty: 10 })
 
@@ -157,7 +149,7 @@ describe('@freshbooks/api', () => {
 
 		test('PUT /accounting/account/<accountid>/items/items/<id> (delete)', async () => {
 			const token = 'token'
-			const client = new APIClient(token)
+			const client = new APIClient(token, testOptions)
 
 			const mockResponse = `{
 					"response":{
@@ -168,12 +160,7 @@ describe('@freshbooks/api', () => {
 				 }`
 
 			const mockRequest = buildMockRequest({ vis_state: 1 })
-			mock
-				.onPut(
-					`/accounting/account/${ACCOUNT_ID}/items/items/${ITEM_ID}`,
-					mockRequest
-				)
-				.replyOnce(200, mockResponse)
+			mock.onPut(`/accounting/account/${ACCOUNT_ID}/items/items/${ITEM_ID}`, mockRequest).replyOnce(200, mockResponse)
 
 			const itemData = buildItem({ visState: 1 })
 
@@ -184,7 +171,7 @@ describe('@freshbooks/api', () => {
 
 		test('POST /accounting/account/<accountid>/items/items', async () => {
 			const token = 'token'
-			const client = new APIClient(token)
+			const client = new APIClient(token, testOptions)
 
 			const mockResponse = `{
 					"response":{
@@ -195,9 +182,7 @@ describe('@freshbooks/api', () => {
 				 }`
 
 			const mockRequest = buildMockRequest()
-			mock
-				.onPost(`/accounting/account/${ACCOUNT_ID}/items/items`, mockRequest)
-				.replyOnce(200, mockResponse)
+			mock.onPost(`/accounting/account/${ACCOUNT_ID}/items/items`, mockRequest).replyOnce(200, mockResponse)
 
 			const itemData = buildItem()
 

@@ -1,13 +1,14 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
-import Client from '../src/APIClient'
+import Client, { Options } from '../src/APIClient'
 import { Invoice } from '../src/models'
 import { IncludesQueryBuilder } from '../src/models/builders/IncludesQueryBuilder'
 import { SearchQueryBuilder } from '../src/models/builders/SearchQueryBuilder'
 
 const mock = new MockAdapter(axios) // set mock adapter on default axios instance
 const ACCOUNT_ID = 'xZNQ1X'
+const testOptions: Options = { clientId: 'test-client-id' }
 
 const buildMockResponse = (invoiceProperties: any = {}): string => {
 	return JSON.stringify({
@@ -219,7 +220,7 @@ describe('@freshbooks/api', () => {
 	describe('Invoice', () => {
 		test('GET /accounting/account/<accountId>/invoices/invoices/<invoiceId>', async () => {
 			const token = 'token'
-			const client = new Client(token)
+			const client = new Client(token, testOptions)
 			const INVOICE_ID = '217506'
 
 			const mockResponse = `
@@ -230,11 +231,7 @@ describe('@freshbooks/api', () => {
                     }
                 }
             }`
-			mock
-				.onGet(
-					`/accounting/account/${ACCOUNT_ID}/invoices/invoices/${INVOICE_ID}`
-				)
-				.replyOnce(200, mockResponse)
+			mock.onGet(`/accounting/account/${ACCOUNT_ID}/invoices/invoices/${INVOICE_ID}`).replyOnce(200, mockResponse)
 
 			const expected = buildInvoice()
 			const { data } = await client.invoices.single(ACCOUNT_ID, INVOICE_ID)
@@ -243,7 +240,7 @@ describe('@freshbooks/api', () => {
 		})
 		test('GET /accounting/account/<accountId>/invoices/invoices', async () => {
 			const token = 'token'
-			const client = new Client(token)
+			const client = new Client(token, testOptions)
 
 			const mockResponse = `
                 {"response": 
@@ -259,9 +256,7 @@ describe('@freshbooks/api', () => {
                         }
                     }
                 }`
-			mock
-				.onGet(`/accounting/account/${ACCOUNT_ID}/invoices/invoices`)
-				.replyOnce(200, mockResponse)
+			mock.onGet(`/accounting/account/${ACCOUNT_ID}/invoices/invoices`).replyOnce(200, mockResponse)
 
 			const expected = {
 				invoices: [buildInvoice()],
@@ -278,7 +273,7 @@ describe('@freshbooks/api', () => {
 		})
 		test('GET /accounting/account/<accountId>/invoices/invoices?include[]=lines', async () => {
 			const token = 'token'
-			const client = new Client(token)
+			const client = new Client(token, testOptions)
 
 			const mockResponse = `
                 {"response": 
@@ -328,11 +323,7 @@ describe('@freshbooks/api', () => {
                     }
                 }`
 			const builder = new IncludesQueryBuilder().includes('lines')
-			mock
-				.onGet(
-					`/accounting/account/${ACCOUNT_ID}/invoices/invoices?${builder.build()}`
-				)
-				.replyOnce(200, mockResponse)
+			mock.onGet(`/accounting/account/${ACCOUNT_ID}/invoices/invoices?${builder.build()}`).replyOnce(200, mockResponse)
 
 			const expected = {
 				invoices: [
@@ -384,7 +375,7 @@ describe('@freshbooks/api', () => {
 
 		test('GET /accounting/account/<accountId>/invoices/invoices?search[invoice_id]=217506', async () => {
 			const token = 'token'
-			const client = new Client(token)
+			const client = new Client(token, testOptions)
 
 			const mockResponse = `
                 {"response": 
@@ -401,11 +392,7 @@ describe('@freshbooks/api', () => {
                     }
                 }`
 			const builder = new SearchQueryBuilder().equals('invoice_id', '217506')
-			mock
-				.onGet(
-					`/accounting/account/${ACCOUNT_ID}/invoices/invoices?${builder.build()}`
-				)
-				.replyOnce(200, mockResponse)
+			mock.onGet(`/accounting/account/${ACCOUNT_ID}/invoices/invoices?${builder.build()}`).replyOnce(200, mockResponse)
 
 			const expected = {
 				invoices: [buildInvoice()],
@@ -422,7 +409,7 @@ describe('@freshbooks/api', () => {
 		})
 		test('POST /accounting/account/<accountId>/invoices/invoices', async () => {
 			const token = 'token'
-			const client = new Client(token)
+			const client = new Client(token, testOptions)
 			const mockResponse = `
             {"response": 
                 {
@@ -432,12 +419,7 @@ describe('@freshbooks/api', () => {
                 }
             }`
 			const mockRequest = buildMockRequest()
-			mock
-				.onPost(
-					`/accounting/account/${ACCOUNT_ID}/invoices/invoices`,
-					mockRequest
-				)
-				.replyOnce(200, mockResponse)
+			mock.onPost(`/accounting/account/${ACCOUNT_ID}/invoices/invoices`, mockRequest).replyOnce(200, mockResponse)
 
 			const invoice = buildInvoice()
 			const { data } = await client.invoices.create(invoice, ACCOUNT_ID)
@@ -446,7 +428,7 @@ describe('@freshbooks/api', () => {
 		})
 		test('PUT /accounting/account/<accountId>/invoices/invoices/<invoiceId>', async () => {
 			const token = 'token'
-			const client = new Client(token)
+			const client = new Client(token, testOptions)
 			const INVOICE_ID = '217506'
 
 			const mockResponse = `
@@ -459,24 +441,17 @@ describe('@freshbooks/api', () => {
             }`
 			const mockRequest = buildMockRequest()
 			mock
-				.onPut(
-					`/accounting/account/${ACCOUNT_ID}/invoices/invoices/${INVOICE_ID}`,
-					mockRequest
-				)
+				.onPut(`/accounting/account/${ACCOUNT_ID}/invoices/invoices/${INVOICE_ID}`, mockRequest)
 				.replyOnce(200, mockResponse)
 
 			const invoice = buildInvoice()
-			const { data } = await client.invoices.update(
-				ACCOUNT_ID,
-				INVOICE_ID,
-				invoice
-			)
+			const { data } = await client.invoices.update(ACCOUNT_ID, INVOICE_ID, invoice)
 
 			expect(data).toEqual(invoice)
 		})
 		test('PUT /accounting/account/<accountId>/invoices/invoices/<invoiceId> (delete)', async () => {
 			const token = 'token'
-			const client = new Client(token)
+			const client = new Client(token, testOptions)
 			const INVOICE_ID = '217506'
 
 			const mockResponse = `
@@ -489,10 +464,7 @@ describe('@freshbooks/api', () => {
             }`
 			const mockRequest = { invoice: { vis_state: 1 } }
 			mock
-				.onPut(
-					`/accounting/account/${ACCOUNT_ID}/invoices/invoices/${INVOICE_ID}`,
-					mockRequest
-				)
+				.onPut(`/accounting/account/${ACCOUNT_ID}/invoices/invoices/${INVOICE_ID}`, mockRequest)
 				.replyOnce(200, mockResponse)
 
 			const { data } = await client.invoices.delete(ACCOUNT_ID, INVOICE_ID)

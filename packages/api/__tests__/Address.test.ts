@@ -1,8 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import {
-	transformAddressJSON,
-	transformAddressResponse,
-} from '../src/models/Address'
+import { transformAddressJSON, transformAddressResponse } from '../src/models/Address'
 
 describe('@freshbooks/api', () => {
 	describe('Address', () => {

@@ -329,7 +329,7 @@ export function transformInvoiceRequest(invoice: Invoice): string {
 			invoice_number: invoice.invoiceNumber,
 			language: invoice.language,
 			last_order_status: invoice.lastOrderStatus,
-			lines: invoice.lines && invoice.lines.map(line => transformLineRequest(line)),
+			lines: invoice.lines && invoice.lines.map((line) => transformLineRequest(line)),
 			lname: invoice.lName,
 			notes: invoice.notes,
 			organization: invoice.organization,

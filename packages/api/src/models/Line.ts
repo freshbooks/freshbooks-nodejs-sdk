@@ -93,10 +93,7 @@ export function transformLineResponse(line: any): Line {
 		taxNumber2: line.taxNumber2,
 		type: line.type,
 		unitCost: line.unit_cost,
-		updated: transformDateResponse(
-			line.updated,
-			DateFormat['YYYY-MM-DD hh:mm:ss']
-		),
+		updated: transformDateResponse(line.updated, DateFormat['YYYY-MM-DD hh:mm:ss']),
 	}
 }
 

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
-import APIClient from '../src/APIClient'
+import APIClient, { Options } from '../src/APIClient'
 import Expense from '../src/models/Expense'
 import { joinQueries } from '../src/models/builders'
 import { SearchQueryBuilder } from '../src/models/builders/SearchQueryBuilder'
@@ -130,11 +130,13 @@ const buildMockRequest = (expenseProperties: any = {}): any => ({
 	},
 })
 
+const testOptions: Options = { clientId: 'test-client-id' }
+
 describe('@freshbooks/api', () => {
 	describe('Expense', () => {
 		test('GET /accounting/account/<accountid>/expenses/expenses/<id>', async () => {
 			const token = 'token'
-			const client = new APIClient(token)
+			const client = new APIClient(token, testOptions)
 
 			const mockResponse = `{ 
 					"response":{
@@ -144,11 +146,7 @@ describe('@freshbooks/api', () => {
 					}
 				 }`
 
-			mock
-				.onGet(
-					`/accounting/account/${ACCOUNT_ID}/expenses/expenses/${EXPENSE_ID}`
-				)
-				.replyOnce(200, mockResponse)
+			mock.onGet(`/accounting/account/${ACCOUNT_ID}/expenses/expenses/${EXPENSE_ID}`).replyOnce(200, mockResponse)
 
 			const { data } = await client.expenses.single(ACCOUNT_ID, EXPENSE_ID)
 
@@ -158,7 +156,7 @@ describe('@freshbooks/api', () => {
 
 		test('GET /accounting/account/<accountid>/expenses/expenses', async () => {
 			const token = 'token'
-			const client = new APIClient(token)
+			const client = new APIClient(token, testOptions)
 
 			const mockResponse = `{ 
 					"response":{
@@ -172,9 +170,7 @@ describe('@freshbooks/api', () => {
 					}
 				 }`
 
-			mock
-				.onGet(`/accounting/account/${ACCOUNT_ID}/expenses/expenses`)
-				.replyOnce(200, mockResponse)
+			mock.onGet(`/accounting/account/${ACCOUNT_ID}/expenses/expenses`).replyOnce(200, mockResponse)
 
 			const { data } = await client.expenses.list(ACCOUNT_ID)
 
@@ -192,7 +188,7 @@ describe('@freshbooks/api', () => {
 
 		test('GET /accounting/account/<accountid>/expenses/expenses?include[]=category', async () => {
 			const token = 'token'
-			const client = new APIClient(token)
+			const client = new APIClient(token, testOptions)
 
 			const category = {
 				category: 'Accident Insurance',
@@ -219,9 +215,7 @@ describe('@freshbooks/api', () => {
 					}
 				 }`
 
-			mock
-				.onGet(`/accounting/account/${ACCOUNT_ID}/expenses/expenses`)
-				.replyOnce(200, mockResponse)
+			mock.onGet(`/accounting/account/${ACCOUNT_ID}/expenses/expenses`).replyOnce(200, mockResponse)
 
 			const { data } = await client.expenses.list(ACCOUNT_ID)
 
@@ -243,7 +237,7 @@ describe('@freshbooks/api', () => {
 
 		test(`GET /accounting/account/<accountid>/expenses/expenses/search[expenseid]=${EXPENSE_ID}`, async () => {
 			const token = 'token'
-			const client = new APIClient(token)
+			const client = new APIClient(token, testOptions)
 
 			const mockResponse = `{ 
 					"response":{
@@ -260,11 +254,7 @@ describe('@freshbooks/api', () => {
 			const builder = new SearchQueryBuilder().equals('expenseid', EXPENSE_ID)
 
 			mock
-				.onGet(
-					`/accounting/account/${ACCOUNT_ID}/expenses/expenses${joinQueries([
-						builder,
-					])}`
-				)
+				.onGet(`/accounting/account/${ACCOUNT_ID}/expenses/expenses${joinQueries([builder])}`)
 				.replyOnce(200, mockResponse)
 
 			const { data } = await client.expenses.list(ACCOUNT_ID, [builder])
@@ -283,7 +273,7 @@ describe('@freshbooks/api', () => {
 
 		test('POST /accounting/account/<accountid>/expenses/expenses', async () => {
 			const token = 'token'
-			const client = new APIClient(token)
+			const client = new APIClient(token, testOptions)
 
 			const mockResponse = `{ 
 					"response":{
@@ -294,12 +284,7 @@ describe('@freshbooks/api', () => {
                  }`
 
 			const mockRequest = buildMockRequest()
-			mock
-				.onPost(
-					`/accounting/account/${ACCOUNT_ID}/expenses/expenses`,
-					mockRequest
-				)
-				.replyOnce(200, mockResponse)
+			mock.onPost(`/accounting/account/${ACCOUNT_ID}/expenses/expenses`, mockRequest).replyOnce(200, mockResponse)
 
 			const expected = buildExpense()
 
@@ -310,7 +295,7 @@ describe('@freshbooks/api', () => {
 
 		test('PUT /accounting/account/<accountid>/expenses/expenses/<expenseid>', async () => {
 			const token = 'token'
-			const client = new APIClient(token)
+			const client = new APIClient(token, testOptions)
 
 			const mockResponse = `{ 
 					"response":{
@@ -322,26 +307,19 @@ describe('@freshbooks/api', () => {
 
 			const mockRequest = buildMockRequest()
 			mock
-				.onPut(
-					`/accounting/account/${ACCOUNT_ID}/expenses/expenses/${EXPENSE_ID}`,
-					mockRequest
-				)
+				.onPut(`/accounting/account/${ACCOUNT_ID}/expenses/expenses/${EXPENSE_ID}`, mockRequest)
 				.replyOnce(200, mockResponse)
 
 			const expected = buildExpense()
 
-			const { data } = await client.expenses.update(
-				expected,
-				ACCOUNT_ID,
-				EXPENSE_ID
-			)
+			const { data } = await client.expenses.update(expected, ACCOUNT_ID, EXPENSE_ID)
 
 			expect(data).toEqual(expected)
 		})
 
 		test('PUT /accounting/account/<accountid>/expenses/expenses/<expenseid> (delete)', async () => {
 			const token = 'token'
-			const client = new APIClient(token)
+			const client = new APIClient(token, testOptions)
 
 			const mockResponse = `
             {"response": 
@@ -353,10 +331,7 @@ describe('@freshbooks/api', () => {
             }`
 			const mockRequest = { expense: { vis_state: 1 } }
 			mock
-				.onPut(
-					`/accounting/account/${ACCOUNT_ID}/expenses/expenses/${EXPENSE_ID}`,
-					mockRequest
-				)
+				.onPut(`/accounting/account/${ACCOUNT_ID}/expenses/expenses/${EXPENSE_ID}`, mockRequest)
 				.replyOnce(200, mockResponse)
 
 			const { data } = await client.expenses.delete(ACCOUNT_ID, EXPENSE_ID)

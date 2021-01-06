@@ -1,14 +1,10 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import Profession, {
-	transformProfessionJSON,
-	transformProfessionResponse,
-} from '../src/models/Profession'
+import Profession, { transformProfessionJSON, transformProfessionResponse } from '../src/models/Profession'
 
 describe('@freshbooks/api', () => {
 	describe('Profession', () => {
 		test('Verify JSON with null values -> model transform', () => {
-			const json =
-				'{"id": 17748, "title": null, "company": "BillSpring", "designation": null, "business_id": null}'
+			const json = '{"id": 17748, "title": null, "company": "BillSpring", "designation": null, "business_id": null}'
 			const model = transformProfessionJSON(json)
 			const expected: Profession = {
 				id: '17748',

@@ -1,13 +1,7 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import Address, { transformAddressResponse, AddressResponse } from './Address'
-import PhoneNumber, {
-	transformPhoneNumberResponse,
-	PhoneNumberResponse,
-} from './PhoneNumber'
-import BusinessClient, {
-	transformBusinessClientResponse,
-	BusinessClientResponse,
-} from './BusinessClient'
+import PhoneNumber, { transformPhoneNumberResponse, PhoneNumberResponse } from './PhoneNumber'
+import BusinessClient, { transformBusinessClientResponse, BusinessClientResponse } from './BusinessClient'
 import { Nullable } from './helpers'
 
 export default interface Business {
@@ -75,8 +69,7 @@ export function transformBusinessResponse({
 		name,
 		accountId: accountId.toString(),
 		address: transformAddressResponse(address),
-		phoneNumber:
-			phone_number !== null ? transformPhoneNumberResponse(phone_number) : null,
+		phoneNumber: phone_number !== null ? transformPhoneNumberResponse(phone_number) : null,
 		businessClients: business_clients.map(transformBusinessClientResponse),
 	}
 }

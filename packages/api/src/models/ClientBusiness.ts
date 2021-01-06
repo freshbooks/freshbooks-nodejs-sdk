@@ -13,9 +13,7 @@ export interface ClientBusinessResponse {
  * eg: { "business_id": 77128 }
  * @returns Client business object
  */
-export function transformClientBusinessResponse({
-	business_id,
-}: ClientBusinessResponse): ClientBusiness {
+export function transformClientBusinessResponse({ business_id }: ClientBusinessResponse): ClientBusiness {
 	return {
 		businessId: business_id.toString(),
 	}

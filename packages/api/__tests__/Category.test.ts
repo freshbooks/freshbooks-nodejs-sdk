@@ -1,7 +1,4 @@
-import {
-	transformCategoryJSON,
-	transformCategoryResponse,
-} from '../src/models/Category'
+import { transformCategoryJSON, transformCategoryResponse } from '../src/models/Category'
 
 /* eslint-disable @typescript-eslint/camelcase */
 

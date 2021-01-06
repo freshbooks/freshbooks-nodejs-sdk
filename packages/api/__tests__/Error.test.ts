@@ -28,7 +28,7 @@ describe('@freshbooks/api', () => {
 				},
 			]
 
-			errorResponses.forEach(response => {
+			errorResponses.forEach((response) => {
 				expect(isAccountingErrorResponse(response)).toBeTruthy()
 			})
 		})
@@ -47,7 +47,7 @@ describe('@freshbooks/api', () => {
 				},
 			]
 
-			errorResponses.forEach(response => {
+			errorResponses.forEach((response) => {
 				expect(isProjectErrorResponse(response)).toBeTruthy()
 			})
 		})
@@ -134,7 +134,7 @@ describe('@freshbooks/api', () => {
 					},
 				},
 			]
-			testCases.forEach(testCase => {
+			testCases.forEach((testCase) => {
 				expect(transformErrorResponse(testCase.input)).toEqual(testCase.expected)
 			})
 		})

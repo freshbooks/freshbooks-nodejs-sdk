@@ -32,17 +32,11 @@ const defaultSessionOptions: SessionOptions = {
 	saveUninitialized: true,
 }
 
-const defaultSerializeUserFn = <T extends SessionUser>(
-	user: T,
-	done: (err: any, id?: string) => void
-): void => {
+const defaultSerializeUserFn = <T extends SessionUser>(user: T, done: (err: any, id?: string) => void): void => {
 	done(null, user.id)
 }
 
-const defaultDeserializeUserFn = (
-	id: string,
-	done: (err: any, user?: SessionUser) => void
-): void => {
+const defaultDeserializeUserFn = (id: string, done: (err: any, user?: SessionUser) => void): void => {
 	done(null, { id })
 }
 
@@ -54,7 +48,7 @@ const defaultDeserializeUserFn = (
  * @param callbackURL - URL to redirect to, after user authorizes application
  * @param options - App configuration options
  */
-export default function(
+export default function (
 	clientId: string,
 	clientSecret: string,
 	callbackURL: string,
@@ -82,10 +76,7 @@ export default function(
 	app.use(passport.initialize())
 	app.use(passport.session())
 
-	passport.use(
-		'freshbooks',
-		new FreshbooksStrategy(clientId, clientSecret, callbackURL, verify)
-	)
+	passport.use('freshbooks', new FreshbooksStrategy(clientId, clientSecret, callbackURL, verify))
 
 	return app
 }
@@ -93,12 +84,6 @@ export default function(
 export interface Options {
 	verify?: OAuth2Strategy.VerifyFunction
 	sessionOptions?: SessionOptions
-	serializeUser?: <T extends SessionUser>(
-		user: T,
-		done: (err: any, id?: string) => void
-	) => void
-	deserializeUser?: (
-		id: string,
-		done: <T extends SessionUser>(err: any, user?: T) => void
-	) => void
+	serializeUser?: <T extends SessionUser>(user: T, done: (err: any, id?: string) => void) => void
+	deserializeUser?: (id: string, done: <T extends SessionUser>(err: any, user?: T) => void) => void
 }
