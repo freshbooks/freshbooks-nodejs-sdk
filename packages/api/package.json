@@ -1,6 +1,6 @@
 {
 	"name": "@freshbooks/api",
-	"version": "1.2.4",
+	"version": "1.2.5",
 	"description": "NodeJS SDK for FreshBooks API",
 	"author": "FreshBooks",
 	"license": "MIT",
@@ -22,8 +22,8 @@
 	"dependencies": {
 		"axios": "^0.19.2",
 		"axios-retry": "^3.1.9",
-		"winston": "^3.3.3",
-		"dotenv": "^8.1.0"
+		"dotenv": "^8.1.0",
+		"winston": "^3.3.3"
 	},
 	"devDependencies": {
 		"@types/dotenv": "^6.1.1",
