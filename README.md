@@ -1,7 +1,7 @@
 # FreshBooks NodeJS SDK
 
-![npm](https://img.shields.io/npm/v/@freshbooks/api?color=%21%5BPyPI%20-%20Python%20Version%5D%28https%3A%2F%2Fimg.shields.io%2Fpypi%2Fpyversions%2Ffreshbooks-sdk%3Fcolor%3Dbrightgreen%26style%3Dplastic%29&style=plastic)
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/freshbooks/freshbooks-nodejs-sdk/Run%20Tests?style=plastic)
+[![npm](https://img.shields.io/npm/v/@freshbooks/api)](https://www.npmjs.com/package/@freshbooks/api)
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/freshbooks/freshbooks-nodejs-sdk/Run%20Tests)](https://github.com/freshbooks/freshbooks-nodejs-sdk/actions?query=workflow%3A%22Run+Tests%22)
 
 The FreshBooks NodeJS SDK is a collection of single-purpose packages designed to easily build FreshBooks apps. Each package delivers part of the [FreshBooks API](https://www.freshbooks.com/api), so that you can choose the packages that fit your needs.
 
