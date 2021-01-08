@@ -30,7 +30,7 @@ dotenv.config()
 
 // defaults
 const API_URL = 'https://api.freshbooks.com'
-const API_VERSION = process.env.VERSION
+const API_VERSION = require('../package.json').version
 
 /**
  * Client for FreshBooks API
