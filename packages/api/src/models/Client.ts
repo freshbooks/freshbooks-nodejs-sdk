@@ -4,7 +4,7 @@ import Pagination from './Pagination'
 import { Nullable } from './helpers'
 
 export default interface Client {
-	id?: number
+	id?: string
 	fName?: Nullable<string>
 	lName?: Nullable<string>
 	organization?: Nullable<string>
@@ -36,13 +36,13 @@ export default interface Client {
 	allowLateFees?: boolean
 	pStreet?: string
 	companySize?: Nullable<string>
-	accountingSystemId?: number
+	accountingSystemId?: string
 	pCode?: string
 	signupDate?: Nullable<Date>
 	language?: Nullable<string>
 	level?: number
 	notified?: boolean
-	userId?: number
+	userId?: string
 	pStreet2?: string
 	prefGmail?: boolean
 	visState?: number
@@ -51,7 +51,7 @@ export default interface Client {
 	pCountry?: string
 	currencyCode?: string
 	hasRetainer?: Nullable<boolean>
-	retainerId?: Nullable<number>
+	retainerId?: Nullable<string>
 	role?: Nullable<string>
 }
 
