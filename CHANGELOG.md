@@ -2,6 +2,10 @@
 
 ## @freshbooks/api
 
+### 1.2.0
+
+- Added TimeEntry resource
+
 ### 1.1.3
 
 - `like` filters no longer automatically append `_like` to the search key.

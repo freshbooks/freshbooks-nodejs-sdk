@@ -3,6 +3,7 @@ import { ErrorResponse, isProjectErrorResponse, transformErrorResponse } from '.
 import Pagination from './Pagination'
 import { Nullable } from './helpers'
 import { transformDateResponse, DateFormat } from './Date'
+import Timer, { transformTimerResponse } from './Timer'
 
 export default interface TimeEntry {
 	id?: string
@@ -24,7 +25,7 @@ export default interface TimeEntry {
 	internal?: boolean
 	retainerId?: Nullable<number>
 	duration: number
-	timer?: Nullable<number>
+	timer?: Nullable<Timer>
 }
 
 function transformTimeEntryData(timeEntry: any): TimeEntry {
@@ -48,7 +49,7 @@ function transformTimeEntryData(timeEntry: any): TimeEntry {
 		internal: timeEntry.internal,
 		retainerId: timeEntry.retainer_id,
 		duration: timeEntry.duration,
-		timer: timeEntry.timer,
+		timer: timeEntry.timer && transformTimerResponse(timeEntry.timer),
 	}
 }
 
@@ -120,7 +121,6 @@ export function transformTimeEntryRequest(timeEntry: TimeEntry): string {
 			internal: timeEntry.internal,
 			retainer_id: timeEntry.retainerId,
 			duration: timeEntry.duration,
-			timer: timeEntry.timer,
 		},
 	}
 	return JSON.stringify(model)
