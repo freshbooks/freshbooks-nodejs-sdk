@@ -127,13 +127,13 @@ describe('@freshbooks/api', () => {
 				is_logged: true,
 				started_at: '2020-01-21T10:00:00.000Z',
 				duration: 360,
+				timer: null,
 			})
 
 			const mockRequest = {
 				time_entry: {
 					is_logged: true,
 					started_at: '2020-01-21T10:00:00.000Z',
-					created_at: null,
 					client_id: 9876,
 					internal: true,
 					duration: 360,
@@ -156,13 +156,13 @@ describe('@freshbooks/api', () => {
 		const mockResponse = buildMockTimeEntryJSONResponse({
 			started_at: '2020-01-21T10:00:00.000Z',
 			duration: 680,
+			timer: null,
 		})
 
 		const mockRequest = {
 			time_entry: {
 				is_logged: true,
 				started_at: '2020-01-21T10:00:00.000Z',
-				created_at: null,
 				duration: 680,
 			},
 		}

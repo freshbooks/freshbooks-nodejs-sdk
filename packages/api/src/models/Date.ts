@@ -1,6 +1,7 @@
 export enum DateFormat {
 	'YYYY-MM-DD' = 0,
 	'YYYY-MM-DD hh:mm:ss' = 1,
+	'YYYY-MM-DDThh:mm:ss' = 2,
 }
 
 export const transformDateRequest = (date: Date): string => {
@@ -13,6 +14,8 @@ export const transformDateRequest = (date: Date): string => {
 export const transformDateResponse = (dateString: string, dateFormat: DateFormat = DateFormat['YYYY-MM-DD']): Date => {
 	switch (dateFormat) {
 		case DateFormat['YYYY-MM-DD hh:mm:ss']:
+			return new Date(dateString)
+		case DateFormat['YYYY-MM-DDThh:mm:ss']:
 			return new Date(dateString)
 		default:
 			return new Date(`${dateString} 00:00:00`)
