@@ -38,7 +38,7 @@
 	},
 	"lint-staged": {
 		"**/*.ts": [
-			"./node_modules/.bin/eslint \"**/*.{js,ts}\" --quiet --fix",
+			"./node_modules/.bin/eslint \"packages/**/*.{js,ts}\" --quiet --fix",
 			"git add"
 		]
 	},

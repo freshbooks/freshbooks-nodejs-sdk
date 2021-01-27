@@ -5,7 +5,7 @@ import { Logger } from 'winston'
 import _logger from './logger'
 import APIClientError from './models/Error'
 
-import { Client, Error, Expense, Invoice, Item, Pagination, Payment, TimeEntry, User } from './models'
+import { Client, Error, Expense, Invoice, Item, Pagination, Payment, Project, TimeEntry, User } from './models'
 import { transformClientResponse, transformClientListResponse, transformClientRequest } from './models/Client'
 import { transformListInvoicesResponse, transformInvoiceResponse, transformInvoiceRequest } from './models/Invoices'
 import { transformItemResponse, transformItemListResponse, transformItemRequest } from './models/Item'
@@ -18,6 +18,7 @@ import {
 import { QueryBuilderType, joinQueries } from './models/builders'
 
 import { transformExpenseResponse, transformExpenseListResponse, transformExpenseRequest } from './models/Expense'
+import { transformProjectResponse, transformProjectListResponse, transformProjectRequest } from './models/Project'
 import {
 	transformTimeEntryResponse,
 	transformTimeEntryListResponse,
@@ -461,6 +462,56 @@ export default class APIClient {
 				},
 				'Delete Payment'
 			),
+	}
+
+	public readonly projects = {
+		list: (
+			businessId: number,
+			queryBuilders?: QueryBuilderType[]
+		): Promise<Result<{ projects: Project[]; pages: Pagination }>> =>
+			this.call(
+				'GET',
+				`/projects/business/${businessId}/projects${joinQueries(queryBuilders)}`,
+				{
+					transformResponse: transformProjectListResponse,
+				},
+				null,
+				'List Projects'
+			),
+		single: (businessId: number, projectId: number): Promise<Result<Project>> =>
+			this.call(
+				'GET',
+				`/projects/business/${businessId}/project/${projectId}`,
+				{
+					transformResponse: transformProjectResponse,
+				},
+				null,
+				'Get Project'
+			),
+		create: (project: Project, businessId: number): Promise<Result<Project>> =>
+			this.call(
+				'POST',
+				`/projects/business/${businessId}/project`,
+				{
+					transformResponse: transformProjectResponse,
+					transformRequest: transformProjectRequest,
+				},
+				project,
+				'Create Project'
+			),
+		update: (project: Project, businessId: number, projectId: number): Promise<Result<Project>> =>
+			this.call(
+				'PUT',
+				`/projects/business/${businessId}/project/${projectId}`,
+				{
+					transformResponse: transformProjectResponse,
+					transformRequest: transformProjectRequest,
+				},
+				project,
+				'Update Project'
+			),
+		delete: (businessId: number, projectId: number): Promise<Result<Project>> =>
+			this.call('DELETE', `/projects/business/${businessId}/project/${projectId}`, {}, null, 'Delete Project'),
 	}
 
 	public readonly timeEntries = {

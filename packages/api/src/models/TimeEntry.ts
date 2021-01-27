@@ -3,6 +3,7 @@ import { ErrorResponse, isProjectErrorResponse, transformErrorResponse } from '.
 import Pagination from './Pagination'
 import { Nullable } from './helpers'
 import { transformDateResponse, DateFormat } from './Date'
+import Timer, { transformTimerResponse } from './Timer'
 
 export default interface TimeEntry {
 	id?: string
@@ -24,7 +25,7 @@ export default interface TimeEntry {
 	internal?: boolean
 	retainerId?: Nullable<number>
 	duration: number
-	timer?: Nullable<number>
+	timer?: Nullable<Timer>
 }
 
 function transformTimeEntryData(timeEntry: any): TimeEntry {
@@ -32,8 +33,8 @@ function transformTimeEntryData(timeEntry: any): TimeEntry {
 		id: timeEntry.id,
 		identityId: timeEntry.identity_id,
 		isLogged: timeEntry.is_logged,
-		startedAt: transformDateResponse(timeEntry.started_at, DateFormat['YYYY-MM-DD hh:mm:ss']),
-		createdAt: transformDateResponse(timeEntry.created_at, DateFormat['YYYY-MM-DD hh:mm:ss']),
+		startedAt: transformDateResponse(timeEntry.started_at, DateFormat['YYYY-MM-DDThh:mm:ss']),
+		createdAt: transformDateResponse(timeEntry.created_at, DateFormat['YYYY-MM-DDThh:mm:ss']),
 		clientId: timeEntry.client_id,
 		projectId: timeEntry.project_id,
 		pendingClient: timeEntry.pending_client,
@@ -48,7 +49,7 @@ function transformTimeEntryData(timeEntry: any): TimeEntry {
 		internal: timeEntry.internal,
 		retainerId: timeEntry.retainer_id,
 		duration: timeEntry.duration,
-		timer: timeEntry.timer,
+		timer: timeEntry.timer && transformTimerResponse(timeEntry.timer),
 	}
 }
 
@@ -105,7 +106,6 @@ export function transformTimeEntryRequest(timeEntry: TimeEntry): string {
 			identity_id: timeEntry.identityId,
 			is_logged: timeEntry.isLogged,
 			started_at: timeEntry.startedAt ? timeEntry.startedAt.toISOString() : null,
-			created_at: timeEntry.createdAt ? timeEntry.createdAt.toISOString() : null,
 			client_id: timeEntry.clientId,
 			project_id: timeEntry.projectId,
 			pending_client: timeEntry.pendingClient,
@@ -120,7 +120,6 @@ export function transformTimeEntryRequest(timeEntry: TimeEntry): string {
 			internal: timeEntry.internal,
 			retainer_id: timeEntry.retainerId,
 			duration: timeEntry.duration,
-			timer: timeEntry.timer,
 		},
 	}
 	return JSON.stringify(model)
