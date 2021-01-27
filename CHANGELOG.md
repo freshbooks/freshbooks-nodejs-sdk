@@ -2,6 +2,10 @@
 
 ## @freshbooks/api
 
+### Unreleased
+
+- Added Project resource
+
 ### 1.2.0
 
 - Added TimeEntry resource

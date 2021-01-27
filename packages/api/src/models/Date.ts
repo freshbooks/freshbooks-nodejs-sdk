@@ -16,6 +16,7 @@ export const transformDateResponse = (dateString: string, dateFormat: DateFormat
 		case DateFormat['YYYY-MM-DD hh:mm:ss']:
 			return new Date(dateString)
 		case DateFormat['YYYY-MM-DDThh:mm:ss']:
+			dateString = dateString.replace(/([^Z])$/, '$1Z') // Append Z if not present
 			return new Date(dateString)
 		default:
 			return new Date(`${dateString} 00:00:00`)

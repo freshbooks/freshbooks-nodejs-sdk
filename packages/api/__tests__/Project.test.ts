@@ -70,7 +70,7 @@ const buildExpectedProjectResult = (projectProperties: any = {}): Project => ({
 	id: PROJECT_ID,
 	title: 'Some project',
 	description: 'a project...of doom',
-	dueDate: new Date('2020-10-24T04:00:00Z'),
+	dueDate: new Date('2020-10-24T00:00:00'),
 	clientId: 4321,
 	internal: false,
 	budget: '50.00',
