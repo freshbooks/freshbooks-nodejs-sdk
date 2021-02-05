@@ -87,7 +87,7 @@ const buildExpense = (expenseProperties: any = {}): Expense => ({
 	taxPercent1: 0,
 	taxPercent2: 0,
 	transactionId: null,
-	updated: new Date('Mon Dec 02 2019 12:36:05'),
+	updated: new Date('2019-12-02T17:36:05Z'),
 	vendor: null,
 	visState: 0,
 	...expenseProperties,
@@ -138,7 +138,7 @@ describe('@freshbooks/api', () => {
 			const token = 'token'
 			const client = new APIClient(token, testOptions)
 
-			const mockResponse = `{ 
+			const mockResponse = `{
 					"response":{
                         "result": {
                             "expense": ${buildMockResponse()}
@@ -158,7 +158,7 @@ describe('@freshbooks/api', () => {
 			const token = 'token'
 			const client = new APIClient(token, testOptions)
 
-			const mockResponse = `{ 
+			const mockResponse = `{
 					"response":{
                         "result": {
                             "expenses": [${buildMockResponse()}],
@@ -202,7 +202,7 @@ describe('@freshbooks/api', () => {
 				vis_state: 0,
 			}
 
-			const mockResponse = `{ 
+			const mockResponse = `{
 					"response":{
                         "result": {
                             "expenses": [
@@ -239,7 +239,7 @@ describe('@freshbooks/api', () => {
 			const token = 'token'
 			const client = new APIClient(token, testOptions)
 
-			const mockResponse = `{ 
+			const mockResponse = `{
 					"response":{
                         "result": {
                             "expenses": [${buildMockResponse()}],
@@ -275,7 +275,7 @@ describe('@freshbooks/api', () => {
 			const token = 'token'
 			const client = new APIClient(token, testOptions)
 
-			const mockResponse = `{ 
+			const mockResponse = `{
 					"response":{
                         "result": {
                             "expense": ${buildMockResponse()}
@@ -297,7 +297,7 @@ describe('@freshbooks/api', () => {
 			const token = 'token'
 			const client = new APIClient(token, testOptions)
 
-			const mockResponse = `{ 
+			const mockResponse = `{
 					"response":{
                         "result": {
                             "expense": ${buildMockResponse()}
@@ -322,7 +322,7 @@ describe('@freshbooks/api', () => {
 			const client = new APIClient(token, testOptions)
 
 			const mockResponse = `
-            {"response": 
+            {"response":
                 {
                     "result": {
                         "expense": ${buildMockResponse({ vis_state: 1 })}

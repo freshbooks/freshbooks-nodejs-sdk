@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
+import { DateTime } from 'luxon'
 import { transformDateResponse, DateFormat, transformDateRequest } from './Date'
 import { ErrorResponse, isAccountingErrorResponse, transformErrorResponse } from './Error'
 import { Nullable } from './helpers'
@@ -92,7 +93,7 @@ function transformClientData(client: any): Client {
 		companySize: client.company_size,
 		accountingSystemId: client.accounting_systemid,
 		pCode: client.p_code,
-		signupDate: client.signup_date && transformDateResponse(client.signup_date, DateFormat['YYYY-MM-DDThh:mm:ss']), // signup_date returns in UTC
+		signupDate: client.signup_date && DateTime.fromSQL(client.signup_date, { zone: 'UTC' }).toJSDate(), // signup date is in UTC
 		language: client.language,
 		level: client.level,
 		notified: client.notified,

@@ -77,7 +77,7 @@ const buildPayment = (paymentProperties: any = {}): Payment => ({
 	overpaymentId: null,
 	transactionId: null,
 	type: 'Cash',
-	updated: new Date('2019-11-29 12:18:29'),
+	updated: new Date('2019-11-29T17:18:29Z'),
 	visState: 0,
 	...paymentProperties,
 })
@@ -88,7 +88,7 @@ describe('@freshbooks/api', () => {
 			const token = 'token'
 			const client = new APIClient(token, testOptions)
 
-			const mockResponse = `{ 
+			const mockResponse = `{
 					"response":{
                         "result": {
                             "payment": ${buildMockResponse()}
@@ -108,7 +108,7 @@ describe('@freshbooks/api', () => {
 			const token = 'token'
 			const client = new APIClient(token, testOptions)
 
-			const mockResponse = `{ 
+			const mockResponse = `{
 					"response":{
                         "result": {
                             "payments": [${buildMockResponse()}],
@@ -142,7 +142,7 @@ describe('@freshbooks/api', () => {
 
 			const builder = new SearchQueryBuilder().equals('type', 'Cash')
 
-			const mockResponse = `{ 
+			const mockResponse = `{
 					"response":{
                         "result": {
                             "payments": [${buildMockResponse()}],

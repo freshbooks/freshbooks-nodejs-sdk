@@ -356,7 +356,7 @@ describe('@freshbooks/api', () => {
 									amount: '5000.00',
 									code: 'USD',
 								},
-								updated: new Date('2019-11-25 15:43:26'),
+								updated: new Date('2019-11-25T20:43:26Z'),
 							},
 						],
 					}),
