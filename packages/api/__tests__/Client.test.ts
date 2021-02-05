@@ -5,6 +5,7 @@ import APIClient, { Options } from '../src/APIClient'
 import { Client } from '../src'
 import { SearchQueryBuilder } from '../src/models/builders/SearchQueryBuilder'
 import { joinQueries } from '../src/models/builders'
+import VisState from '../src/models/VisState'
 
 const mock = new MockAdapter(axios) // set mock adapter on default axios instance
 
@@ -115,15 +116,15 @@ const buildExpectedClientResult = (clientProperties: any = {}): Client => ({
 	sProvince: '',
 	sStreet: '',
 	sStreet2: '',
-	signupDate: '2019-11-18 16:14:18',
+	signupDate: new Date('2019-11-18T16:14:18Z'),
 	statementToken: null,
 	subdomain: null,
-	updated: '2019-11-18 12:04:07',
+	updated: new Date('2019-11-18T17:04:07Z'),
 	userId: CLIENT_ID,
 	username: 'johnnyappleseed2',
 	vatName: null,
 	vatNumber: null,
-	visState: 0,
+	visState: VisState.active,
 	...clientProperties,
 })
 

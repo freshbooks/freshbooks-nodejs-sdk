@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/camelcase */
+import { transformDateResponse, DateFormat, transformDateRequest } from './Date'
 import { ErrorResponse, isAccountingErrorResponse, transformErrorResponse } from './Error'
-import Pagination from './Pagination'
 import { Nullable } from './helpers'
+import Pagination from './Pagination'
+import VisState from './VisState'
 
 export default interface Client {
 	id?: string
@@ -45,7 +47,7 @@ export default interface Client {
 	userId?: string
 	pStreet2?: string
 	prefGmail?: boolean
-	visState?: number
+	visState?: VisState
 	sCountry?: string
 	sStreet?: string
 	pCountry?: string
@@ -81,7 +83,7 @@ function transformClientData(client: any): Client {
 		subdomain: client.subdomain,
 		email: client.email,
 		username: client.username,
-		updated: client.updated,
+		updated: client.updated && transformDateResponse(client.updated, DateFormat['YYYY-MM-DD hh:mm:ss']),
 		pProvince: client.p_province,
 		pCity: client.p_city,
 		busPhone: client.bus_phone,
@@ -90,7 +92,7 @@ function transformClientData(client: any): Client {
 		companySize: client.company_size,
 		accountingSystemId: client.accounting_systemid,
 		pCode: client.p_code,
-		signupDate: client.signup_date,
+		signupDate: client.signup_date && transformDateResponse(client.signup_date, DateFormat['YYYY-MM-DDThh:mm:ss']), // signup_date returns in UTC
 		language: client.language,
 		level: client.level,
 		notified: client.notified,
@@ -184,7 +186,6 @@ export function transformClientRequest(client: Client): string {
 			subdomain: client.subdomain,
 			email: client.email,
 			username: client.username,
-			updated: client.updated,
 			p_province: client.pProvince,
 			p_city: client.pCity,
 			bus_phone: client.busPhone,
@@ -193,7 +194,6 @@ export function transformClientRequest(client: Client): string {
 			company_size: client.companySize,
 			accounting_systemid: client.accountingSystemId,
 			p_code: client.pCode,
-			signup_date: client.signupDate,
 			language: client.language,
 			level: client.level,
 			notified: client.notified,

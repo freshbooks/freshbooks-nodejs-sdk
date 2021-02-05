@@ -106,7 +106,7 @@ const buildInvoice = (invoiceProperties: any = {}): Invoice => ({
 	code: 'M5V0P3',
 	country: 'Canada',
 	createDate: new Date('2019-11-14'.concat(' 00:00:00')),
-	createdAt: new Date('2019-11-14 11:27:45'),
+	createdAt: new Date('2019-11-14T16:27:45Z'),
 	currencyCode: 'USD',
 	currentOrganization: 'Hooli',
 	customerId: 217572,
@@ -162,7 +162,7 @@ const buildInvoice = (invoiceProperties: any = {}): Invoice => ({
 	street2: '',
 	template: 'clean-grouped',
 	terms: null,
-	updated: new Date('2019-11-14 11:27:45'),
+	updated: new Date('2019-11-14T16:27:45Z'),
 	v3Status: 'draft',
 	vatName: null,
 	vatNumber: '',
@@ -224,7 +224,7 @@ describe('@freshbooks/api', () => {
 			const INVOICE_ID = '217506'
 
 			const mockResponse = `
-            {"response": 
+            {"response":
                 {
                     "result": {
                         "invoice": ${buildMockResponse()}
@@ -243,7 +243,7 @@ describe('@freshbooks/api', () => {
 			const client = new Client(token, testOptions)
 
 			const mockResponse = `
-                {"response": 
+                {"response":
                     {
                         "result": {
                             "invoices": [
@@ -276,7 +276,7 @@ describe('@freshbooks/api', () => {
 			const client = new Client(token, testOptions)
 
 			const mockResponse = `
-                {"response": 
+                {"response":
                     {
                         "result": {
                             "invoices": [
@@ -378,7 +378,7 @@ describe('@freshbooks/api', () => {
 			const client = new Client(token, testOptions)
 
 			const mockResponse = `
-                {"response": 
+                {"response":
                     {
                         "result": {
                             "invoices": [
@@ -411,7 +411,7 @@ describe('@freshbooks/api', () => {
 			const token = 'token'
 			const client = new Client(token, testOptions)
 			const mockResponse = `
-            {"response": 
+            {"response":
                 {
                     "result": {
                         "invoice": ${buildMockResponse()}
@@ -432,7 +432,7 @@ describe('@freshbooks/api', () => {
 			const INVOICE_ID = '217506'
 
 			const mockResponse = `
-            {"response": 
+            {"response":
                 {
                     "result": {
                         "invoice": ${buildMockResponse()}
@@ -455,7 +455,7 @@ describe('@freshbooks/api', () => {
 			const INVOICE_ID = '217506'
 
 			const mockResponse = `
-            {"response": 
+            {"response":
                 {
                     "result": {
                         "invoice": ${buildMockResponse({ vis_state: 1 })}
