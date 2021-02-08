@@ -190,6 +190,10 @@ console.log(`Showing ${pages.size} per page`)
 console.log(`${pages.size} total invoices`)
 ```
 
+##### Dates and Times
+
+For historical reasons, some resources in the FreshBooks API (mostly accounting-releated) return date/times in "US/Eastern" timezone. Some effort is taken to convert these in the models to return `Date` objects normalized to UTC.
+
 ### `@freshbooks/app`
 
 The FreshBooks SDK provides a pre-configured `ExpressJS` app. This app provides OAuth2 authentication flow, a `PassportJS` middleware for authenticating requests, and session middleware to retrieve tokens for a session.
