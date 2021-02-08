@@ -1,3 +1,5 @@
+import { DateTime } from 'luxon'
+
 export enum DateFormat {
 	'YYYY-MM-DD' = 0,
 	'YYYY-MM-DD hh:mm:ss' = 1,
@@ -14,10 +16,10 @@ export const transformDateRequest = (date: Date): string => {
 export const transformDateResponse = (dateString: string, dateFormat: DateFormat = DateFormat['YYYY-MM-DD']): Date => {
 	switch (dateFormat) {
 		case DateFormat['YYYY-MM-DD hh:mm:ss']:
-			return new Date(dateString)
+			return DateTime.fromSQL(dateString, { zone: 'America/New_York' }).toJSDate()
 		case DateFormat['YYYY-MM-DDThh:mm:ss']:
 			dateString = dateString.replace(/([^Z])$/, '$1Z') // Append Z if not present
-			return new Date(dateString)
+			return DateTime.fromISO(dateString).toJSDate()
 		default:
 			return new Date(`${dateString} 00:00:00`)
 	}
