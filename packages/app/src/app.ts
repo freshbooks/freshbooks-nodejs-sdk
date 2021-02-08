@@ -6,23 +6,20 @@ import OAuth2Strategy, { VerifyCallback } from 'passport-oauth2'
 import { Client } from '@freshbooks/api'
 import FreshbooksStrategy, { SessionUser } from './PassportStrategy'
 
-const defaultVerifyFn = async (
-	token: string,
-	refreshToken: string,
-	profile: object,
-	done: VerifyCallback
-): Promise<void> => {
-	const client = new Client(token)
-	try {
-		const { data } = await client.users.me()
-		if (data !== null && data !== undefined) {
-			const user: SessionUser = {
-				id: data.id,
+const defaultVerifyFn = (clientId: string) => {
+	return async (token: string, refreshToken: string, profile: object, done: VerifyCallback): Promise<void> => {
+		const client = new Client(token, { clientId })
+		try {
+			const { data } = await client.users.me()
+			if (data !== null && data !== undefined) {
+				const user: SessionUser = {
+					id: data.id,
+				}
+				done(null, user)
 			}
-			done(null, user)
+		} catch (err) {
+			done(err)
 		}
-	} catch (err) {
-		done(err)
 	}
 }
 
@@ -53,12 +50,15 @@ export default function (
 	clientSecret: string,
 	callbackURL: string,
 	{
-		verify = defaultVerifyFn,
+		verify,
 		sessionOptions = defaultSessionOptions,
 		serializeUser = defaultSerializeUserFn,
 		deserializeUser = defaultDeserializeUserFn,
 	}: Options = {}
 ): express.Express {
+	if (verify == null) {
+		verify = defaultVerifyFn(clientId)
+	}
 	const app = express()
 
 	// init client params
