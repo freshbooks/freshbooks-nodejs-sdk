@@ -34,11 +34,15 @@ The client is instantiated with a valid OAuth token, which is used throughout th
 ```typescript
 import { Client } from '@freshbooks/api'
 
+const clientId = process.env.FRESHBOOKS_APPLICATION_CLIENTID
+
 // Get token from authentication or configuration
 const token = process.env.FRESHBOOKS_TOKEN
 
 // Instantiate new FreshBooks API client
-const client = new Client(token)
+const client = new Client(token, {
+    clientId: FRESHBOOKS_APPLICATION_CLIENTID
+});
 ```
 
 #### Get/set data from REST API
