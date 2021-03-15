@@ -1,6 +1,6 @@
 {
 	"name": "@freshbooks/events",
-	"version": "0.1.7",
+	"version": "0.1.8",
 	"description": "Webhook events for FreshBooks API",
 	"author": "FreshBooks",
 	"license": "MIT",
