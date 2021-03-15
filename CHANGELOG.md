@@ -4,6 +4,8 @@
 
 ### Unreleased
 
+### 1.3.0
+
 - Added Project resource
 - Client model fixes
 - Standardize date/time objects to UTC (accounting endpoints return data in EST)
