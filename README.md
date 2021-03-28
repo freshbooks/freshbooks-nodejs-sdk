@@ -204,7 +204,7 @@ The FreshBooks SDK provides a pre-configured `ExpressJS` app. This app provides 
 
 #### Using the ExpressJS app
 
-Setting up the ExpressJS app requires a FreshBooks `client__id` and `client_secret`, as well as a callback URL to receive user authentication and refresh tokens. Once configured, routes can be configured as in any other `ExpressJS` app.
+Setting up the ExpressJS app requires a FreshBooks `client_id` and `client_secret`, as well as a callback URL to receive user authentication and refresh tokens. Once configured, routes can be configured as in any other `ExpressJS` app.
 
 ```typescript
 import { Client } from '@freshbooks/api'
