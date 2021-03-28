@@ -214,10 +214,10 @@ const CLIENT_ID = process.env.CLIENT_ID
 const CLIENT_SECRET = process.env.CLIENT_SECRET
 const CALLBACK_URL = process.env.CALLBACK_URL
 
-const app = createApp(CLIENT_ID, CLIENT_SECRET, CALLBACK)
+const app = createApp(CLIENT_ID, CLIENT_SECRET, CALLBACK_URL)
 
 // set up callback route
-app.get('/auth/freshbooks/redirect', passport.authorize('freshbooks')
+app.get('/auth/freshbooks/redirect', passport.authorize('freshbooks'))
 
 // set up an authenticated route
 app.get('/settings', passport.authorize('freshbooks'), async (req, res) => {
