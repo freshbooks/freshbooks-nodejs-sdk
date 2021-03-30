@@ -1,10 +1,7 @@
 {
-  "eslint.autoFixOnSave": true,
-  "eslint.validate": [
-    "javascript",
-    {"language": "typescript", "autoFix": true}
-  ],
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
-  }
+    "workbench.colorTheme": "enlightened",
+    "eslint.validate": ["javascript", "typescript"],
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true
+    }
 }
