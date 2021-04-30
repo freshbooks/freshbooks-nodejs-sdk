@@ -25,6 +25,8 @@ $ yarn add @freshbooks/api @freshbooks/events @freshbooks/app
 
 ### `@freshbooks/api`
 
+See [https://freshbooks.github.io/freshbooks-nodejs-sdk/](https://freshbooks.github.io/freshbooks-nodejs-sdk/) for model documentation.
+
 Your app will interact with the REST API using the `Client` object, available from the `@freshbooks/api` package.
 The client is instantiated with a valid OAuth token, which is used throughout the lifetime of the client to make API calls.
 
