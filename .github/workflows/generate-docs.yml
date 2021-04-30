@@ -23,6 +23,7 @@ jobs:
         npm install
         cd packages/api
         npm install
+        npm install typedoc
     - name: Run typedoc
       run: |
         rm -rf docs
