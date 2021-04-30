@@ -1,0 +1,43 @@
+# This workflows will re-generate the api jsdocs when there are changes on master
+
+name: Generate Documentation
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Set up Node
+      uses: actions/setup-node@v1
+      with:
+        node-version: '14.x'
+        registry-url: 'https://registry.npmjs.org'
+    - name: Install dependencies
+      run: |
+        npm install
+        cd packages/api
+        npm install
+    - name: Run generate-docs
+      run: |
+      	rm -rf docs
+        cd packages/api
+        npx typedoc --out ../../docs src/index.ts
+    - name: Commit files
+      run: |
+        echo ${{ github.ref }}
+        git add docs
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git commit -m "CI: automated Generate Documentation" -a | exit 0
+    - name: Push changes
+      if: github.ref == 'refs/heads/master'
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: master
