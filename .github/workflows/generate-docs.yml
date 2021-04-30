@@ -23,9 +23,9 @@ jobs:
         npm install
         cd packages/api
         npm install
-    - name: Run generate-docs
+    - name: Run typedoc
       run: |
-      	rm -rf docs
+        rm -rf docs
         cd packages/api
         npx typedoc --out ../../docs src/index.ts
     - name: Commit files
