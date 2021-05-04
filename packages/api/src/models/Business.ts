@@ -67,7 +67,7 @@ export function transformBusinessResponse({
 	return {
 		id: id.toString(),
 		name,
-		accountId: accountId.toString(),
+		accountId: accountId !== null ? accountId.toString() : '',
 		address: transformAddressResponse(address),
 		phoneNumber: phone_number !== null ? transformPhoneNumberResponse(phone_number) : null,
 		businessClients: business_clients.map(transformBusinessClientResponse),
