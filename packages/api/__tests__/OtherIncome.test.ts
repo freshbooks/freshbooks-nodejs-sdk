@@ -60,11 +60,10 @@ const buildOtherIncome = (otherIncomeProperties: any = {}): OtherIncome => ({
 const buildMockRequest = (otherIncomeProperties: any = {}): any => ({
 	other_income: {
 		amount: {
-			amount: '113.00',
+			amount: 113.0,
 			code: 'USD',
 		},
 		category_name: 'online_sales',
-		created_at: '2021-05-11 10:53:22',
 		date: '2021-05-11',
 		note: 'Product sent via ground mail',
 		payment_type: 'Visa',
@@ -172,17 +171,17 @@ describe('@freshbooks/api', () => {
 
 			expect(data).toEqual(expected)
 		})
-		test('POST /accounting/account/<accountId>/other_incomes/other_incomes create', async () => {
+		test('POST /accounting/account/<accountId>/other_incomes/other_incomes', async () => {
 			const token = 'token'
 			const client = new Client(token, testOptions)
 			const mockResponse = `
-            {"response":
-                {
-                    "result": {
-                        "other_income": ${buildMockResponse()}
-                    }
-                }
-            }`
+		    {"response":
+		        {
+		            "result": {
+		                "other_income": ${buildMockResponse()}
+		            }
+		        }
+		    }`
 			const mockRequest = buildMockRequest()
 			mock
 				.onPost(`/accounting/account/${ACCOUNT_ID}/other_incomes/other_incomes`, mockRequest)
@@ -193,25 +192,26 @@ describe('@freshbooks/api', () => {
 
 			expect(data).toEqual(otherIncome)
 		})
-		test('POST /accounting/account/<accountId>/other_incomes/other_incomes updated', async () => {
+		test('PUT /accounting/account/<accountId>/other_incomes/other_incomes/<otherIncomeId>', async () => {
 			const token = 'token'
 			const client = new Client(token, testOptions)
+			const OTHER_INCOME_ID = '12345'
 
 			const mockResponse = `
-            {"response":
-                {
-                    "result": {
-                        "other_income": ${buildMockResponse()}
-                    }
-                }
-            }`
+		    {"response":
+		        {
+		            "result": {
+		                "other_income": ${buildMockResponse()}
+		            }
+		        }
+		    }`
 			const mockRequest = buildMockRequest()
 			mock
-				.onPost(`/accounting/account/${ACCOUNT_ID}/other_incomes/other_incomes`, mockRequest)
+				.onPut(`/accounting/account/${ACCOUNT_ID}/other_incomes/other_incomes/${OTHER_INCOME_ID}`, mockRequest)
 				.replyOnce(200, mockResponse)
 
 			const otherIncome = buildOtherIncome()
-			const { data } = await client.otherIncomes.update(ACCOUNT_ID, otherIncome)
+			const { data } = await client.otherIncomes.update(ACCOUNT_ID, OTHER_INCOME_ID, otherIncome)
 
 			expect(data).toEqual(otherIncome)
 		})

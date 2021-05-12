@@ -338,8 +338,8 @@ export default class APIClient {
 		/**
 		 * Post other income
 		 */
-		create: (otherIncome: OtherIncome, accountId: string): Promise<Result<OtherIncome>> =>
-			this.call(
+		create: (otherIncome: OtherIncome, accountId: string): Promise<Result<OtherIncome>> => {
+			return this.call(
 				'POST',
 				`/accounting/account/${accountId}/other_incomes/other_incomes`,
 				{
@@ -348,11 +348,12 @@ export default class APIClient {
 				},
 				otherIncome,
 				'Create OtherIncome'
-			),
-		update: (accountId: string, data: any): Promise<Result<OtherIncome>> =>
+			)
+		},
+		update: (accountId: string, otherIncomeId: string, data: any): Promise<Result<OtherIncome>> =>
 			this.call(
-				'POST',
-				`/accounting/account/${accountId}/other_incomes/other_incomes`,
+				'PUT',
+				`/accounting/account/${accountId}/other_incomes/other_incomes/${otherIncomeId}`,
 				{
 					transformResponse: transformOtherIncomeResponse,
 					transformRequest: transformOtherIncomeRequest,

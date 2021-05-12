@@ -3,7 +3,7 @@ import Pagination from './Pagination'
 import { transformErrorResponse, isAccountingErrorResponse, ErrorResponse } from './Error'
 import Money, { transformMoneyResponse } from './Money'
 import Tax, { transformTaxResponse, transformTaxRequest } from './Tax'
-import { transformDateResponse, DateFormat } from './Date'
+import { transformDateResponse, DateFormat, transformDateRequest } from './Date'
 
 enum CategoryName {
 	advertising = 'advertising',
@@ -83,7 +83,6 @@ export function transformListOtherIncomesResponse(
 
 export function transformOtherIncomeResponse(data: string): OtherIncome | ErrorResponse {
 	const response = JSON.parse(data)
-
 	if (isAccountingErrorResponse(response)) {
 		return transformErrorResponse(response)
 	}
@@ -100,7 +99,7 @@ export function transformOtherIncomeRequest(otherIncome: OtherIncome): string {
 		other_income: {
 			amount: otherIncome.amount,
 			category_name: otherIncome.categoryName,
-			date: otherIncome.date,
+			date: otherIncome.date && transformDateRequest(otherIncome.date),
 			note: otherIncome.note,
 			payment_type: otherIncome.paymentType,
 			source: otherIncome.source,
