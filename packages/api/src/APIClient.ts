@@ -5,9 +5,26 @@ import { Logger } from 'winston'
 import _logger from './logger'
 import APIClientError from './models/Error'
 
-import { Client, Error, Expense, Invoice, Item, Pagination, Payment, Project, TimeEntry, User } from './models'
+import {
+	Client,
+	Error,
+	Expense,
+	Invoice,
+	OtherIncome,
+	Item,
+	Pagination,
+	Payment,
+	Project,
+	TimeEntry,
+	User,
+} from './models'
 import { transformClientResponse, transformClientListResponse, transformClientRequest } from './models/Client'
 import { transformListInvoicesResponse, transformInvoiceResponse, transformInvoiceRequest } from './models/Invoices'
+import {
+	transformListOtherIncomesResponse,
+	transformOtherIncomeResponse,
+	transformOtherIncomeRequest,
+} from './models/OtherIncome'
 import { transformItemResponse, transformItemListResponse, transformItemRequest } from './models/Item'
 import {
 	transformPaymentListResponse,
@@ -281,6 +298,76 @@ export default class APIClient {
 				},
 				{ invoice: { vis_state: 1 } },
 				'Delete Invoice'
+			),
+	}
+
+	public readonly otherIncomes = {
+		/**
+		 * Get list of other incomes
+		 */
+		list: (
+			accountId: string,
+			queryBuilders?: QueryBuilderType[]
+		): Promise<Result<{ otherIncomes: OtherIncome[]; pages: Pagination }>> =>
+			this.call(
+				'GET',
+				`/accounting/account/${accountId}/other_incomes/other_incomes${joinQueries(queryBuilders)}`,
+				{
+					transformResponse: transformListOtherIncomesResponse,
+				},
+				null,
+				'List OtherIncomes'
+			),
+		/**
+		 * Get single other income
+		 */
+		single: (
+			accountId: string,
+			otherIncomeId: string,
+			queryBuilders?: QueryBuilderType[]
+		): Promise<Result<OtherIncome>> =>
+			this.call(
+				'GET',
+				`/accounting/account/${accountId}/other_incomes/other_incomes/${otherIncomeId}${joinQueries(queryBuilders)}`,
+				{
+					transformResponse: transformOtherIncomeResponse,
+				},
+				null,
+				'Get OtherIncome'
+			),
+		/**
+		 * Post other income
+		 */
+		create: (otherIncome: OtherIncome, accountId: string): Promise<Result<OtherIncome>> => {
+			return this.call(
+				'POST',
+				`/accounting/account/${accountId}/other_incomes/other_incomes`,
+				{
+					transformResponse: transformOtherIncomeResponse,
+					transformRequest: transformOtherIncomeRequest,
+				},
+				otherIncome,
+				'Create OtherIncome'
+			)
+		},
+		update: (accountId: string, otherIncomeId: string, data: any): Promise<Result<OtherIncome>> =>
+			this.call(
+				'PUT',
+				`/accounting/account/${accountId}/other_incomes/other_incomes/${otherIncomeId}`,
+				{
+					transformResponse: transformOtherIncomeResponse,
+					transformRequest: transformOtherIncomeRequest,
+				},
+				data,
+				'Update OtherIncome'
+			),
+		delete: (accountId: string, otherIncomeId: string): Promise<Result<OtherIncome>> =>
+			this.call(
+				'DELETE',
+				`/accounting/account/${accountId}/other_incomes/other_incomes/${otherIncomeId}`,
+				{},
+				null,
+				'Delete OtherIncome'
 			),
 	}
 

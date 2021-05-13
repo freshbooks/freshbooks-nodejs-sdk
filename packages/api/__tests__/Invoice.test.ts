@@ -423,7 +423,6 @@ describe('@freshbooks/api', () => {
 
 			const invoice = buildInvoice()
 			const { data } = await client.invoices.create(invoice, ACCOUNT_ID)
-
 			expect(data).toEqual(invoice)
 		})
 		test('PUT /accounting/account/<accountId>/invoices/invoices/<invoiceId>', async () => {
