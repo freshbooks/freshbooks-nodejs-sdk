@@ -4,6 +4,11 @@
 
 ### Unreleased
 
+### 1.4.0
+
+- Added Other Income resource
+- Fixed user.me() call for partially setup businesses
+
 ### 1.3.0
 
 - Added Project resource
