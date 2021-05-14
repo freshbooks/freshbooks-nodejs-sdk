@@ -75,6 +75,36 @@ describe('@freshbooks/api', () => {
 				})
 			)
 		})
+		test('Verify JSON -> model transform -- partially setup account', async () => {
+			const json = `{
+                "id": 168372,
+                "role": "owner",
+                "business": {
+                    "id": 77128,
+                    "name": null,
+                    "account_id": "zDmNq",
+                    "address": null,
+                    "phone_number": null,
+                    "business_clients": []
+                }
+            }`
+			const model = transformBusinessMembershipJSON(json)
+
+			expect(model).toEqual(
+				expect.objectContaining({
+					id: '168372',
+					role: 'owner',
+					business: {
+						id: '77128',
+						name: null,
+						accountId: 'zDmNq',
+						address: null,
+						phoneNumber: null,
+						businessClients: [],
+					},
+				})
+			)
+		})
 		test('Verify parsed JSON -> model transform', async () => {
 			const data = {
 				id: 168372,
