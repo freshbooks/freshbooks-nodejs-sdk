@@ -4,7 +4,7 @@ import Pagination from './Pagination'
 import { Nullable } from './helpers'
 import { transformDateResponse, DateFormat } from './Date'
 import ProjectGroup, { transformProjectGroupResponse } from './ProjectGroup'
-import Service, { transformServiceResponse } from './Service'
+import Service, { transformServiceData } from './Service'
 
 export enum ProjectType {
 	fixed_price,
@@ -72,7 +72,7 @@ function transformProjectData(project: any): Project {
 		createdAt: transformDateResponse(project.created_at, DateFormat['YYYY-MM-DDThh:mm:ss']),
 		updatedAt: transformDateResponse(project.updated_at, DateFormat['YYYY-MM-DDThh:mm:ss']),
 		loggedDuration: project.logged_duration,
-		services: project.services && project.services.map(transformServiceResponse),
+		services: project.services && project.services.map(transformServiceData),
 		billedAmount: project.billed_amount,
 		billedStatus: project.billed_status,
 		retainerId: project.retainer_id,

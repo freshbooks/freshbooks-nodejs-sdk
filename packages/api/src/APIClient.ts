@@ -15,6 +15,8 @@ import {
 	Pagination,
 	Payment,
 	Project,
+	Service,
+	ServiceRate,
 	TimeEntry,
 	User,
 } from './models'
@@ -25,6 +27,8 @@ import {
 	transformOtherIncomeResponse,
 	transformOtherIncomeRequest,
 } from './models/OtherIncome'
+import { transformListServicesResponse, transformServiceResponse, transformServiceRequest } from './models/Service'
+import { transformServiceRateResponse, transformServiceRateRequest } from './models/ServiceRate'
 import { transformItemResponse, transformItemListResponse, transformItemRequest } from './models/Item'
 import {
 	transformPaymentListResponse,
@@ -655,6 +659,74 @@ export default class APIClient {
 				null,
 				'Delete Time Entry'
 			),
+	}
+	public readonly services = {
+		list: (businessId: number): Promise<Result<{ timeEntries: Service[]; pages: Pagination }>> =>
+			this.call(
+				'GET',
+				`/comments/business/${businessId}/services`,
+				{
+					transformResponse: transformListServicesResponse,
+				},
+				null,
+				'List Services'
+			),
+		single: (businessId: number, serviceId: number): Promise<Result<Service>> =>
+			this.call(
+				'GET',
+				`/comments/business/${businessId}/service/${serviceId}`,
+				{
+					transformResponse: transformServiceResponse,
+				},
+				null,
+				'Get Service'
+			),
+		create: (service: Service, businessId: number): Promise<Result<Service>> =>
+			this.call(
+				'POST',
+				`/comments/business/${businessId}/service`,
+				{
+					transformResponse: transformServiceResponse,
+					transformRequest: transformServiceRequest,
+				},
+				service,
+				'Create Service'
+			),
+		rate: {
+			single: (businessId: number, serviceId: number): Promise<Result<ServiceRate>> => {
+				return this.call(
+					'GET',
+					`/comments/business/${businessId}/service/${serviceId}/rate`,
+					{
+						transformResponse: transformServiceRateResponse,
+					},
+					null,
+					'Get Service Rate'
+				)
+			},
+			create: (service: ServiceRate, businessId: number, serviceId: number): Promise<Result<ServiceRate>> =>
+				this.call(
+					'POST',
+					`/comments/business/${businessId}/service/${serviceId}/rate`,
+					{
+						transformResponse: transformServiceRateResponse,
+						transformRequest: transformServiceRateRequest,
+					},
+					service,
+					'Add Service Rate'
+				),
+			update: (service: ServiceRate, businessId: number, serviceId: number): Promise<Result<ServiceRate>> =>
+				this.call(
+					'PUT',
+					`/comments/business/${businessId}/service/${serviceId}/rate`,
+					{
+						transformResponse: transformServiceRateResponse,
+						transformRequest: transformServiceRateRequest,
+					},
+					service,
+					'Update Service Rate'
+				),
+		},
 	}
 }
 
