@@ -62,7 +62,7 @@ function transformOtherIncomeData({
 
 export function transformListOtherIncomesResponse(
 	data: string
-): { other_income: OtherIncome[]; pages: Pagination } | ErrorResponse {
+): { otherIncomes: OtherIncome[]; pages: Pagination } | ErrorResponse {
 	const response = JSON.parse(data)
 
 	if (isAccountingErrorResponse(response)) {
@@ -71,7 +71,7 @@ export function transformListOtherIncomesResponse(
 
 	const { other_income, per_page, total, page, pages } = response.response.result
 	return {
-		other_income: other_income.map((otherIncome: any) => transformOtherIncomeData(otherIncome)),
+		otherIncomes: other_income.map((otherIncome: any) => transformOtherIncomeData(otherIncome)),
 		pages: {
 			page,
 			pages,

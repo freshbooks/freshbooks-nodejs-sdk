@@ -75,7 +75,7 @@ export function transformTimeEntryResponse(data: any): TimeEntry | ErrorResponse
  */
 export function transformTimeEntryListResponse(
 	data: string
-): { time_entries: TimeEntry[]; pages: Pagination } | ErrorResponse {
+): { timeEntries: TimeEntry[]; pages: Pagination } | ErrorResponse {
 	const response = JSON.parse(data)
 
 	if (isProjectErrorResponse(response)) {
@@ -90,7 +90,7 @@ export function transformTimeEntryListResponse(
 			size: per_page,
 			total,
 		},
-		time_entries: time_entries.map((time_entry: TimeEntry) => transformTimeEntryData(time_entry)),
+		timeEntries: time_entries.map((time_entry: TimeEntry) => transformTimeEntryData(time_entry)),
 	}
 }
 
