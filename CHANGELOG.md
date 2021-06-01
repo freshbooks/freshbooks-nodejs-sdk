@@ -4,6 +4,11 @@
 
 ### Unreleased
 
+### 1.5.0
+
+- Allow setting of user-agent string
+- Fixed naming conventions for time entry and other income
+
 ### 1.4.0
 
 - Added Other Income resource
