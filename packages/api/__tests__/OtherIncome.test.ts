@@ -123,7 +123,7 @@ describe('@freshbooks/api', () => {
 			mock.onGet(`/accounting/account/${ACCOUNT_ID}/other_incomes/other_incomes`).replyOnce(200, mockResponse)
 
 			const expected = {
-				other_income: [buildOtherIncome()],
+				otherIncomes: [buildOtherIncome()],
 				pages: {
 					page: 1,
 					pages: 1,
@@ -159,7 +159,7 @@ describe('@freshbooks/api', () => {
 				.replyOnce(200, mockResponse)
 
 			const expected = {
-				other_income: [buildOtherIncome()],
+				otherIncomes: [buildOtherIncome()],
 				pages: {
 					page: 1,
 					pages: 1,

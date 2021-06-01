@@ -80,7 +80,7 @@ describe('@freshbooks/api', () => {
 		    ]
 		    }`
 			const expected = {
-				time_entries: [buildExpectedTimeEntryResult()],
+				timeEntries: [buildExpectedTimeEntryResult()],
 				pages: {
 					page: 1,
 					pages: 1,
