@@ -106,6 +106,11 @@ export default class APIClient {
 
 		this.clientId = options.clientId
 
+		let userAgent = `FreshBooks nodejs sdk/${API_VERSION} client_id ${this.clientId}`
+		if (options?.userAgent) {
+			userAgent = options?.userAgent
+		}
+
 		// setup axios
 		this.axios = axios.create({
 			baseURL: apiUrl,
@@ -113,7 +118,7 @@ export default class APIClient {
 				Authorization: `Bearer ${token}`,
 				'Api-Version': 'alpha',
 				'Content-Type': 'application/json',
-				'User-Agent': `FreshBooks nodejs sdk/${API_VERSION} client_id ${this.clientId}`,
+				'User-Agent': userAgent,
 			},
 		})
 
@@ -734,6 +739,7 @@ export interface Options {
 	apiUrl?: string
 	retryOptions?: IAxiosRetryConfig
 	clientId: string
+	userAgent?: string
 }
 
 export interface Result<T> {
