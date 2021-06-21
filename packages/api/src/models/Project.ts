@@ -25,7 +25,7 @@ export enum BilledStatus {
 }
 
 export default interface Project {
-	id?: string
+	id?: number
 	title?: string
 	description?: Nullable<string>
 	dueDate?: Nullable<Date>

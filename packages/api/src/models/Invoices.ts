@@ -65,14 +65,14 @@ enum InvoiceV3Status {
 }
 
 export default interface Invoice {
-	id?: string
+	id?: number
 	accountId?: string
 	accountingSystemId?: string
 	address?: string
 	amount?: Money
 	autoBill?: boolean
-	autobillStatus?: Nullable<AutoBillStatus>
-	basecampId?: string
+	autobillStatus?: Nullable<string>
+	basecampId?: number
 	city?: string
 	code?: string
 	country?: string
@@ -80,28 +80,28 @@ export default interface Invoice {
 	createdAt?: Date
 	currencyCode?: string
 	currentOrganization?: string
-	customerId: string
+	customerId: number
 	datePaid?: Nullable<Date>
-	depositAmount?: Nullable<number>
+	depositAmount?: Nullable<number> // This is an object in the API
 	depositPercentage?: Nullable<string>
 	depositStatus?: DepositStatus
 	description?: string
 	discountDescription?: Nullable<string>
 	discountTotal?: Money
-	discountValue?: number
+	discountValue?: string
 	displayStatus?: DisplayStatus
 	disputeStatus?: Nullable<string>
 	dueDate?: Date
 	dueOffsetDays?: number
 	email?: string
-	estimateId?: string
-	extArchive?: string
+	estimateId?: number
+	extArchive?: number
 	fName?: string
 	fulfillmentDate?: Nullable<Date>
 	generationDate?: Nullable<Date>
 	gmail?: boolean
 	invoiceNumber?: string
-	invoiceId?: string
+	invoiceId?: number
 	language?: string
 	lastOrderStatus?: Nullable<string>
 	lines?: Line[]
@@ -109,16 +109,16 @@ export default interface Invoice {
 	notes?: string
 	organization?: string
 	outstanding?: Money
-	owner?: Owner
-	ownerId?: string
+	owner?: Owner // Not in API - need t o check again.
+	ownerId?: number
 	paid?: Money
-	parent?: string
+	parent?: number
 	paymentDetails?: string
 	paymentStatus?: PaymentStatus
 	poNumber?: Nullable<string>
 	province?: string
 	returnUri?: Nullable<string>
-	sentId?: string
+	sentId?: string // Couldn't found
 	showAttachments?: boolean
 	status?: InvoiceStatus
 	street?: string

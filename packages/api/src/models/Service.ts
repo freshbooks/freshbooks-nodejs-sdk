@@ -5,8 +5,8 @@ import { transformErrorResponse, isProjectErrorResponse, ErrorResponse } from '.
 import VisState from './VisState'
 
 export default interface Service {
-	businessId?: string
-	id?: string
+	businessId?: number
+	id?: number
 	name?: string
 	billable?: boolean
 	visState?: VisState

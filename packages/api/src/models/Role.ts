@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/camelcase */
 export default interface Role {
-	id: string
+	id: number
 	role: string
-	systemId: string
-	userId: string
+	systemId: number
+	userId: number
 	accountId: string
 	createdAt: Date
 	links: { [key: string]: string }
@@ -35,10 +35,10 @@ export function transformRoleResponse({
 	links,
 }: RoleResponse): Role {
 	return {
-		id: id.toString(),
+		id: id,
 		role,
-		systemId: systemid.toString(),
-		userId: userid.toString(),
+		systemId: systemid,
+		userId: userid,
 		accountId: accountid.toString(),
 		createdAt: new Date(created_at),
 		links,

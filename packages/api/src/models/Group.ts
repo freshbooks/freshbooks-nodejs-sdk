@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/camelcase */
 export default interface Group {
-	id: string
-	groupId: string
+	id: number
+	groupId: number
 	role: string
-	identityId: string
+	identityId: number
 	firstName: string
 	lastName: string
 	email: string
 	company: string
-	businessId: string
+	businessId: number
 	active: boolean
 }
 
@@ -55,15 +55,15 @@ export function transformGroupResponse({
 	active,
 }: GroupResponse): Group {
 	return {
-		id: id.toString(),
-		groupId: group_id.toString(),
+		id: id,
+		groupId: group_id,
 		role,
-		identityId: identity_id.toString(),
+		identityId: identity_id,
 		firstName,
 		lastName,
 		email,
 		company,
-		businessId: business_id.toString(),
+		businessId: business_id,
 		active,
 	}
 }

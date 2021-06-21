@@ -10,10 +10,10 @@ export interface ProjectGroupMembers {
 	firstName: string
 	lastName: string
 	role: 'owner'
-	identityId: string
+	identityId: number
 	active: boolean
 	company: string
-	id: string
+	id: number
 	email: string
 }
 

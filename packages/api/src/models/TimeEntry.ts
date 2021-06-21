@@ -6,7 +6,7 @@ import { transformDateResponse, DateFormat } from './Date'
 import Timer, { transformTimerResponse } from './Timer'
 
 export default interface TimeEntry {
-	id?: string
+	id?: number
 	identityId?: number
 	isLogged: boolean
 	startedAt: Date
