@@ -10,7 +10,7 @@ import Permission from './Permission'
 import { Nullable } from './helpers'
 
 export default interface User {
-	id: string
+	id: number
 	firstName: string
 	lastName: string
 	email: string

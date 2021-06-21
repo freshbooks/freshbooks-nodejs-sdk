@@ -9,12 +9,12 @@ export enum LineType {
 }
 
 export default interface Line {
-	amount?: Money
-	basecampId?: string
+	amount?: Money // There is also another amount as String
+	basecampId?: number
 	compoundedTax?: boolean
-	date?: Date
+	date?: Date // Not on the API
 	description?: string
-	expenseId?: string
+	expenseId?: number
 	invoiceId?: string
 	lineId?: string
 	name?: string

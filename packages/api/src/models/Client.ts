@@ -7,7 +7,7 @@ import Pagination from './Pagination'
 import VisState from './VisState'
 
 export default interface Client {
-	id?: string
+	id?: number
 	fName?: Nullable<string>
 	lName?: Nullable<string>
 	organization?: Nullable<string>
@@ -15,7 +15,7 @@ export default interface Client {
 	allowLateNotifications?: boolean
 	sCode?: string
 	fax?: string
-	lastActivity?: Nullable<Date>
+	lastActivity?: Nullable<string>
 	numLogins?: number
 	vatNumber?: Nullable<string>
 	prefEmail?: boolean
@@ -27,7 +27,7 @@ export default interface Client {
 	statementToken?: Nullable<string>
 	note?: Nullable<string>
 	mobPhone?: string
-	lastLogin?: Nullable<string>
+	lastLogin?: Nullable<Date>
 	homePhone?: Nullable<string>
 	companyIndustry?: Nullable<string>
 	subdomain?: Nullable<string>
@@ -45,7 +45,7 @@ export default interface Client {
 	language?: Nullable<string>
 	level?: number
 	notified?: boolean
-	userId?: string
+	userId?: number
 	pStreet2?: string
 	prefGmail?: boolean
 	visState?: VisState

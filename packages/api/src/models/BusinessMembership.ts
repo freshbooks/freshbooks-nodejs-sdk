@@ -1,7 +1,7 @@
 import Business, { transformBusinessResponse, BusinessResponse } from './Business'
 
 export default interface BusinessMembership {
-	id: string
+	id: number
 	role: string
 	business: Business
 }
@@ -56,7 +56,7 @@ export function transformBusinessMembershipResponse({
 	business,
 }: BusinessMembershipResponse): BusinessMembership {
 	return {
-		id: id.toString(),
+		id: id,
 		role,
 		business: transformBusinessResponse(business),
 	}

@@ -5,11 +5,11 @@ import BusinessClient, { transformBusinessClientResponse, BusinessClientResponse
 import { Nullable } from './helpers'
 
 export default interface Business {
-	id: string
+	id: number
 	name: string
 	accountId: string
 	address: Nullable<Address>
-	phoneNumber?: Nullable<PhoneNumber>
+	phoneNumber?: string
 	businessClients: BusinessClient[]
 }
 
@@ -18,7 +18,7 @@ export interface BusinessResponse {
 	name: string
 	account_id: string
 	address: AddressResponse
-	phone_number: Nullable<PhoneNumberResponse>
+	phone_number: string
 	business_clients: BusinessClientResponse[]
 }
 
@@ -65,11 +65,11 @@ export function transformBusinessResponse({
 	business_clients,
 }: BusinessResponse): Business {
 	return {
-		id: id.toString(),
+		id: id,
 		name,
 		accountId: accountId !== null ? accountId.toString() : '',
 		address: address !== null ? transformAddressResponse(address) : null,
-		phoneNumber: phone_number !== null ? transformPhoneNumberResponse(phone_number) : null,
+		phoneNumber: phone_number !== null ? phone_number : '',
 		businessClients: business_clients.map(transformBusinessClientResponse),
 	}
 }

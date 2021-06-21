@@ -2,7 +2,7 @@ import { Nullable } from './helpers'
 
 /* eslint-disable @typescript-eslint/camelcase */
 export default interface Address {
-	id: string
+	id: number
 	street?: Nullable<string>
 	city?: Nullable<string>
 	province?: Nullable<string>
@@ -34,7 +34,7 @@ export function transformAddressResponse({
 	postal_code,
 }: AddressResponse): Address {
 	return {
-		id: id.toString(),
+		id: id,
 		street,
 		city,
 		province,

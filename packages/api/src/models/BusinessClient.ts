@@ -3,10 +3,10 @@ import ClientBusiness, { transformClientBusinessResponse, ClientBusinessResponse
 import AccountBusiness, { transformAccountBusinessResponse, AccountBusinessResponse } from './AccountBusiness'
 
 export default interface BusinessClient {
-	id: string
-	businessId: string
+	id: number
+	businessId: number
 	accountId: string
-	userId: string
+	userId: number
 	clientBusiness: ClientBusiness
 	accountBusiness: AccountBusiness
 }
@@ -47,10 +47,10 @@ export function transformBusinessClientResponse({
 	account_business,
 }: BusinessClientResponse): BusinessClient {
 	return {
-		id: id.toString(),
-		businessId: business_id.toString(),
-		accountId: account_id.toString(),
-		userId: userid.toString(),
+		id: id,
+		businessId: business_id,
+		accountId: account_id,
+		userId: userid,
 		clientBusiness: transformClientBusinessResponse(client_business),
 		accountBusiness: transformAccountBusinessResponse(account_business),
 	}
