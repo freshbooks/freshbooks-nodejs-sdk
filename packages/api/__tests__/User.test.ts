@@ -286,26 +286,26 @@ describe('@freshbooks/api', () => {
 				businessMemberships: expect.arrayContaining([
 					expect.objectContaining({
 						business: expect.objectContaining({
-							id: '2122866',
+							id: 2122866,
 							accountId: 'xZNQ1X',
 						}),
 					}),
 				]),
 				groups: expect.arrayContaining([
 					expect.objectContaining({
-						id: '6765686',
-						groupId: '5206502',
+						id: 6765686,
+						groupId: 5206502,
 						role: 'owner',
-						identityId: '2192788',
-						businessId: '2122866',
+						identityId: 2192788,
+						businessId: 2122866,
 						active: true,
 					}),
 					expect.objectContaining({
-						id: '7900914',
-						groupId: '6157078',
+						id: 7900914,
+						groupId: 6157078,
 						role: 'owner',
-						identityId: '2192788',
-						businessId: '2603988',
+						identityId: 2192788,
+						businessId: 2603988,
 						active: true,
 					}),
 				]),

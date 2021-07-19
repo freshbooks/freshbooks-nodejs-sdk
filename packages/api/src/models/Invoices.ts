@@ -109,7 +109,7 @@ export default interface Invoice {
 	notes?: string
 	organization?: string
 	outstanding?: Money
-	owner?: Owner // Not in API - need t o check again.
+	owner?: Owner
 	ownerId?: number
 	paid?: Money
 	parent?: number
@@ -118,7 +118,7 @@ export default interface Invoice {
 	poNumber?: Nullable<string>
 	province?: string
 	returnUri?: Nullable<string>
-	sentId?: string // Couldn't found
+	sentId?: number
 	showAttachments?: boolean
 	status?: InvoiceStatus
 	street?: string

@@ -44,7 +44,7 @@ function transformItemData({
 		updated: new Date(updated),
 		name,
 		description,
-		qty: qty.toString(),
+		qty: !qty ? '' : qty.toString(),
 		sku,
 		inventory: !inventory ? '' : inventory.toString(),
 		unitCost: transformMoneyResponse(unitCost),

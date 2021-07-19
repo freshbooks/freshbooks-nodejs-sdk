@@ -9,10 +9,10 @@ export enum LineType {
 }
 
 export default interface Line {
-	amount?: Money // There is also another amount as String
+	amount?: Money
 	basecampId?: number
 	compoundedTax?: boolean
-	date?: Date // Not on the API
+	date?: Date
 	description?: string
 	expenseId?: number
 	invoiceId?: string
@@ -76,7 +76,7 @@ export function transformLineResponse(line: any): Line {
 		amount: line.amount,
 		basecampId: line.basecampid,
 		compoundedTax: line.compounded_tax,
-		date: line.date,
+		date: transformDateResponse(line.date, DateFormat['YYYY-MM-DD hh:mm:ss']),
 		description: line.description,
 		expenseId: line.expenseid,
 		invoiceId: line.invoiceid,

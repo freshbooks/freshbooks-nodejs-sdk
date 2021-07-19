@@ -14,7 +14,7 @@ describe('@freshbooks/api', () => {
 				}`
 			const model = transformAddressJSON(json)
 			const expected = {
-				id: '1',
+				id: 1,
 				street: '10 King Street',
 				city: 'Toronto',
 				province: 'Ontario',
@@ -34,7 +34,7 @@ describe('@freshbooks/api', () => {
 				}`
 			const model = transformAddressJSON(json)
 			const expected = {
-				id: '3292884',
+				id: 3292884,
 				street: null,
 				city: null,
 				province: null,
@@ -54,7 +54,7 @@ describe('@freshbooks/api', () => {
 			}
 			const model = transformAddressResponse(data)
 			const expected = {
-				id: '1',
+				id: 1,
 				street: '10 King Street',
 				city: 'Toronto',
 				province: 'Ontario',

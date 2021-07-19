@@ -41,7 +41,6 @@ export default interface Expense {
 	date: Date
 	hasReceipt?: boolean
 	accountingSystemId?: string
-	backgroundJobId?: Nullable<number>
 	notes?: string
 	extInvoiceId?: number
 	amount: Money // There are two amounts in the API - one is a string and other an object.
@@ -78,7 +77,6 @@ function transformExpenseData({
 	date,
 	has_receipt: hasReceipt,
 	accounting_systemid: accountingSystemId,
-	background_jobid: backgroundJobId,
 	notes,
 	ext_invoiceid: extInvoiceId,
 	amount,
@@ -114,7 +112,6 @@ function transformExpenseData({
 		date: transformDateResponse(date, DateFormat['YYYY-MM-DD']),
 		hasReceipt,
 		accountingSystemId: transformIdResponse(accountingSystemId),
-		backgroundJobId: transformIdResponse(backgroundJobId),
 		notes,
 		extInvoiceId: transformIdResponse(extInvoiceId),
 		amount: transformMoneyResponse(amount),
@@ -191,7 +188,6 @@ export function transformExpenseRequest(expense: Expense): string {
 			staffid: expense.staffId,
 			date: transformDateRequest(expense.date),
 			has_receipt: expense.hasReceipt,
-			background_jobid: expense.backgroundJobId,
 			notes: expense.notes,
 			ext_invoiceid: expense.extInvoiceId,
 			amount: expense.amount && transformMoneyRequest(expense.amount),

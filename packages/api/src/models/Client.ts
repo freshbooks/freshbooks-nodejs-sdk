@@ -78,7 +78,7 @@ function transformClientData(client: any): Client {
 		statementToken: client.statement_token,
 		note: client.note,
 		mobPhone: client.mob_phone,
-		lastLogin: client.last_login,
+		lastLogin: client.last_login && transformDateResponse(client.last_login, DateFormat['YYYY-MM-DD hh:mm:ss']),
 		homePhone: client.home_phone,
 		companyIndustry: client.company_industry,
 		subdomain: client.subdomain,
