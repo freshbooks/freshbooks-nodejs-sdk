@@ -43,7 +43,7 @@ export default interface Expense {
 	accountingSystemId?: string
 	notes?: string
 	extInvoiceId?: number
-	amount: Money // There are two amounts in the API - one is a string and other an object.
+	amount: Money
 	expenseId?: number
 	compoundedTax?: boolean
 	accountId?: Nullable<number>

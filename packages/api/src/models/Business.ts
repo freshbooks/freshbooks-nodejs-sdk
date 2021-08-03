@@ -9,7 +9,7 @@ export default interface Business {
 	name: string
 	accountId: string
 	address: Nullable<Address>
-	phoneNumber?: string
+	phoneNumber?: Nullable<PhoneNumber>
 	businessClients: BusinessClient[]
 }
 
@@ -18,7 +18,7 @@ export interface BusinessResponse {
 	name: string
 	account_id: string
 	address: AddressResponse
-	phone_number: string
+	phone_number: Nullable<PhoneNumberResponse>
 	business_clients: BusinessClientResponse[]
 }
 
@@ -69,7 +69,7 @@ export function transformBusinessResponse({
 		name,
 		accountId: accountId !== null ? accountId.toString() : '',
 		address: address !== null ? transformAddressResponse(address) : null,
-		phoneNumber: phone_number !== null ? phone_number : '',
+		phoneNumber: phone_number !== null ? transformPhoneNumberResponse(phone_number) : null,
 		businessClients: business_clients.map(transformBusinessClientResponse),
 	}
 }

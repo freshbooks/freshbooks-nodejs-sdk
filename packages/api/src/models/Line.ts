@@ -10,7 +10,6 @@ export enum LineType {
 
 export default interface Line {
 	amount?: Money
-	basecampId?: number
 	compoundedTax?: boolean
 	date?: Date
 	description?: string
@@ -42,7 +41,6 @@ export default interface Line {
 				amount: "3000.00",
 				code: "USD"
 			},
-		basecampid: 0,
 		compounded_tax: false,
 		date: null,
 		description: "",
@@ -74,7 +72,6 @@ export default interface Line {
 export function transformLineResponse(line: any): Line {
 	return {
 		amount: line.amount,
-		basecampId: line.basecampid,
 		compoundedTax: line.compounded_tax,
 		date: transformDateResponse(line.date, DateFormat['YYYY-MM-DD hh:mm:ss']),
 		description: line.description,
@@ -104,7 +101,6 @@ export function transformLineResponse(line: any): Line {
  * @returns Money object
  */
 export function transformLineRequest({
-	basecampId,
 	compoundedTax,
 	description,
 	expenseId,
@@ -119,7 +115,6 @@ export function transformLineRequest({
 	unitCost,
 }: Line): any {
 	return {
-		basecampid: basecampId,
 		compounded_tax: compoundedTax,
 		type,
 		description,

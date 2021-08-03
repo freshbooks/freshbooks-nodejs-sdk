@@ -55,7 +55,7 @@ describe('@freshbooks/api', () => {
 							country: 'Canada',
 							postalCode: 'A1B2C3',
 						},
-						phoneNumber: '',
+						phoneNumber: null,
 						businessClients: [
 							{
 								id: 22347,
@@ -66,7 +66,7 @@ describe('@freshbooks/api', () => {
 									businessId: 77128,
 								},
 								accountBusiness: {
-									businessId: '363103',
+									businessId: 363103,
 									accountId: 'Xr82w',
 								},
 							},
@@ -99,7 +99,7 @@ describe('@freshbooks/api', () => {
 						name: null,
 						accountId: 'zDmNq',
 						address: null,
-						phoneNumber: '',
+						phoneNumber: null,
 						businessClients: [],
 					},
 				})
@@ -121,7 +121,7 @@ describe('@freshbooks/api', () => {
 						country: 'Canada',
 						postal_code: 'A1B2C3',
 					},
-					phone_number: '',
+					phone_number: null,
 					business_clients: [
 						{
 							id: 22347,
@@ -157,7 +157,7 @@ describe('@freshbooks/api', () => {
 							country: 'Canada',
 							postalCode: 'A1B2C3',
 						},
-						phoneNumber: '',
+						phoneNumber: null,
 						businessClients: [
 							{
 								id: 22347,
@@ -168,7 +168,7 @@ describe('@freshbooks/api', () => {
 									businessId: 77128,
 								},
 								accountBusiness: {
-									businessId: '363103',
+									businessId: 363103,
 									accountId: 'Xr82w',
 								},
 							},

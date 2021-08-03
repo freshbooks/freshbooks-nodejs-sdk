@@ -29,7 +29,7 @@ describe('@freshbooks/api', () => {
 						businessId: 77128,
 					},
 					accountBusiness: {
-						businessId: '363103',
+						businessId: 363103,
 						accountId: 'Xr82w',
 					},
 				})
@@ -61,7 +61,7 @@ describe('@freshbooks/api', () => {
 						businessId: 77128,
 					},
 					accountBusiness: {
-						businessId: '363103',
+						businessId: 363103,
 						accountId: 'Xr82w',
 					},
 				})

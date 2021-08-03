@@ -71,8 +71,7 @@ export default interface Invoice {
 	address?: string
 	amount?: Money
 	autoBill?: boolean
-	autobillStatus?: Nullable<string>
-	basecampId?: number
+	autobillStatus?: Nullable<AutoBillStatus>
 	city?: string
 	code?: string
 	country?: string
@@ -82,7 +81,7 @@ export default interface Invoice {
 	currentOrganization?: string
 	customerId: number
 	datePaid?: Nullable<Date>
-	depositAmount?: Nullable<number> // This is an object in the API
+	depositAmount?: Nullable<Money>
 	depositPercentage?: Nullable<string>
 	depositStatus?: DepositStatus
 	description?: string
@@ -139,7 +138,6 @@ function transformInvoiceData({
 	amount,
 	auto_bill: autoBill,
 	autobill_status: autobillStatus,
-	basecampid: basecampId,
 	city,
 	code,
 	country,
@@ -207,7 +205,6 @@ function transformInvoiceData({
 		amount: amount && transformMoneyResponse(amount),
 		autoBill,
 		autobillStatus,
-		basecampId,
 		city,
 		code,
 		country,
@@ -308,7 +305,6 @@ export function transformInvoiceRequest(invoice: Invoice): string {
 		invoice: {
 			address: invoice.address,
 			auto_bill: invoice.autoBill,
-			basecampid: invoice.basecampId,
 			city: invoice.city,
 			code: invoice.code,
 			country: invoice.country,

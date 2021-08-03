@@ -12,7 +12,7 @@ describe('@freshbooks/api', () => {
 
 			expect(model).toEqual(
 				expect.objectContaining({
-					businessId: '363103',
+					businessId: 363103,
 					accountId: 'Xr82w',
 				})
 			)
@@ -26,7 +26,7 @@ describe('@freshbooks/api', () => {
 
 			expect(model).toEqual(
 				expect.objectContaining({
-					businessId: '363103',
+					businessId: 363103,
 					accountId: 'Xr82w',
 				})
 			)
