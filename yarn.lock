@@ -2686,13 +2686,6 @@
   "resolved" "https://registry.npmjs.org/before-after-hook/-/before-after-hook-2.1.1.tgz"
   "version" "2.1.1"
 
-"bindings@^1.5.0":
-  "integrity" "sha512-p2q/t/mhvuOj/UeLlV6566GD/guowlr0hHxClI0W9m7MWYkL1F0hLo+0Aexs9HSPCtR1SXQ0TD3MMKrXZajbiQ=="
-  "resolved" "https://registry.npmjs.org/bindings/-/bindings-1.5.0.tgz"
-  "version" "1.5.0"
-  dependencies:
-    "file-uri-to-path" "1.0.0"
-
 "bluebird@^3.5.1", "bluebird@^3.5.3", "bluebird@^3.5.5":
   "integrity" "sha512-XpNj6GDQzdfW+r2Wnn7xiSAd7TM3jzkxGXBGTtWKuSXv1xUV+azxAm8jdWZN06QTQk+2N2XB9jRDkvbmQmcRtg=="
   "resolved" "https://registry.npmjs.org/bluebird/-/bluebird-3.7.2.tgz"
@@ -4353,11 +4346,6 @@
   dependencies:
     "flat-cache" "^2.0.1"
 
-"file-uri-to-path@1.0.0":
-  "integrity" "sha512-0Zt+s3L7Vf1biwWZ29aARiVYLx7iMGnEUl9x33fbB/j3jR81u/O2LbqK+Bm1CDSNDKVtJ/YjwY7TUd5SkeLQLw=="
-  "resolved" "https://registry.npmjs.org/file-uri-to-path/-/file-uri-to-path-1.0.0.tgz"
-  "version" "1.0.0"
-
 "fill-range@^4.0.0":
   "integrity" "sha1-1USBHUKPmOsGpj3EAtJAPDKMOPc="
   "resolved" "https://registry.npmjs.org/fill-range/-/fill-range-4.0.0.tgz"
@@ -4570,14 +4558,6 @@
   "integrity" "sha1-FQStJSMVjKpA20onh8sBQRmU6k8="
   "resolved" "https://registry.npmjs.org/fs.realpath/-/fs.realpath-1.0.0.tgz"
   "version" "1.0.0"
-
-"fsevents@^1.2.7":
-  "integrity" "sha512-oWb1Z6mkHIskLzEJ/XWX0srkpkTQ7vaopMQkyaEIoq0fmtFVxOthb8cCxeT+p3ynTdkk/RZwbgG4brR5BeWECw=="
-  "resolved" "https://registry.npmjs.org/fsevents/-/fsevents-1.2.13.tgz"
-  "version" "1.2.13"
-  dependencies:
-    "bindings" "^1.5.0"
-    "nan" "^2.12.1"
 
 "function-bind@^1.1.1":
   "integrity" "sha512-yIovAzMX49sF8Yl58fSCWJ5svSLuaibPxXQJFLmBObTuCr0Mf1KiPopGM9NiFjiYBCbfaa2Fh6breQ6ANVTI0A=="
@@ -6824,11 +6804,6 @@
     "any-promise" "^1.0.0"
     "object-assign" "^4.0.1"
     "thenify-all" "^1.0.0"
-
-"nan@^2.12.1":
-  "integrity" "sha512-M2ufzIiINKCuDfBSAUr1vWQ+vuVcA9kqx8JJUsbQi6yf1uGRyb7HfpdfUr5qLXf3B/t8dPvcjhKMmlfnP47EzQ=="
-  "resolved" "https://registry.npmjs.org/nan/-/nan-2.14.2.tgz"
-  "version" "2.14.2"
 
 "nanomatch@^1.2.9":
   "integrity" "sha512-fpoe2T0RbHwBTBUOftAfBPaDEi06ufaUai0mE6Yn1kacc3SnTErfb/h+X94VXzI64rKFHYImXSvdwGGCmwOqCA=="
