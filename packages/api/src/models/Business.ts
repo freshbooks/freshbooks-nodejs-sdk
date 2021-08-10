@@ -5,7 +5,7 @@ import BusinessClient, { transformBusinessClientResponse, BusinessClientResponse
 import { Nullable } from './helpers'
 
 export default interface Business {
-	id: string
+	id: number
 	name: string
 	accountId: string
 	address: Nullable<Address>
@@ -65,7 +65,7 @@ export function transformBusinessResponse({
 	business_clients,
 }: BusinessResponse): Business {
 	return {
-		id: id.toString(),
+		id: id,
 		name,
 		accountId: accountId !== null ? accountId.toString() : '',
 		address: address !== null ? transformAddressResponse(address) : null,

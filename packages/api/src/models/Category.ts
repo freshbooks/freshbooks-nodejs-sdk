@@ -5,12 +5,12 @@ import { transformDateResponse, DateFormat } from './Date'
 /* eslint-disable @typescript-eslint/camelcase */
 export default interface Category {
 	category: string
-	categoryId: string
+	categoryId: number
 	createdAt: Date
-	id: string
+	id: number
 	isCogs: boolean
 	isEditable: boolean
-	parentId: string
+	parentId: number
 	updatedAt: Date
 	visState: VisState
 }
@@ -44,12 +44,12 @@ export function transformCategoryResponse({
 }: any): Category {
 	return {
 		category,
-		categoryId: transformIdResponse(categoryId),
+		categoryId: categoryId,
 		createdAt: transformDateResponse(createdAt, DateFormat['YYYY-MM-DD hh:mm:ss']),
-		id: transformIdResponse(id),
+		id: id,
 		isCogs,
 		isEditable,
-		parentId: transformIdResponse(parentId),
+		parentId: parentId,
 		updatedAt: transformDateResponse(updatedAt, DateFormat['YYYY-MM-DD hh:mm:ss']),
 		visState,
 	}

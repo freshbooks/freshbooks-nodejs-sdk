@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/camelcase */
 export default interface AccountBusiness {
 	accountId: string
-	businessId: string
+	businessId: number
 }
 
 export interface AccountBusinessResponse {
@@ -21,7 +21,7 @@ export function transformAccountBusinessResponse({
 }: AccountBusinessResponse): AccountBusiness {
 	return {
 		accountId: account_id,
-		businessId: account_business_id.toString(),
+		businessId: Number(account_business_id),
 	}
 }
 

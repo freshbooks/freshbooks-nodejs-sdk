@@ -10,17 +10,17 @@ enum VisState {
 }
 
 export default interface Item {
-	id: string
+	id: number
 	accountingSystemId: string
 	updated: Date
 	name: string
 	description?: Nullable<string>
-	qty: number
+	qty: string
 	sku?: Nullable<string>
-	inventory?: Nullable<number>
+	inventory?: Nullable<string>
 	unitCost: Money
-	tax1: string
-	tax2: string
+	tax1: number
+	tax2: number
 	visState: VisState
 }
 
@@ -44,9 +44,9 @@ function transformItemData({
 		updated: new Date(updated),
 		name,
 		description,
-		qty: Number(qty),
+		qty,
 		sku,
-		inventory: !inventory ? null : Number(inventory),
+		inventory,
 		unitCost: transformMoneyResponse(unitCost),
 		tax1: tax1.toString(),
 		tax2: tax2.toString(),

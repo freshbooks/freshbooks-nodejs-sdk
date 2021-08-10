@@ -13,7 +13,7 @@ const defaultVerifyFn = (clientId: string) => {
 			const { data } = await client.users.me()
 			if (data !== null && data !== undefined) {
 				const user: SessionUser = {
-					id: data.id,
+					id: data.id.toString(),
 				}
 				done(null, user)
 			}

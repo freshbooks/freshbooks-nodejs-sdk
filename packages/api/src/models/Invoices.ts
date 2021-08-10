@@ -65,14 +65,13 @@ enum InvoiceV3Status {
 }
 
 export default interface Invoice {
-	id?: string
+	id?: number
 	accountId?: string
 	accountingSystemId?: string
 	address?: string
 	amount?: Money
 	autoBill?: boolean
 	autobillStatus?: Nullable<AutoBillStatus>
-	basecampId?: string
 	city?: string
 	code?: string
 	country?: string
@@ -80,28 +79,28 @@ export default interface Invoice {
 	createdAt?: Date
 	currencyCode?: string
 	currentOrganization?: string
-	customerId: string
+	customerId: number
 	datePaid?: Nullable<Date>
-	depositAmount?: Nullable<number>
+	depositAmount?: Nullable<Money>
 	depositPercentage?: Nullable<string>
 	depositStatus?: DepositStatus
 	description?: string
 	discountDescription?: Nullable<string>
 	discountTotal?: Money
-	discountValue?: number
+	discountValue?: string
 	displayStatus?: DisplayStatus
 	disputeStatus?: Nullable<string>
 	dueDate?: Date
 	dueOffsetDays?: number
 	email?: string
-	estimateId?: string
-	extArchive?: string
+	estimateId?: number
+	extArchive?: number
 	fName?: string
 	fulfillmentDate?: Nullable<Date>
 	generationDate?: Nullable<Date>
 	gmail?: boolean
 	invoiceNumber?: string
-	invoiceId?: string
+	invoiceId?: number
 	language?: string
 	lastOrderStatus?: Nullable<string>
 	lines?: Line[]
@@ -110,15 +109,15 @@ export default interface Invoice {
 	organization?: string
 	outstanding?: Money
 	owner?: Owner
-	ownerId?: string
+	ownerId?: number
 	paid?: Money
-	parent?: string
+	parent?: number
 	paymentDetails?: string
 	paymentStatus?: PaymentStatus
 	poNumber?: Nullable<string>
 	province?: string
 	returnUri?: Nullable<string>
-	sentId?: string
+	sentId?: number
 	showAttachments?: boolean
 	status?: InvoiceStatus
 	street?: string
@@ -139,7 +138,6 @@ function transformInvoiceData({
 	amount,
 	auto_bill: autoBill,
 	autobill_status: autobillStatus,
-	basecampid: basecampId,
 	city,
 	code,
 	country,
@@ -207,7 +205,6 @@ function transformInvoiceData({
 		amount: amount && transformMoneyResponse(amount),
 		autoBill,
 		autobillStatus,
-		basecampId,
 		city,
 		code,
 		country,
@@ -308,7 +305,6 @@ export function transformInvoiceRequest(invoice: Invoice): string {
 		invoice: {
 			address: invoice.address,
 			auto_bill: invoice.autoBill,
-			basecampid: invoice.basecampId,
 			city: invoice.city,
 			code: invoice.code,
 			country: invoice.country,

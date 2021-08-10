@@ -21,15 +21,15 @@ describe('@freshbooks/api', () => {
 
 			expect(model).toEqual(
 				expect.objectContaining({
-					id: '22347',
-					businessId: '77128',
+					id: 22347,
+					businessId: 77128,
 					accountId: 'Xr82w',
-					userId: '74353',
+					userId: 74353,
 					clientBusiness: {
-						businessId: '77128',
+						businessId: 77128,
 					},
 					accountBusiness: {
-						businessId: '363103',
+						businessId: 363103,
 						accountId: 'Xr82w',
 					},
 				})
@@ -53,15 +53,15 @@ describe('@freshbooks/api', () => {
 
 			expect(model).toEqual(
 				expect.objectContaining({
-					id: '22347',
-					businessId: '77128',
+					id: 22347,
+					businessId: 77128,
 					accountId: 'Xr82w',
-					userId: '74353',
+					userId: 74353,
 					clientBusiness: {
-						businessId: '77128',
+						businessId: 77128,
 					},
 					accountBusiness: {
-						businessId: '363103',
+						businessId: 363103,
 						accountId: 'Xr82w',
 					},
 				})

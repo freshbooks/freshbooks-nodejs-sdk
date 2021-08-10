@@ -20,9 +20,9 @@ describe('@freshbooks/api', () => {
 			const model = transformCategoryJSON(json)
 			const expected = {
 				category: 'Car & Truck Expenses',
-				categoryId: '3012654',
+				categoryId: 3012654,
 				createdAt: new Date('2019-06-05T15:42:54Z'),
-				id: '3012654',
+				id: 3012654,
 				isCogs: false,
 				isEditable: false,
 				parentId: null,

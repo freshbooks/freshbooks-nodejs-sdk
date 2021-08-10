@@ -2,7 +2,7 @@
 import { Nullable } from './helpers'
 
 export default interface Timer {
-	id?: string
+	id?: number
 	isRunning?: Nullable<boolean>
 }
 

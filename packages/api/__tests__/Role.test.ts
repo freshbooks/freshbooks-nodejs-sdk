@@ -19,10 +19,10 @@ describe('@freshbooks/api', () => {
 
 			expect(model).toEqual(
 				expect.objectContaining({
-					id: '682608',
+					id: 682608,
 					role: 'admin',
-					systemId: '1953394',
-					userId: '1',
+					systemId: 1953394,
+					userId: 1,
 					accountId: 'zDmNq',
 					createdAt: new Date('2016-01-26T16:00:44Z'),
 					links: expect.objectContaining({
@@ -47,10 +47,10 @@ describe('@freshbooks/api', () => {
 
 			expect(model).toEqual(
 				expect.objectContaining({
-					id: '682608',
+					id: 682608,
 					role: 'admin',
-					systemId: '1953394',
-					userId: '1',
+					systemId: 1953394,
+					userId: 1,
 					accountId: 'zDmNq',
 					createdAt: new Date('2016-01-26T16:00:44Z'),
 					links: expect.objectContaining({

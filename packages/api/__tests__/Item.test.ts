@@ -18,7 +18,7 @@ const buildMockResponse = (itemProperties: any = {}): string =>
 		name: 'Monkeys',
 		qty: '21',
 		sku: 'FB0192374221',
-		inventory: null,
+		inventory: '',
 		unit_cost: {
 			amount: '1234.00',
 			code: 'USD',
@@ -35,9 +35,9 @@ const buildMockRequest = (itemProperties: any = {}): any => {
 		item: {
 			name: 'Monkeys',
 			description: 'monkey descriptor',
-			qty: 21,
+			qty: '21',
 			sku: 'FB0192374221',
-			inventory: null,
+			inventory: '',
 			unit_cost: {
 				amount: 1234.0,
 				code: 'USD',
@@ -55,9 +55,9 @@ const buildItem = (itemProperties: any = {}): Item => ({
 	accountingSystemId: ACCOUNT_ID,
 	updated: new Date('2016-07-20 15:36:09'),
 	name: 'Monkeys',
-	qty: 21,
+	qty: '21',
 	sku: 'FB0192374221',
-	inventory: null,
+	inventory: '',
 	unitCost: {
 		amount: 1234.0,
 		code: 'USD',
@@ -130,17 +130,17 @@ describe('@freshbooks/api', () => {
 			const mockResponse = `{ 
 					"response":{
                         "result": {
-                            "item": ${buildMockResponse({ qty: 10 })}
+                            "item": ${buildMockResponse({ qty: '10' })}
                         }
 					}
 				 }`
 
 			const mockRequest = buildMockRequest({
-				qty: 10,
+				qty: '10',
 			})
 			mock.onPut(`/accounting/account/${ACCOUNT_ID}/items/items/${ITEM_ID}`, mockRequest).replyOnce(200, mockResponse)
 
-			const itemData = buildItem({ qty: 10 })
+			const itemData = buildItem({ qty: '10' })
 
 			const { data } = await client.items.update(ACCOUNT_ID, ITEM_ID, itemData)
 

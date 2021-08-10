@@ -15,20 +15,20 @@ export enum ExpenseStatus {
 }
 
 export default interface Expense {
-	categoryId: string
+	categoryId: number
 	markupPercent?: number
-	projectId?: string
-	clientId?: string
-	taxPercent1?: Nullable<number>
+	projectId?: number
+	clientId?: number
+	taxPercent1?: Nullable<string>
 	taxName2?: Nullable<string>
 	taxName1?: Nullable<string>
 	isDuplicate?: boolean
-	profileId?: Nullable<string>
-	taxPercent2?: Nullable<number>
+	profileId?: Nullable<number>
+	taxPercent2?: Nullable<string>
 	accountName?: string
-	transactionId?: Nullable<string>
-	invoiceId?: Nullable<string>
-	id?: string
+	transactionId?: Nullable<number>
+	invoiceId?: Nullable<number>
+	id?: number
 	taxAmount2?: Nullable<Money>
 	taxAmount1?: Nullable<Money>
 	visState?: VisState
@@ -36,18 +36,17 @@ export default interface Expense {
 	bankName?: string
 	updated?: Date
 	vendor?: Nullable<string>
-	extSystemId?: string
-	staffId: string
+	extSystemId?: number
+	staffId: number
 	date: Date
 	hasReceipt?: boolean
 	accountingSystemId?: string
-	backgroundJobId?: Nullable<string>
 	notes?: string
-	extInvoiceId?: string
+	extInvoiceId?: number
 	amount: Money
-	expenseId?: string
+	expenseId?: number
 	compoundedTax?: boolean
-	accountId?: Nullable<string>
+	accountId?: Nullable<number>
 	category?: Category
 }
 
@@ -78,7 +77,6 @@ function transformExpenseData({
 	date,
 	has_receipt: hasReceipt,
 	accounting_systemid: accountingSystemId,
-	background_jobid: backgroundJobId,
 	notes,
 	ext_invoiceid: extInvoiceId,
 	amount,
@@ -92,12 +90,12 @@ function transformExpenseData({
 		markupPercent: Number(markupPercent),
 		projectId: transformIdResponse(projectId),
 		clientId: transformIdResponse(clientId),
-		taxPercent1: Number(taxPercent1),
+		taxPercent1: taxPercent1,
 		taxName2,
 		taxName1,
 		isDuplicate,
 		profileId: transformIdResponse(profileId),
-		taxPercent2: Number(taxPercent2),
+		taxPercent2: taxPercent2,
 		accountName,
 		transactionId: transformIdResponse(transactionId),
 		invoiceId: transformIdResponse(invoiceId),
@@ -114,7 +112,6 @@ function transformExpenseData({
 		date: transformDateResponse(date, DateFormat['YYYY-MM-DD']),
 		hasReceipt,
 		accountingSystemId: transformIdResponse(accountingSystemId),
-		backgroundJobId: transformIdResponse(backgroundJobId),
 		notes,
 		extInvoiceId: transformIdResponse(extInvoiceId),
 		amount: transformMoneyResponse(amount),
@@ -191,7 +188,6 @@ export function transformExpenseRequest(expense: Expense): string {
 			staffid: expense.staffId,
 			date: transformDateRequest(expense.date),
 			has_receipt: expense.hasReceipt,
-			background_jobid: expense.backgroundJobId,
 			notes: expense.notes,
 			ext_invoiceid: expense.extInvoiceId,
 			amount: expense.amount && transformMoneyRequest(expense.amount),
