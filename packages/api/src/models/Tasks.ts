@@ -3,14 +3,14 @@ import { isAccountingErrorResponse, transformErrorResponse, ErrorResponse } from
 import VisState from './VisState'
 import Pagination from './Pagination'
 import { Nullable } from './helpers'
-import TasksRate, { transformTasksRateRequest } from './TasksRate'
+import Money, { transformMoneyRequest } from './Money'
 
 export default interface Tasks {
 	id?: number
 	billable?: boolean
 	description?: Nullable<string>
 	name?: Nullable<string>
-	rate?: TasksRate
+	rate?: Money
 	taskid?: number
 	tname?: Nullable<string>
 	tdesc?: Nullable<string>
@@ -78,7 +78,7 @@ export function transformTasksRequest(task: Tasks): string {
 			billable: task.billable,
 			description: task.description,
 			name: task.name,
-			rate: task.rate && transformTasksRateRequest(task.rate),
+			rate: task.rate && transformMoneyRequest(task.rate),
 			taskid: task.taskid,
 			tname: task.tname,
 			tdesc: task.tdesc,
