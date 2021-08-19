@@ -109,7 +109,7 @@ describe('@freshbooks/api', () => {
 			const taskModel = {
 				name: 'Walking Dogs',
 				rate: {
-					amount: '25.47',
+					amount: 25.47,
 					code: 'CAD',
 				},
 				tname: 'Walking Dogs',
