@@ -736,15 +736,18 @@ export default class APIClient {
 		},
 	}
 	public readonly tasks = {
-		list: (accountId: string): Promise<Result<{ tasks: Tasks[]; pages: Pagination }>> =>
+		list: (
+			accountId: string,
+			queryBuilders?: QueryBuilderType[]
+		): Promise<Result<{ tasks: Tasks[]; pages: Pagination }>> =>
 			this.call(
 				'GET',
-				`/accounting/account/<account_id>/projects/tasks`,
+				`/accounting/account/${accountId}/projects/tasks${joinQueries(queryBuilders)}`,
 				{
 					transformResponse: transformTasksListResponse,
 				},
 				null,
-				'List Services'
+				'List Tasks'
 			),
 		single: (accountId: string, taskId: number): Promise<Result<Tasks>> =>
 			this.call(
@@ -778,8 +781,19 @@ export default class APIClient {
 				task,
 				'Update Tasks Entry'
 			),
-		delete: (accountId: string, taskId: number): Promise<Result<TimeEntry>> =>
-			this.call('PUT', `/accounting/account/${accountId}/projects/tasks/${taskId}`, {}, null, 'Delete Tasks Entry'),
+		delete: (accountId: string, taskId: number): Promise<Result<Tasks>> =>
+			this.call(
+				'PUT',
+				`/accounting/account/${accountId}/projects/tasks/${taskId}`,
+				{
+					transformResponse: transformTasksResponse,
+					transformRequest: transformTasksRequest,
+				},
+				{
+					visState: 1,
+				},
+				'Delete Client'
+			),
 	}
 }
 
