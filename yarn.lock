@@ -927,7 +927,7 @@
     "axios" "^0.21.1"
     "axios-retry" "^3.1.9"
     "luxon" "^1.25.0"
-    "typedoc" "^0.20.36"
+    "typedoc" "^0.20.37"
     "winston" "^3.3.3"
 
 "@freshbooks/app@file:/home/runner/work/freshbooks-nodejs-sdk/freshbooks-nodejs-sdk/packages/app":
