@@ -4,6 +4,10 @@
 
 ### Unreleased
 
+- (**Breaking Change**) Fix types on data models
+- (**Breaking Change**) Rename models to better fit coding conventions
+- Support Tasks endpoint
+
 ### 1.5.0
 
 - Allow setting of user-agent string
