@@ -6,6 +6,7 @@ import _logger from './logger'
 import APIClientError from './models/Error'
 
 import {
+	Tasks,
 	Client,
 	Error,
 	Expense,
@@ -46,6 +47,7 @@ import {
 	transformTimeEntryRequest,
 } from './models/TimeEntry'
 import { transformUserResponse } from './models/User'
+import { transformTasksListResponse, transformTasksRequest, transformTasksResponse } from './models/Tasks'
 
 // defaults
 const API_URL = 'https://api.freshbooks.com'
@@ -732,6 +734,66 @@ export default class APIClient {
 					'Update Service Rate'
 				),
 		},
+	}
+	public readonly tasks = {
+		list: (
+			accountId: string,
+			queryBuilders?: QueryBuilderType[]
+		): Promise<Result<{ tasks: Tasks[]; pages: Pagination }>> =>
+			this.call(
+				'GET',
+				`/accounting/account/${accountId}/projects/tasks${joinQueries(queryBuilders)}`,
+				{
+					transformResponse: transformTasksListResponse,
+				},
+				null,
+				'List Tasks'
+			),
+		single: (accountId: string, taskId: number): Promise<Result<Tasks>> =>
+			this.call(
+				'GET',
+				`/accounting/account/${accountId}/projects/tasks/${taskId}`,
+				{
+					transformResponse: transformTasksResponse,
+				},
+				null,
+				'Get Tasks Entry'
+			),
+		create: (task: Tasks, accountId: string): Promise<Result<Tasks>> =>
+			this.call(
+				'POST',
+				`/accounting/account/${accountId}/projects/tasks`,
+				{
+					transformResponse: transformTasksResponse,
+					transformRequest: transformTasksRequest,
+				},
+				task,
+				'Create Tasks Entry'
+			),
+		update: (task: Tasks, accountId: string, taskId: number): Promise<Result<Tasks>> =>
+			this.call(
+				'PUT',
+				`/accounting/account/${accountId}/projects/tasks/${taskId}`,
+				{
+					transformResponse: transformTasksResponse,
+					transformRequest: transformTasksRequest,
+				},
+				task,
+				'Update Tasks Entry'
+			),
+		delete: (accountId: string, taskId: number): Promise<Result<Tasks>> =>
+			this.call(
+				'PUT',
+				`/accounting/account/${accountId}/projects/tasks/${taskId}`,
+				{
+					transformResponse: transformTasksResponse,
+					transformRequest: transformTasksRequest,
+				},
+				{
+					visState: 1,
+				},
+				'Delete Client'
+			),
 	}
 }
 
