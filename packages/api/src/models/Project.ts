@@ -7,21 +7,21 @@ import ProjectGroup, { transformProjectGroupResponse } from './ProjectGroup'
 import Service, { transformServiceData } from './Service'
 
 export enum ProjectType {
-	fixed_price,
-	hourly_rate,
+	FixedPrice = 'fixed_price',
+	HourlyRate = 'hourly_rate',
 }
 
 export enum BillingMethod {
-	business_rate,
-	project_rate,
-	service_rate,
-	team_member_rate,
+	BusinessRate = 'business_rate',
+	ProjectRate = 'project_rate',
+	ServiceRate = 'service_rate',
+	TeamMemberRate = 'team_member_rate',
 }
 
 export enum BilledStatus {
-	billed,
-	partially_billed,
-	unbilled,
+	Billed = 'billed',
+	PartiallyBilled = 'partially_billed',
+	Unbilled = 'unbilled',
 }
 
 export default interface Project {
