@@ -27,7 +27,7 @@
 		"winston": "^3.3.3"
 	},
 	"devDependencies": {
-		"@types/luxon": "^1.25.1",
+		"@types/luxon": "^2.0.3",
 		"axios-mock-adapter": "^1.17.0"
 	},
 	"jest": {
