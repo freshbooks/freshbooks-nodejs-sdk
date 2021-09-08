@@ -7976,9 +7976,9 @@ typedoc@^0.20.37:
     shiki "^0.9.3"
     typedoc-default-themes "^0.12.10"
 
-typescript@^3.6.3:
-  version "3.9.7"
-  resolved "https://registry.npmjs.org/typescript/-/typescript-3.9.7.tgz"
+typescript@^4.2.4:
+  version "4.2.4"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.2.4.tgz#8610b59747de028fda898a8aef0e103f156d0961"
 
 uglify-js@^3.1.4:
   version "3.12.7"
