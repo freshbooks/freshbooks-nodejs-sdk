@@ -23,7 +23,7 @@
 		"@freshbooks/api": "^1.5.1",
 		"express": "^4.17.1",
 		"express-session": "^1.17.0",
-		"helmet": "^3.21.1",
+		"helmet": "^4.6.0",
 		"passport": "^0.4.1",
 		"passport-oauth2": "^1.5.0",
 		"winston": "^3.3.1"
