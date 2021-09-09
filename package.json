@@ -29,7 +29,7 @@
 		"prettier": "2.3.2",
 		"shx": "^0.3.2",
 		"ts-jest": "^24.1.0",
-		"typedoc": "^0.20.36",
+		"typedoc": "^0.21.9",
 		"typescript": "^4.2.4"
 	},
 	"husky": {
