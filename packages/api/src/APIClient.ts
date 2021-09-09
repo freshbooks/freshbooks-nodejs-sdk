@@ -6,6 +6,8 @@ import _logger from './logger'
 import APIClientError from './models/Error'
 
 import {
+	Bills,
+	BillPayments,
 	Tasks,
 	Client,
 	Error,
@@ -50,6 +52,8 @@ import {
 import { transformUserResponse } from './models/User'
 import { transformTasksListResponse, transformTasksRequest, transformTasksResponse } from './models/Tasks'
 import { transformBillVendorsRequest, transformBillVendorsResponse, transformListBillVendorsResponse } from './models/BillVendors'
+import { transformBillsListResponse, transformBillsRequest, transformBillsResponse } from './models/Bills'
+import { transformBillPaymentsRequest, transformBillPaymentsResponse } from './models/BillPayments'
 
 // defaults
 const API_URL = 'https://api.freshbooks.com'
@@ -855,6 +859,81 @@ export default class APIClient {
 					visState: 1,
 				},
 				'Delete BillVendors Entry'
+			),
+	}
+	public readonly bills = {
+		list: (accountId: string, queryBuilders?: QueryBuilderType[]): Promise<Result<{ bills: Bills[] }>> =>
+			this.call(
+				'GET',
+				`accounting/account/${accountId}/bills/bills${joinQueries(queryBuilders)}`,
+				{ transformResponse: transformBillsListResponse },
+				null,
+				'List Bills'
+			),
+		single: (accountId: string, billId: number): Promise<Result<{ bill: Bills }>> =>
+			this.call(
+				'GET',
+				`accounting/account/${accountId}/bills/bills/${billId}`,
+				{ transformResponse: transformBillsResponse },
+				null,
+				'Get Bill'
+			),
+		create: (bill: Bills, accountId: string): Promise<Result<Bills>> =>
+			this.call(
+				'POST',
+				`accounting/account/${accountId}/bills/bills`,
+				{
+					transformResponse: transformBillsResponse,
+					transformRequest: transformBillsRequest,
+				},
+				bill,
+				'Create Bill'
+			),
+		delete: (accountId: string, billId: number): Promise<Result<Bills>> =>
+			this.call(
+				'PUT',
+				`accounting/account/${accountId}/bills/bills/${billId}`,
+				{
+					transformResponse: transformBillsResponse,
+					transformRequest: transformBillsRequest,
+				},
+				{ visState: 1 },
+				'Delete Bill'
+			),
+		archive: (accountId: string, billId: number): Promise<Result<Bills>> =>
+			this.call(
+				'PUT',
+				`accounting/account/${accountId}/bills/bills/${billId}`,
+				{
+					transformResponse: transformBillsResponse,
+					transformRequest: transformBillsRequest,
+				},
+				{ visState: 2 },
+				'Archive Bill'
+			),
+	}
+	public readonly billPayments = {
+		create: (billPayment: BillPayments, accountId: string): Promise<Result<BillPayments>> =>
+			this.call(
+				'POST',
+				`accounting/account/${accountId}/bill_payments/bill_payments`,
+				{
+					transformResponse: transformBillPaymentsResponse,
+					transformRequest: transformBillPaymentsRequest,
+				},
+				billPayment,
+				'Create Bill Payment'
+			),
+		update: (billPayment: BillPayments, accountId: string, billPaymentId: number): Promise<Result<BillPayments>> =>
+			this.call(
+				'PUT',
+				`accounting/account/${accountId}/bill_payments/bill_payments/${billPaymentId}`,
+				{
+					transformResponse: transformBillPaymentsResponse,
+					transformRequest: transformBillPaymentsRequest,
+				},
+				billPayment,
+				'Update Bill Payment'
 			),
 	}
 }
