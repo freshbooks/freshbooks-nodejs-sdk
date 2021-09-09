@@ -23,7 +23,7 @@
 		"axios": "^0.21.1",
 		"axios-retry": "^3.1.9",
 		"luxon": "^2.0.2",
-		"typedoc": "^0.20.37",
+		"typedoc": "^0.21.9",
 		"winston": "^3.3.3"
 	},
 	"devDependencies": {
