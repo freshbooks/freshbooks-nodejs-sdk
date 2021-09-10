@@ -26,6 +26,24 @@ describe('@freshbooks/api', () => {
 
 			expect(result).toEqual(expected)
 		})
+		test('SearchQueryBuilder - Between options', () => {
+			const result = new SearchQueryBuilder()
+				.between('updated', {
+					min: new Date('January 1, 2000'),
+					max: new Date('December 15, 2015'),
+				})
+				.between('created', {
+					min: '2000-01-01',
+				})
+				.between('due_date', {
+					max: '2015-12-15',
+				})
+				.build()
+			const expected =
+				'search[updated_min]=2000-01-01&search[updated_max]=2015-12-15&search[created_min]=2000-01-01&search[due_date_max]=2015-12-15'
+
+			expect(result).toEqual(expected)
+		})
 		test('PaginationQueryBuilder', () => {
 			const result = new PaginationQueryBuilder().page('10').perPage('20').build()
 			const expected = 'page=10&per_page=20'
