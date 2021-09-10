@@ -167,9 +167,6 @@ describe('@freshbooks/api', () => {
 			const token = 'token'
 			const APIclient = new APIClient(token, testOptions)
 
-			const taskModel = {
-				visState: 1,
-			}
 			const mockResponse = buildMockTasksJSONResponse({ visState: 1 })
 
 			const mockRequest = {
@@ -184,7 +181,7 @@ describe('@freshbooks/api', () => {
 				.onPut(`/accounting/account/${ACCOUNT_ID}/projects/tasks/${TASK_ID}`, mockRequest)
 				.replyOnce(200, mockResponse)
 
-			const { data } = await APIclient.tasks.update(taskModel, ACCOUNT_ID, TASK_ID)
+			const { data } = await APIclient.tasks.delete(ACCOUNT_ID, TASK_ID)
 			expect(data).toEqual(expected)
 		})
 	})
