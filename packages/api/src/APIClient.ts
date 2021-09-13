@@ -53,7 +53,11 @@ import { transformUserResponse } from './models/User'
 import { transformTasksListResponse, transformTasksRequest, transformTasksResponse } from './models/Tasks'
 import { transformBillVendorsRequest, transformBillVendorsResponse, transformListBillVendorsResponse } from './models/BillVendors'
 import { transformBillsListResponse, transformBillsRequest, transformBillsResponse } from './models/Bills'
-import { transformBillPaymentsRequest, transformBillPaymentsResponse } from './models/BillPayments'
+import {
+	transformBillPaymentsListResponse,
+	transformBillPaymentsRequest,
+	transformBillPaymentsResponse,
+} from './models/BillPayments'
 
 // defaults
 const API_URL = 'https://api.freshbooks.com'
@@ -913,6 +917,22 @@ export default class APIClient {
 			),
 	}
 	public readonly billPayments = {
+		list: (accountId: string, queryBuilders?: QueryBuilderType[]): Promise<Result<{ billPayments: BillPayments[] }>> =>
+			this.call(
+				'GET',
+				`accounting/account/${accountId}/bill_payments/bill_payments${joinQueries(queryBuilders)}`,
+				{ transformResponse: transformBillPaymentsListResponse },
+				null,
+				'List Bill Payments Payments'
+			),
+		single: (accountId: string, billPaymentId: number): Promise<Result<{ billPayment: BillPayments }>> =>
+			this.call(
+				'GET',
+				`accounting/account/${accountId}/bill_payments/bill_payments/${billPaymentId}`,
+				{ transformResponse: transformBillPaymentsResponse },
+				null,
+				'Get Bill Payment'
+			),
 		create: (billPayment: BillPayments, accountId: string): Promise<Result<BillPayments>> =>
 			this.call(
 				'POST',
@@ -934,6 +954,17 @@ export default class APIClient {
 				},
 				billPayment,
 				'Update Bill Payment'
+			),
+		delete: (accountId: string, billPaymentId: number): Promise<Result<BillPayments>> =>
+			this.call(
+				'PUT',
+				`accounting/account/${accountId}/bill_payments/bill_payments/${billPaymentId}`,
+				{
+					transformResponse: transformBillPaymentsResponse,
+					transformRequest: transformBillPaymentsRequest,
+				},
+				{ visState: 1 },
+				'Delete Bill Payment'
 			),
 	}
 }

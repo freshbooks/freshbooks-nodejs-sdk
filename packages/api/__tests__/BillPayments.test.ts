@@ -3,6 +3,8 @@ import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 import APIClient, { Options } from '../src/APIClient'
 import { BillPayments } from '../src/models'
+import { joinQueries } from '../src/models/builders'
+import { SearchQueryBuilder } from '../src/models/builders/SearchQueryBuilder'
 
 enum PaymentType {
 	check = 'Check',
@@ -35,7 +37,7 @@ const buildBillPaymentsResponse = (billPaymentProperties: any = {}): string =>
 
 const buildBillPaymentRequest = (billPaymentProperties: any = {}): any => {
 	return {
-		billPayment: {
+		bill_payment: {
 			billid: BILL_ID,
 			amount: {
 				amount: 4000,
@@ -65,12 +67,65 @@ const buildBillPayments = (billPaymentProperties: any = {}): BillPayments => ({
 
 describe('@freshbooks/api', () => {
 	describe('BillPayments', () => {
+		test('GET /accounting/account/<accountId>/bill_payments/bill_payments/<billPaymentId> single', async () => {
+			const response = `
+				{
+					"response": {
+						"result": {
+						  "bill_payment": ${buildBillPaymentsResponse()}
+						}
+					}
+				}
+			`
+
+			const expected = buildBillPayments()
+
+			mock
+				.onGet(`/accounting/account/${ACCOUNT_ID}/bill_payments/bill_payments/${BILL_PAYMENT_ID}`)
+				.replyOnce(200, response)
+			const { data } = await client.billPayments.single(ACCOUNT_ID, BILL_PAYMENT_ID)
+			expect(data).toEqual(expected)
+		})
+		test('GET /accounting/account/<accountId>/bill_payments/bill_payments list', async () => {
+			const response = `
+				{
+					"response": {
+						"result": {
+							"bill_payments": [
+								${buildBillPaymentsResponse()}
+							],
+						  	"page": 1,
+						  	"pages": 1,
+						  	"per_page": 15,
+						  	"total": 1
+						}
+					}
+				}
+			`
+
+			const expected = {
+				billPayments: [buildBillPayments()],
+				pages: {
+					page: 1,
+					pages: 1,
+					size: 15,
+					total: 1,
+				},
+			}
+
+			const builder = new SearchQueryBuilder().equals('payment_type', 'Check')
+			const qs = joinQueries([builder])
+			mock.onGet(`/accounting/account/${ACCOUNT_ID}/bill_payments/bill_payments${qs}`).replyOnce(200, response)
+
+			const { data } = await client.billPayments.list(ACCOUNT_ID, [builder])
+			expect(data).toEqual(expected)
+		})
 		test('POST /accounting/account/<accountId>/bill_payments/bill_payments create', async () => {
 			const response = `
 				{
 					"response":{
 						"result":{
-						  "billPayment": ${buildBillPaymentsResponse()}
+						  "bill_payment": ${buildBillPaymentsResponse()}
 						}
 					}
 				}
@@ -101,7 +156,7 @@ describe('@freshbooks/api', () => {
 				{
 					"response":{
 						"result":{
-						  "billPayment": ${buildBillPaymentsResponse({ note: 'Test Payment via API Updated' })}
+						  "bill_payment": ${buildBillPaymentsResponse({ note: 'Test Payment via API Updated' })}
 						}
 					}
 				}
@@ -126,6 +181,28 @@ describe('@freshbooks/api', () => {
 				.replyOnce(200, response)
 
 			const { data } = await client.billPayments.update(modelBillPaymentRequest, ACCOUNT_ID, BILL_PAYMENT_ID)
+			expect(data).toEqual(expected)
+		})
+		test('PUT /accounting/account/<accountId>/bill_payments/bill_payments/<billPaymentId> delete', async () => {
+			const response = `
+				{
+					"response":{
+						"result":{
+						  "bill_payment": ${buildBillPaymentsResponse({ vis_state: 1 })}
+						}
+					}
+				}
+			`
+
+			const expected = buildBillPayments({ visState: 1 })
+
+			mock
+				.onPut(`/accounting/account/${ACCOUNT_ID}/bill_payments/bill_payments/${BILL_PAYMENT_ID}`, {
+					bill_payment: { vis_state: 1 },
+				})
+				.replyOnce(200, response)
+
+			const { data } = await client.billPayments.delete(ACCOUNT_ID, BILL_PAYMENT_ID)
 			expect(data).toEqual(expected)
 		})
 	})

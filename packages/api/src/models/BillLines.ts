@@ -44,20 +44,14 @@ export function transformBillLinesResponse(billLine: any): BillLines {
 export function transformBillLinesRequest(billLine: BillLines): any {
 	return {
 		categoryid: billLine.categoryId,
-		category: billLine.category,
-		list_index: billLine.listIndex,
 		description: billLine.description,
 		quantity: billLine.quantity,
 		unit_cost: billLine.unitCost && transformMoneyRequest(billLine.unitCost),
-		amount: billLine.amount && transformMoneyRequest(billLine.amount),
-		total_amount: billLine.totalAmount && transformMoneyRequest(billLine.totalAmount),
 		tax_name1: billLine.taxName1,
 		tax_name2: billLine.taxName2,
 		tax_percent1: billLine.taxPercent1,
 		tax_percent2: billLine.taxPercent2,
 		tax_authorityid1: billLine.taxAuthorityId1,
 		tax_authorityid2: billLine.taxAuthorityId2,
-		tax_amount1: billLine.taxAmount1 && transformMoneyRequest(billLine.taxAmount1),
-		tax_amount2: billLine.taxAmount2 && transformMoneyRequest(billLine.taxAmount2),
 	}
 }

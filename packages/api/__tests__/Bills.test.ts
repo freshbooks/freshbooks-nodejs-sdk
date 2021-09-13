@@ -108,21 +108,11 @@ const buildBillsRequest = (billProperties: any = {}): any => {
 			language: 'en',
 			lines: [
 				{
-					category: 'Equipment',
 					categoryid: 3696445,
-					list_index: 1,
 					description: 'Raw material',
 					quantity: 10,
 					unit_cost: {
 						amount: 15,
-						code: 'CAD',
-					},
-					amount: {
-						amount: 1500,
-						code: 'CAD',
-					},
-					total_amount: {
-						amount: 1500,
 						code: 'CAD',
 					},
 				},
@@ -153,7 +143,7 @@ const buildBills = (billProperties: any = {}): Bills => ({
 			visState: 0,
 		},
 	],
-	createdAt: new Date('2021-09-01T19:30:29Z'),
+	createdAt: new Date('2021-09-01T15:30:29Z'),
 	currencyCode: 'CAD',
 	dueDate: new Date('2021-09-01 00:00:00'),
 	dueOffsetDays: 25,
@@ -208,7 +198,7 @@ const buildBills = (billProperties: any = {}): Bills => ({
 		amount: 1500,
 		code: 'CAD',
 	},
-	updatedAt: new Date('2021-09-01T19:30:29Z'),
+	updatedAt: new Date('2021-09-01T15:30:29Z'),
 	vendorId: VENDOR_ID,
 	visState: 0,
 	...billProperties,
@@ -257,7 +247,7 @@ describe('@freshbooks/api', () => {
 					total: 1,
 				},
 			}
-			const builder = new SearchQueryBuilder().equals('currencyCode', 'CAD').in('id', [43221133])
+			const builder = new SearchQueryBuilder().equals('currency_code', 'CAD').in('ids', [43221133])
 			const qs = joinQueries([builder])
 			mock.onGet(`/accounting/account/${ACCOUNT_ID}/bills/bills${qs}`).replyOnce(200, response)
 
@@ -285,21 +275,11 @@ describe('@freshbooks/api', () => {
 				language: 'en',
 				lines: [
 					{
-						category: 'Equipment',
 						categoryId: 3696445,
-						listIndex: 1,
 						description: 'Raw material',
 						quantity: 10,
 						unitCost: {
 							amount: 15,
-							code: 'CAD',
-						},
-						amount: {
-							amount: 1500,
-							code: 'CAD',
-						},
-						totalAmount: {
-							amount: 1500,
 							code: 'CAD',
 						},
 					},

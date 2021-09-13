@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import Money, { transformMoneyRequest, transformMoneyResponse } from './Money'
+import Money, { transformMoneyResponse } from './Money'
 import { DateFormat, transformDateRequest, transformDateResponse } from './Date'
 import { ErrorResponse, isAccountingErrorResponse, transformErrorResponse } from './Error'
 import Pagination from './Pagination'
@@ -49,7 +49,7 @@ export function transformBillsData(bill: any): Bills {
 		billPayments:
 			bill.bill_payments &&
 			bill.bill_payments.map((billPayment: any): BillPayments => transformBillPaymentsData(billPayment)),
-		createdAt: bill.created_at && transformDateResponse(bill.created_at, DateFormat['YYYY-MM-DD hh:mm:ss']),
+		createdAt: bill.created_at && transformDateResponse(bill.created_at, DateFormat['YYYY-MM-DD hh:mm:ss'], 'UTC'),
 		currencyCode: bill.currency_code,
 		dueDate: bill.due_date && transformDateResponse(bill.due_date, DateFormat['YYYY-MM-DD']),
 		dueOffsetDays: bill.due_offset_days,
@@ -63,7 +63,7 @@ export function transformBillsData(bill: any): Bills {
 		status: bill.status,
 		taxAmount: bill.tax_amount && transformMoneyResponse(bill.tax_amount),
 		totalAmount: bill.total_amount && transformMoneyResponse(bill.total_amount),
-		updatedAt: bill.updated_at && transformDateResponse(bill.updated_at, DateFormat['YYYY-MM-DD hh:mm:ss']),
+		updatedAt: bill.updated_at && transformDateResponse(bill.updated_at, DateFormat['YYYY-MM-DD hh:mm:ss'], 'UTC'),
 		vendorId: bill.vendorid,
 		visState: bill.vis_state,
 	}
@@ -119,26 +119,16 @@ export function transformBillsRequest(bill: Bills): string {
 	return JSON.stringify({
 		bill: {
 			id: bill.id,
-			amount: bill.amount && transformMoneyRequest(bill.amount),
 			attachment: bill.attachment,
 			bill_number: bill.billNumber,
 			bill_payments:
 				bill.billPayments && bill.billPayments.map((billPayment) => transformBillPaymentsData(billPayment)),
-			created_at: bill.createdAt,
 			currency_code: bill.currencyCode,
 			due_date: bill.dueDate && transformDateRequest(bill.dueDate),
 			due_offset_days: bill.dueOffsetDays,
 			issue_date: bill.issueDate && transformDateRequest(bill.issueDate),
 			language: bill.language,
 			lines: bill.lines && bill.lines.map((line) => transformBillLinesRequest(line)),
-			outstanding: bill.outstanding && transformMoneyRequest(bill.outstanding),
-			overall_category: bill.overallCategory,
-			overall_description: bill.overallDescription,
-			paid: bill.paid && transformMoneyRequest(bill.paid),
-			status: bill.status,
-			tax_amount: bill.taxAmount && transformMoneyRequest(bill.taxAmount),
-			total_amount: bill.totalAmount && transformMoneyRequest(bill.totalAmount),
-			updated_at: bill.updatedAt,
 			vendorid: bill.vendorId,
 			vis_state: bill.visState,
 		},
