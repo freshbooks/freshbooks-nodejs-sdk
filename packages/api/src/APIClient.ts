@@ -146,7 +146,7 @@ export default class APIClient {
 				ok: true,
 				data: response.data,
 			}
-		} catch (err) {
+		} catch (err: any) {
 			if (err.response) {
 				const {
 					response: { status, statusText, data: errData },
