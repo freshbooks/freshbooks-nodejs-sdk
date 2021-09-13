@@ -16,8 +16,8 @@ describe('@freshbooks/api', () => {
 		test('Test user agent throws error when clientId not set', () => {
 			const token = 'test-token'
 			try {
-				const client: APIClient = new APIClient(token)
-			} catch (err) {
+				new APIClient(token)
+			} catch (err: any) {
 				expect(err.name).toEqual('missing clientId')
 				expect(err.message).toEqual('missing clientId')
 			}
@@ -41,7 +41,7 @@ describe('@freshbooks/api', () => {
 			const client = new APIClient('foo', testOptions)
 			try {
 				await client.users.me()
-			} catch (err) {
+			} catch (err: any) {
 				expect(err.code).toEqual('unauthenticated')
 				expect(err.message).toEqual('This action requires authentication to continue.')
 			}
@@ -63,7 +63,7 @@ describe('@freshbooks/api', () => {
 			const client = new APIClient('foo', testOptions)
 			try {
 				await client.invoices.list('zDmNq')
-			} catch (error) {
+			} catch (error: any) {
 				expect(error.name).toEqual('List Invoices')
 				expect(error.code).toEqual('401')
 				expect(error.errors).toEqual([
@@ -86,7 +86,7 @@ describe('@freshbooks/api', () => {
 			const client = new APIClient('foo', testOptions)
 			try {
 				await client.invoices.single('zDmNq', '1')
-			} catch (error) {
+			} catch (error: any) {
 				expect(error.code).toEqual('not_found')
 				expect(error.message).toEqual('The requested resource was not found.')
 			}
@@ -115,8 +115,8 @@ describe('@freshbooks/api', () => {
 				.onGet('/auth/api/v1/users/me')
 				.replyOnce(
 					200,
-					`{ 
-					"response":{ 
+					`{
+					"response":{
 					   "id":2192788}}`
 				)
 
