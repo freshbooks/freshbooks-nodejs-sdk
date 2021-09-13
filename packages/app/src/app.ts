@@ -17,7 +17,7 @@ const defaultVerifyFn = (clientId: string) => {
 				}
 				done(null, user)
 			}
-		} catch (err) {
+		} catch (err: any) {
 			done(err)
 		}
 	}
