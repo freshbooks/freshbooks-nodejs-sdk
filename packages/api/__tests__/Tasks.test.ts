@@ -116,13 +116,13 @@ describe('@freshbooks/api', () => {
 				tdesc: '',
 				visState: 0,
 			}
-			const mockResponse = buildMockTasksJSONResponse()
+			const mockResponse = buildMockTasksJSONResponse({ taskModel })
 
 			const mockRequest = {
 				task: {
 					name: 'Walking Dogs',
 					rate: {
-						amount: 25.47,
+						amount: '25.47',
 						code: 'CAD',
 					},
 					tname: 'Walking Dogs',
@@ -131,7 +131,7 @@ describe('@freshbooks/api', () => {
 				},
 			}
 
-			const expected = buildExpectedTasksResult()
+			const expected = buildExpectedTasksResult(taskModel)
 
 			mock.onPost(`/accounting/account/${ACCOUNT_ID}/projects/tasks`, mockRequest).replyOnce(200, mockResponse)
 
