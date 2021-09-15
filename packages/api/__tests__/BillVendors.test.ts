@@ -143,7 +143,9 @@ describe('@freshbooks/api', () => {
                 }
             }`
 
-			mock.onGet(`/accounting/account/${ACCOUNT_ID}/bill_vendors/bill_vendors/${VENDOR_ID}`).replyOnce(200, mockResponse)
+			mock
+				.onGet(`/accounting/account/${ACCOUNT_ID}/bill_vendors/bill_vendors/${VENDOR_ID}`)
+				.replyOnce(200, mockResponse)
 			const vendor = buildVendors()
 			const { data } = await APIclient.billVendors.single(ACCOUNT_ID, VENDOR_ID)
 			expect(data).toEqual(vendor)
@@ -162,7 +164,9 @@ describe('@freshbooks/api', () => {
             }`
 
 			const mockRequest = buildMockRequest()
-			mock.onPost(`/accounting/account/${ACCOUNT_ID}/bill_vendors/bill_vendors`, mockRequest).replyOnce(200, mockResponse)
+			mock
+				.onPost(`/accounting/account/${ACCOUNT_ID}/bill_vendors/bill_vendors`, mockRequest)
+				.replyOnce(200, mockResponse)
 
 			const vendor = buildVendors()
 			const { data } = await APIclient.billVendors.create(vendor, ACCOUNT_ID)

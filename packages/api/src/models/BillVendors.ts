@@ -32,7 +32,7 @@ export default interface BillVendors {
 	updatedAt?: Date
 }
 
-function transformVendorsData({
+function transformBillVendorsData({
 	account_number: accountNumber,
 	city,
 	country,
@@ -89,7 +89,7 @@ function transformVendorsData({
 	}
 }
 
-export function transformListVendorsResponse(
+export function transformListBillVendorsResponse(
 	data: string
 ): { bill_vendors: BillVendors[]; pages: Pagination } | ErrorResponse {
 	const response = JSON.parse(data)
@@ -100,7 +100,7 @@ export function transformListVendorsResponse(
 
 	const { bill_vendors, per_page, total, page, pages } = response.response.result
 	return {
-		bill_vendors: bill_vendors.map((vendor: any) => transformVendorsData(vendor)),
+		bill_vendors: bill_vendors.map((vendor: any) => transformBillVendorsData(vendor)),
 		pages: {
 			page,
 			pages,
@@ -110,7 +110,7 @@ export function transformListVendorsResponse(
 	}
 }
 
-export function transformVendorsRequest(vendor: BillVendors): string {
+export function transformBillVendorsRequest(vendor: BillVendors): string {
 	const request = JSON.stringify({
 		bill_vendor: {
 			account_number: vendor.accountNumber,
@@ -140,7 +140,7 @@ export function transformVendorsRequest(vendor: BillVendors): string {
 	return request
 }
 
-export function transformVendorsResponse(data: string): BillVendors | ErrorResponse {
+export function transformBillVendorsResponse(data: string): BillVendors | ErrorResponse {
 	const response = JSON.parse(data)
 
 	if (isAccountingErrorResponse(response)) {
@@ -151,5 +151,5 @@ export function transformVendorsResponse(data: string): BillVendors | ErrorRespo
 		response: { result },
 	} = response
 	const { bill_vendor } = result
-	return transformVendorsData(bill_vendor)
+	return transformBillVendorsData(bill_vendor)
 }
