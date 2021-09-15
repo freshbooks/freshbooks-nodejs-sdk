@@ -43,7 +43,6 @@ describe('@freshbooks/api', () => {
 				tax_authorityid: 'l1v3l7',
 				updated_at: '2019-06-05 11:42:54',
 				created_at: '2019-06-05 11:42:54',
-
 			}
 			const model = transformBillVendorTaxResponse(data)
 

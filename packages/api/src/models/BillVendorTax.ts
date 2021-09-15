@@ -15,7 +15,6 @@ export default interface BillVendorTax {
 	updatedAt?: Date
 }
 
-
 export function transformBillVendorTaxResponse(billVendorTax: any): BillVendorTax {
 	return {
 		vendorId: billVendorTax.vendor_id,
@@ -28,7 +27,6 @@ export function transformBillVendorTaxResponse(billVendorTax: any): BillVendorTa
 		createdAt: transformDateResponse(billVendorTax.created_at, DateFormat['YYYY-MM-DD hh:mm:ss']),
 		updatedAt: transformDateResponse(billVendorTax.updated_at, DateFormat['YYYY-MM-DD hh:mm:ss']),
 	}
-
 }
 
 export function transformBillVendorTaxRequest({

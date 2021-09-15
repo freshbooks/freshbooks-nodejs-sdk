@@ -5,7 +5,7 @@ import VisState from './VisState'
 import Pagination from './Pagination'
 import BillVendorTax, { transformBillVendorTaxRequest, transformBillVendorTaxResponse } from './BillVendorTax'
 
-export default interface Vendors {
+export default interface BillVendors {
 	accountNumber?: string
 	city?: string
 	country?: string
@@ -57,7 +57,7 @@ function transformVendorsData({
 	vendor_name: vendorName,
 	created_at: createdAt,
 	updated_at: updatedAt,
-}: any): Vendors {
+}: any): BillVendors {
 	return {
 		accountNumber,
 		city,
@@ -77,7 +77,9 @@ function transformVendorsData({
 		province,
 		street,
 		street2,
-		taxDefaults: taxDefaults && taxDefaults.map((billVendorTax: any): BillVendorTax => transformBillVendorTaxResponse(billVendorTax)),
+		taxDefaults:
+			taxDefaults &&
+			taxDefaults.map((billVendorTax: any): BillVendorTax => transformBillVendorTaxResponse(billVendorTax)),
 		vendorId,
 		visState,
 		website,
@@ -89,7 +91,7 @@ function transformVendorsData({
 
 export function transformListVendorsResponse(
 	data: string
-): { bill_vendors: Vendors[]; pages: Pagination } | ErrorResponse {
+): { bill_vendors: BillVendors[]; pages: Pagination } | ErrorResponse {
 	const response = JSON.parse(data)
 
 	if (isAccountingErrorResponse(response)) {
@@ -108,7 +110,7 @@ export function transformListVendorsResponse(
 	}
 }
 
-export function transformVendorsRequest(vendor: Vendors): string {
+export function transformVendorsRequest(vendor: BillVendors): string {
 	const request = JSON.stringify({
 		bill_vendor: {
 			account_number: vendor.accountNumber,
@@ -118,11 +120,6 @@ export function transformVendorsRequest(vendor: Vendors): string {
 			is_1099: vendor.is1099,
 			language: vendor.language,
 			note: vendor.note,
-			outstanding_balance:
-				vendor.outstandingBalance &&
-				vendor.outstandingBalance.map((balance: any): Money => transformMoneyRequest(balance)),
-			overdue_balance:
-				vendor.overdueBalance && vendor.overdueBalance.map((balance: any): Money => transformMoneyRequest(balance)),
 			phone: vendor.phone,
 			postal_code: vendor.postalCode,
 			primary_contact_email: vendor.primaryContactEmail,
@@ -131,7 +128,9 @@ export function transformVendorsRequest(vendor: Vendors): string {
 			province: vendor.province,
 			street: vendor.street,
 			street2: vendor.street2,
-			tax_defaults: vendor.taxDefaults && vendor.taxDefaults.map((billVendorTax: any): BillVendorTax => transformBillVendorTaxRequest(billVendorTax)),
+			tax_defaults:
+				vendor.taxDefaults &&
+				vendor.taxDefaults.map((billVendorTax: any): BillVendorTax => transformBillVendorTaxRequest(billVendorTax)),
 			vendor_id: vendor.vendorId,
 			vis_state: vendor.visState,
 			website: vendor.website,
@@ -141,7 +140,7 @@ export function transformVendorsRequest(vendor: Vendors): string {
 	return request
 }
 
-export function transformVendorsResponse(data: string): Vendors | ErrorResponse {
+export function transformVendorsResponse(data: string): BillVendors | ErrorResponse {
 	const response = JSON.parse(data)
 
 	if (isAccountingErrorResponse(response)) {

@@ -1,7 +1,7 @@
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 import APIClient, { Options } from '../src/APIClient'
-import { Vendors } from '../src/models'
+import { BillVendors } from '../src/models'
 import { SearchQueryBuilder } from '../src/models/builders/SearchQueryBuilder'
 import { joinQueries } from '../src/models/builders'
 
@@ -41,7 +41,7 @@ const buildMockVendorsResponse = (vendorResponseProperties: any = {}): string =>
 	})
 }
 
-const buildVendors = (vendorProperties: any = {}): Vendors => ({
+const buildVendors = (vendorProperties: any = {}): BillVendors => ({
 	accountNumber: '45454545',
 	city: 'San Francisco',
 	country: 'United States',
@@ -78,8 +78,6 @@ const buildMockRequest = (vendorProperties: any = {}): any => ({
 		is_1099: false,
 		language: 'en',
 		note: null,
-		outstanding_balance: [],
-		overdue_balance: [],
 		phone: '4158859378',
 		postal_code: null,
 		primary_contact_email: 'someone@ikea.com',
@@ -98,8 +96,8 @@ const buildMockRequest = (vendorProperties: any = {}): any => ({
 })
 
 describe('@freshbooks/api', () => {
-	describe('Vendors', () => {
-		test('GET /accounting/account/<account_id>/projects/vendors list', async () => {
+	describe('BillVendors', () => {
+		test('GET /accounting/account/<account_id>/bill_vendors/bill_vendors list', async () => {
 			const token = 'token'
 			const APIclient = new APIClient(token, testOptions)
 
@@ -117,7 +115,7 @@ describe('@freshbooks/api', () => {
                         }
                     }
                 }`
-			mock.onGet(`/accounting/account/${ACCOUNT_ID}/projects/vendors`).replyOnce(200, mockResponse)
+			mock.onGet(`/accounting/account/${ACCOUNT_ID}/bill_vendors/bill_vendors`).replyOnce(200, mockResponse)
 
 			const expected = {
 				bill_vendors: [buildVendors()],
@@ -128,11 +126,11 @@ describe('@freshbooks/api', () => {
 					total: 1,
 				},
 			}
-			const { data } = await APIclient.vendors.list(ACCOUNT_ID)
+			const { data } = await APIclient.billVendors.list(ACCOUNT_ID)
 
 			expect(data).toEqual(expected)
 		})
-		test('GET /accounting/account/<account_id>/projects/vendors/<vendor_id>', async () => {
+		test('GET /accounting/account/<account_id>/bill_vendors/bill_vendors/<vendor_id>', async () => {
 			const token = 'token'
 			const APIclient = new APIClient(token, testOptions)
 
@@ -145,13 +143,13 @@ describe('@freshbooks/api', () => {
                 }
             }`
 
-			mock.onGet(`/accounting/account/${ACCOUNT_ID}/projects/vendors/${VENDOR_ID}`).replyOnce(200, mockResponse)
+			mock.onGet(`/accounting/account/${ACCOUNT_ID}/bill_vendors/bill_vendors/${VENDOR_ID}`).replyOnce(200, mockResponse)
 			const vendor = buildVendors()
-			const { data } = await APIclient.vendors.single(ACCOUNT_ID, VENDOR_ID)
+			const { data } = await APIclient.billVendors.single(ACCOUNT_ID, VENDOR_ID)
 			expect(data).toEqual(vendor)
 		})
 
-		test('POST /accounting/account/<accountId>/projects/vendors create', async () => {
+		test('POST /accounting/account/<accountId>/bill_vendors/bill_vendors create', async () => {
 			const token = 'token'
 			const APIclient = new APIClient(token, testOptions)
 			const mockResponse = `
@@ -164,13 +162,13 @@ describe('@freshbooks/api', () => {
             }`
 
 			const mockRequest = buildMockRequest()
-			mock.onPost(`/accounting/account/${ACCOUNT_ID}/projects/vendors`, mockRequest).replyOnce(200, mockResponse)
+			mock.onPost(`/accounting/account/${ACCOUNT_ID}/bill_vendors/bill_vendors`, mockRequest).replyOnce(200, mockResponse)
 
 			const vendor = buildVendors()
-			const { data } = await APIclient.vendors.create(vendor, ACCOUNT_ID)
+			const { data } = await APIclient.billVendors.create(vendor, ACCOUNT_ID)
 			expect(data).toEqual(vendor)
 		})
-		test('PUT /accounting/account/<accountId>/projects/vendors/<vendorId> update', async () => {
+		test('PUT /accounting/account/<accountId>/bill_vendors/bill_vendors/<vendorId> update', async () => {
 			const token = 'token'
 			const client = new APIClient(token, testOptions)
 
@@ -186,15 +184,15 @@ describe('@freshbooks/api', () => {
 
 			// Monkey patch
 			mock
-				.onPut(`/accounting/account/${ACCOUNT_ID}/projects/vendors/${VENDOR_ID}`, mockRequest)
+				.onPut(`/accounting/account/${ACCOUNT_ID}/bill_vendors/bill_vendors/${VENDOR_ID}`, mockRequest)
 				.replyOnce(200, mockResponse)
 
 			const vendor = buildVendors()
-			const { data } = await client.vendors.update(vendor, ACCOUNT_ID, VENDOR_ID)
+			const { data } = await client.billVendors.update(vendor, ACCOUNT_ID, VENDOR_ID)
 
 			expect(data).toEqual(vendor)
 		})
-		test('PUT /accounting/account/<accountId>/projects/vendors/<vendorId> delete', async () => {
+		test('PUT /accounting/account/<accountId>/bill_vendors/bill_vendors/<vendorId> delete', async () => {
 			const token = 'token'
 			const client = new APIClient(token, testOptions)
 
@@ -208,11 +206,11 @@ describe('@freshbooks/api', () => {
             }`
 			const mockRequest = { bill_vendor: { vis_state: 1 } }
 			mock
-				.onPut(`/accounting/account/${ACCOUNT_ID}/projects/vendors/${VENDOR_ID}`, mockRequest)
+				.onPut(`/accounting/account/${ACCOUNT_ID}/bill_vendors/bill_vendors/${VENDOR_ID}`, mockRequest)
 				.replyOnce(200, mockResponse)
 
 			const vendor = buildVendors({ visState: 1 })
-			const { data } = await client.vendors.delete(ACCOUNT_ID, VENDOR_ID)
+			const { data } = await client.billVendors.delete(ACCOUNT_ID, VENDOR_ID)
 
 			expect(data).toEqual(vendor)
 		})

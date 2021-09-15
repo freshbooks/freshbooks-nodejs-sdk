@@ -20,7 +20,7 @@ import {
 	ServiceRate,
 	TimeEntry,
 	User,
-	Vendors,
+	BillVendors,
 } from './models'
 import { transformClientResponse, transformClientListResponse, transformClientRequest } from './models/Client'
 import { transformListInvoicesResponse, transformInvoiceResponse, transformInvoiceRequest } from './models/Invoices'
@@ -49,7 +49,7 @@ import {
 } from './models/TimeEntry'
 import { transformUserResponse } from './models/User'
 import { transformTasksListResponse, transformTasksRequest, transformTasksResponse } from './models/Tasks'
-import { transformVendorsRequest, transformVendorsResponse, transformListVendorsResponse } from './models/Vendors'
+import { transformVendorsRequest, transformVendorsResponse, transformListVendorsResponse } from './models/BillVendors'
 
 // defaults
 const API_URL = 'https://api.freshbooks.com'
@@ -797,56 +797,56 @@ export default class APIClient {
 				'Delete Client'
 			),
 	}
-	public readonly vendors = {
+	public readonly billVendors = {
 		list: (
 			accountId: string,
 			queryBuilders?: QueryBuilderType[]
 		): Promise<Result<{ vendors: Vendors[]; pages: Pagination }>> =>
 			this.call(
 				'GET',
-				`/accounting/account/${accountId}/projects/vendors${joinQueries(queryBuilders)}`,
+				`/accounting/account/${accountId}/bill_vendors/bill_vendors${joinQueries(queryBuilders)}`,
 				{
 					transformResponse: transformListVendorsResponse,
 				},
 				null,
-				'List Vendors'
+				'List BillVendors'
 			),
 		single: (accountId: string, vendorId: number): Promise<Result<Vendors>> =>
 			this.call(
 				'GET',
-				`/accounting/account/${accountId}/projects/vendors/${vendorId}`,
+				`/accounting/account/${accountId}/bill_vendors/bill_vendors/${vendorId}`,
 				{
 					transformResponse: transformVendorsResponse,
 				},
 				null,
-				'Get Vendors Entry'
+				'Get BillVendors Entry'
 			),
 		create: (vendor: Vendors, accountId: string): Promise<Result<Vendors>> =>
 			this.call(
 				'POST',
-				`/accounting/account/${accountId}/projects/vendors`,
+				`/accounting/account/${accountId}/bill_vendors/bill_vendors`,
 				{
 					transformResponse: transformVendorsResponse,
 					transformRequest: transformVendorsRequest,
 				},
 				vendor,
-				'Create Vendors Entry'
+				'Create BillVendors Entry'
 			),
 		update: (vendor: Vendors, accountId: string, vendorId: number): Promise<Result<Vendors>> =>
 			this.call(
 				'PUT',
-				`/accounting/account/${accountId}/projects/vendors/${vendorId}`,
+				`/accounting/account/${accountId}/bill_vendors/bill_vendors/${vendorId}`,
 				{
 					transformResponse: transformVendorsResponse,
 					transformRequest: transformVendorsRequest,
 				},
 				vendor,
-				'Update Vendors Entry'
+				'Update BillVendors Entry'
 			),
 		delete: (accountId: string, vendorId: number): Promise<Result<Vendors>> =>
 			this.call(
 				'PUT',
-				`/accounting/account/${accountId}/projects/vendors/${vendorId}`,
+				`/accounting/account/${accountId}/bill_vendors/bill_vendors/${vendorId}`,
 				{
 					transformResponse: transformVendorsResponse,
 					transformRequest: transformVendorsRequest,
@@ -854,7 +854,7 @@ export default class APIClient {
 				{
 					visState: 1,
 				},
-				'Delete Client'
+				'Delete BillVendors Entry'
 			),
 	}
 }
