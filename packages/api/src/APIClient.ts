@@ -20,6 +20,7 @@ import {
 	ServiceRate,
 	TimeEntry,
 	User,
+	BillVendors,
 } from './models'
 import { transformClientResponse, transformClientListResponse, transformClientRequest } from './models/Client'
 import { transformListInvoicesResponse, transformInvoiceResponse, transformInvoiceRequest } from './models/Invoices'
@@ -48,6 +49,7 @@ import {
 } from './models/TimeEntry'
 import { transformUserResponse } from './models/User'
 import { transformTasksListResponse, transformTasksRequest, transformTasksResponse } from './models/Tasks'
+import { transformBillVendorsRequest, transformBillVendorsResponse, transformListBillVendorsResponse } from './models/BillVendors'
 
 // defaults
 const API_URL = 'https://api.freshbooks.com'
@@ -793,6 +795,66 @@ export default class APIClient {
 					visState: 1,
 				},
 				'Delete Client'
+			),
+	}
+	public readonly billVendors = {
+		list: (
+			accountId: string,
+			queryBuilders?: QueryBuilderType[]
+		): Promise<Result<{ vendors: BillVendors[]; pages: Pagination }>> =>
+			this.call(
+				'GET',
+				`/accounting/account/${accountId}/bill_vendors/bill_vendors${joinQueries(queryBuilders)}`,
+				{
+					transformResponse: transformListBillVendorsResponse,
+				},
+				null,
+				'List BillVendors'
+			),
+		single: (accountId: string, vendorId: number): Promise<Result<BillVendors>> =>
+			this.call(
+				'GET',
+				`/accounting/account/${accountId}/bill_vendors/bill_vendors/${vendorId}`,
+				{
+					transformResponse: transformBillVendorsResponse,
+				},
+				null,
+				'Get BillVendors Entry'
+			),
+		create: (vendor: BillVendors, accountId: string): Promise<Result<BillVendors>> =>
+			this.call(
+				'POST',
+				`/accounting/account/${accountId}/bill_vendors/bill_vendors`,
+				{
+					transformResponse: transformBillVendorsResponse,
+					transformRequest: transformBillVendorsRequest,
+				},
+				vendor,
+				'Create BillVendors Entry'
+			),
+		update: (vendor: BillVendors, accountId: string, vendorId: number): Promise<Result<BillVendors>> =>
+			this.call(
+				'PUT',
+				`/accounting/account/${accountId}/bill_vendors/bill_vendors/${vendorId}`,
+				{
+					transformResponse: transformBillVendorsResponse,
+					transformRequest: transformBillVendorsRequest,
+				},
+				vendor,
+				'Update BillVendors Entry'
+			),
+		delete: (accountId: string, vendorId: number): Promise<Result<BillVendors>> =>
+			this.call(
+				'PUT',
+				`/accounting/account/${accountId}/bill_vendors/bill_vendors/${vendorId}`,
+				{
+					transformResponse: transformBillVendorsResponse,
+					transformRequest: transformBillVendorsRequest,
+				},
+				{
+					visState: 1,
+				},
+				'Delete BillVendors Entry'
 			),
 	}
 }
