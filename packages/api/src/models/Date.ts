@@ -23,9 +23,7 @@ export const transformDateResponse = (
 			return DateTime.fromSQL(dateString, { zone: timeZone }).toJSDate()
 		case DateFormat['YYYY-MM-DDThh:mm:ss']:
 			dateString = dateString.replace(/([^Z])$/, '$1Z') // Append Z if not present
-			return timeZone === 'America/New_York'
-				? DateTime.fromISO(dateString).toJSDate()
-				: DateTime.fromISO(dateString, { zone: timeZone }).toJSDate()
+			return DateTime.fromISO(dateString).toJSDate()
 		default:
 			return new Date(`${dateString} 00:00:00`)
 	}
