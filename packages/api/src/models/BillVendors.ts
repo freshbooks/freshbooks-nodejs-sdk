@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import { isAccountingErrorResponse, transformErrorResponse, ErrorResponse } from './Error'
-import Money, { MoneyResponse, transformMoneyResponse, transformMoneyRequest } from './Money'
-import { transformDateResponse, transformDateRequest, DateFormat } from './Date'
+import Money, { MoneyResponse, transformMoneyResponse } from './Money'
+import { transformDateResponse, DateFormat } from './Date'
 import VisState from './VisState'
 import Pagination from './Pagination'
 import BillVendorTax, { transformBillVendorTaxRequest, transformBillVendorTaxResponse } from './BillVendorTax'
@@ -32,7 +33,7 @@ export default interface BillVendors {
 	updatedAt?: Date
 }
 
-function transformBillVendorsData({
+export function transformBillVendorsData({
 	account_number: accountNumber,
 	city,
 	country,
