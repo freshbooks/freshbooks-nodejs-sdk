@@ -13,10 +13,14 @@ export const transformDateRequest = (date: Date): string => {
 	return `${year}-${month}-${day}`
 }
 
-export const transformDateResponse = (dateString: string, dateFormat: DateFormat = DateFormat['YYYY-MM-DD']): Date => {
+export const transformDateResponse = (
+	dateString: string,
+	dateFormat: DateFormat = DateFormat['YYYY-MM-DD'],
+	timeZone = 'America/New_York'
+): Date => {
 	switch (dateFormat) {
 		case DateFormat['YYYY-MM-DD hh:mm:ss']:
-			return DateTime.fromSQL(dateString, { zone: 'America/New_York' }).toJSDate()
+			return DateTime.fromSQL(dateString, { zone: timeZone }).toJSDate()
 		case DateFormat['YYYY-MM-DDThh:mm:ss']:
 			dateString = dateString.replace(/([^Z])$/, '$1Z') // Append Z if not present
 			return DateTime.fromISO(dateString).toJSDate()

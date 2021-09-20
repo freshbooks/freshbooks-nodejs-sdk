@@ -1,9 +1,8 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 import APIClient, { Options } from '../src/APIClient'
 import { BillVendors } from '../src/models'
-import { SearchQueryBuilder } from '../src/models/builders/SearchQueryBuilder'
-import { joinQueries } from '../src/models/builders'
 
 const mock = new MockAdapter(axios) // set mock adapter on default axios instance
 const testOptions: Options = { clientId: 'test-client-id' }
