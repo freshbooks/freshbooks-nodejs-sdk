@@ -6,6 +6,7 @@
 
 - (**Breaking Change**) Fix types on data models
 - (**Breaking Change**) Rename models to better fit coding conventions
+- Support Bills, Bill Payments, Bill Vendors endpoints
 - Support Tasks endpoint
 
 ### 1.5.0
