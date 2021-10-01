@@ -1,6 +1,6 @@
 {
 	"name": "@freshbooks/api",
-	"version": "1.5.1",
+	"version": "2.0.0",
 	"description": "NodeJS SDK for FreshBooks API",
 	"author": "FreshBooks",
 	"license": "MIT",
