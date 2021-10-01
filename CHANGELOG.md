@@ -4,6 +4,8 @@
 
 ### Unreleased
 
+### 2.0.0
+
 - (**Breaking Change**) FreshBooks application clientId added to APIClient
   constructor instead of optional (but not actually optional) param
 - (**Breaking Change**) Fix types on data models
@@ -49,6 +51,8 @@
 ## @freshbooks/app
 
 ### Unreleased
+
+### 2.0.0
 
 - (**Breaking Change**) Updated to latest breaking api changes.
 
