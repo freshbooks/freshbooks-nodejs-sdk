@@ -6,7 +6,8 @@ import { SearchQueryBuilder } from '../src/models/builders/SearchQueryBuilder'
 import { joinQueries } from '../src/models/builders'
 
 const mock = new MockAdapter(axios) // set mock adapter on default axios instance
-const testOptions: Options = { clientId: 'test-client-id' }
+const APPLICATION_CLIENT_ID = 'test-client-id'
+const testOptions: Options = {}
 
 const ACCOUNT_ID = 'zDmNq'
 const TASK_ID = 43221133
@@ -58,7 +59,7 @@ describe('@freshbooks/api', () => {
 	describe('Tasks', () => {
 		test('GET /accounting/account/<account_id>/projects/tasks list', async () => {
 			const token = 'token'
-			const APIclient = new APIClient(token, testOptions)
+			const APIclient = new APIClient(APPLICATION_CLIENT_ID, token, testOptions)
 			const response = `
               {
                 "response": {
@@ -92,7 +93,7 @@ describe('@freshbooks/api', () => {
 		})
 		test('GET /accounting/account/<account_id>/projects/tasks/<task_id>', async () => {
 			const token = 'token'
-			const APIclient = new APIClient(token, testOptions)
+			const APIclient = new APIClient(APPLICATION_CLIENT_ID, token, testOptions)
 			const response = buildMockTasksJSONResponse()
 			const expected = buildExpectedTasksResult()
 
@@ -104,7 +105,7 @@ describe('@freshbooks/api', () => {
 
 		test('POST /accounting/account/<accountId>/projects/tasks create', async () => {
 			const token = 'token'
-			const APIclient = new APIClient(token, testOptions)
+			const APIclient = new APIClient(APPLICATION_CLIENT_ID, token, testOptions)
 
 			const taskModel = {
 				name: 'Walking Dogs',
@@ -140,7 +141,7 @@ describe('@freshbooks/api', () => {
 		})
 		test('PUT /accounting/account/<accountId>/projects/tasks/<taskId> update', async () => {
 			const token = 'token'
-			const APIclient = new APIClient(token, testOptions)
+			const APIclient = new APIClient(APPLICATION_CLIENT_ID, token, testOptions)
 
 			const mockResponse = buildMockTasksJSONResponse({ description: 'Something' })
 
@@ -165,7 +166,7 @@ describe('@freshbooks/api', () => {
 		})
 		test('PUT /accounting/account/<accountId>/projects/tasks/<taskId> delete', async () => {
 			const token = 'token'
-			const APIclient = new APIClient(token, testOptions)
+			const APIclient = new APIClient(APPLICATION_CLIENT_ID, token, testOptions)
 
 			const mockResponse = buildMockTasksJSONResponse({ visState: 1 })
 

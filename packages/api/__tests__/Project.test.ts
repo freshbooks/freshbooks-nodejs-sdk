@@ -8,7 +8,8 @@ const mock = new MockAdapter(axios) // set mock adapter on default axios instanc
 
 const BUSINESS_ID = 12345
 const PROJECT_ID = 218192
-const testOptions: Options = { clientId: 'test-client-id' }
+const APPLICATION_CLIENT_ID = 'test-client-id'
+const testOptions: Options = {}
 
 const buildProjectResponse = (projectResponseProperties: any = {}): any => ({
 	id: PROJECT_ID,
@@ -121,7 +122,7 @@ describe('@freshbooks/api', () => {
 	describe('Projects', () => {
 		test('GET /projects/business/<businessId>/projects', async () => {
 			const token = 'token'
-			const APIclient = new APIClient(token, testOptions)
+			const APIclient = new APIClient(APPLICATION_CLIENT_ID, token, testOptions)
 			const response = `{
 		    "meta": {
                 "total": 1,
@@ -151,7 +152,7 @@ describe('@freshbooks/api', () => {
 
 		test('GET /projects/business/<businessId>/projects/<projectId>', async () => {
 			const token = 'token'
-			const APIclient = new APIClient(token, testOptions)
+			const APIclient = new APIClient(APPLICATION_CLIENT_ID, token, testOptions)
 
 			const mockResponse = buildMockProjectJSONResponse()
 
@@ -166,7 +167,7 @@ describe('@freshbooks/api', () => {
 
 		test('POST /projects/business/<businessId>/project', async () => {
 			const token = 'token'
-			const APIclient = new APIClient(token, testOptions)
+			const APIclient = new APIClient(APPLICATION_CLIENT_ID, token, testOptions)
 
 			const projectModel = {
 				title: 'Some project',
@@ -192,7 +193,7 @@ describe('@freshbooks/api', () => {
 
 	test('PUT /projects/business/<businessId>/project/<projectId>', async () => {
 		const token = 'token'
-		const APIclient = new APIClient(token, testOptions)
+		const APIclient = new APIClient(APPLICATION_CLIENT_ID, token, testOptions)
 
 		const mockResponse = buildMockProjectJSONResponse({
 			title: 'Some changed project',
@@ -219,7 +220,7 @@ describe('@freshbooks/api', () => {
 
 	test('DELETE /projects/business/<businessId>/project/<projectId>', async () => {
 		const token = 'token'
-		const APIclient = new APIClient(token, testOptions)
+		const APIclient = new APIClient(APPLICATION_CLIENT_ID, token, testOptions)
 
 		mock.onDelete(`/projects/business/${BUSINESS_ID}/project/${PROJECT_ID}`).replyOnce(204, {})
 

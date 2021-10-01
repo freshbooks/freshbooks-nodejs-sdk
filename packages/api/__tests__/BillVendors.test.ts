@@ -5,7 +5,8 @@ import APIClient, { Options } from '../src/APIClient'
 import { BillVendors } from '../src/models'
 
 const mock = new MockAdapter(axios) // set mock adapter on default axios instance
-const testOptions: Options = { clientId: 'test-client-id' }
+const APPLICATION_CLIENT_ID = 'test-client-id'
+const testOptions: Options = {}
 
 const ACCOUNT_ID = 'zDmNq'
 const VENDOR_ID = 1563
@@ -98,7 +99,7 @@ describe('@freshbooks/api', () => {
 	describe('BillVendors', () => {
 		test('GET /accounting/account/<account_id>/bill_vendors/bill_vendors list', async () => {
 			const token = 'token'
-			const APIclient = new APIClient(token, testOptions)
+			const APIclient = new APIClient(APPLICATION_CLIENT_ID, token, testOptions)
 
 			const mockResponse = `
                 {"response":
@@ -131,7 +132,7 @@ describe('@freshbooks/api', () => {
 		})
 		test('GET /accounting/account/<account_id>/bill_vendors/bill_vendors/<vendor_id>', async () => {
 			const token = 'token'
-			const APIclient = new APIClient(token, testOptions)
+			const APIclient = new APIClient(APPLICATION_CLIENT_ID, token, testOptions)
 
 			const mockResponse = `
             {"response":
@@ -152,7 +153,7 @@ describe('@freshbooks/api', () => {
 
 		test('POST /accounting/account/<accountId>/bill_vendors/bill_vendors create', async () => {
 			const token = 'token'
-			const APIclient = new APIClient(token, testOptions)
+			const APIclient = new APIClient(APPLICATION_CLIENT_ID, token, testOptions)
 			const mockResponse = `
             {"response":
                 {
@@ -173,7 +174,7 @@ describe('@freshbooks/api', () => {
 		})
 		test('PUT /accounting/account/<accountId>/bill_vendors/bill_vendors/<vendorId> update', async () => {
 			const token = 'token'
-			const client = new APIClient(token, testOptions)
+			const client = new APIClient(APPLICATION_CLIENT_ID, token, testOptions)
 
 			const mockResponse = `
             {"response":
@@ -197,7 +198,7 @@ describe('@freshbooks/api', () => {
 		})
 		test('PUT /accounting/account/<accountId>/bill_vendors/bill_vendors/<vendorId> delete', async () => {
 			const token = 'token'
-			const client = new APIClient(token, testOptions)
+			const client = new APIClient(APPLICATION_CLIENT_ID, token, testOptions)
 
 			const mockResponse = `
             {"response":

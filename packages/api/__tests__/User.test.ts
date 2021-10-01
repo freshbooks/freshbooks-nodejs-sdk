@@ -3,44 +3,45 @@ import MockAdapter from 'axios-mock-adapter'
 import APIClient, { Options } from '../src/APIClient'
 
 const mock = new MockAdapter(axios) // set mock adapter on default axios instance
-const testOptions: Options = { clientId: 'test-client-id' }
+const APPLICATION_CLIENT_ID = 'test-client-id'
+const testOptions: Options = {}
 
 describe('@freshbooks/api', () => {
 	describe('User', () => {
 		test('GET /users/me', async () => {
 			const token = 'token'
-			const client = new APIClient(token, testOptions)
+			const client = new APIClient(APPLICATION_CLIENT_ID, token, testOptions)
 
-			const mockResponse = `{ 
-					"response":{ 
+			const mockResponse = `{
+					"response":{
 					   "id":2192788,
 					   "first_name":"Johnny",
 					   "last_name":"Appleseed",
 					   "email":"johnnyappleseed@test.com",
 					   "language":"en",
 					   "created_at":"2019-06-05T15:42:54Z",
-					   "phone_numbers":[ 
-						  { 
+					   "phone_numbers":[
+						  {
 							 "title":"",
 							 "phone_number":null
 						  }
 					   ],
-					   "addresses":[ 
+					   "addresses":[
 						  null
 					   ],
-					   "profession":{ 
+					   "profession":{
 						  "id":2609324,
 						  "business_id":2122866,
 						  "title":"Apple Consulting",
 						  "company":"Fruity Loops",
 						  "designation":null
 					   },
-					   "links":{ 
+					   "links":{
 						  "me":"/service/auth/api/v1/users?id=2192788",
 						  "roles":"/service/auth/api/v1/users/role/2192788"
 					   },
-					   "permissions":{ 
-						  "xZNQ1X":{ 
+					   "permissions":{
+						  "xZNQ1X":{
 							 "advanced_accounting.access":true,
 							 "attachments.access":true,
 							 "business_accountant.limit":10,
@@ -94,7 +95,7 @@ describe('@freshbooks/api', () => {
 							 "chase_dao.access":true,
 							 "estimate_v3_search.access":true
 						  },
-						  "3xQ74o":{ 
+						  "3xQ74o":{
 							 "advanced_accounting.access":true,
 							 "attachments.access":true,
 							 "business_accountant.limit":10,
@@ -148,8 +149,8 @@ describe('@freshbooks/api', () => {
 							 "estimate_v3_search.access":true
 						  }
 					   },
-					   "groups":[ 
-						  { 
+					   "groups":[
+						  {
 							 "id":6765686,
 							 "group_id":5206502,
 							 "role":"owner",
@@ -157,7 +158,7 @@ describe('@freshbooks/api', () => {
 							 "business_id":2122866,
 							 "active":true
 						  },
-						  { 
+						  {
 							 "id":7900914,
 							 "group_id":6157078,
 							 "role":"owner",
@@ -166,31 +167,31 @@ describe('@freshbooks/api', () => {
 							 "active":true
 						  }
 					   ],
-					   "subscription_statuses":{ 
+					   "subscription_statuses":{
 						  "xZNQ1X":"active_trial",
 						  "3xQ74o":"active_trial"
 					   },
-					   "integrations":{ 
-						  "google":{ 
+					   "integrations":{
+						  "google":{
 							 "domain":"secretmission.io",
 							 "email_address":"bhaskar@secretmission.io",
 							 "has_password":false,
 							 "is_active":true
 						  }
 					   },
-					   "business_memberships":[ 
-						  { 
+					   "business_memberships":[
+						  {
 							 "id":6765686,
 							 "role":"owner",
 							 "unacknowledged_change":false,
 							 "fasttrack_token":"eyJhbGciOiJIUzI1NiJ9.eyJmYXN0dHJhY2tfaWRlbnRpdHlfaWQiOiIyMTkyNzg4IiwiZmFzdHRyYWNrX3N5c3RlbV9pZCI6IjQzNTQ3NjQiLCJmYXN0dHJhY2tfYnVzaW5lc3NfaWQiOiIyMTIyODY2IiwiY3JlYXRlZF9hdCI6IjIwMTktMTEtMTJUMTY6NTg6MTArMDA6MDAifQ.9nfovmVa3X-iqu3ccThjtByZEGJSLujayQR8kW1rP1s",
-							 "business":{ 
+							 "business":{
 								"id":2122866,
 								"business_uuid":"046e4001-0002-616d-710a-a451d4421b13",
 								"name":"Fruity Loops",
 								"account_id":"xZNQ1X",
 								"date_format":"mm/dd/yyyy",
-								"address":{ 
+								"address":{
 								   "id":3383026,
 								   "street":"20 Fake St.",
 								   "city":"Toronto",
@@ -198,27 +199,27 @@ describe('@freshbooks/api', () => {
 								   "country":"Canada",
 								   "postal_code":"1I2K4J"
 								},
-								"phone_number":{ 
+								"phone_number":{
 								   "id":1039134,
 								   "phone_number":"5555555555"
 								},
-								"business_clients":[ 
-				 
+								"business_clients":[
+
 								]
 							 }
 						  },
-						  { 
+						  {
 							 "id":7900914,
 							 "role":"owner",
 							 "unacknowledged_change":false,
 							 "fasttrack_token":"eyJhbGciOiJIUzI1NiJ9.eyJmYXN0dHJhY2tfaWRlbnRpdHlfaWQiOiIyMTkyNzg4IiwiZmFzdHRyYWNrX3N5c3RlbV9pZCI6IjQ3MTQ3NDAiLCJmYXN0dHJhY2tfYnVzaW5lc3NfaWQiOiIyNjAzOTg4IiwiY3JlYXRlZF9hdCI6IjIwMTktMTEtMTJUMTY6NTg6MTArMDA6MDAifQ.v01c33WuVR4Zc8OtSc3epP1MNaDCuEhNZIlYlJ7ZvD4",
-							 "business":{ 
+							 "business":{
 								"id":2603988,
 								"business_uuid":"04710001-0002-ff38-0de2-a77e0c34a9a1",
 								"name":"Other business",
 								"account_id":"3xQ74o",
 								"date_format":"mm/dd/yyyy",
-								"address":{ 
+								"address":{
 								   "id":3292884,
 								   "street":null,
 								   "city":null,
@@ -227,32 +228,32 @@ describe('@freshbooks/api', () => {
 								   "postal_code":null
 								},
 								"phone_number":null,
-								"business_clients":[ 
-				 
+								"business_clients":[
+
 								]
 							 }
 						  }
 					   ],
 					   "identity_origin":"magnum",
-					   "roles":[ 
-						  { 
+					   "roles":[
+						  {
 							 "id":2290862,
 							 "role":"admin",
 							 "systemid":4354764,
 							 "userid":1,
 							 "created_at":"2019-06-05T15:42:54Z",
-							 "links":{ 
+							 "links":{
 								"destroy":"/service/auth/api/v1/users/role/2290862"
 							 },
 							 "accountid":"xZNQ1X"
 						  },
-						  { 
+						  {
 							 "id":2802256,
 							 "role":"admin",
 							 "systemid":4714740,
 							 "userid":1,
 							 "created_at":"2019-10-23T19:18:36Z",
-							 "links":{ 
+							 "links":{
 								"destroy":"/service/auth/api/v1/users/role/2802256"
 							 },
 							 "accountid":"3xQ74o"

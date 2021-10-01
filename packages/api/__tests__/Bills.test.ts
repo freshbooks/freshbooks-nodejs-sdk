@@ -7,9 +7,10 @@ import { joinQueries } from '../src/models/builders'
 import { SearchQueryBuilder } from '../src/models/builders/SearchQueryBuilder'
 
 const mock = new MockAdapter(axios)
-const testOptions: Options = { clientId: 'test-client-id' }
+const APPLICATION_CLIENT_ID = 'test-client-id'
+const testOptions: Options = {}
 const token = 'token'
-const client = new APIClient(token, testOptions)
+const client = new APIClient(APPLICATION_CLIENT_ID, token, testOptions)
 
 const ACCOUNT_ID = 'zDmNq'
 const BILL_ID = 43221133

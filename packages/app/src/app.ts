@@ -8,7 +8,7 @@ import FreshbooksStrategy, { SessionUser } from './PassportStrategy'
 
 const defaultVerifyFn = (clientId: string) => {
 	return async (token: string, refreshToken: string, profile: object, done: VerifyCallback): Promise<void> => {
-		const client = new Client(token, { clientId })
+		const client = new Client(clientId, token, {})
 		try {
 			const { data } = await client.users.me()
 			if (data !== null && data !== undefined) {
