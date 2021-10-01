@@ -10,7 +10,8 @@ const mock = new MockAdapter(axios) // set mock adapter on default axios instanc
 
 const ACCOUNT_ID = 'zDmNq'
 const PAYMENT_ID = '115804'
-const testOptions: Options = { clientId: 'test-client-id' }
+const APPLICATION_CLIENT_ID = 'test-client-id'
+const testOptions: Options = {}
 
 const buildMockResponse = (paymentProperties: any = {}): string =>
 	JSON.stringify({
@@ -86,7 +87,7 @@ describe('@freshbooks/api', () => {
 	describe('Payment', () => {
 		test('GET /accounting/account/<accountid>/payments/payments/<paymentid>', async () => {
 			const token = 'token'
-			const client = new APIClient(token, testOptions)
+			const client = new APIClient(APPLICATION_CLIENT_ID, token, testOptions)
 
 			const mockResponse = `{
 					"response":{
@@ -106,7 +107,7 @@ describe('@freshbooks/api', () => {
 		})
 		test('GET /accounting/account/<accountid>/payments/payments', async () => {
 			const token = 'token'
-			const client = new APIClient(token, testOptions)
+			const client = new APIClient(APPLICATION_CLIENT_ID, token, testOptions)
 
 			const mockResponse = `{
 					"response":{
@@ -138,7 +139,7 @@ describe('@freshbooks/api', () => {
 		})
 		test('GET /accounting/account/<accountid>/payments/payments?search[type]=Cash', async () => {
 			const token = 'token'
-			const client = new APIClient(token, testOptions)
+			const client = new APIClient(APPLICATION_CLIENT_ID, token, testOptions)
 
 			const builder = new SearchQueryBuilder().equals('type', 'Cash')
 
@@ -175,7 +176,7 @@ describe('@freshbooks/api', () => {
 
 		test('POST /accounting/account/<accountId>/payments/payments', async () => {
 			const token = 'token'
-			const client = new APIClient(token, testOptions)
+			const client = new APIClient(APPLICATION_CLIENT_ID, token, testOptions)
 
 			const mockRequest = buildMockRequest()
 			const mockResponse = `{
@@ -198,7 +199,7 @@ describe('@freshbooks/api', () => {
 
 		test('PUT /accounting/account/<accountId>/payments/payments/<paymentId>', async () => {
 			const token = 'token'
-			const client = new APIClient(token, testOptions)
+			const client = new APIClient(APPLICATION_CLIENT_ID, token, testOptions)
 
 			const mockRequest = buildMockRequest({}, false)
 			const mockResponse = `{
@@ -223,7 +224,7 @@ describe('@freshbooks/api', () => {
 
 		test('PUT /accounting/account/<accountId>/payments/payments/<paymentId> (delete)', async () => {
 			const token = 'token'
-			const client = new APIClient(token, testOptions)
+			const client = new APIClient(APPLICATION_CLIENT_ID, token, testOptions)
 
 			const mockRequest = {
 				payment: {

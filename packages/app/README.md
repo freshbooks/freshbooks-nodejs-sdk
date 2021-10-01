@@ -48,7 +48,7 @@ app.get('/auth/freshbooks/redirect', passport.authorize('freshbooks')
 app.get('/settings', passport.authorize('freshbooks'), async (req, res) => {
   // get an API client
   const { token } = req.user
-  const client = new Client(token)
+  const client = new Client(CLIENT_ID, token)
 
   // fetch the current user
   try {

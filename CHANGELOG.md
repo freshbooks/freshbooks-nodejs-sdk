@@ -4,6 +4,8 @@
 
 ### Unreleased
 
+- (**Breaking Change**) FreshBooks application clientId added to APIClient
+  constructor instead of optional (but not actually optional) param
 - (**Breaking Change**) Fix types on data models
 - (**Breaking Change**) Rename models to better fit coding conventions
 - Support Bills, Bill Payments, Bill Vendors endpoints
@@ -45,6 +47,10 @@
 - Added default retries with backoff on failed API calls
 
 ## @freshbooks/app
+
+### Unreleased
+
+- (**Breaking Change**) Updated to latest breaking api changes.
 
 ### 1.0.6
 

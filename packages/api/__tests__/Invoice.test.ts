@@ -8,7 +8,8 @@ import { SearchQueryBuilder } from '../src/models/builders/SearchQueryBuilder'
 
 const mock = new MockAdapter(axios) // set mock adapter on default axios instance
 const ACCOUNT_ID = 'xZNQ1X'
-const testOptions: Options = { clientId: 'test-client-id' }
+const APPLICATION_CLIENT_ID = 'test-client-id'
+const testOptions: Options = {}
 
 const buildMockResponse = (invoiceProperties: any = {}): string => {
 	return JSON.stringify({
@@ -217,7 +218,7 @@ describe('@freshbooks/api', () => {
 	describe('Invoice', () => {
 		test('GET /accounting/account/<accountId>/invoices/invoices/<invoiceId>', async () => {
 			const token = 'token'
-			const client = new Client(token, testOptions)
+			const client = new Client(APPLICATION_CLIENT_ID, token, testOptions)
 			const INVOICE_ID = '217506'
 
 			const mockResponse = `
@@ -237,7 +238,7 @@ describe('@freshbooks/api', () => {
 		})
 		test('GET /accounting/account/<accountId>/invoices/invoices', async () => {
 			const token = 'token'
-			const client = new Client(token, testOptions)
+			const client = new Client(APPLICATION_CLIENT_ID, token, testOptions)
 
 			const mockResponse = `
                 {"response":
@@ -270,7 +271,7 @@ describe('@freshbooks/api', () => {
 		})
 		test('GET /accounting/account/<accountId>/invoices/invoices?include[]=lines', async () => {
 			const token = 'token'
-			const client = new Client(token, testOptions)
+			const client = new Client(APPLICATION_CLIENT_ID, token, testOptions)
 
 			const mockResponse = `
                 {"response":
@@ -370,7 +371,7 @@ describe('@freshbooks/api', () => {
 
 		test('GET /accounting/account/<accountId>/invoices/invoices?search[invoice_id]=217506', async () => {
 			const token = 'token'
-			const client = new Client(token, testOptions)
+			const client = new Client(APPLICATION_CLIENT_ID, token, testOptions)
 
 			const mockResponse = `
                 {"response":
@@ -404,7 +405,7 @@ describe('@freshbooks/api', () => {
 		})
 		test('POST /accounting/account/<accountId>/invoices/invoices', async () => {
 			const token = 'token'
-			const client = new Client(token, testOptions)
+			const client = new Client(APPLICATION_CLIENT_ID, token, testOptions)
 			const mockResponse = `
             {"response":
                 {
@@ -422,7 +423,7 @@ describe('@freshbooks/api', () => {
 		})
 		test('PUT /accounting/account/<accountId>/invoices/invoices/<invoiceId>', async () => {
 			const token = 'token'
-			const client = new Client(token, testOptions)
+			const client = new Client(APPLICATION_CLIENT_ID, token, testOptions)
 			const INVOICE_ID = '217506'
 
 			const mockResponse = `
@@ -445,7 +446,7 @@ describe('@freshbooks/api', () => {
 		})
 		test('PUT /accounting/account/<accountId>/invoices/invoices/<invoiceId> (delete)', async () => {
 			const token = 'token'
-			const client = new Client(token, testOptions)
+			const client = new Client(APPLICATION_CLIENT_ID, token, testOptions)
 			const INVOICE_ID = '217506'
 
 			const mockResponse = `
