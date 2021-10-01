@@ -11,6 +11,20 @@ export enum PaymentType {
 	Check = 'Check',
 	Credit = 'Credit',
 	Cash = 'Cash',
+	BankTransfer = 'Bank Transfer',
+	CreditCard = 'Credit Card',
+	Debit = 'Debit',
+	PayPal = 'PayPal',
+	TwoCheckout = '2Checkout',
+	Visa = 'VISA',
+	Mastercard = 'MASTERCARD',
+	Discover = 'DISCOVER',
+	Nova = 'Nova',
+	Amex = 'AMEX',
+	Diners = 'DINERS',
+	Eurocard = 'EUROCARD',
+	Jcb = 'JCB',
+	Ach = 'ACH',
 }
 
 export default interface Payment {
