@@ -924,9 +924,9 @@
     "enabled" "2.0.x"
     "kuler" "^2.0.0"
 
-"@freshbooks/api@^1.5.1", "@freshbooks/api@file:/home/runner/work/freshbooks-nodejs-sdk/freshbooks-nodejs-sdk/packages/api":
+"@freshbooks/api@^2.0.0", "@freshbooks/api@file:/home/runner/work/freshbooks-nodejs-sdk/freshbooks-nodejs-sdk/packages/api":
   "resolved" "file:packages/api"
-  "version" "1.5.1"
+  "version" "2.0.0"
   dependencies:
     "axios" "^0.22.0"
     "axios-retry" "^3.1.9"
@@ -936,7 +936,7 @@
 
 "@freshbooks/app@file:/home/runner/work/freshbooks-nodejs-sdk/freshbooks-nodejs-sdk/packages/app":
   "resolved" "file:packages/app"
-  "version" "1.0.31"
+  "version" "2.0.0"
   dependencies:
     "@freshbooks/api" "^1.5.1"
     "express" "^4.17.1"
@@ -948,7 +948,7 @@
 
 "@freshbooks/events@file:/home/runner/work/freshbooks-nodejs-sdk/freshbooks-nodejs-sdk/packages/events":
   "resolved" "file:packages/events"
-  "version" "0.1.8"
+  "version" "0.2.0"
   dependencies:
     "axios" "^0.22.0"
     "winston" "^3.2.1"
