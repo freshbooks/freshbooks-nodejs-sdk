@@ -9438,7 +9438,7 @@
   "resolved" "https://registry.npmjs.org/typedarray/-/typedarray-0.0.6.tgz"
   "version" "0.0.6"
 
-"typedoc@^0.22.3", "typedoc@^0.22.4":
+"typedoc@^0.22.3", "typedoc@^0.22.5":
   "integrity" "sha512-KFrWGU1iKiTGw0RcyjLNYDmhd7uICU14HgBNPmFKY/sT4Pm/fraaLyWyisst9vGTUAKxqibqoDITR7+ZcAkhHg=="
   "resolved" "https://registry.npmjs.org/typedoc/-/typedoc-0.22.5.tgz"
   "version" "0.22.5"
