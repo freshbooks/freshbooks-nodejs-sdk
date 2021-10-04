@@ -25,6 +25,9 @@ export enum PaymentType {
 	Eurocard = 'EUROCARD',
 	Jcb = 'JCB',
 	Ach = 'ACH',
+	GoogleCheckout = "Google Checkout",
+	Amazon = "Amazon",
+	Other = "Other"
 }
 
 export default interface Payment {
