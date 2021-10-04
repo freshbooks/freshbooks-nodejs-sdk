@@ -17,14 +17,10 @@ enum PaymentType {
 	visa = 'VISA',
 	mastercard = 'MASTERCARD',
 	discover = 'DISCOVER',
-	nova = 'Nova',
 	amex = 'AMEX',
 	diners = 'DINERS',
-	eurocard = 'EUROCARD',
 	jcb = 'JCB',
 	ach = 'ACH',
-	googleCheckout = "Google Checkout",
-	amazon = "Amazon",
 	other = "Other"
 }
 

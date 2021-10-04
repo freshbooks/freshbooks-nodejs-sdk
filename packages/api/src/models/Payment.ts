@@ -19,14 +19,10 @@ export enum PaymentType {
 	Visa = 'VISA',
 	Mastercard = 'MASTERCARD',
 	Discover = 'DISCOVER',
-	Nova = 'Nova',
 	Amex = 'AMEX',
 	Diners = 'DINERS',
-	Eurocard = 'EUROCARD',
 	Jcb = 'JCB',
 	Ach = 'ACH',
-	GoogleCheckout = "Google Checkout",
-	Amazon = "Amazon",
 	Other = "Other"
 }
 
