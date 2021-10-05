@@ -12,7 +12,7 @@ const ACCOUNT_ID = 'xZNQ1X'
 const CLIENT_ID = 'test-client-id'
 const CREDIT_ID = '31313'
 const SENT_ID = 1
-const testOptions = { clientId: CLIENT_ID } as Options
+const testOptions: Options = { }
 
 const buildMockResponse = (creditNoteProperties: any = {}): string => {
     return JSON.stringify({
@@ -196,7 +196,7 @@ describe('@freshbooks/api', () => {
     describe('CreditNote', () => {
         test('GET /accounting/account/<accountId>/credit_notes/cerdit_notes/<creditId>', async () => {
             const token = 'token'
-            const client = new Client(token, testOptions)
+            const client = new Client(CLIENT_ID, token, testOptions)
 
             const mockResponse = `
                 {"response":
@@ -216,7 +216,7 @@ describe('@freshbooks/api', () => {
         })
         test('GET /accounting/account/<accountId>/credit_notes/credit_notes', async () => {
             const token = 'token'
-            const client = new Client(token, testOptions)
+            const client = new Client(CLIENT_ID, token, testOptions)
 
             const mockResponse = `
                 {"response": 
@@ -250,7 +250,7 @@ describe('@freshbooks/api', () => {
         })
         test('GET /accounting/account/<accountId>/credit_notes/credit_notes?include[]=lines', async () => {
             const token = 'token'
-            const client = new Client(token, testOptions)
+            const client = new Client(CLIENT_ID, token, testOptions)
 
             const mockResponse = `
                 {"response": 
@@ -330,7 +330,7 @@ describe('@freshbooks/api', () => {
         })
         test('POST /accounting/account/<accountId>/credit_notes/credit_notes', async () => {
             const token = 'token'
-            const client = new Client(token, testOptions)
+            const client = new Client(CLIENT_ID, token, testOptions)
             const mockResponse = `
             {"response": 
                 {
@@ -418,7 +418,7 @@ describe('@freshbooks/api', () => {
         })
         test('PUT /accounting/account/<accountId>/credit_notes/credit_notes/<creditId>', async () => {
             const token = 'token'
-            const client = new Client(token, testOptions)
+            const client = new Client(CLIENT_ID, token, testOptions)
             const mockResponse = `
             {"response": 
                 {
@@ -506,7 +506,7 @@ describe('@freshbooks/api', () => {
         })
         test('PUT /accounting/account/<accountId>/credit_notes/credit_notes/<creditId> (delete)', async () => {
             const token = 'token'
-            const client = new Client(token, testOptions)
+            const client = new Client(CLIENT_ID, token, testOptions)
             const mockResponse = `
             {"response": 
                 {
