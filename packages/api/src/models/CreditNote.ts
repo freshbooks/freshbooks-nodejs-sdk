@@ -58,7 +58,7 @@ export default interface CreditNote {
     fName?: string
     language?: string
     lastOrderStatus?: Nullable<LastOrderStatus>
-    lines?: Line[]
+    lines?: Array<Line>
     lName?: string
     notes?: string
     organization?: string

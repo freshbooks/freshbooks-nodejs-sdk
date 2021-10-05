@@ -5,6 +5,7 @@ import { CreditNote } from '../src/models'
 import { transformDateResponse } from '../src/models/Date'
 import { IncludesQueryBuilder } from '../src/models/builders/IncludesQueryBuilder'
 import { DateFormat } from '../src/models/Date'
+import Line from '../src/models/Line'
 
 const mock = new MockAdapter(axios)
 const ACCOUNT_ID = 'xZNQ1X'
@@ -61,7 +62,7 @@ const buildMockResponse = (creditNoteProperties: any = {}): string => {
     })
 }
 
-const buildCreditLine = (): Array[any] => {
+const buildCreditLine = (): Array<any> => {
     return [
         {
             amount: {
@@ -175,7 +176,7 @@ const buildMockRequest = (creditNoteProperties: any = {}): any => ({
                 taxName1: null,
                 taxName2: null,
                 unit_cost: {
-                    amount: '80',
+                    amount: 80,
                     code: 'USD'
                 }
             }
@@ -356,7 +357,7 @@ describe('@freshbooks/api', () => {
                                     "taxName1": null,
                                     "taxName2": null,
                                     "unit_cost": {
-                                        "amount": "80",
+                                        "amount": 80,
                                         "code": "USD"
                                     }
                                 }
@@ -398,10 +399,10 @@ describe('@freshbooks/api', () => {
                         taxName1: null,
                         taxName2: null,
                         unitCost: {
-                            amount: '80',
+                            amount: 80,
                             code: 'USD'
                         }
-                    }
+                    } as Line
                 ],
                 notes: '',
                 organization: 'Wayne Industries',
@@ -444,7 +445,7 @@ describe('@freshbooks/api', () => {
                                     "taxName1": null,
                                     "taxName2": null,
                                     "unit_cost": {
-                                        "amount": "80",
+                                        "amount": 80,
                                         "code": "USD"
                                     }
                                 }
@@ -486,10 +487,10 @@ describe('@freshbooks/api', () => {
                         taxName1: null,
                         taxName2: null,
                         unitCost: {
-                            amount: '80',
+                            amount: 80,
                             code: 'USD'
                         }
-                    }
+                    } as Line
                 ],
                 notes: '',
                 organization: 'Wayne Industries',
@@ -532,7 +533,7 @@ describe('@freshbooks/api', () => {
                                     "taxName1": null,
                                     "taxName2": null,
                                     "unit_cost": {
-                                        "amount": "80",
+                                        "amount": 80,
                                         "code": "USD"
                                     }
                                 }
@@ -575,10 +576,10 @@ describe('@freshbooks/api', () => {
                         taxName1: null,
                         taxName2: null,
                         unitCost: {
-                            amount: '80',
+                            amount: 80,
                             code: 'USD'
                         }
-                    }
+                    } as Line
                 ],
                 notes: '',
                 organization: 'Wayne Industries',

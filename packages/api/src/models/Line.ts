@@ -21,10 +21,10 @@ export default interface Line {
 	retainerId?: string
 	creditId?: string
 	retainerPeriodId?: string
-	taxName1?: string
-	taxAmount1?: number
-	taxName2?: string
-	taxAmount2?: number
+	taxName1?: Nullable<string>
+	taxAmount1?: Nullable<number>
+	taxName2?: Nullable<string>
+	taxAmount2?: Nullable<number>
 	taxNumber1?: Nullable<number>
 	taxNumber2?: Nullable<number>
 	type?: LineType
