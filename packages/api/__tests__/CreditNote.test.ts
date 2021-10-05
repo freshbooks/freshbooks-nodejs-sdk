@@ -12,7 +12,7 @@ const ACCOUNT_ID = 'xZNQ1X'
 const CLIENT_ID = 'test-client-id'
 const CREDIT_ID = '31313'
 const SENT_ID = 1
-const testOptions: Options = { clientId: CLIENT_ID }
+const testOptions = { clientId: CLIENT_ID } as Options
 
 const buildMockResponse = (creditNoteProperties: any = {}): string => {
     return JSON.stringify({
