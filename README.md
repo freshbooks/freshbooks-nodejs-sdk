@@ -43,9 +43,7 @@ const clientId = process.env.FRESHBOOKS_APPLICATION_CLIENTID
 const token = process.env.FRESHBOOKS_TOKEN
 
 // Instantiate new FreshBooks API client
-const client = new Client(token, {
-    clientId: FRESHBOOKS_APPLICATION_CLIENTID
-});
+const client = new Client(clientId, token);
 ```
 
 #### Get/set data from REST API
@@ -226,7 +224,7 @@ app.get('/auth/freshbooks/redirect', passport.authorize('freshbooks'))
 app.get('/settings', passport.authorize('freshbooks'), async (req, res) => {
   // get an API client
   const { token } = req.user
-  const client = new Client(token)
+  const client = new Client(CLIENT_ID, token)
 
   // fetch the current user
   try {

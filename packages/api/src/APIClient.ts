@@ -52,7 +52,11 @@ import {
 } from './models/TimeEntry'
 import { transformUserResponse } from './models/User'
 import { transformTasksListResponse, transformTasksRequest, transformTasksResponse } from './models/Tasks'
-import { transformBillVendorsRequest, transformBillVendorsResponse, transformListBillVendorsResponse } from './models/BillVendors'
+import {
+	transformBillVendorsRequest,
+	transformBillVendorsResponse,
+	transformListBillVendorsResponse,
+} from './models/BillVendors'
 import { transformBillsListResponse, transformBillsRequest, transformBillsResponse } from './models/Bills'
 import {
 	transformBillPaymentsListResponse,
@@ -102,11 +106,12 @@ export default class APIClient {
 
 	/**
 	 * FreshBooks API client
+	 * @param clientId The FreshBooks application client id
 	 * @param token Bearer token
 	 * @param options Client config options
 	 * @param logger Custom logger
 	 */
-	constructor(token: string, options?: Options, logger = _logger) {
+	constructor(clientId: string, token: string, options?: Options, logger = _logger) {
 		const defaultRetry = {
 			retries: 10,
 			retryDelay: axiosRetry.exponentialDelay, // ~100ms, 200ms, 400ms, 800ms
@@ -114,15 +119,10 @@ export default class APIClient {
 		}
 		const { apiUrl = API_URL, retryOptions = defaultRetry } = options || {}
 
+		this.clientId = clientId
 		this.token = token
 		this.apiUrl = apiUrl
 		this.logger = logger
-
-		if (!options?.clientId) {
-			throw new APIClientError('missing clientId', 'missing clientId')
-		}
-
-		this.clientId = options.clientId
 
 		let userAgent = `FreshBooks nodejs sdk/${API_VERSION} client_id ${this.clientId}`
 		if (options?.userAgent) {
@@ -1038,7 +1038,6 @@ export default class APIClient {
 export interface Options {
 	apiUrl?: string
 	retryOptions?: IAxiosRetryConfig
-	clientId: string
 	userAgent?: string
 }
 

@@ -1,6 +1,6 @@
 {
 	"name": "@freshbooks/events",
-	"version": "0.1.8",
+	"version": "0.2.0",
 	"description": "Webhook events for FreshBooks API",
 	"author": "FreshBooks",
 	"license": "MIT",
@@ -20,7 +20,7 @@
 		"lint": "tsc --noEmit && eslint \"**/*.{js,ts}\" --quiet --fix"
 	},
 	"dependencies": {
-		"axios": "^0.21.4",
+		"axios": "^0.22.0",
 		"winston": "^3.2.1"
 	},
 	"jest": {

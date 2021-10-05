@@ -8,7 +8,8 @@ const mock = new MockAdapter(axios) // set mock adapter on default axios instanc
 
 const BUSINESS_ID = 12345
 const SERVICE_ID = 218192
-const testOptions: Options = { clientId: 'test-client-id' }
+const APPLICATION_CLIENT_ID = 'test-client-id'
+const testOptions: Options = {}
 
 const buildServiceResponse = (serviceResponseProperties: any = {}): any => ({
 	business_id: BUSINESS_ID,
@@ -43,7 +44,7 @@ describe('@freshbooks/api', () => {
 	describe('Service', () => {
 		test('GET /comments/business/<businessId>/services', async () => {
 			const token = 'token'
-			const APIclient = new APIClient(token, testOptions)
+			const APIclient = new APIClient(APPLICATION_CLIENT_ID, token, testOptions)
 			const response = `{
 		    "meta": {
                 "total": 1,
@@ -73,7 +74,7 @@ describe('@freshbooks/api', () => {
 
 		test('GET /comments/business/<businessId>/service/<serviceId>', async () => {
 			const token = 'token'
-			const APIclient = new APIClient(token, testOptions)
+			const APIclient = new APIClient(APPLICATION_CLIENT_ID, token, testOptions)
 
 			const mockResponse = buildMockResponse()
 
@@ -88,7 +89,7 @@ describe('@freshbooks/api', () => {
 
 		test('POST /comments/business/<businessId>/service', async () => {
 			const token = 'token'
-			const APIclient = new APIClient(token, testOptions)
+			const APIclient = new APIClient(APPLICATION_CLIENT_ID, token, testOptions)
 
 			const mockRequest = buildMockRequest()
 			const mockResponse = buildMockResponse()

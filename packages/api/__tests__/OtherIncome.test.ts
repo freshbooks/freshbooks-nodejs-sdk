@@ -7,7 +7,8 @@ import { SearchQueryBuilder } from '../src/models/builders/SearchQueryBuilder'
 
 const mock = new MockAdapter(axios) // set mock adapter on default axios instance
 const ACCOUNT_ID = 'xZNQ1X'
-const testOptions: Options = { clientId: 'test-client-id' }
+const APPLICATION_CLIENT_ID = 'test-client-id'
+const testOptions: Options = {}
 
 const buildMockResponse = (otherIncomeProperties: any = {}): string => {
 	return JSON.stringify({
@@ -82,7 +83,7 @@ describe('@freshbooks/api', () => {
 	describe('OtherIncome', () => {
 		test('GET /accounting/account/<accountId>/other_incomes/other_incomes/<otherIncomeId>', async () => {
 			const token = 'token'
-			const client = new Client(token, testOptions)
+			const client = new Client(APPLICATION_CLIENT_ID, token, testOptions)
 			const OTHER_INCOME_ID = '12345'
 
 			const mockResponse = `
@@ -104,7 +105,7 @@ describe('@freshbooks/api', () => {
 		})
 		test('GET /accounting/account/<accountId>/other_incomes/other_incomes', async () => {
 			const token = 'token'
-			const client = new Client(token, testOptions)
+			const client = new Client(APPLICATION_CLIENT_ID, token, testOptions)
 
 			const mockResponse = `
                 {"response":
@@ -137,7 +138,7 @@ describe('@freshbooks/api', () => {
 		})
 		test('GET /accounting/account/<accountId>/other_incomes/other_incomes?search[incomeid]=12345', async () => {
 			const token = 'token'
-			const client = new Client(token, testOptions)
+			const client = new Client(APPLICATION_CLIENT_ID, token, testOptions)
 
 			const mockResponse = `
                 {"response":
@@ -173,7 +174,7 @@ describe('@freshbooks/api', () => {
 		})
 		test('POST /accounting/account/<accountId>/other_incomes/other_incomes', async () => {
 			const token = 'token'
-			const client = new Client(token, testOptions)
+			const client = new Client(APPLICATION_CLIENT_ID, token, testOptions)
 			const mockResponse = `
 		    {"response":
 		        {
@@ -194,7 +195,7 @@ describe('@freshbooks/api', () => {
 		})
 		test('PUT /accounting/account/<accountId>/other_incomes/other_incomes/<otherIncomeId>', async () => {
 			const token = 'token'
-			const client = new Client(token, testOptions)
+			const client = new Client(APPLICATION_CLIENT_ID, token, testOptions)
 			const OTHER_INCOME_ID = '12345'
 
 			const mockResponse = `
@@ -217,7 +218,7 @@ describe('@freshbooks/api', () => {
 		})
 		test('DELETE /accounting/account/<accountId>/other_incomes/other_incomes/<otherIncomeId>', async () => {
 			const token = 'token'
-			const client = new Client(token, testOptions)
+			const client = new Client(APPLICATION_CLIENT_ID, token, testOptions)
 			const OTHER_INCOME_ID = '12345'
 
 			mock

@@ -13,9 +13,10 @@ enum PaymentType {
 }
 
 const mock = new MockAdapter(axios)
-const testOptions: Options = { clientId: 'test-client-id' }
+const APPLICATION_CLIENT_ID = 'test-client-id'
+const testOptions: Options = {}
 const token = 'token'
-const client = new APIClient(token, testOptions)
+const client = new APIClient(APPLICATION_CLIENT_ID, token, testOptions)
 const ACCOUNT_ID = 'zDmNq'
 const BILL_PAYMENT_ID = 122334455
 const BILL_ID = 43221133

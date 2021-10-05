@@ -41,9 +41,7 @@ const clientId = process.env.FRESHBOOKS_APPLICATION_CLIENTID
 const token = process.env.FRESHBOOKS_TOKEN
 
 // Instantiate new FreshBooks API client
-const client = new Client(token, {
-    clientId: FRESHBOOKS_APPLICATION_CLIENTID
-});
+const client = new Client(clientId, token);
 ```
 
 #### Get/set data from REST API
