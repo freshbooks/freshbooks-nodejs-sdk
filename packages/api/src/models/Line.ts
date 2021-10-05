@@ -19,6 +19,7 @@ export default interface Line {
 	name?: string
 	qty?: number
 	retainerId?: string
+	creditId?: string
 	retainerPeriodId?: string
 	taxName1?: string
 	taxAmount1?: number
@@ -73,11 +74,12 @@ export function transformLineResponse(line: any): Line {
 	return {
 		amount: line.amount,
 		compoundedTax: line.compounded_tax,
-		date: transformDateResponse(line.date, DateFormat['YYYY-MM-DD hh:mm:ss']),
+		date: line.date && transformDateResponse(line.date, DateFormat['YYYY-MM-DD hh:mm:ss']),
 		description: line.description,
 		expenseId: line.expenseid,
 		invoiceId: line.invoiceid,
 		lineId: line.lineid,
+		creditId: line.creditid,
 		name: line.name,
 		qty: line.qty,
 		retainerId: line.retainer_id,
@@ -90,7 +92,7 @@ export function transformLineResponse(line: any): Line {
 		taxNumber2: line.taxNumber2,
 		type: line.type,
 		unitCost: line.unit_cost,
-		updated: transformDateResponse(line.updated, DateFormat['YYYY-MM-DD hh:mm:ss']),
+		updated: line.updated && transformDateResponse(line.updated, DateFormat['YYYY-MM-DD hh:mm:ss']),
 	}
 }
 

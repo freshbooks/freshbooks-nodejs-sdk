@@ -23,6 +23,7 @@ import {
 	TimeEntry,
 	User,
 	BillVendors,
+	CreditNote,
 } from './models'
 import { transformClientResponse, transformClientListResponse, transformClientRequest } from './models/Client'
 import { transformListInvoicesResponse, transformInvoiceResponse, transformInvoiceRequest } from './models/Invoices'
@@ -58,6 +59,11 @@ import {
 	transformBillPaymentsRequest,
 	transformBillPaymentsResponse,
 } from './models/BillPayments'
+import {
+	transformCreditNoteListResponse,
+	transformCreditNoteResponse,
+	transformCreditNoteRequest,
+} from './models/CreditNote'
 
 // defaults
 const API_URL = 'https://api.freshbooks.com'
@@ -965,6 +971,66 @@ export default class APIClient {
 				},
 				{ visState: 1 },
 				'Delete Bill Payment'
+			),
+	}
+	public readonly creditNotes = {
+		list: (
+			accountId: string,
+			queryBuilders?: QueryBuilderType[]
+		): Promise<Result<{ creditNotes: CreditNote[]; pages: Pagination }>> =>
+		    this.call(
+				'GET',
+				`/accounting/account/${accountId}/credit_notes/credit_notes${joinQueries(queryBuilders)}`,
+				{
+					transformResponse: transformCreditNoteListResponse,
+				},
+				null,
+				'List Credit Notes'
+			),
+		single: (accountId: string, creditId: string): Promise<Result<CreditNote>> =>
+		    this.call(
+				'GET',
+				`/accounting/account/${accountId}/credit_notes/credit_notes/${creditId}`,
+				{
+					transformResponse: transformCreditNoteResponse,
+				},
+				null,
+				'Get Credit Note'
+			),
+		create: (creditNote: CreditNote, accountId: string): Promise<Result<CreditNote>> =>
+		    this.call(
+				'POST',
+				`/accounting/account/${accountId}/credit_notes/credit_notes`,
+				{
+					transformResponse: transformCreditNoteResponse,
+					transformRequest: transformCreditNoteRequest,
+				},
+				creditNote,
+				'Create Credit Note'
+			),
+		update: (creditNote: CreditNote, accountId: string, creditId: string): Promise<Result<CreditNote>> =>
+		    this.call(
+				'PUT',
+				`/accounting/account/${accountId}/credit_notes/credit_notes/${creditId}`,
+				{
+					transformResponse: transformCreditNoteResponse,
+					transformRequest: transformCreditNoteRequest,
+				},
+				creditNote,
+				'Update Credit Note'
+			),
+		delete: (accountId: string, creditId: string): Promise<Result<CreditNote>> =>
+		    this.call(
+				'PUT',
+				`/accounting/account/${accountId}/credit_notes/credit_notes/${creditId}`,
+				{
+					transformResponse: transformCreditNoteResponse,
+					transformRequest: transformCreditNoteRequest,
+				},
+				{
+					visState: 1,
+				},
+				'Delete Credit Note'
 			),
 	}
 }
