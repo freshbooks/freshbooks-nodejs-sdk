@@ -4,6 +4,8 @@
 
 ### Unreleased
 
+- Support for credit notes
+
 ### 2.0.0
 
 - (**Breaking Change**) FreshBooks application clientId added to APIClient
