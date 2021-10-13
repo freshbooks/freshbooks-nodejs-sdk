@@ -152,6 +152,13 @@ export default class APIClient {
 		name?: string
 	): Promise<Result<T>> {
 		try {
+			if (this.axios.defaults.headers) {
+				if (method === 'GET') {
+					delete this.axios.defaults.headers['Content-Type']
+				} else {
+					this.axios.defaults.headers['Content-Type'] = 'application/json'
+				}
+			}
 			const response = await this.axios({
 				method,
 				url,
