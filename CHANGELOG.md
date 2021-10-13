@@ -4,6 +4,9 @@
 
 ### Unreleased
 
+### 2.0.1
+
+- Fix to axios upgrade that broke GET calls
 - Support for credit notes
 
 ### 2.0.0
