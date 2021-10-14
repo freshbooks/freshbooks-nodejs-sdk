@@ -4,6 +4,8 @@
 
 ### Unreleased
 
+- Allow create/update payloads items to accept strings in addition to date objects
+
 ### 2.0.1
 
 - Fix to axios upgrade that broke GET calls
