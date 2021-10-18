@@ -24,6 +24,7 @@ import {
 	User,
 	BillVendors,
 	CreditNote,
+	Callback,
 } from './models'
 import { transformClientResponse, transformClientListResponse, transformClientRequest } from './models/Client'
 import { transformListInvoicesResponse, transformInvoiceResponse, transformInvoiceRequest } from './models/Invoices'
@@ -69,6 +70,13 @@ import {
 	transformCreditNoteResponse,
 	transformCreditNoteRequest,
 } from './models/CreditNote'
+import {
+	transformCallbackListResponse,
+	transformCallbackResponse,
+	transformCallbackRequest,
+	transformCallbackVerifierRequest,
+	transformCallbackResendRequest,
+} from './models/Callback'
 
 // defaults
 const API_URL = 'https://api.freshbooks.com'
@@ -1049,6 +1057,83 @@ export default class APIClient {
 					visState: 1,
 				},
 				'Delete Credit Note'
+			),
+	}
+	public readonly callbacks = {
+		list: (
+			accountId: string,
+			queryBuilders?: QueryBuilderType[]
+		): Promise<Result<{ callbacks: Callback[]; pages: Pagination }>> =>
+			this.call(
+				'GET',
+				`/events/account/${accountId}/events/callbacks${joinQueries(queryBuilders)}`,
+				{
+					transformResponse: transformCallbackListResponse,
+				},
+				null,
+				'List Callback'
+			),
+		single: (accountId: string, callbackId: string): Promise<Result<Callback>> =>
+			this.call(
+				'GET',
+				`/events/account/${accountId}/events/callbacks/${callbackId}`,
+				{
+					transformResponse: transformCallbackResponse,
+				},
+				null,
+				'Get Callback'
+			),
+		create: (callback: Callback, accountId: string): Promise<Result<Callback>> =>
+			this.call(
+				'POST',
+				`/events/account/${accountId}/events/callbacks`,
+				{
+					transformResponse: transformCallbackResponse,
+					transformRequest: transformCallbackRequest,
+				},
+				callback,
+				'Create Callback'
+			),
+		update: (callback: Callback, accountId: string, callbackId: string): Promise<Result<Callback>> =>
+			this.call(
+				'PUT',
+				`/events/account/${accountId}/events/callbacks/${callbackId}`,
+				{
+					transformResponse: transformCallbackResponse,
+					transformRequest: transformCallbackRequest,
+				},
+				callback,
+				'Update Callback'
+			),
+		delete: (accountId: string, callbackId: string): Promise<Result<Callback>> =>
+			this.call(
+				'DELETE',
+				`/events/account/${accountId}/events/callbacks/${callbackId}`,
+				{},
+				null,
+				'Delete Callback'
+			),
+		verify: (accountId: string, callbackId: string, verifier: string): Promise<Result<Callback>> =>
+			this.call(
+				'PUT',
+				`/events/account/${accountId}/events/callbacks/${callbackId}`,
+				{
+					transformResponse: transformCallbackResponse,
+					transformRequest: transformCallbackVerifierRequest,
+				},
+				verifier,
+				'Verify Callback'
+			),
+		resendVerification: (accountId: string, callbackId: string): Promise<Result<Callback>> =>
+			this.call(
+				'PUT',
+				`/events/account/${accountId}/events/callbacks/${callbackId}`,
+				{
+					transformResponse: transformCallbackResponse,
+					transformRequest: transformCallbackResendRequest,
+				},
+				null,
+				'Verify Callback'
 			),
 	}
 }

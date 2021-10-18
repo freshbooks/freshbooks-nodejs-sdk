@@ -31,6 +31,8 @@ export const isAccountingErrorResponse = ({ error, error_type: errorType, respon
 
 export const isProjectErrorResponse = ({ error, error_type: errorType }: any): any => error || errorType
 
+export const isEventErrorResponse = ({ errno, message }: any): any => errno || message
+
 export const transformErrorResponse = (errorResponse: any): ErrorResponse => {
 	const { response, error, errno, error_description: errorDescription, error_type: errorType, message } = errorResponse
 
@@ -77,6 +79,12 @@ export const transformErrorResponse = (errorResponse: any): ErrorResponse => {
 					message: error[key],
 				})
 			),
+		}
+	}
+	if (errno && message) {
+		return {
+			code: errno,
+			message: message,
 		}
 	}
 
