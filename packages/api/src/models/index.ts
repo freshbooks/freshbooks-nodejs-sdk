@@ -1,6 +1,7 @@
 export { default as BillPayments } from './BillPayments'
 export { default as Bills } from './Bills'
 export { default as BillVendors } from './BillVendors'
+export { default as Callback } from './Callback'
 export { default as Client } from './Client'
 export { default as CreditNote } from './CreditNote'
 export { default as Error } from './Error'
