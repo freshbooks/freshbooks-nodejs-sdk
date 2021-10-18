@@ -26,8 +26,6 @@ function transformShareLinkData({
 }
 
 export function transformShareLinkResponse(data: string): ShareLink | ErrorResponse {
-	console.log('*************************')
-	console.log(data)
 	const response = JSON.parse(data)
 
 	if (isAccountingErrorResponse(response)) {
