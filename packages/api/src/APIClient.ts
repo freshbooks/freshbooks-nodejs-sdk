@@ -34,6 +34,7 @@ import {
 } from './models/OtherIncome'
 import { transformListServicesResponse, transformServiceResponse, transformServiceRequest } from './models/Service'
 import { transformServiceRateResponse, transformServiceRateRequest } from './models/ServiceRate'
+import { transformShareLinkResponse } from './models/ShareLink';
 import { transformItemResponse, transformItemListResponse, transformItemRequest } from './models/Item'
 import {
 	transformPaymentListResponse,
@@ -332,6 +333,16 @@ export default class APIClient {
 				},
 				{ invoice: { vis_state: 1 } },
 				'Delete Invoice'
+			),
+		shareLink: (accountId: string, invoiceId: string): Promise<Result<Invoice>> =>
+			this.call(
+				'GET',
+				`/accounting/account/${accountId}/invoices/invoices/${invoiceId}/share_link?share_method=share_link`,
+				{
+					transformResponse: transformShareLinkResponse,
+				},
+				null,
+				'Get Invoice Share Link'
 			),
 	}
 
