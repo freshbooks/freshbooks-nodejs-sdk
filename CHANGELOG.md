@@ -4,6 +4,8 @@
 
 ### Unreleased
 
+### 2.1.0
+
 - Support for invoice share links
 - Support for webhook callback registration
 - Allow create/update payloads items to accept strings in addition to date objects

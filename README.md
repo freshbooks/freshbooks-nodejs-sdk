@@ -4,7 +4,9 @@
 ![node-lts](https://img.shields.io/node/v-lts/@freshbooks/api)
 [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/freshbooks/freshbooks-nodejs-sdk/Run%20Tests)](https://github.com/freshbooks/freshbooks-nodejs-sdk/actions?query=workflow%3A%22Run+Tests%22)
 
-The FreshBooks NodeJS SDK is a collection of single-purpose packages designed to easily build FreshBooks apps. Each package delivers part of the [FreshBooks API](https://www.freshbooks.com/api), so that you can choose the packages that fit your needs.
+The FreshBooks NodeJS SDK is a collection of single-purpose packages designed to easily build FreshBooks apps.
+Each package delivers part of the [FreshBooks API](https://www.freshbooks.com/api), so that you can choose
+the packages that fit your needs.
 
 | Package                             | What it's for                                                                                                                 |
 | ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
@@ -27,7 +29,8 @@ $ yarn add @freshbooks/api @freshbooks/events @freshbooks/app
 
 ### `@freshbooks/api`
 
-See [https://freshbooks.github.io/freshbooks-nodejs-sdk/](https://freshbooks.github.io/freshbooks-nodejs-sdk/) for model documentation.
+See [https://freshbooks.github.io/freshbooks-nodejs-sdk/](https://freshbooks.github.io/freshbooks-nodejs-sdk/)
+for model documentation.
 
 Your app will interact with the REST API using the `Client` object, available from the `@freshbooks/api` package.
 The client is instantiated with a valid OAuth token, which is used throughout the lifetime of the client to make API calls.
@@ -134,7 +137,8 @@ try {
 
 ##### Optional fields
 
-Optional fields are specified in the API data model as `optional` using Typescript's `?` operator, as well as marked as `Nullable<T>`, where `T` is the type of value, and `Nullable` is a type definition to allow `null` values.
+Optional fields are specified in the API data model as `optional` using Typescript's `?` operator, as well as
+marked as `Nullable<T>`, where `T` is the type of value, and `Nullable` is a type definition to allow `null` values.
 
 ```typescript
 // create a user model with required fields. set other fields as undefined
@@ -169,7 +173,8 @@ If an API error occurs, the response object contains an `error` object, with the
 
 ##### Pagination
 
-If the endpoint is enabled for pagination, the response `data` object contains the response model and a `pages` property, with the following shape:
+If the endpoint is enabled for pagination, the response `data` object contains the response model and a `pages`
+property, with the following shape:
 
 ```typescript
 {
@@ -197,15 +202,19 @@ console.log(`${pages.size} total invoices`)
 
 ##### Dates and Times
 
-For historical reasons, some resources in the FreshBooks API (mostly accounting-releated) return date/times in "US/Eastern" timezone. Some effort is taken to convert these in the models to return `Date` objects normalized to UTC.
+For historical reasons, some resources in the FreshBooks API (mostly accounting-releated) return date/times in
+"US/Eastern" timezone. Some effort is taken to convert these in the models to return `Date` objects normalized to UTC.
 
 ### `@freshbooks/app`
 
-The FreshBooks SDK provides a pre-configured `ExpressJS` app. This app provides OAuth2 authentication flow, a `PassportJS` middleware for authenticating requests, and session middleware to retrieve tokens for a session.
+The FreshBooks SDK provides a pre-configured `ExpressJS` app. This app provides OAuth2 authentication flow,
+a `PassportJS` middleware for authenticating requests, and session middleware to retrieve tokens for a session.
 
 #### Using the ExpressJS app
 
-Setting up the ExpressJS app requires a FreshBooks `client_id` and `client_secret`, as well as a callback URL to receive user authentication and refresh tokens. Once configured, routes can be configured as in any other `ExpressJS` app.
+Setting up the ExpressJS app requires a FreshBooks `client_id` and `client_secret`, as well as a callback URL to
+receive user authentication and refresh tokens. Once configured, routes can be configured as in any other
+`ExpressJS` app.
 
 ```typescript
 import { Client } from '@freshbooks/api'
@@ -246,12 +255,8 @@ npm test
 
 ### Releasing
 
-```bash
-HUSKY_SKIP_HOOKS=1 ./node_modules/.bin/lerna publish
-```
-
-*Note:* lerna publishing artifacts to github doesn't play too nicely with the git commit hooks installed by
-_husky_. If you run into trouble, delete them from `./git/hooks/` and give it a try.
-
-After the new tags have been pushed to github, log in there and create a release from one of the new
-tags to push to npm.
+1. Make sure everything is up to date locally
+2. Update CHANGELOG.md and move any changes in "Unreleased" to the new version number
+3. Update the package versions. `./node_modules/.bin/lerna version`
+4. Commit the changes and push to origin
+5. After the new tags have been pushed to github, log in there and create a release from one of the new tags to push to npm.
