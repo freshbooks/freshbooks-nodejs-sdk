@@ -20,10 +20,10 @@ jobs:
         registry-url: 'https://registry.npmjs.org'
     - name: Install dependencies
       run: |
-        npm install
+        yarn install
         cd packages/api
-        npm install
-        npm install typedoc
+        yarn install
+        yarn install typedoc
     - name: Run typedoc
       run: |
         rm -rf docs
