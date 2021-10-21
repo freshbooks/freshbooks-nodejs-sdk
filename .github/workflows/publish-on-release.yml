@@ -16,7 +16,7 @@ jobs:
       with:
         node-version: '16.x'
         registry-url: 'https://registry.npmjs.org'
-    - run: npm install
+    - run: yarn install
     - run: ./node_modules/.bin/lerna bootstrap
     - run: ./node_modules/.bin/lerna run build
     - run: ./node_modules/.bin/lerna publish from-package --yes
