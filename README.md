@@ -250,7 +250,9 @@ app.get('/settings', passport.authorize('freshbooks'), async (req, res) => {
 ### Testing
 
 ```shell
-npm test
+yarn install
+yarn build
+yarn test
 ```
 
 ### Releasing
