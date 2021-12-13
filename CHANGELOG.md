@@ -4,6 +4,8 @@
 
 ### Unreleased
 
+- Move default branch from master to main
+
 ### 2.1.0
 
 - Support for invoice share links
@@ -62,6 +64,8 @@
 ## @freshbooks/app
 
 ### Unreleased
+
+- Move default branch from master to main
 
 ### 2.0.0
 
