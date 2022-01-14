@@ -80,6 +80,8 @@ import {
 
 // defaults
 const API_URL = 'https://api.freshbooks.com'
+const AUTH_BASE_URL = 'https://auth.freshbooks.com'
+const AUTH_ENDPOINT = 'oauth/authorize'
 const API_VERSION = require('../package.json').version
 
 /**
@@ -90,20 +92,25 @@ export default class APIClient {
 	 * Base URL for FreshBooks API
 	 */
 	public readonly apiUrl: string
+	
+	public readonly clientId?: string
+	public readonly clientSecret?: string
+	public readonly redirectUri?: string
 
 	/**
-	 * Auth token for accessing FreshBooks API
+	 * Pre-authorized access token for accessing FreshBooks API
 	 */
-	public readonly token: string
+	public readonly token?: string
 
 	/**
-	 * clientId
+	 * Pre-authorized token for renewing access token
 	 */
-	public readonly clientId: string
+	public readonly refreshToken?: string
 
 	private readonly axios: AxiosInstance
-
 	private readonly logger: Logger
+	
+	private readonly authorizationUrl: string
 
 	public static isNetworkRateLimitOrIdempotentRequestError(error: any): boolean {
 		if (!error.config) {
@@ -120,18 +127,31 @@ export default class APIClient {
 	 * @param options Client config options
 	 * @param logger Custom logger
 	 */
-	constructor(clientId: string, token: string, options?: Options, logger = _logger) {
+	constructor(clientId: string, options: Options = {}, logger = _logger) {
 		const defaultRetry = {
 			retries: 10,
 			retryDelay: axiosRetry.exponentialDelay, // ~100ms, 200ms, 400ms, 800ms
 			retryCondition: APIClient.isNetworkRateLimitOrIdempotentRequestError, // 429, 5xx, or network error
 		}
-		const { apiUrl = API_URL, retryOptions = defaultRetry } = options || {}
+		const {
+			clientSecret,
+			redirectUri,
+			token,
+			refreshToken,
+			apiUrl = API_URL, 
+			retryOptions = defaultRetry 
+		} = options
 
 		this.clientId = clientId
+		this.clientSecret = clientSecret
+		this.redirectUri = redirectUri
 		this.token = token
+		this.refreshToken = refreshToken
 		this.apiUrl = apiUrl
 		this.logger = logger
+
+		this.authorizationUrl = `${AUTH_BASE_URL}/${AUTH_ENDPOINT}`
+
 
 		let userAgent = `FreshBooks nodejs sdk/${API_VERSION} client_id ${this.clientId}`
 		if (options?.userAgent) {
@@ -151,6 +171,27 @@ export default class APIClient {
 
 		// setup retry logic
 		axiosRetry(this.axios, retryOptions)
+	}
+
+	async getAuthRequestUrl(scopes?: string[]) {
+		if (!this.redirectUri) {
+			throw 'TODO'
+		}
+
+		const params = {
+			'client_id': this.clientId,
+			'response_type': 'code',
+			'redirect_uri': this.redirectUri,
+		}
+
+		if (Array.isArray(scopes)) {
+			Object.assign(params, { 'scopes': scopes.join(' ') })
+		}
+
+		const formattedParams = Object.entries(params)
+			.map((k, v) => `${k}=${encodeURIComponent(v)}`)
+			.join('&')
+		return `${this.authorizationUrl}?${formattedParams}`
 	}
 
 	private async call<S, T>(
@@ -1139,6 +1180,10 @@ export default class APIClient {
 }
 
 export interface Options {
+	clientSecret?: string
+	redirectUri?: string
+	token?: string
+	refreshToken?: string
 	apiUrl?: string
 	retryOptions?: IAxiosRetryConfig
 	userAgent?: string
