@@ -49,7 +49,7 @@ const token = process.env.FRESHBOOKS_TOKEN
 
 // Instantiate new FreshBooks API client
 const client = new Client(clientId, {
-	accessToken: token,
+    accessToken: token,
 })
 ```
 
@@ -95,13 +95,13 @@ Example API client call:
 
 ```typescript
 try {
-	// Get the current user
-	const { data } = await client.users.me()
+    // Get the current user
+    const { data } = await client.users.me()
 
-	console.log(`Hello, ${data.id}`)
+    console.log(`Hello, ${data.id}`)
 } catch ({ code, message }) {
-	// Handle error if API call failed
-	console.error(`Error fetching user: ${code} - ${message}`)
+    // Handle error if API call failed
+    console.error(`Error fetching user: ${code} - ${message}`)
 }
 ```
 
@@ -132,17 +132,17 @@ Example API client call with `SearchQueryBuilder`:
 ```typescript
 //create and populate SearchQueryBuilder
 const searchQueryBuilder = new SearchQueryBuilder()
-	.like('address_like', '200 King Street')
-	.between('date', { min: new Date('2010-05-06'), max: new Date('2019-11-10') })
+    .like('address_like', '200 King Street')
+    .between('date', { min: new Date('2010-05-06'), max: new Date('2019-11-10') })
 
 try {
-	// Get invoices matching search query
-	const { data } = await client.invoices.list('xZNQ1X', [searchQueryBuilder])
+    // Get invoices matching search query
+    const { data } = await client.invoices.list('xZNQ1X', [searchQueryBuilder])
 
-	console.log('Invoices: ', data)
+    console.log('Invoices: ', data)
 } catch ({ code, message }) {
-	// Handle error if API call failed
-	console.error(`Error fetching user: ${code} - ${message}`)
+    // Handle error if API call failed
+    console.error(`Error fetching user: ${code} - ${message}`)
 }
 ```
 
@@ -155,13 +155,13 @@ Example API client call with `IncludesQueryBuilder`:
 const includesQueryBuilder = new IncludesQueryBuilder().includes('lines')
 
 try {
-	// Get invoices with included line items
-	const { data } = await client.invoices.list('xZNQ1X', [includesQueryBuilder])
+    // Get invoices with included line items
+    const { data } = await client.invoices.list('xZNQ1X', [includesQueryBuilder])
 
-	console.log('Invoices: ', data)
+    console.log('Invoices: ', data)
 } catch ({ code, message }) {
-	// Handle error if API call failed
-	console.error(`Error fetching user: ${code} - ${message}`)
+    // Handle error if API call failed
+    console.error(`Error fetching user: ${code} - ${message}`)
 }
 ```
 
@@ -173,17 +173,17 @@ marked as `Nullable<T>`, where `T` is the type of value, and `Nullable` is a typ
 ```typescript
 // create a user model with required fields. set other fields as undefined
 const user: User = {
-	id: '123',
-	firstName: 'Johnny',
-	lastName: 'Appleseed',
+    id: '123',
+    firstName: 'Johnny',
+    lastName: 'Appleseed',
 }
 
 // explicity set an optional field
 user.phoneNumbers = [
-	{
-		title: 'Home',
-		number: '555-555-5555',
-	},
+    {
+        title: 'Home',
+        number: '555-555-5555',
+    },
 ]
 
 // explicitly unset an optional field
@@ -196,8 +196,8 @@ If an API error occurs, the response object contains an `error` object, with the
 
 ```typescript
 {
-  code: string
-  message?: string
+    code: string
+    message?: string
 }
 ```
 
@@ -208,10 +208,10 @@ property, with the following shape:
 
 ```typescript
 {
-	page: number
-	pages: number
-	total: number
-	size: number
+    page: number
+    pages: number
+    total: number
+    size: number
 }
 ```
 
