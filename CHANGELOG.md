@@ -6,6 +6,10 @@
 
 - Move default branch from master to main
 
+### 3.0.0
+
+- (**Breaking Change**) `token` parameter removed from APIClient constructor, additional properties added to Client Options to support OAuth flow with client secret + redirect URI
+
 ### 2.1.0
 
 - Support for invoice share links
