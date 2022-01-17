@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
-import APIClient from '../src/APIClient'
+import APIClient, { Options } from '../src/APIClient'
 import Item from '../src/models/Item'
 
 const mock = new MockAdapter(axios) // set mock adapter on default axios instance
@@ -9,6 +9,7 @@ const mock = new MockAdapter(axios) // set mock adapter on default axios instanc
 const ACCOUNT_ID = 'zDmNq'
 const ITEM_ID = '201225'
 const APPLICATION_CLIENT_ID = 'test-client-id'
+const testOptions: Options = { accessToken: 'token' }
 
 const buildMockResponse = (itemProperties: any = {}): string =>
 	JSON.stringify({
@@ -72,8 +73,7 @@ const buildItem = (itemProperties: any = {}): Item => ({
 describe('@freshbooks/api', () => {
 	describe('Item', () => {
 		test('GET /accounting/account/<accountid>/items/items/<id>', async () => {
-			const token = 'token'
-			const client = new APIClient(APPLICATION_CLIENT_ID, token)
+			const client = new APIClient(APPLICATION_CLIENT_ID, testOptions)
 
 			const mockResponse = `{
 					"response":{
@@ -92,8 +92,7 @@ describe('@freshbooks/api', () => {
 			expect(data).toEqual(expect.objectContaining(expected))
 		})
 		test('GET /accounting/account/<accountid>/items/items', async () => {
-			const token = 'token'
-			const client = new APIClient(APPLICATION_CLIENT_ID, token)
+			const client = new APIClient(APPLICATION_CLIENT_ID, testOptions)
 
 			const mockResponse = `{
 					"response":{
@@ -124,8 +123,7 @@ describe('@freshbooks/api', () => {
 			expect(data).toEqual(expected)
 		})
 		test('PUT /accounting/account/<accountid>/items/items/<id>', async () => {
-			const token = 'token'
-			const client = new APIClient(APPLICATION_CLIENT_ID, token)
+			const client = new APIClient(APPLICATION_CLIENT_ID, testOptions)
 
 			const mockResponse = `{
 					"response":{
@@ -148,8 +146,7 @@ describe('@freshbooks/api', () => {
 		})
 
 		test('PUT /accounting/account/<accountid>/items/items/<id> (delete)', async () => {
-			const token = 'token'
-			const client = new APIClient(APPLICATION_CLIENT_ID, token)
+			const client = new APIClient(APPLICATION_CLIENT_ID, testOptions)
 
 			const mockResponse = `{
 					"response":{
@@ -170,8 +167,7 @@ describe('@freshbooks/api', () => {
 		})
 
 		test('POST /accounting/account/<accountid>/items/items', async () => {
-			const token = 'token'
-			const client = new APIClient(APPLICATION_CLIENT_ID, token)
+			const client = new APIClient(APPLICATION_CLIENT_ID, testOptions)
 
 			const mockResponse = `{
 					"response":{

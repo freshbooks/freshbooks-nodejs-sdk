@@ -129,13 +129,12 @@ const buildMockRequest = (expenseProperties: any = {}): any => ({
 	},
 })
 
-const testOptions: Options = {}
+const testOptions: Options = { accessToken: 'token' }
 
 describe('@freshbooks/api', () => {
 	describe('Expense', () => {
 		test('GET /accounting/account/<accountid>/expenses/expenses/<id>', async () => {
-			const token = 'token'
-			const client = new APIClient(APPLICATION_CLIENT_ID, token, testOptions)
+			const client = new APIClient(APPLICATION_CLIENT_ID, testOptions)
 
 			const mockResponse = `{
 					"response":{
@@ -154,8 +153,7 @@ describe('@freshbooks/api', () => {
 		})
 
 		test('GET /accounting/account/<accountid>/expenses/expenses', async () => {
-			const token = 'token'
-			const client = new APIClient(APPLICATION_CLIENT_ID, token, testOptions)
+			const client = new APIClient(APPLICATION_CLIENT_ID, testOptions)
 
 			const mockResponse = `{
 					"response":{
@@ -186,8 +184,7 @@ describe('@freshbooks/api', () => {
 		})
 
 		test('GET /accounting/account/<accountid>/expenses/expenses?include[]=category', async () => {
-			const token = 'token'
-			const client = new APIClient(APPLICATION_CLIENT_ID, token, testOptions)
+			const client = new APIClient(APPLICATION_CLIENT_ID, testOptions)
 
 			const category = {
 				category: 'Accident Insurance',
@@ -235,8 +232,7 @@ describe('@freshbooks/api', () => {
 		})
 
 		test(`GET /accounting/account/<accountid>/expenses/expenses/search[expenseid]=${EXPENSE_ID}`, async () => {
-			const token = 'token'
-			const client = new APIClient(APPLICATION_CLIENT_ID, token, testOptions)
+			const client = new APIClient(APPLICATION_CLIENT_ID, testOptions)
 
 			const mockResponse = `{
 					"response":{
@@ -271,8 +267,7 @@ describe('@freshbooks/api', () => {
 		})
 
 		test('POST /accounting/account/<accountid>/expenses/expenses', async () => {
-			const token = 'token'
-			const client = new APIClient(APPLICATION_CLIENT_ID, token, testOptions)
+			const client = new APIClient(APPLICATION_CLIENT_ID, testOptions)
 
 			const mockResponse = `{
 					"response":{
@@ -293,8 +288,7 @@ describe('@freshbooks/api', () => {
 		})
 
 		test('PUT /accounting/account/<accountid>/expenses/expenses/<expenseid>', async () => {
-			const token = 'token'
-			const client = new APIClient(APPLICATION_CLIENT_ID, token, testOptions)
+			const client = new APIClient(APPLICATION_CLIENT_ID, testOptions)
 
 			const mockResponse = `{
 					"response":{
@@ -317,8 +311,7 @@ describe('@freshbooks/api', () => {
 		})
 
 		test('PUT /accounting/account/<accountid>/expenses/expenses/<expenseid> (delete)', async () => {
-			const token = 'token'
-			const client = new APIClient(APPLICATION_CLIENT_ID, token, testOptions)
+			const client = new APIClient(APPLICATION_CLIENT_ID, testOptions)
 
 			const mockResponse = `
             {"response":

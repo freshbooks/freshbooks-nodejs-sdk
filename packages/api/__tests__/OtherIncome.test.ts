@@ -8,7 +8,7 @@ import { SearchQueryBuilder } from '../src/models/builders/SearchQueryBuilder'
 const mock = new MockAdapter(axios) // set mock adapter on default axios instance
 const ACCOUNT_ID = 'xZNQ1X'
 const APPLICATION_CLIENT_ID = 'test-client-id'
-const testOptions: Options = {}
+const testOptions: Options = { accessToken: 'token' }
 
 const buildMockResponse = (otherIncomeProperties: any = {}): string => {
 	return JSON.stringify({
@@ -82,8 +82,7 @@ const buildMockRequest = (otherIncomeProperties: any = {}): any => ({
 describe('@freshbooks/api', () => {
 	describe('OtherIncome', () => {
 		test('GET /accounting/account/<accountId>/other_incomes/other_incomes/<otherIncomeId>', async () => {
-			const token = 'token'
-			const client = new Client(APPLICATION_CLIENT_ID, token, testOptions)
+			const client = new Client(APPLICATION_CLIENT_ID, testOptions)
 			const OTHER_INCOME_ID = '12345'
 
 			const mockResponse = `
@@ -104,8 +103,7 @@ describe('@freshbooks/api', () => {
 			expect(data).toEqual(expected)
 		})
 		test('GET /accounting/account/<accountId>/other_incomes/other_incomes', async () => {
-			const token = 'token'
-			const client = new Client(APPLICATION_CLIENT_ID, token, testOptions)
+			const client = new Client(APPLICATION_CLIENT_ID, testOptions)
 
 			const mockResponse = `
                 {"response":
@@ -137,8 +135,7 @@ describe('@freshbooks/api', () => {
 			expect(data).toEqual(expected)
 		})
 		test('GET /accounting/account/<accountId>/other_incomes/other_incomes?search[incomeid]=12345', async () => {
-			const token = 'token'
-			const client = new Client(APPLICATION_CLIENT_ID, token, testOptions)
+			const client = new Client(APPLICATION_CLIENT_ID, testOptions)
 
 			const mockResponse = `
                 {"response":
@@ -173,8 +170,7 @@ describe('@freshbooks/api', () => {
 			expect(data).toEqual(expected)
 		})
 		test('POST /accounting/account/<accountId>/other_incomes/other_incomes', async () => {
-			const token = 'token'
-			const client = new Client(APPLICATION_CLIENT_ID, token, testOptions)
+			const client = new Client(APPLICATION_CLIENT_ID, testOptions)
 			const mockResponse = `
 		    {"response":
 		        {
@@ -194,8 +190,7 @@ describe('@freshbooks/api', () => {
 			expect(data).toEqual(otherIncome)
 		})
 		test('PUT /accounting/account/<accountId>/other_incomes/other_incomes/<otherIncomeId>', async () => {
-			const token = 'token'
-			const client = new Client(APPLICATION_CLIENT_ID, token, testOptions)
+			const client = new Client(APPLICATION_CLIENT_ID, testOptions)
 			const OTHER_INCOME_ID = '12345'
 
 			const mockResponse = `
@@ -217,8 +212,7 @@ describe('@freshbooks/api', () => {
 			expect(data).toEqual(otherIncome)
 		})
 		test('DELETE /accounting/account/<accountId>/other_incomes/other_incomes/<otherIncomeId>', async () => {
-			const token = 'token'
-			const client = new Client(APPLICATION_CLIENT_ID, token, testOptions)
+			const client = new Client(APPLICATION_CLIENT_ID, testOptions)
 			const OTHER_INCOME_ID = '12345'
 
 			mock

@@ -9,7 +9,7 @@ const mock = new MockAdapter(axios) // set mock adapter on default axios instanc
 const BUSINESS_ID = 12345
 const SERVICE_ID = 218192
 const APPLICATION_CLIENT_ID = 'test-client-id'
-const testOptions: Options = {}
+const testOptions: Options = { accessToken: 'token' }
 
 const buildServiceRateResponse = (serviceRateResponseProperties: any = {}): any => ({
 	business_id: BUSINESS_ID,
@@ -39,8 +39,7 @@ const buildMockRequest = (serviceRateResponseProperties: any = {}): any => ({
 describe('@freshbooks/api', () => {
 	describe('ServiceRate', () => {
 		test('GET /comments/business/<businessId>/service/<serviceId>/rate', async () => {
-			const token = 'token'
-			const APIclient = new APIClient(APPLICATION_CLIENT_ID, token, testOptions)
+			const APIclient = new APIClient(APPLICATION_CLIENT_ID, testOptions)
 
 			const mockResponse = buildMockResponse()
 
@@ -54,8 +53,7 @@ describe('@freshbooks/api', () => {
 		})
 
 		test('POST /comments/business/<businessId>/service/<serviceId>/rate', async () => {
-			const token = 'token'
-			const APIclient = new APIClient(APPLICATION_CLIENT_ID, token, testOptions)
+			const APIclient = new APIClient(APPLICATION_CLIENT_ID, testOptions)
 
 			const mockRequest = buildMockRequest()
 			const mockResponse = buildMockResponse()
@@ -69,8 +67,7 @@ describe('@freshbooks/api', () => {
 		})
 
 		test('PUT /comments/business/<businessId>/service/<serviceId>/rate', async () => {
-			const token = 'token'
-			const APIclient = new APIClient(APPLICATION_CLIENT_ID, token, testOptions)
+			const APIclient = new APIClient(APPLICATION_CLIENT_ID, testOptions)
 
 			const mockRequest = buildMockRequest()
 			const mockResponse = buildMockResponse()

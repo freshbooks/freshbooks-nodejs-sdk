@@ -9,7 +9,7 @@ const mock = new MockAdapter(axios) // set mock adapter on default axios instanc
 const BUSINESS_ID = 12345
 const TIME_ENTRY_ID = 218192
 const APPLICATION_CLIENT_ID = 'test-client-id'
-const testOptions: Options = {}
+const testOptions: Options = { accessToken: 'token' }
 
 const buildTimeEntryResponse = (timeEntryResponseProperties: any = {}): any => ({
 	id: TIME_ENTRY_ID,
@@ -67,8 +67,7 @@ const buildExpectedTimeEntryResult = (timeEntryProperties: any = {}): TimeEntry 
 describe('@freshbooks/api', () => {
 	describe('TimeEntry', () => {
 		test('GET /timetracking/business/<businessId>/time_entries', async () => {
-			const token = 'token'
-			const APIclient = new APIClient(APPLICATION_CLIENT_ID, token, testOptions)
+			const APIclient = new APIClient(APPLICATION_CLIENT_ID, testOptions)
 			const response = `{
 		    "meta": {
                 "total": 1,
@@ -97,8 +96,7 @@ describe('@freshbooks/api', () => {
 		})
 
 		test('GET /timetracking/business/<businessId>/time_entries/<timeEntryId>', async () => {
-			const token = 'token'
-			const APIclient = new APIClient(APPLICATION_CLIENT_ID, token, testOptions)
+			const APIclient = new APIClient(APPLICATION_CLIENT_ID, testOptions)
 
 			const mockResponse = buildMockTimeEntryJSONResponse()
 
@@ -112,8 +110,7 @@ describe('@freshbooks/api', () => {
 		})
 
 		test('POST /timetracking/business/<businessId>/time_entries', async () => {
-			const token = 'token'
-			const APIclient = new APIClient(APPLICATION_CLIENT_ID, token, testOptions)
+			const APIclient = new APIClient(APPLICATION_CLIENT_ID, testOptions)
 
 			const timeEntryModel = {
 				clientId: 9876,
@@ -151,8 +148,7 @@ describe('@freshbooks/api', () => {
 	})
 
 	test('PUT /timetracking/business/<businessId>/time_entries/<timeEntryId>', async () => {
-		const token = 'token'
-		const APIclient = new APIClient(APPLICATION_CLIENT_ID, token, testOptions)
+		const APIclient = new APIClient(APPLICATION_CLIENT_ID, testOptions)
 
 		const mockResponse = buildMockTimeEntryJSONResponse({
 			started_at: '2020-01-21T10:00:00.000Z',
@@ -186,8 +182,7 @@ describe('@freshbooks/api', () => {
 	})
 
 	test('DELETE /timetracking/business/<businessId>/time_entries/<timeEntryId>', async () => {
-		const token = 'token'
-		const APIclient = new APIClient(APPLICATION_CLIENT_ID, token, testOptions)
+		const APIclient = new APIClient(APPLICATION_CLIENT_ID, testOptions)
 
 		mock.onDelete(`/timetracking/business/${BUSINESS_ID}/time_entries/${TIME_ENTRY_ID}`).replyOnce(204, {})
 

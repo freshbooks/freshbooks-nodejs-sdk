@@ -81,9 +81,9 @@ import { resetReflectionID } from 'typedoc'
 
 // defaults
 const API_BASE_URL = 'https://api.freshbooks.com'
-const API_TOKEN_ENDPOINT = 'auth/oauth/token'
+const API_TOKEN_ENDPOINT = '/auth/oauth/token'
 const AUTH_BASE_URL = 'https://auth.freshbooks.com'
-const AUTH_ENDPOINT = 'oauth/authorize'
+const AUTH_ENDPOINT = '/oauth/authorize'
 const API_VERSION = require('../package.json').version
 
 /**
@@ -157,7 +157,7 @@ export default class APIClient {
 		this.apiUrl = apiUrl
 		this.logger = logger
 
-		this.authorizationUrl = `${process.env.FRESHBOOKS_AUTH_URL || AUTH_BASE_URL}/${AUTH_ENDPOINT}`
+		this.authorizationUrl = (process.env.FRESHBOOKS_AUTH_URL || AUTH_BASE_URL) + AUTH_ENDPOINT
 
 		let userAgent = `FreshBooks nodejs sdk/${API_VERSION} client_id ${this.clientId}`
 		if (options?.userAgent) {

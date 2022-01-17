@@ -7,15 +7,15 @@ import { Callback } from '../src/models'
 const mock = new MockAdapter(axios) // set mock adapter on default axios instance
 const ACCOUNT_ID = 'xZNQ1X'
 const APPLICATION_CLIENT_ID = 'test-client-id'
-const testOptions: Options = {}
+const testOptions: Options = { accessToken: 'token' }
 
 const buildMockResponse = (resourceId: string): string => {
 	return JSON.stringify({
-		'callbackid': Number(resourceId),
-        'event': 'invoice.create',
-        'uri': 'http://goolge.com',
-        'verified': true,
-    	'updated_at': '2021-10-17 05:48:42',
+		callbackid: Number(resourceId),
+		event: 'invoice.create',
+		uri: 'http://goolge.com',
+		verified: true,
+		updated_at: '2021-10-17 05:48:42',
 	})
 }
 
@@ -30,8 +30,7 @@ const buildCallback = (): Callback => ({
 describe('@freshbooks/api', () => {
 	describe('Callbacks', () => {
 		test('GET Callback single', async () => {
-			const token = 'token'
-			const client = new Client(APPLICATION_CLIENT_ID, token, testOptions)
+			const client = new Client(APPLICATION_CLIENT_ID, testOptions)
 			const CALLBACK_ID = '80001'
 
 			const mockResponse = `
@@ -51,8 +50,7 @@ describe('@freshbooks/api', () => {
 		})
 
 		test('PUT Callback Verification', async () => {
-			const token = 'token'
-			const client = new Client(APPLICATION_CLIENT_ID, token, testOptions)
+			const client = new Client(APPLICATION_CLIENT_ID, testOptions)
 			const CALLBACK_ID = '80001'
 			const VERIFIER = 'some_verifier'
 
@@ -66,18 +64,19 @@ describe('@freshbooks/api', () => {
             }`
 
 			const mockRequest = {
-                "callback": {
-					"verifier": VERIFIER
-				}
-            }
-			mock.onPut(`/events/account/${ACCOUNT_ID}/events/callbacks/${CALLBACK_ID}`, mockRequest).replyOnce(200, mockResponse)
+				callback: {
+					verifier: VERIFIER,
+				},
+			}
+			mock
+				.onPut(`/events/account/${ACCOUNT_ID}/events/callbacks/${CALLBACK_ID}`, mockRequest)
+				.replyOnce(200, mockResponse)
 
 			await client.callbacks.verify(ACCOUNT_ID, CALLBACK_ID, VERIFIER)
 		})
 
 		test('PUT Callback Resend Verification', async () => {
-			const token = 'token'
-			const client = new Client(APPLICATION_CLIENT_ID, token, testOptions)
+			const client = new Client(APPLICATION_CLIENT_ID, testOptions)
 			const CALLBACK_ID = '80001'
 
 			const mockResponse = `
@@ -90,11 +89,13 @@ describe('@freshbooks/api', () => {
             }`
 
 			const mockRequest = {
-                "callback": {
-					"resend": true
-				}
-            }
-			mock.onPut(`/events/account/${ACCOUNT_ID}/events/callbacks/${CALLBACK_ID}`, mockRequest).replyOnce(200, mockResponse)
+				callback: {
+					resend: true,
+				},
+			}
+			mock
+				.onPut(`/events/account/${ACCOUNT_ID}/events/callbacks/${CALLBACK_ID}`, mockRequest)
+				.replyOnce(200, mockResponse)
 
 			await client.callbacks.resendVerification(ACCOUNT_ID, CALLBACK_ID)
 		})
