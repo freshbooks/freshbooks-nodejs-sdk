@@ -3,7 +3,7 @@ import axios, { AxiosInstance, AxiosRequestConfig, Method } from 'axios'
 import axiosRetry, { IAxiosRetryConfig } from 'axios-retry'
 import { Logger } from 'winston'
 import _logger from './logger'
-import APIClientError from './models/Error'
+import APIClientError, { APIClientConfigError } from './models/Error'
 
 import {
 	Bills,
@@ -35,7 +35,7 @@ import {
 } from './models/OtherIncome'
 import { transformListServicesResponse, transformServiceResponse, transformServiceRequest } from './models/Service'
 import { transformServiceRateResponse, transformServiceRateRequest } from './models/ServiceRate'
-import { transformShareLinkResponse } from './models/ShareLink';
+import { transformShareLinkResponse } from './models/ShareLink'
 import { transformItemResponse, transformItemListResponse, transformItemRequest } from './models/Item'
 import {
 	transformPaymentListResponse,
@@ -77,9 +77,11 @@ import {
 	transformCallbackVerifierRequest,
 	transformCallbackResendRequest,
 } from './models/Callback'
+import { resetReflectionID } from 'typedoc'
 
 // defaults
-const API_URL = 'https://api.freshbooks.com'
+const API_BASE_URL = 'https://api.freshbooks.com'
+const API_TOKEN_ENDPOINT = 'auth/oauth/token'
 const AUTH_BASE_URL = 'https://auth.freshbooks.com'
 const AUTH_ENDPOINT = 'oauth/authorize'
 const API_VERSION = require('../package.json').version
@@ -92,24 +94,29 @@ export default class APIClient {
 	 * Base URL for FreshBooks API
 	 */
 	public readonly apiUrl: string
-	
-	public readonly clientId?: string
+
+	public readonly clientId: string
 	public readonly clientSecret?: string
 	public readonly redirectUri?: string
 
 	/**
 	 * Pre-authorized access token for accessing FreshBooks API
 	 */
-	public readonly token?: string
+	public accessToken?: string
 
 	/**
 	 * Pre-authorized token for renewing access token
 	 */
-	public readonly refreshToken?: string
+	public refreshToken?: string
+
+	/**
+	 * Expiration date of access token
+	 */
+	public accessTokenExpiresAt?: Date
 
 	private readonly axios: AxiosInstance
 	private readonly logger: Logger
-	
+
 	private readonly authorizationUrl: string
 
 	public static isNetworkRateLimitOrIdempotentRequestError(error: any): boolean {
@@ -123,7 +130,6 @@ export default class APIClient {
 	/**
 	 * FreshBooks API client
 	 * @param clientId The FreshBooks application client id
-	 * @param token Bearer token
 	 * @param options Client config options
 	 * @param logger Custom logger
 	 */
@@ -133,25 +139,25 @@ export default class APIClient {
 			retryDelay: axiosRetry.exponentialDelay, // ~100ms, 200ms, 400ms, 800ms
 			retryCondition: APIClient.isNetworkRateLimitOrIdempotentRequestError, // 429, 5xx, or network error
 		}
+
 		const {
 			clientSecret,
 			redirectUri,
-			token,
+			accessToken,
 			refreshToken,
-			apiUrl = API_URL, 
-			retryOptions = defaultRetry 
+			apiUrl = process.env.FRESHBOOKS_API_URL || API_BASE_URL,
+			retryOptions = defaultRetry,
 		} = options
 
 		this.clientId = clientId
 		this.clientSecret = clientSecret
 		this.redirectUri = redirectUri
-		this.token = token
+		this.accessToken = accessToken
 		this.refreshToken = refreshToken
 		this.apiUrl = apiUrl
 		this.logger = logger
 
-		this.authorizationUrl = `${AUTH_BASE_URL}/${AUTH_ENDPOINT}`
-
+		this.authorizationUrl = `${process.env.FRESHBOOKS_AUTH_URL || AUTH_BASE_URL}/${AUTH_ENDPOINT}`
 
 		let userAgent = `FreshBooks nodejs sdk/${API_VERSION} client_id ${this.clientId}`
 		if (options?.userAgent) {
@@ -162,7 +168,7 @@ export default class APIClient {
 		this.axios = axios.create({
 			baseURL: apiUrl,
 			headers: {
-				Authorization: `Bearer ${token}`,
+				Authorization: `Bearer ${accessToken}`,
 				'Api-Version': 'alpha',
 				'Content-Type': 'application/json',
 				'User-Agent': userAgent,
@@ -173,25 +179,85 @@ export default class APIClient {
 		axiosRetry(this.axios, retryOptions)
 	}
 
-	async getAuthRequestUrl(scopes?: string[]) {
+	getAuthRequestUrl(scopes?: string[]) {
 		if (!this.redirectUri) {
-			throw 'TODO'
+			throw new APIClientConfigError('redirectUri must be configured')
 		}
 
 		const params = {
-			'client_id': this.clientId,
-			'response_type': 'code',
-			'redirect_uri': this.redirectUri,
+			client_id: this.clientId,
+			response_type: 'code',
+			redirect_uri: this.redirectUri,
 		}
 
 		if (Array.isArray(scopes)) {
-			Object.assign(params, { 'scopes': scopes.join(' ') })
+			Object.assign(params, { scope: scopes.join(' ') })
 		}
 
 		const formattedParams = Object.entries(params)
-			.map((k, v) => `${k}=${encodeURIComponent(v)}`)
+			.map(([k, v]) => `${k}=${encodeURIComponent(v)}`)
 			.join('&')
 		return `${this.authorizationUrl}?${formattedParams}`
+	}
+
+	private async authorizeCall(
+		grantType: 'authorization_code' | 'refresh_token',
+		codeType: 'code' | 'refresh_token',
+		code: string
+	) {
+		if (!this.redirectUri) {
+			throw new APIClientConfigError('redirectUri must be configured')
+		}
+
+		if (!this.clientSecret) {
+			throw new APIClientConfigError('clientSecret must be configured')
+		}
+
+		const res: Result<TokenResponse> = await this.call(
+			'POST',
+			API_TOKEN_ENDPOINT,
+			{},
+			{
+				client_id: this.clientId,
+				client_secret: this.clientSecret,
+				grant_type: grantType,
+				redirect_uri: this.redirectUri,
+				[codeType]: code,
+			},
+			'Authorize Call'
+		)
+
+		if (res.ok) {
+			const data = await res.data!
+			this.accessToken = data.access_token
+			this.refreshToken = data.refresh_token
+
+			/**
+			 * Python defines a timestamp as the time in **seconds** since
+			 * the epoch while JavaScript uses milliseconds.
+			 */
+			const createdAt = data.created_at * 1e3
+			const expiresIn = data.expires_in * 1e3
+			this.accessTokenExpiresAt = new Date(createdAt + expiresIn)
+
+			return {
+				accessToken: this.accessToken,
+				refreshToken: this.refreshToken,
+				accessTokenExpiresAt: this.accessTokenExpiresAt,
+			}
+		}
+	}
+
+	getAccessToken(code: string) {
+		return this.authorizeCall('authorization_code', 'code', code)
+	}
+
+	refreshAccessToken(refreshToken?: string) {
+		refreshToken ||= this.refreshToken
+		if (refreshToken) {
+			return this.authorizeCall('refresh_token', 'refresh_token', refreshToken)
+		}
+		throw new APIClientConfigError('refreshToken must be configured or provided')
 	}
 
 	private async call<S, T>(
@@ -207,6 +273,10 @@ export default class APIClient {
 					delete this.axios.defaults.headers['Content-Type']
 				} else {
 					this.axios.defaults.headers['Content-Type'] = 'application/json'
+				}
+
+				if (this.accessToken) {
+					this.axios.defaults.headers['Authorization'] = `Bearer ${this.accessToken}`
 				}
 			}
 			const response = await this.axios({
@@ -1045,7 +1115,7 @@ export default class APIClient {
 			accountId: string,
 			queryBuilders?: QueryBuilderType[]
 		): Promise<Result<{ creditNotes: CreditNote[]; pages: Pagination }>> =>
-		    this.call(
+			this.call(
 				'GET',
 				`/accounting/account/${accountId}/credit_notes/credit_notes${joinQueries(queryBuilders)}`,
 				{
@@ -1055,7 +1125,7 @@ export default class APIClient {
 				'List Credit Notes'
 			),
 		single: (accountId: string, creditId: string): Promise<Result<CreditNote>> =>
-		    this.call(
+			this.call(
 				'GET',
 				`/accounting/account/${accountId}/credit_notes/credit_notes/${creditId}`,
 				{
@@ -1065,7 +1135,7 @@ export default class APIClient {
 				'Get Credit Note'
 			),
 		create: (creditNote: CreditNote, accountId: string): Promise<Result<CreditNote>> =>
-		    this.call(
+			this.call(
 				'POST',
 				`/accounting/account/${accountId}/credit_notes/credit_notes`,
 				{
@@ -1076,7 +1146,7 @@ export default class APIClient {
 				'Create Credit Note'
 			),
 		update: (creditNote: CreditNote, accountId: string, creditId: string): Promise<Result<CreditNote>> =>
-		    this.call(
+			this.call(
 				'PUT',
 				`/accounting/account/${accountId}/credit_notes/credit_notes/${creditId}`,
 				{
@@ -1087,7 +1157,7 @@ export default class APIClient {
 				'Update Credit Note'
 			),
 		delete: (accountId: string, creditId: string): Promise<Result<CreditNote>> =>
-		    this.call(
+			this.call(
 				'PUT',
 				`/accounting/account/${accountId}/credit_notes/credit_notes/${creditId}`,
 				{
@@ -1147,13 +1217,7 @@ export default class APIClient {
 				'Update Callback'
 			),
 		delete: (accountId: string, callbackId: string): Promise<Result<Callback>> =>
-			this.call(
-				'DELETE',
-				`/events/account/${accountId}/events/callbacks/${callbackId}`,
-				{},
-				null,
-				'Delete Callback'
-			),
+			this.call('DELETE', `/events/account/${accountId}/events/callbacks/${callbackId}`, {}, null, 'Delete Callback'),
 		verify: (accountId: string, callbackId: string, verifier: string): Promise<Result<Callback>> =>
 			this.call(
 				'PUT',
@@ -1179,10 +1243,19 @@ export default class APIClient {
 	}
 }
 
+interface TokenResponse {
+	access_token: string
+	token_type: string
+	expires_in: number
+	refresh_token: string
+	scope: string
+	created_at: number
+}
+
 export interface Options {
 	clientSecret?: string
 	redirectUri?: string
-	token?: string
+	accessToken?: string
 	refreshToken?: string
 	apiUrl?: string
 	retryOptions?: IAxiosRetryConfig
