@@ -6,6 +6,10 @@
 
 - Move default branch from master to main
 
+### 2.2.0
+
+- Support for online payment options
+
 ### 2.1.0
 
 - Support for invoice share links
