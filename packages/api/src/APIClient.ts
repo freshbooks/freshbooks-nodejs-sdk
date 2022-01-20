@@ -35,7 +35,7 @@ import {
 } from './models/OtherIncome'
 import { transformListServicesResponse, transformServiceResponse, transformServiceRequest } from './models/Service'
 import { transformServiceRateResponse, transformServiceRateRequest } from './models/ServiceRate'
-import { transformShareLinkResponse } from './models/ShareLink';
+import { transformShareLinkResponse } from './models/ShareLink'
 import { transformItemResponse, transformItemListResponse, transformItemRequest } from './models/Item'
 import {
 	transformPaymentListResponse,
@@ -77,6 +77,11 @@ import {
 	transformCallbackVerifierRequest,
 	transformCallbackResendRequest,
 } from './models/Callback'
+import {
+	PaymentOptions,
+	transformPaymentOptionsRequest,
+	transformPaymentOptionsResponse,
+} from './models/PaymentOptions'
 
 // defaults
 const API_URL = 'https://api.freshbooks.com'
@@ -542,6 +547,40 @@ export default class APIClient {
 			),
 	}
 
+	public readonly paymentOptions = {
+		create: (accountId: string, invoiceId: string, data: PaymentOptions): Promise<Result<PaymentOptions>> =>
+			this.call(
+				'POST',
+				`/payments/account/${accountId}/invoice/${invoiceId}/payment_options`,
+				{
+					transformRequest: transformPaymentOptionsRequest,
+					transformResponse: transformPaymentOptionsResponse,
+				},
+				data,
+				'Create Online Payment Option'
+			),
+		single: (accountId: string, invoiceId: string): Promise<Result<PaymentOptions>> =>
+			this.call(
+				'GET',
+				`/payments/account/${accountId}/invoice/${invoiceId}/payment_options`,
+				{
+					transformResponse: transformPaymentOptionsResponse,
+				},
+				null,
+				'Get Online Payment Options'
+			),
+		default: (accountId: string): Promise<Result<PaymentOptions>> =>
+			this.call(
+				'GET',
+				`/payments/account/${accountId}/payment_options?entity_type=invoice`,
+				{
+					transformResponse: transformPaymentOptionsResponse,
+				},
+				null,
+				'Get Default Online Payment Options'
+			),
+	}
+
 	public readonly payments = {
 		single: (accountId: string, paymentId: string): Promise<Result<Payment>> =>
 			this.call(
@@ -1004,7 +1043,7 @@ export default class APIClient {
 			accountId: string,
 			queryBuilders?: QueryBuilderType[]
 		): Promise<Result<{ creditNotes: CreditNote[]; pages: Pagination }>> =>
-		    this.call(
+			this.call(
 				'GET',
 				`/accounting/account/${accountId}/credit_notes/credit_notes${joinQueries(queryBuilders)}`,
 				{
@@ -1014,7 +1053,7 @@ export default class APIClient {
 				'List Credit Notes'
 			),
 		single: (accountId: string, creditId: string): Promise<Result<CreditNote>> =>
-		    this.call(
+			this.call(
 				'GET',
 				`/accounting/account/${accountId}/credit_notes/credit_notes/${creditId}`,
 				{
@@ -1024,7 +1063,7 @@ export default class APIClient {
 				'Get Credit Note'
 			),
 		create: (creditNote: CreditNote, accountId: string): Promise<Result<CreditNote>> =>
-		    this.call(
+			this.call(
 				'POST',
 				`/accounting/account/${accountId}/credit_notes/credit_notes`,
 				{
@@ -1035,7 +1074,7 @@ export default class APIClient {
 				'Create Credit Note'
 			),
 		update: (creditNote: CreditNote, accountId: string, creditId: string): Promise<Result<CreditNote>> =>
-		    this.call(
+			this.call(
 				'PUT',
 				`/accounting/account/${accountId}/credit_notes/credit_notes/${creditId}`,
 				{
@@ -1046,7 +1085,7 @@ export default class APIClient {
 				'Update Credit Note'
 			),
 		delete: (accountId: string, creditId: string): Promise<Result<CreditNote>> =>
-		    this.call(
+			this.call(
 				'PUT',
 				`/accounting/account/${accountId}/credit_notes/credit_notes/${creditId}`,
 				{
@@ -1106,13 +1145,7 @@ export default class APIClient {
 				'Update Callback'
 			),
 		delete: (accountId: string, callbackId: string): Promise<Result<Callback>> =>
-			this.call(
-				'DELETE',
-				`/events/account/${accountId}/events/callbacks/${callbackId}`,
-				{},
-				null,
-				'Delete Callback'
-			),
+			this.call('DELETE', `/events/account/${accountId}/events/callbacks/${callbackId}`, {}, null, 'Delete Callback'),
 		verify: (accountId: string, callbackId: string, verifier: string): Promise<Result<Callback>> =>
 			this.call(
 				'PUT',
