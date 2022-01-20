@@ -25,6 +25,7 @@ import {
 	BillVendors,
 	CreditNote,
 	Callback,
+	PaymentOptions,
 } from './models'
 import { transformClientResponse, transformClientListResponse, transformClientRequest } from './models/Client'
 import { transformListInvoicesResponse, transformInvoiceResponse, transformInvoiceRequest } from './models/Invoices'
@@ -77,11 +78,7 @@ import {
 	transformCallbackVerifierRequest,
 	transformCallbackResendRequest,
 } from './models/Callback'
-import {
-	PaymentOptions,
-	transformPaymentOptionsRequest,
-	transformPaymentOptionsResponse,
-} from './models/PaymentOptions'
+import { transformPaymentOptionsRequest, transformPaymentOptionsResponse } from './models/PaymentOptions'
 
 // defaults
 const API_URL = 'https://api.freshbooks.com'
@@ -548,7 +545,7 @@ export default class APIClient {
 	}
 
 	public readonly paymentOptions = {
-		create: (accountId: string, invoiceId: string, data: PaymentOptions): Promise<Result<PaymentOptions>> =>
+		create: (accountId: string, invoiceId: string, data: any): Promise<Result<PaymentOptions>> =>
 			this.call(
 				'POST',
 				`/payments/account/${accountId}/invoice/${invoiceId}/payment_options`,

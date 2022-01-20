@@ -8,7 +8,7 @@ export enum PaymentGatewayName {
 	PayPal = 'paypal',
 }
 
-export interface PaymentOptions {
+export default interface PaymentOptions {
 	gatewayName: PaymentGatewayName
 	entityId: string
 	entityType: string
@@ -20,7 +20,7 @@ export interface PaymentOptions {
 	allowPartialPayments?: boolean
 }
 
-export type PaymentOptionsResponse = Required<PaymentOptions>
+type PaymentOptionsResponse = Required<PaymentOptions>
 
 function transformPaymentOptionsData({
 	gateway_name: gatewayName,
