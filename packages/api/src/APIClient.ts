@@ -25,6 +25,7 @@ import {
 	BillVendors,
 	CreditNote,
 	Callback,
+	PaymentOptions,
 } from './models'
 import { transformClientResponse, transformClientListResponse, transformClientRequest } from './models/Client'
 import { transformListInvoicesResponse, transformInvoiceResponse, transformInvoiceRequest } from './models/Invoices'
@@ -77,7 +78,7 @@ import {
 	transformCallbackVerifierRequest,
 	transformCallbackResendRequest,
 } from './models/Callback'
-import { resetReflectionID } from 'typedoc'
+import { transformPaymentOptionsRequest, transformPaymentOptionsResponse } from './models/PaymentOptions'
 
 // defaults
 const API_BASE_URL = 'https://api.freshbooks.com'
@@ -650,6 +651,40 @@ export default class APIClient {
 				},
 				data,
 				'Create Item'
+			),
+	}
+
+	public readonly paymentOptions = {
+		create: (accountId: string, invoiceId: string, data: any): Promise<Result<PaymentOptions>> =>
+			this.call(
+				'POST',
+				`/payments/account/${accountId}/invoice/${invoiceId}/payment_options`,
+				{
+					transformRequest: transformPaymentOptionsRequest,
+					transformResponse: transformPaymentOptionsResponse,
+				},
+				data,
+				'Create Online Payment Option'
+			),
+		single: (accountId: string, invoiceId: string): Promise<Result<PaymentOptions>> =>
+			this.call(
+				'GET',
+				`/payments/account/${accountId}/invoice/${invoiceId}/payment_options`,
+				{
+					transformResponse: transformPaymentOptionsResponse,
+				},
+				null,
+				'Get Online Payment Options'
+			),
+		default: (accountId: string): Promise<Result<PaymentOptions>> =>
+			this.call(
+				'GET',
+				`/payments/account/${accountId}/payment_options?entity_type=invoice`,
+				{
+					transformResponse: transformPaymentOptionsResponse,
+				},
+				null,
+				'Get Default Online Payment Options'
 			),
 	}
 
