@@ -9,7 +9,7 @@ import { SearchQueryBuilder } from '../src/models/builders/SearchQueryBuilder'
 const mock = new MockAdapter(axios) // set mock adapter on default axios instance
 const ACCOUNT_ID = 'xZNQ1X'
 const APPLICATION_CLIENT_ID = 'test-client-id'
-const testOptions: Options = {}
+const testOptions: Options = { accessToken: 'token' }
 
 const buildMockResponse = (invoiceProperties: any = {}): string => {
 	return JSON.stringify({
@@ -217,8 +217,7 @@ const buildMockRequest = (invoiceProperties: any = {}): any => ({
 describe('@freshbooks/api', () => {
 	describe('Invoice', () => {
 		test('GET /accounting/account/<accountId>/invoices/invoices/<invoiceId>', async () => {
-			const token = 'token'
-			const client = new Client(APPLICATION_CLIENT_ID, token, testOptions)
+			const client = new Client(APPLICATION_CLIENT_ID, testOptions)
 			const INVOICE_ID = '217506'
 
 			const mockResponse = `
@@ -237,8 +236,7 @@ describe('@freshbooks/api', () => {
 			expect(data).toEqual(expected)
 		})
 		test('GET /accounting/account/<accountId>/invoices/invoices', async () => {
-			const token = 'token'
-			const client = new Client(APPLICATION_CLIENT_ID, token, testOptions)
+			const client = new Client(APPLICATION_CLIENT_ID, testOptions)
 
 			const mockResponse = `
                 {"response":
@@ -270,8 +268,7 @@ describe('@freshbooks/api', () => {
 			expect(data).toEqual(expected)
 		})
 		test('GET /accounting/account/<accountId>/invoices/invoices?include[]=lines', async () => {
-			const token = 'token'
-			const client = new Client(APPLICATION_CLIENT_ID, token, testOptions)
+			const client = new Client(APPLICATION_CLIENT_ID, testOptions)
 
 			const mockResponse = `
                 {"response":
@@ -370,8 +367,7 @@ describe('@freshbooks/api', () => {
 		})
 
 		test('GET /accounting/account/<accountId>/invoices/invoices?search[invoice_id]=217506', async () => {
-			const token = 'token'
-			const client = new Client(APPLICATION_CLIENT_ID, token, testOptions)
+			const client = new Client(APPLICATION_CLIENT_ID, testOptions)
 
 			const mockResponse = `
                 {"response":
@@ -404,8 +400,7 @@ describe('@freshbooks/api', () => {
 			expect(data).toEqual(expected)
 		})
 		test('POST /accounting/account/<accountId>/invoices/invoices', async () => {
-			const token = 'token'
-			const client = new Client(APPLICATION_CLIENT_ID, token, testOptions)
+			const client = new Client(APPLICATION_CLIENT_ID, testOptions)
 			const mockResponse = `
             {"response":
                 {
@@ -422,8 +417,7 @@ describe('@freshbooks/api', () => {
 			expect(data).toEqual(invoice)
 		})
 		test('PUT /accounting/account/<accountId>/invoices/invoices/<invoiceId>', async () => {
-			const token = 'token'
-			const client = new Client(APPLICATION_CLIENT_ID, token, testOptions)
+			const client = new Client(APPLICATION_CLIENT_ID, testOptions)
 			const INVOICE_ID = '217506'
 
 			const mockResponse = `
@@ -445,8 +439,7 @@ describe('@freshbooks/api', () => {
 			expect(data).toEqual(invoice)
 		})
 		test('PUT /accounting/account/<accountId>/invoices/invoices/<invoiceId> (delete)', async () => {
-			const token = 'token'
-			const client = new Client(APPLICATION_CLIENT_ID, token, testOptions)
+			const client = new Client(APPLICATION_CLIENT_ID, testOptions)
 			const INVOICE_ID = '217506'
 
 			const mockResponse = `

@@ -8,11 +8,11 @@ The FreshBooks NodeJS SDK is a collection of single-purpose packages designed to
 Each package delivers part of the [FreshBooks API](https://www.freshbooks.com/api), so that you can choose
 the packages that fit your needs.
 
-| Package                             | What it's for                                                                                                                 |
-| ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| [`@freshbooks/api`](https://www.npmjs.com/package/@freshbooks/api) | Get/set data from FreshBooks using the REST API.                                                                              |
-| [`@freshbooks/events`](https://www.npmjs.com/package/@freshbooks/events)                | Register/listen for incoming events via webhooks.                                                                             |
-| [`@freshbooks/app`](https://www.npmjs.com/package/@freshbooks/api) | Pre-configured [ExpressJS](https://expressjs.com/) app. Includes authentication via [PassportJS](http://www.passportjs.org/). |
+| Package                                                                  | What it's for                                                                                                                 |
+| ------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------- |
+| [`@freshbooks/api`](https://www.npmjs.com/package/@freshbooks/api)       | Get/set data from FreshBooks using the REST API.                                                                              |
+| [`@freshbooks/events`](https://www.npmjs.com/package/@freshbooks/events) | Register/listen for incoming events via webhooks.                                                                             |
+| [`@freshbooks/app`](https://www.npmjs.com/package/@freshbooks/api)       | Pre-configured [ExpressJS](https://expressjs.com/) app. Includes authentication via [PassportJS](http://www.passportjs.org/). |
 
 ## Installation
 
@@ -33,20 +33,50 @@ See [https://freshbooks.github.io/freshbooks-nodejs-sdk/](https://freshbooks.git
 for model documentation.
 
 Your app will interact with the REST API using the `Client` object, available from the `@freshbooks/api` package.
-The client is instantiated with a valid OAuth token, which is used throughout the lifetime of the client to make API calls.
+The client may be instantiated with a valid OAuth token or provided with a client secret and redirect URI which may then be used to obtain an access token. This token is used throughout the lifetime of the client to make API calls.
 
 #### Configuring the API client
+
+##### Using a pre-generated access token:
 
 ```typescript
 import { Client } from '@freshbooks/api'
 
-const clientId = process.env.FRESHBOOKS_APPLICATION_CLIENTID
+const clientId = process.env.FRESHBOOKS_APPLICATION_CLIENT_ID
 
 // Get token from authentication or configuration
 const token = process.env.FRESHBOOKS_TOKEN
 
 // Instantiate new FreshBooks API client
-const client = new Client(clientId, token);
+const client = new Client(clientId, {
+    accessToken: token,
+})
+```
+
+##### Using a client secret and redirect URI:
+
+```typescript
+import { Client } from '@freshbooks/api'
+
+const clientId = process.env.FRESHBOOKS_APPLICATION_CLIENT_ID
+const clientSecret = process.env.FRESHBOOKS_APPLICATION_CLIENT_SECRET
+
+// Instantiate new FreshBooks API client
+const client = new Client(clientId, {
+  clientSecret,
+  redirectUri: 'https://your-redirect-uri.com/'
+})
+
+// Give this URL to the user so they can authorize your application
+const authUrl = client.getAuthRequestUrl()
+
+// This will redirect them to https://your-redirect-uri.com/?code=XXX
+const code = ...
+
+// Returns an object containing the access token, refresh token, and expiry date
+// Note that this function automatically authenticates all future requests using this token; no need to do it manually
+const tokens = client.getAccessToken(code)
+
 ```
 
 #### Get/set data from REST API
@@ -143,17 +173,17 @@ marked as `Nullable<T>`, where `T` is the type of value, and `Nullable` is a typ
 ```typescript
 // create a user model with required fields. set other fields as undefined
 const user: User = {
-  id: '123',
-  firstName: 'Johnny',
-  lastName: 'Appleseed'
+    id: '123',
+    firstName: 'Johnny',
+    lastName: 'Appleseed',
 }
 
 // explicity set an optional field
 user.phoneNumbers = [
-  {
-    title: 'Home',
-    number: '555-555-5555'
-  }
+    {
+        title: 'Home',
+        number: '555-555-5555',
+    },
 ]
 
 // explicitly unset an optional field
@@ -166,8 +196,8 @@ If an API error occurs, the response object contains an `error` object, with the
 
 ```typescript
 {
-  code: string
-  message?: string
+    code: string
+    message?: string
 }
 ```
 
@@ -192,7 +222,7 @@ Example request with pagination:
 const { invoices, pages } = await client.invoices.list('xZNQ1X')
 
 // Print invoices
-invoices.map(invoice => console.log(JSON.stringify(invoice)))
+invoices.map((invoice) => console.log(JSON.stringify(invoice)))
 
 // Print pagination
 console.log(`Page ${pages.page} of ${pages.total} pages`)
@@ -231,17 +261,17 @@ app.get('/auth/freshbooks/redirect', passport.authorize('freshbooks'))
 
 // set up an authenticated route
 app.get('/settings', passport.authorize('freshbooks'), async (req, res) => {
-  // get an API client
-  const { token } = req.user
-  const client = new Client(CLIENT_ID, token)
+    // get an API client
+    const { token } = req.user
+    const client = new Client(CLIENT_ID, token)
 
-  // fetch the current user
-  try {
-    const { data } = await client.users.me()
-    res.send(data.id)
-  } catch ({ code, message }) {
-    res.status(500, `Error - ${code}: ${message}`)
-  }
+    // fetch the current user
+    try {
+        const { data } = await client.users.me()
+        res.send(data.id)
+    } catch ({ code, message }) {
+        res.status(500, `Error - ${code}: ${message}`)
+    }
 })
 ```
 

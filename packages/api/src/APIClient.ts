@@ -3,7 +3,7 @@ import axios, { AxiosInstance, AxiosRequestConfig, Method } from 'axios'
 import axiosRetry, { IAxiosRetryConfig } from 'axios-retry'
 import { Logger } from 'winston'
 import _logger from './logger'
-import APIClientError from './models/Error'
+import APIClientError, { APIClientConfigError } from './models/Error'
 
 import {
 	Bills,
@@ -81,7 +81,10 @@ import {
 import { transformPaymentOptionsRequest, transformPaymentOptionsResponse } from './models/PaymentOptions'
 
 // defaults
-const API_URL = 'https://api.freshbooks.com'
+const API_BASE_URL = 'https://api.freshbooks.com'
+const API_TOKEN_ENDPOINT = '/auth/oauth/token'
+const AUTH_BASE_URL = 'https://auth.freshbooks.com'
+const AUTH_ENDPOINT = '/oauth/authorize'
 const API_VERSION = require('../package.json').version
 
 /**
@@ -93,19 +96,29 @@ export default class APIClient {
 	 */
 	public readonly apiUrl: string
 
-	/**
-	 * Auth token for accessing FreshBooks API
-	 */
-	public readonly token: string
+	public readonly clientId: string
+	public readonly clientSecret?: string
+	public readonly redirectUri?: string
 
 	/**
-	 * clientId
+	 * Pre-authorized access token for accessing FreshBooks API
 	 */
-	public readonly clientId: string
+	public accessToken?: string
+
+	/**
+	 * Pre-authorized token for renewing access token
+	 */
+	public refreshToken?: string
+
+	/**
+	 * Expiration date of access token
+	 */
+	public accessTokenExpiresAt?: Date
 
 	private readonly axios: AxiosInstance
-
 	private readonly logger: Logger
+
+	private readonly authorizationUrl: string
 
 	public static isNetworkRateLimitOrIdempotentRequestError(error: any): boolean {
 		if (!error.config) {
@@ -118,22 +131,34 @@ export default class APIClient {
 	/**
 	 * FreshBooks API client
 	 * @param clientId The FreshBooks application client id
-	 * @param token Bearer token
 	 * @param options Client config options
 	 * @param logger Custom logger
 	 */
-	constructor(clientId: string, token: string, options?: Options, logger = _logger) {
+	constructor(clientId: string, options: Options = {}, logger = _logger) {
 		const defaultRetry = {
 			retries: 10,
 			retryDelay: axiosRetry.exponentialDelay, // ~100ms, 200ms, 400ms, 800ms
 			retryCondition: APIClient.isNetworkRateLimitOrIdempotentRequestError, // 429, 5xx, or network error
 		}
-		const { apiUrl = API_URL, retryOptions = defaultRetry } = options || {}
+
+		const {
+			clientSecret,
+			redirectUri,
+			accessToken,
+			refreshToken,
+			apiUrl = process.env.FRESHBOOKS_API_URL || API_BASE_URL,
+			retryOptions = defaultRetry,
+		} = options
 
 		this.clientId = clientId
-		this.token = token
+		this.clientSecret = clientSecret
+		this.redirectUri = redirectUri
+		this.accessToken = accessToken
+		this.refreshToken = refreshToken
 		this.apiUrl = apiUrl
 		this.logger = logger
+
+		this.authorizationUrl = (process.env.FRESHBOOKS_AUTH_URL || AUTH_BASE_URL) + AUTH_ENDPOINT
 
 		let userAgent = `FreshBooks nodejs sdk/${API_VERSION} client_id ${this.clientId}`
 		if (options?.userAgent) {
@@ -144,7 +169,7 @@ export default class APIClient {
 		this.axios = axios.create({
 			baseURL: apiUrl,
 			headers: {
-				Authorization: `Bearer ${token}`,
+				Authorization: `Bearer ${accessToken}`,
 				'Api-Version': 'alpha',
 				'Content-Type': 'application/json',
 				'User-Agent': userAgent,
@@ -153,6 +178,87 @@ export default class APIClient {
 
 		// setup retry logic
 		axiosRetry(this.axios, retryOptions)
+	}
+
+	getAuthRequestUrl(scopes?: string[]) {
+		if (!this.redirectUri) {
+			throw new APIClientConfigError('redirectUri must be configured')
+		}
+
+		const params = {
+			client_id: this.clientId,
+			response_type: 'code',
+			redirect_uri: this.redirectUri,
+		}
+
+		if (Array.isArray(scopes)) {
+			Object.assign(params, { scope: scopes.join(' ') })
+		}
+
+		const formattedParams = Object.entries(params)
+			.map(([k, v]) => `${k}=${encodeURIComponent(v)}`)
+			.join('&')
+		return `${this.authorizationUrl}?${formattedParams}`
+	}
+
+	private async authorizeCall(
+		grantType: 'authorization_code' | 'refresh_token',
+		codeType: 'code' | 'refresh_token',
+		code: string
+	) {
+		if (!this.redirectUri) {
+			throw new APIClientConfigError('redirectUri must be configured')
+		}
+
+		if (!this.clientSecret) {
+			throw new APIClientConfigError('clientSecret must be configured')
+		}
+
+		const res: Result<TokenResponse> = await this.call(
+			'POST',
+			API_TOKEN_ENDPOINT,
+			{},
+			{
+				client_id: this.clientId,
+				client_secret: this.clientSecret,
+				grant_type: grantType,
+				redirect_uri: this.redirectUri,
+				[codeType]: code,
+			},
+			'Authorize Call'
+		)
+
+		if (res.ok) {
+			const data = await res.data!
+			this.accessToken = data.access_token
+			this.refreshToken = data.refresh_token
+
+			/**
+			 * Python defines a timestamp as the time in **seconds** since
+			 * the epoch while JavaScript uses milliseconds.
+			 */
+			const createdAt = data.created_at * 1e3
+			const expiresIn = data.expires_in * 1e3
+			this.accessTokenExpiresAt = new Date(createdAt + expiresIn)
+
+			return {
+				accessToken: this.accessToken,
+				refreshToken: this.refreshToken,
+				accessTokenExpiresAt: this.accessTokenExpiresAt,
+			}
+		}
+	}
+
+	getAccessToken(code: string) {
+		return this.authorizeCall('authorization_code', 'code', code)
+	}
+
+	refreshAccessToken(refreshToken?: string) {
+		refreshToken ||= this.refreshToken
+		if (refreshToken) {
+			return this.authorizeCall('refresh_token', 'refresh_token', refreshToken)
+		}
+		throw new APIClientConfigError('refreshToken must be configured or provided')
 	}
 
 	private async call<S, T>(
@@ -168,6 +274,10 @@ export default class APIClient {
 					delete this.axios.defaults.headers['Content-Type']
 				} else {
 					this.axios.defaults.headers['Content-Type'] = 'application/json'
+				}
+
+				if (this.accessToken) {
+					this.axios.defaults.headers['Authorization'] = `Bearer ${this.accessToken}`
 				}
 			}
 			const response = await this.axios({
@@ -1168,7 +1278,20 @@ export default class APIClient {
 	}
 }
 
+interface TokenResponse {
+	access_token: string
+	token_type: string
+	expires_in: number
+	refresh_token: string
+	scope: string
+	created_at: number
+}
+
 export interface Options {
+	clientSecret?: string
+	redirectUri?: string
+	accessToken?: string
+	refreshToken?: string
 	apiUrl?: string
 	retryOptions?: IAxiosRetryConfig
 	userAgent?: string

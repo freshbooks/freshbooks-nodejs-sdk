@@ -7,7 +7,7 @@ import { joinQueries } from '../src/models/builders'
 
 const mock = new MockAdapter(axios) // set mock adapter on default axios instance
 const APPLICATION_CLIENT_ID = 'test-client-id'
-const testOptions: Options = {}
+const testOptions: Options = { accessToken: 'token' }
 
 const ACCOUNT_ID = 'zDmNq'
 const TASK_ID = 43221133
@@ -58,8 +58,7 @@ const buildExpectedTasksResult = (taskProperties: any = {}): Tasks => ({
 describe('@freshbooks/api', () => {
 	describe('Tasks', () => {
 		test('GET /accounting/account/<account_id>/projects/tasks list', async () => {
-			const token = 'token'
-			const APIclient = new APIClient(APPLICATION_CLIENT_ID, token, testOptions)
+			const APIclient = new APIClient(APPLICATION_CLIENT_ID, testOptions)
 			const response = `
               {
                 "response": {
@@ -92,8 +91,7 @@ describe('@freshbooks/api', () => {
 			expect(data).toEqual(expected)
 		})
 		test('GET /accounting/account/<account_id>/projects/tasks/<task_id>', async () => {
-			const token = 'token'
-			const APIclient = new APIClient(APPLICATION_CLIENT_ID, token, testOptions)
+			const APIclient = new APIClient(APPLICATION_CLIENT_ID, testOptions)
 			const response = buildMockTasksJSONResponse()
 			const expected = buildExpectedTasksResult()
 
@@ -104,8 +102,7 @@ describe('@freshbooks/api', () => {
 		})
 
 		test('POST /accounting/account/<accountId>/projects/tasks create', async () => {
-			const token = 'token'
-			const APIclient = new APIClient(APPLICATION_CLIENT_ID, token, testOptions)
+			const APIclient = new APIClient(APPLICATION_CLIENT_ID, testOptions)
 
 			const taskModel = {
 				name: 'Walking Dogs',
@@ -140,8 +137,7 @@ describe('@freshbooks/api', () => {
 			expect(data).toEqual(expected)
 		})
 		test('PUT /accounting/account/<accountId>/projects/tasks/<taskId> update', async () => {
-			const token = 'token'
-			const APIclient = new APIClient(APPLICATION_CLIENT_ID, token, testOptions)
+			const APIclient = new APIClient(APPLICATION_CLIENT_ID, testOptions)
 
 			const mockResponse = buildMockTasksJSONResponse({ description: 'Something' })
 
@@ -165,8 +161,7 @@ describe('@freshbooks/api', () => {
 			expect(data).toEqual(expected)
 		})
 		test('PUT /accounting/account/<accountId>/projects/tasks/<taskId> delete', async () => {
-			const token = 'token'
-			const APIclient = new APIClient(APPLICATION_CLIENT_ID, token, testOptions)
+			const APIclient = new APIClient(APPLICATION_CLIENT_ID, testOptions)
 
 			const mockResponse = buildMockTasksJSONResponse({ visState: 1 })
 

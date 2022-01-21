@@ -12,7 +12,7 @@ const mock = new MockAdapter(axios) // set mock adapter on default axios instanc
 const ACCOUNT_ID = 'xZNQ1X'
 const CLIENT_ID = '218192'
 const APPLICATION_CLIENT_ID = 'test-client-id'
-const testOptions: Options = {}
+const testOptions: Options = { accessToken: 'token' }
 
 const buildClientResponse = (clientResponseProperties: any = {}): any => ({
 	accounting_systemid: ACCOUNT_ID,
@@ -132,8 +132,7 @@ const buildExpectedClientResult = (clientProperties: any = {}): Client => ({
 describe('@freshbooks/api', () => {
 	describe('Client', () => {
 		test('GET /accounting/account/<accountId>/users/clients?...searchQuery', async () => {
-			const token = 'token'
-			const APIclient = new APIClient(APPLICATION_CLIENT_ID, token, testOptions)
+			const APIclient = new APIClient(APPLICATION_CLIENT_ID, testOptions)
 			const response = `
 		  {
 		    "response": {
@@ -166,8 +165,7 @@ describe('@freshbooks/api', () => {
 			expect(data).toEqual(expected)
 		})
 		test('GET /accounting/account/<accountId>/users/clients', async () => {
-			const token = 'token'
-			const APIclient = new APIClient(APPLICATION_CLIENT_ID, token, testOptions)
+			const APIclient = new APIClient(APPLICATION_CLIENT_ID, testOptions)
 			const response = `
       {
         "response": {
@@ -200,8 +198,7 @@ describe('@freshbooks/api', () => {
 		})
 
 		test('GET /accounting/account/<accountId>/users/clients/<clientId>', async () => {
-			const token = 'token'
-			const APIclient = new APIClient(APPLICATION_CLIENT_ID, token, testOptions)
+			const APIclient = new APIClient(APPLICATION_CLIENT_ID, testOptions)
 
 			const mockResponse = buildMockClientJSONResponse()
 			mock.onGet(`/accounting/account/${ACCOUNT_ID}/users/clients/${CLIENT_ID}`).replyOnce(200, mockResponse)
@@ -214,8 +211,7 @@ describe('@freshbooks/api', () => {
 		})
 
 		test('POST /accounting/account/<accountId>/users/clients', async () => {
-			const token = 'token'
-			const APIclient = new APIClient(APPLICATION_CLIENT_ID, token, testOptions)
+			const APIclient = new APIClient(APPLICATION_CLIENT_ID, testOptions)
 
 			const clientModel = {
 				fName: 'Johnny',
@@ -249,8 +245,7 @@ describe('@freshbooks/api', () => {
 		})
 	})
 	test('PUT /accounting/account/<accountId>/users/clients/<clientId> (delete)', async () => {
-		const token = 'token'
-		const APIclient = new APIClient(APPLICATION_CLIENT_ID, token, testOptions)
+		const APIclient = new APIClient(APPLICATION_CLIENT_ID, testOptions)
 
 		const mockResponse = buildMockClientJSONResponse({ vis_state: 1 })
 
@@ -269,8 +264,7 @@ describe('@freshbooks/api', () => {
 	})
 
 	test('PUT /accounting/account/<accountId>/users/clients/<clientId>', async () => {
-		const token = 'token'
-		const APIclient = new APIClient(APPLICATION_CLIENT_ID, token, testOptions)
+		const APIclient = new APIClient(APPLICATION_CLIENT_ID, testOptions)
 
 		const mockResponse = buildMockClientJSONResponse()
 

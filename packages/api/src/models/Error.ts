@@ -8,6 +8,8 @@ interface APIError {
 
 export type ErrorResponse = { errors: APIError[] } | { code: string; message: string }
 
+export class APIClientConfigError extends Error {}
+
 export default class APIClientError extends Error {
 	name: string
 

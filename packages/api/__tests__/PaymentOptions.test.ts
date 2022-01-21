@@ -9,8 +9,7 @@ const mock = new MockAdapter(axios) // set mock adapter on default axios instanc
 const ACCOUNT_ID = 'zDmNq'
 const INVOICE_ID = '6463'
 const APPLICATION_CLIENT_ID = 'test-client-id'
-const TOKEN = 'token'
-const testOptions: Options = {}
+const testOptions: Options = { accessToken: 'token' }
 
 function makePaymentOptions(gatewayName: PaymentGatewayName, camel = false) {
 	if (camel) {
@@ -42,7 +41,7 @@ function makePaymentOptions(gatewayName: PaymentGatewayName, camel = false) {
 describe('@freshbooks/api', () => {
 	describe('Payment Options', () => {
 		test('payment options for an invoice', async () => {
-			const client = new APIClient(APPLICATION_CLIENT_ID, TOKEN, testOptions)
+			const client = new APIClient(APPLICATION_CLIENT_ID, testOptions)
 
 			mock.onGet(`/payments/account/${ACCOUNT_ID}/invoice/${INVOICE_ID}/payment_options`).replyOnce(
 				200,
@@ -56,7 +55,7 @@ describe('@freshbooks/api', () => {
 		})
 
 		test('default payment options for an account', async () => {
-			const client = new APIClient(APPLICATION_CLIENT_ID, TOKEN, testOptions)
+			const client = new APIClient(APPLICATION_CLIENT_ID, testOptions)
 
 			mock.onGet(`/payments/account/${ACCOUNT_ID}/payment_options?entity_type=invoice`).replyOnce(
 				200,
@@ -70,7 +69,7 @@ describe('@freshbooks/api', () => {
 		})
 
 		test('add payment options to an invoice', async () => {
-			const client = new APIClient(APPLICATION_CLIENT_ID, TOKEN, testOptions)
+			const client = new APIClient(APPLICATION_CLIENT_ID, testOptions)
 
 			mock.onPost(`/payments/account/${ACCOUNT_ID}/invoice/${INVOICE_ID}/payment_options`).replyOnce(
 				200,

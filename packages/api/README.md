@@ -1,14 +1,18 @@
 # FreshBooks NodeJS SDK
 
-![](https://github.com/freshbooks/api-sdk/workflows/Node%20CI/badge.svg)
+[![npm](https://img.shields.io/npm/v/@freshbooks/api)](https://www.npmjs.com/package/@freshbooks/api)
+![node-lts](https://img.shields.io/node/v-lts/@freshbooks/api)
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/freshbooks/freshbooks-nodejs-sdk/Run%20Tests)](https://github.com/freshbooks/freshbooks-nodejs-sdk/actions?query=workflow%3A%22Run+Tests%22)
 
-The FreshBooks NodeJS SDK is a collection of single-purpose packages designed to easily build FreshBooks apps. Each package delivers part of the FreshBooks [REST API](https://www.freshbooks.com/api), so that you can choose the packages that fit your needs.
+The FreshBooks NodeJS SDK is a collection of single-purpose packages designed to easily build FreshBooks apps.
+Each package delivers part of the [FreshBooks API](https://www.freshbooks.com/api), so that you can choose
+the packages that fit your needs.
 
-| Package                             | What it's for                                                                                                                 |
-| ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| [`@freshbooks/api`](https://www.npmjs.com/package/@freshbooks/api) | Get/set data from FreshBooks using the REST API.                                                                              |
-| [`@freshbooks/events`](https://www.npmjs.com/package/@freshbooks/events)                | Register/listen for incoming events via webhooks.                                                                             |
-| [`@freshbooks/app`](https://www.npmjs.com/package/@freshbooks/api) | Pre-configured [ExpressJS](https://expressjs.com/) app. Includes authentication via [PassportJS](http://www.passportjs.org/). |
+| Package                                                                  | What it's for                                                                                                                 |
+| ------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------- |
+| [`@freshbooks/api`](https://www.npmjs.com/package/@freshbooks/api)       | Get/set data from FreshBooks using the REST API.                                                                              |
+| [`@freshbooks/events`](https://www.npmjs.com/package/@freshbooks/events) | Register/listen for incoming events via webhooks.                                                                             |
+| [`@freshbooks/app`](https://www.npmjs.com/package/@freshbooks/api)       | Pre-configured [ExpressJS](https://expressjs.com/) app. Includes authentication via [PassportJS](http://www.passportjs.org/). |
 
 ## Installation
 
@@ -25,23 +29,54 @@ $ yarn add @freshbooks/api @freshbooks/events @freshbooks/app
 
 ### `@freshbooks/api`
 
-See [https://freshbooks.github.io/freshbooks-nodejs-sdk/](https://freshbooks.github.io/freshbooks-nodejs-sdk/) for model documentation.
+See [https://freshbooks.github.io/freshbooks-nodejs-sdk/](https://freshbooks.github.io/freshbooks-nodejs-sdk/)
+for model documentation.
 
 Your app will interact with the REST API using the `Client` object, available from the `@freshbooks/api` package.
-The client is instantiated with a valid OAuth token, which is used throughout the lifetime of the client to make API calls.
+The client may be instantiated with a valid OAuth token or provided with a client secret and redirect URI which may then be used to obtain an access token. This token is used throughout the lifetime of the client to make API calls.
 
 #### Configuring the API client
+
+##### Using a pre-generated access token:
 
 ```typescript
 import { Client } from '@freshbooks/api'
 
-const clientId = process.env.FRESHBOOKS_APPLICATION_CLIENTID
+const clientId = process.env.FRESHBOOKS_APPLICATION_CLIENT_ID
 
 // Get token from authentication or configuration
 const token = process.env.FRESHBOOKS_TOKEN
 
 // Instantiate new FreshBooks API client
-const client = new Client(clientId, token);
+const client = new Client(clientId, {
+    accessToken: token,
+})
+```
+
+##### Using a client secret and redirect URI:
+
+```typescript
+import { Client } from '@freshbooks/api'
+
+const clientId = process.env.FRESHBOOKS_APPLICATION_CLIENT_ID
+const clientSecret = process.env.FRESHBOOKS_APPLICATION_CLIENT_SECRET
+
+// Instantiate new FreshBooks API client
+const client = new Client(clientId, {
+  clientSecret,
+  redirectUri: 'https://your-redirect-uri.com/'
+})
+
+// Give this URL to the user so they can authorize your application
+const authUrl = client.getAuthRequestUrl()
+
+// This will redirect them to https://your-redirect-uri.com/?code=XXX
+const code = ...
+
+// Returns an object containing the access token, refresh token, and expiry date
+// Note that this function automatically authenticates all future requests using this token; no need to do it manually
+const tokens = client.getAccessToken(code)
+
 ```
 
 #### Get/set data from REST API
@@ -132,22 +167,23 @@ try {
 
 ##### Optional fields
 
-Optional fields are specified in the API data model as `optional` using Typescript's `?` operator, as well as marked as `Nullable<T>`, where `T` is the type of value, and `Nullable` is a type definition to allow `null` values.
+Optional fields are specified in the API data model as `optional` using Typescript's `?` operator, as well as
+marked as `Nullable<T>`, where `T` is the type of value, and `Nullable` is a type definition to allow `null` values.
 
 ```typescript
 // create a user model with required fields. set other fields as undefined
 const user: User = {
-  id: '123',
-  firstName: 'Johnny',
-  lastName: 'Appleseed'
+    id: '123',
+    firstName: 'Johnny',
+    lastName: 'Appleseed',
 }
 
 // explicity set an optional field
 user.phoneNumbers = [
-  {
-    title: 'Home',
-    number: '555-555-5555'
-  }
+    {
+        title: 'Home',
+        number: '555-555-5555',
+    },
 ]
 
 // explicitly unset an optional field
@@ -160,14 +196,15 @@ If an API error occurs, the response object contains an `error` object, with the
 
 ```typescript
 {
-  code: string
-  message?: string
+    code: string
+    message?: string
 }
 ```
 
 ##### Pagination
 
-If the endpoint is enabled for pagination, the response `data` object contains the response model and a `pages` property, with the following shape:
+If the endpoint is enabled for pagination, the response `data` object contains the response model and a `pages`
+property, with the following shape:
 
 ```typescript
 {
@@ -185,7 +222,7 @@ Example request with pagination:
 const { invoices, pages } = await client.invoices.list('xZNQ1X')
 
 // Print invoices
-invoices.map(invoice => console.log(JSON.stringify(invoice)))
+invoices.map((invoice) => console.log(JSON.stringify(invoice)))
 
 // Print pagination
 console.log(`Page ${pages.page} of ${pages.total} pages`)
@@ -195,4 +232,5 @@ console.log(`${pages.size} total invoices`)
 
 ##### Dates and Times
 
-For historical reasons, some resources in the FreshBooks API (mostly accounting-releated) return date/times in "US/Eastern" timezone. Some effort is taken to convert these in the models to return `Date` objects normalized to UTC.
+For historical reasons, some resources in the FreshBooks API (mostly accounting-releated) return date/times in
+"US/Eastern" timezone. Some effort is taken to convert these in the models to return `Date` objects normalized to UTC.
