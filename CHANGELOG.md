@@ -4,15 +4,12 @@
 
 ### Unreleased
 
-- Move default branch from master to main
-
 ### 3.0.0
 
-- (**Breaking Change**) `token` parameter removed from APIClient constructor, additional properties added to Client Options to support OAuth flow with client secret + redirect URI
-
-### 2.2.0
-
+- (**Breaking Change**) `token` parameter removed from APIClient constructor, additional properties added to Client
+  Options to support OAuth flow with client secret + redirect URI (see updated README)
 - Support for online payment options
+- Move default branch from master to main
 
 ### 2.1.0
 
