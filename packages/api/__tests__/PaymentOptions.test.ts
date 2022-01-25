@@ -59,10 +59,10 @@ describe('@freshbooks/api', () => {
 			const client = new APIClient(APPLICATION_CLIENT_ID, testOptions)
 
 			mock.onGet(`/payments/account/${ACCOUNT_ID}/invoice/${INVOICE_ID}/payment_options`).replyOnce(
-				404,
+				400,
 				JSON.stringify({
-					error_type: 'not_found',
-					message: 'The requested resource was not found.',
+					error_type: 'invalid_cc_type',
+					message: 'Invalid CC type',
 				})
 			)
 			try {
@@ -91,10 +91,10 @@ describe('@freshbooks/api', () => {
 			const client = new APIClient(APPLICATION_CLIENT_ID, testOptions)
 
 			mock.onGet(`/payments/account/${ACCOUNT_ID}/payment_options?entity_type=invoice`).replyOnce(
-				404,
+				400,
 				JSON.stringify({
-					error_type: 'not_found',
-					message: 'The requested resource was not found.',
+					error_type: 'invalid_cc_type',
+					message: 'Invalid CC type',
 				})
 			)
 			try {
@@ -128,10 +128,10 @@ describe('@freshbooks/api', () => {
 			const client = new APIClient(APPLICATION_CLIENT_ID, testOptions)
 
 			mock.onPost(`/payments/account/${ACCOUNT_ID}/invoice/${INVOICE_ID}/payment_options`).replyOnce(
-				404,
+				400,
 				JSON.stringify({
-					error_type: 'not_found',
-					message: 'The requested resource was not found.',
+					error_type: 'invalid_cc_type',
+					message: 'Invalid CC type',
 				})
 			)
 
