@@ -2,6 +2,7 @@
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 import APIClient, { Options } from '../src/APIClient'
+import APIClientError from '../src/models/Error'
 import { PaymentGatewayName, transformPaymentOptionsRequest } from '../src/models/PaymentOptions'
 
 const mock = new MockAdapter(axios) // set mock adapter on default axios instance
@@ -54,6 +55,24 @@ describe('@freshbooks/api', () => {
 			expect(data).toMatchObject(makePaymentOptions(PaymentGatewayName.PayPal, true))
 		})
 
+		test('payment options for an invoice - error ', async () => {
+			const client = new APIClient(APPLICATION_CLIENT_ID, testOptions)
+
+			mock.onGet(`/payments/account/${ACCOUNT_ID}/invoice/${INVOICE_ID}/payment_options`).replyOnce(
+				404,
+				JSON.stringify({
+					error_type: 'not_found',
+					message: 'The requested resource was not found.',
+				})
+			)
+			try {
+				await client.paymentOptions.single(ACCOUNT_ID, INVOICE_ID)
+			} catch (err: any) {
+				expect(err).toBeInstanceOf(APIClientError)
+				expect(err.message).toEqual('The requested resource was not found.')
+			}
+		})
+
 		test('default payment options for an account', async () => {
 			const client = new APIClient(APPLICATION_CLIENT_ID, testOptions)
 
@@ -66,6 +85,24 @@ describe('@freshbooks/api', () => {
 
 			const { data } = await client.paymentOptions.default(ACCOUNT_ID)
 			expect(data).toMatchObject(makePaymentOptions(PaymentGatewayName.Stripe, true))
+		})
+
+		test('default payment options for an account - error', async () => {
+			const client = new APIClient(APPLICATION_CLIENT_ID, testOptions)
+
+			mock.onGet(`/payments/account/${ACCOUNT_ID}/payment_options?entity_type=invoice`).replyOnce(
+				404,
+				JSON.stringify({
+					error_type: 'not_found',
+					message: 'The requested resource was not found.',
+				})
+			)
+			try {
+				await client.paymentOptions.default(ACCOUNT_ID)
+			} catch (err: any) {
+				expect(err).toBeInstanceOf(APIClientError)
+				expect(err.message).toEqual('The requested resource was not found.')
+			}
 		})
 
 		test('add payment options to an invoice', async () => {
@@ -85,6 +122,30 @@ describe('@freshbooks/api', () => {
 				entityType: 'invoice',
 			})
 			expect(data).toMatchObject(makePaymentOptions(PaymentGatewayName.WePay, true))
+		})
+
+		test('add payment options to an invoice - error', async () => {
+			const client = new APIClient(APPLICATION_CLIENT_ID, testOptions)
+
+			mock.onPost(`/payments/account/${ACCOUNT_ID}/invoice/${INVOICE_ID}/payment_options`).replyOnce(
+				404,
+				JSON.stringify({
+					error_type: 'not_found',
+					message: 'The requested resource was not found.',
+				})
+			)
+
+			try {
+				await client.paymentOptions.create(ACCOUNT_ID, INVOICE_ID, {
+					gatewayName: PaymentGatewayName.WePay,
+					hasCreditCard: true,
+					entityId: INVOICE_ID,
+					entityType: 'invoice',
+				})
+			} catch (err: any) {
+				expect(err).toBeInstanceOf(APIClientError)
+				expect(err.message).toEqual('The requested resource was not found.')
+			}
 		})
 	})
 })
