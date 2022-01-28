@@ -20,7 +20,7 @@
 		"lint": "tsc --noEmit && eslint \"**/*.{js,ts}\" --quiet --fix"
 	},
 	"dependencies": {
-		"axios": "^0.22.0",
+		"axios": "^0.25.0",
 		"winston": "^3.2.1"
 	},
 	"jest": {
