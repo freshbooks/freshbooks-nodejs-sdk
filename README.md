@@ -29,7 +29,8 @@ $ yarn add @freshbooks/api @freshbooks/events @freshbooks/app
 
 ### `@freshbooks/api`
 
-See [https://freshbooks.github.io/freshbooks-nodejs-sdk/](https://freshbooks.github.io/freshbooks-nodejs-sdk/)
+Check out some of our [examples](https://github.com/freshbooks/freshbooks-nodejs-sdk/tree/main/examples) and
+see [https://freshbooks.github.io/freshbooks-nodejs-sdk/](https://freshbooks.github.io/freshbooks-nodejs-sdk/)
 for model documentation.
 
 Your app will interact with the REST API using the `Client` object, available from the `@freshbooks/api` package.
@@ -131,6 +132,8 @@ The `SearchQueryBuilder` supports the patterns: `Equals`, `In`, `Like` and `Betw
 Example API client call with `SearchQueryBuilder`:
 
 ```typescript
+import { SearchQueryBuilder } from '@freshbooks/api/dist/models/builders/SearchQueryBuilder'
+
 //create and populate SearchQueryBuilder
 const searchQueryBuilder = new SearchQueryBuilder()
     .like('address_like', '200 King Street')
@@ -152,6 +155,8 @@ The `IncludesQueryBuilder` simply requires the name of the key to be included.
 Example API client call with `IncludesQueryBuilder`:
 
 ```typescript
+import { IncludesQueryBuilder } from '@freshbooks/api/dist/models/builders/IncludesQueryBuilder'
+
 //create and populate IncludesQueryBuilder
 const includesQueryBuilder = new IncludesQueryBuilder().includes('lines')
 

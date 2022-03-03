@@ -29,15 +29,17 @@ $ yarn add @freshbooks/api @freshbooks/events @freshbooks/app
 
 ### `@freshbooks/api`
 
-See [https://freshbooks.github.io/freshbooks-nodejs-sdk/](https://freshbooks.github.io/freshbooks-nodejs-sdk/)
+Check out some of our [examples](https://github.com/freshbooks/freshbooks-nodejs-sdk/tree/main/examples) and
+see [https://freshbooks.github.io/freshbooks-nodejs-sdk/](https://freshbooks.github.io/freshbooks-nodejs-sdk/)
 for model documentation.
 
 Your app will interact with the REST API using the `Client` object, available from the `@freshbooks/api` package.
-The client may be instantiated with a valid OAuth token or provided with a client secret and redirect URI which may then be used to obtain an access token. This token is used throughout the lifetime of the client to make API calls.
+The client may be instantiated with a valid OAuth token or provided with a client secret and redirect URI which may
+then be used to obtain an access token. This token is used throughout the lifetime of the client to make API calls.
 
 #### Configuring the API client
 
-##### Using a pre-generated access token:
+##### Using a pre-generated access token
 
 ```typescript
 import { Client } from '@freshbooks/api'
@@ -53,7 +55,7 @@ const client = new Client(clientId, {
 })
 ```
 
-##### Using a client secret and redirect URI:
+##### Using a client secret and redirect URI
 
 ```typescript
 import { Client } from '@freshbooks/api'
@@ -74,9 +76,9 @@ const authUrl = client.getAuthRequestUrl()
 const code = ...
 
 // Returns an object containing the access token, refresh token, and expiry date
-// Note that this function automatically authenticates all future requests using this token; no need to do it manually
+// Note that this function sets the token on this client instance to automatically
+// authenticates all future requests with this client instance
 const tokens = client.getAccessToken(code)
-
 ```
 
 #### Get/set data from REST API
@@ -130,6 +132,8 @@ The `SearchQueryBuilder` supports the patterns: `Equals`, `In`, `Like` and `Betw
 Example API client call with `SearchQueryBuilder`:
 
 ```typescript
+import { SearchQueryBuilder } from '@freshbooks/api/dist/models/builders/SearchQueryBuilder'
+
 //create and populate SearchQueryBuilder
 const searchQueryBuilder = new SearchQueryBuilder()
     .like('address_like', '200 King Street')
@@ -151,6 +155,8 @@ The `IncludesQueryBuilder` simply requires the name of the key to be included.
 Example API client call with `IncludesQueryBuilder`:
 
 ```typescript
+import { IncludesQueryBuilder } from '@freshbooks/api/dist/models/builders/IncludesQueryBuilder'
+
 //create and populate IncludesQueryBuilder
 const includesQueryBuilder = new IncludesQueryBuilder().includes('lines')
 
