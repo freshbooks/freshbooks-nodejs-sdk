@@ -7,7 +7,7 @@ If you checkout the project, these files should be runnable locally after instal
 ```shell
 yarn build
 yarn install
-node ./examples/authorization_flow.js
+node ./examples/create_invoice.js
 ```
 
 Be sure to update the example files with your own credentials in place of `<your account id>` and `<your access token>`.
