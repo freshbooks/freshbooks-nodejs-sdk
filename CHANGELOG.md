@@ -4,6 +4,8 @@
 
 ### Unreleased
 
+- Allow invoices to be marked as sent
+
 ### 3.0.0
 
 - (**Breaking Change**) `token` parameter removed from APIClient constructor, additional properties added to Client

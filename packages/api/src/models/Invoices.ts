@@ -68,6 +68,7 @@ export default interface Invoice {
 	id?: number
 	accountId?: string
 	accountingSystemId?: string
+	actionMarkAsSent?: Nullable<boolean>
 	address?: string
 	amount?: Money
 	autoBill?: boolean
@@ -301,6 +302,13 @@ export function transformInvoiceResponse(data: string): Invoice | ErrorResponse 
 }
 
 export function transformInvoiceRequest(invoice: Invoice): string {
+	if (invoice.actionMarkAsSent === true) {
+		return JSON.stringify({
+			invoice: {
+				action_mark_as_sent: true,
+			},
+		})
+	}
 	const request = JSON.stringify({
 		invoice: {
 			address: invoice.address,
