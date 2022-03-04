@@ -3,6 +3,7 @@ import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 import Client, { Options } from '../src/APIClient'
 import { Invoice } from '../src/models'
+import { transformInvoiceRequest } from '../src/models/Invoices'
 import { IncludesQueryBuilder } from '../src/models/builders/IncludesQueryBuilder'
 import { SearchQueryBuilder } from '../src/models/builders/SearchQueryBuilder'
 
@@ -459,6 +460,13 @@ describe('@freshbooks/api', () => {
 			const invoice = buildInvoice({ visState: 1 })
 
 			expect(data).toEqual(invoice)
+		})
+		test('Mark Invoice As Sent - Action only payload item', async () => {
+			const invoice = buildInvoice()
+			invoice.actionMarkAsSent = true
+
+			const expected = '{"invoice":{"action_mark_as_sent":true}}'
+			expect(transformInvoiceRequest(invoice)).toEqual(expected)
 		})
 	})
 })
