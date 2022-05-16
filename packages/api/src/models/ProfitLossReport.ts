@@ -7,20 +7,20 @@ import ProfitLossEntry, {
 } from './ProfitLossEntry'
 
 export default interface ProfitLossReport {
-	netProfit: ProfitLossEntry
-	totalIncome: ProfitLossEntry
-	totalExpenses: ProfitLossEntry
-	endDate: Date
-	income: ProfitLossEntry[]
-	expenses: ProfitLossEntry[]
-	grossMargin: ProfitLossEntry
-	labels: Date[]
-	downloadToken: string
 	companyName: string
+	currencyCode: string
 	cashBased: boolean
 	resolution?: string
 	startDate: Date
-	currencyCode: string
+	endDate: Date
+	downloadToken: string
+	labels: Date[]
+	netProfit: ProfitLossEntry
+	totalIncome: ProfitLossEntry
+	totalExpenses: ProfitLossEntry
+	grossMargin: ProfitLossEntry
+	income: ProfitLossEntry[]
+	expenses: ProfitLossEntry[]
 }
 
 interface ProfitLossReportResponse {
