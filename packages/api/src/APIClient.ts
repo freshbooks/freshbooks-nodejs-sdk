@@ -79,6 +79,7 @@ import {
 	transformCallbackResendRequest,
 } from './models/Callback'
 import { transformPaymentOptionsRequest, transformPaymentOptionsResponse } from './models/PaymentOptions'
+import { transformProfitLossReportResponse } from './models/ProfitLossReport'
 
 // defaults
 const API_BASE_URL = 'https://api.freshbooks.com'
@@ -1274,6 +1275,22 @@ export default class APIClient {
 				},
 				null,
 				'Verify Callback'
+			),
+	}
+
+	public readonly reports = {
+		profitLoss: (
+			accountId: string,
+			queryBuilders?: QueryBuilderType[]
+		): Promise<Result<{ callbacks: Callback[]; pages: Pagination }>> =>
+			this.call(
+				'GET',
+				`/accounting/account/${accountId}/reports/accounting/profitloss_entity${joinQueries(queryBuilders)}`,
+				{
+					transformResponse: transformProfitLossReportResponse,
+				},
+				null,
+				'Profit and Loss Report'
 			),
 	}
 }

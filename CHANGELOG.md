@@ -5,6 +5,7 @@
 ### Unreleased
 
 - Allow invoices to be marked as sent
+- Support for Profit & Loss Report 
 
 ### 3.0.0
 
