@@ -6,6 +6,7 @@
 
 - Allow invoices to be marked as sent
 - Support for Profit & Loss Report 
+- Support for Tax Summary Report
 
 ### 3.0.0
 
