@@ -80,6 +80,7 @@ import {
 } from './models/Callback'
 import { transformPaymentOptionsRequest, transformPaymentOptionsResponse } from './models/PaymentOptions'
 import { transformProfitLossReportResponse } from './models/ProfitLossReport'
+import { transformTaxSummaryReportResponse } from './models/TaxSummaryReport'
 
 // defaults
 const API_BASE_URL = 'https://api.freshbooks.com'
@@ -1291,6 +1292,19 @@ export default class APIClient {
 				},
 				null,
 				'Profit and Loss Report'
+			),
+		taxSummary: (
+			accountId: string,
+			queryBuilders?: QueryBuilderType[]
+		): Promise<Result<{ callbacks: Callback[]; pages: Pagination }>> =>
+			this.call(
+				'GET',
+				`/accounting/account/${accountId}/reports/accounting/taxsummary${joinQueries(queryBuilders)}`,
+				{
+					transformResponse: transformTaxSummaryReportResponse,
+				},
+				null,
+				'Tax Summary Report'
 			),
 	}
 }
