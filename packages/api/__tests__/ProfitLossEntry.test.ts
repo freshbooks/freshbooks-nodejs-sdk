@@ -2,7 +2,7 @@
 import ProfitLossEntry, {
 	transformProfitLossEntryResponse,
 	transformProfitLossEntryResponseList,
-} from '../src/models/ProfitLossEntry'
+} from '../src/models/report/ProfitLossEntry'
 
 describe('@freshbooks/api', () => {
 	describe('ProfitLossEntry', () => {
