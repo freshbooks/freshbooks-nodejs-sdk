@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { ErrorResponse, isAccountingErrorResponse, transformErrorResponse } from './Error'
+import { ErrorResponse, isAccountingErrorResponse, transformErrorResponse } from '../Error'
 import ProfitLossEntry, {
 	ProfitLossEntryResponse,
 	transformProfitLossEntryResponse,

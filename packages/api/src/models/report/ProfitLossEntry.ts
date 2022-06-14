@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import Money, { MoneyResponse, transformMoneyResponse } from './Money'
+import Money, { MoneyResponse, transformMoneyResponse } from '../Money'
 
 enum ProfitLossEntryType {
 	debit = 'debit',

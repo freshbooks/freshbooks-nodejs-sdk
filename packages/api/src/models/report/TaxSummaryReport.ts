@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { ErrorResponse, isAccountingErrorResponse, transformErrorResponse } from './Error'
-import Money, { MoneyResponse, transformMoneyResponse } from './Money'
+import { ErrorResponse, isAccountingErrorResponse, transformErrorResponse } from '../Error'
+import Money, { MoneyResponse, transformMoneyResponse } from '../Money'
 import TaxSummaryEntry, { TaxSummaryEntryResponse, transformTaxSummaryEntryResponeList } from './TaxSummaryEntry'
 
 export default interface TaxSummaryReport {

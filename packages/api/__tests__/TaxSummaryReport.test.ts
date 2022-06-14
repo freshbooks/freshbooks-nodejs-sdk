@@ -2,7 +2,7 @@
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 import Client, { Options } from '../src/APIClient'
-import { transformTaxSummaryReportData } from '../src/models/TaxSummaryReport'
+import { transformTaxSummaryReportData } from '../src/models/report/TaxSummaryReport'
 
 const mock = new MockAdapter(axios)
 const ACCOUNT_ID = 'xZNQ1X'
