@@ -1,0 +1,10 @@
+{
+  "entryPoints": [
+    "src",
+    "src/models",
+    "src/models/builders"
+  ],
+  "out": "../../docs",
+  "includeVersion": true,
+  "intentionallyNotExported": ["QueryParamType"],
+}
