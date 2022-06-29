@@ -6,5 +6,5 @@
   ],
   "out": "../../docs",
   "includeVersion": true,
-  "intentionallyNotExported": ["QueryParamType"],
+  "intentionallyNotExported": ["QueryParamType"]
 }
