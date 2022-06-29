@@ -23,7 +23,6 @@ jobs:
         yarn install
         cd packages/api
         yarn install
-        yarn add typedoc
     - name: Run typedoc
       run: |
         rm -rf docs
