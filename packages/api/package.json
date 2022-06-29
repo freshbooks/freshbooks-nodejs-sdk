@@ -32,7 +32,7 @@
 	"devDependencies": {
 		"@types/luxon": "^2.0.3",
 		"axios-mock-adapter": "^1.17.0",
-		"typedoc": "^0.22.18"
+		"typedoc": "^0.23.2"
 	},
 	"jest": {
 		"preset": "ts-jest",
