@@ -28,7 +28,7 @@ jobs:
       run: |
         rm -rf docs
         cd packages/api
-        npx typedoc --out ../../docs src/index.ts
+        npx typedoc
     - name: Commit files
       run: |
         echo ${{ github.ref }}
