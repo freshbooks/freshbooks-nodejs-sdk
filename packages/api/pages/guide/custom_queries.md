@@ -1,166 +1,4 @@
-# FreshBooks NodeJS SDK
-
-[![npm](https://img.shields.io/npm/v/@freshbooks/api)](https://www.npmjs.com/package/@freshbooks/api)
-![node-lts](https://img.shields.io/node/v-lts/@freshbooks/api)
-[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/freshbooks/freshbooks-nodejs-sdk/Run%20Tests)](https://github.com/freshbooks/freshbooks-nodejs-sdk/actions?query=workflow%3A%22Run+Tests%22)
-
-The FreshBooks NodeJS SDK allows you to more easily utilize the FreshBooks API.
-
-## Installation
-
-Use your favorite package manager to install any of the packages and save to your `package.json`:
-
-```shell
-$ npm install @freshbooks/api
-
-# Or, if you prefer yarn
-$ yarn add @freshbooks/api
-```
-
-## Usage
-
-See the [full documentation](https://freshbooks.github.io/freshbooks-nodejs-sdk/).
-
-### Configuring the API client
-
-Your app will interact with the REST API using the `Client` object, available from the `@freshbooks/api` package.
-The client may be instantiated with a valid OAuth token or provided with a client secret and redirect URI which may
-then be used to obtain an access token.
-
-#### Using a pre-generated access token
-
-```typescript
-import { Client } from '@freshbooks/api'
-
-const clientId = process.env.FRESHBOOKS_APPLICATION_CLIENT_ID
-
-// Get token from authentication or configuration
-const token = process.env.FRESHBOOKS_TOKEN
-
-// Instantiate new FreshBooks API client
-const client = new Client(clientId, {
-    accessToken: token,
-})
-```
-
-#### Using a client secret and redirect URI
-
-```typescript
-import { Client } from '@freshbooks/api'
-
-const clientId = process.env.FRESHBOOKS_APPLICATION_CLIENT_ID
-const clientSecret = process.env.FRESHBOOKS_APPLICATION_CLIENT_SECRET
-
-// Instantiate new FreshBooks API client
-const client = new Client(clientId, {
-  clientSecret,
-  redirectUri: 'https://your-redirect-uri.com/'
-})
-
-// Give this URL to the user so they can authorize your application
-const authUrl = client.getAuthRequestUrl()
-
-// This will redirect them to https://your-redirect-uri.com/?code=XXX
-const code = ...
-
-// Returns an object containing the access token, refresh token, and expiry date
-// Note that this function sets the token on this client instance to automatically
-// authenticates all future requests with this client instance
-const tokens = client.getAccessToken(code)
-```
-
-### Get/set data from REST API
-
-All REST API methods return a response in the shape of:
-
-```typescript
-{
-  ok: boolean
-  data?: T // model type of result
-  error?: Error
-}
-```
-
-Example API client call:
-
-```typescript
-try {
-    // Get the current user
-    const { data } = await client.users.me()
-
-    console.log(`Hello, ${data.id}`)
-} catch ({ code, message }) {
-    // Handle error if API call failed
-    console.error(`Error fetching user: ${code} - ${message}`)
-}
-```
-
-#### Errors
-
-Calls made to the FreshBooks API with a non-2xx response result in errors in the form of:
-
-```typescript
-{
-    code: string
-    message?: string
-    errors?: []
-}
-```
-Examples:
-
-```typescript
-clientData = {}
-try {
-  const client = await fbClient.clients.single(accountId, 00000)
-  console.log('Not called')
-} catch (err) {
-  console.log(err.message)
-  console.log(err.code)
-  console.log(err.errors)
-}
-/*
-Output:
-NOT FOUND
-404
-[
-  {
-    number: 1012,
-    field: 'userid',
-    message: 'Client not found.',
-    object: 'client',
-    value: '64080700'
-  }
-]
-*/
-```
-
-```typescript
-clientData = {}
-try {
-  const client = await fbClient.clients.create(clientData, accountId)
-  console.log('Not called')
-} catch (err) {
-  console.log(err.message)
-  console.log(err.code)
-  console.log(err.errors)
-}
-/*
-Output:
-UNPROCESSABLE ENTITY
-422
-[
-  {
-    number: 7012,
-    field: null,
-    message: 'At least one field among fname, lname, email and organization is required.',
-    object: 'client',
-    value: ''
-  }
-]
-*/
-```
-
-### Pagination, Filters, and Includes
+# Pagination, Filters, and Includes
 
 If an endpoint supports searching or custom inclusions via query parameters, these parameters
 can be specified using a `QueryBuilderType`. See [FreshBooks API - Parameters](https://www.freshbooks.com/api/parameters)
@@ -181,7 +19,7 @@ public readonly invoices = {
 }
 ```
 
-#### Pagination
+## Pagination
 
 Pagination results are included in `list` responses. The `data` object will contain a `pages` property, with the following:
 
@@ -221,7 +59,7 @@ while (page <= totalPages) {
 }
 ```
 
-#### Search Filters
+## Search Filters
 
 To filter which results are return by `list` method calls, construct a `SearchQueryBuilder` and pass and pass it in
 the `list` call.
@@ -271,7 +109,7 @@ try {
 }
 ```
 
-#### Includes
+## Includes
 
 To include additional relationships, sub-resources, or data in a response an `IncludesQueryBuilder` can be constructed
 which can then be passed into `list`, `single`, `create`, and `update` calls.
