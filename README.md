@@ -28,9 +28,8 @@ $ yarn add @freshbooks/api @freshbooks/app
 
 ### `@freshbooks/api`
 
-Check out some of our [examples](https://github.com/freshbooks/freshbooks-nodejs-sdk/tree/main/examples) and
-see [https://freshbooks.github.io/freshbooks-nodejs-sdk/](https://freshbooks.github.io/freshbooks-nodejs-sdk/)
-for model documentation.
+See [the full documentation](https://freshbooks.github.io/freshbooks-nodejs-sdk/) and check out some of our
+[examples](https://github.com/freshbooks/freshbooks-nodejs-sdk/tree/main/examples).
 
 Your app will interact with the REST API using the `Client` object, available from the `@freshbooks/api` package.
 The client may be instantiated with a valid OAuth token or provided with a client secret and redirect URI which may
