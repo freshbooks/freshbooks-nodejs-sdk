@@ -4,7 +4,50 @@
     "src/models",
     "src/models/builders"
   ],
+  "includes": "../../examples",
   "out": "../../docs",
   "includeVersion": true,
-  "intentionallyNotExported": ["QueryParamType"]
+  "intentionallyNotExported": ["QueryParamType"],
+  "pluginPages": {
+    "pages": [
+      {
+        "title": "User Guide",
+        "children": [
+          {
+            "title": "Configuring The API Client",
+            "source": "guide/configuration.md"
+          },
+          {
+            "title": "Authorization Flow",
+            "source": "guide/authorization.md"
+          },
+          {
+            "title": "Authorized User",
+            "source": "guide/authorized_user.md"
+          },
+          {
+            "title": "Making API Calls",
+            "source": "guide/making_calls.md"
+          },
+          {
+            "title": "Pagination, Filters, and Includes",
+            "source": "guide/custom_queries.md"
+          }
+        ]
+      },
+      {
+        "title": "Examples and Sample Code",
+        "children": [
+          {
+            "title": "Authorization Flow",
+            "source": "examples/authorization_flow.md"
+          },
+          {
+            "title": "Create Invoice",
+            "source": "examples/create_invoice.md"
+          }
+        ]
+      }
+    ]
+  }
 }

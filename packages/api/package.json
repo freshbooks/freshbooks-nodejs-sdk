@@ -30,6 +30,7 @@
 		"winston": "^3.3.3"
 	},
 	"devDependencies": {
+		"@knodes/typedoc-plugin-pages": "0.22.5",
 		"@types/luxon": "^2.0.3",
 		"axios-mock-adapter": "^1.17.0",
 		"typedoc": "^0.22.18"

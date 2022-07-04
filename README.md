@@ -4,14 +4,13 @@
 ![node-lts](https://img.shields.io/node/v-lts/@freshbooks/api)
 [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/freshbooks/freshbooks-nodejs-sdk/Run%20Tests)](https://github.com/freshbooks/freshbooks-nodejs-sdk/actions?query=workflow%3A%22Run+Tests%22)
 
-The FreshBooks NodeJS SDK is a collection of single-purpose packages designed to easily build FreshBooks apps.
-Each package delivers part of the [FreshBooks API](https://www.freshbooks.com/api), so that you can choose
-the packages that fit your needs.
+The FreshBooks NodeJS SDK allows you to more easily utilize the FreshBooks API.
+
+This repository contains multiple packages:
 
 | Package                                                                  | What it's for                                                                                                                 |
 | ------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------- |
 | [`@freshbooks/api`](https://www.npmjs.com/package/@freshbooks/api)       | Get/set data from FreshBooks using the REST API.                                                                              |
-| [`@freshbooks/events`](https://www.npmjs.com/package/@freshbooks/events) | Register/listen for incoming events via webhooks.                                                                             |
 | [`@freshbooks/app`](https://www.npmjs.com/package/@freshbooks/api)       | Pre-configured [ExpressJS](https://expressjs.com/) app. Includes authentication via [PassportJS](http://www.passportjs.org/). |
 
 ## Installation
@@ -19,10 +18,10 @@ the packages that fit your needs.
 Use your favorite package manager to install any of the packages and save to your `package.json`:
 
 ```shell
-$ npm install @freshbooks/api @freshbooks/events @freshbooks/app
+$ npm install @freshbooks/api @freshbooks/app
 
 # Or, if you prefer yarn
-$ yarn add @freshbooks/api @freshbooks/events @freshbooks/app
+$ yarn add @freshbooks/api @freshbooks/app
 ```
 
 ## Usage
