@@ -5,9 +5,10 @@
 ### Unreleased
 
 - Allow invoices to be marked as sent
-- Support for Profit & Loss Report 
+- Support for Profit & Loss Report
 - Support for Tax Summary Report
 - Support for Payments Collected Report
+- Fix bug in BillVendors (See #399)
 
 ### 3.0.0
 

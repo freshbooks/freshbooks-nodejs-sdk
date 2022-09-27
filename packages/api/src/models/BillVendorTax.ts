@@ -17,7 +17,7 @@ export default interface BillVendorTax {
 
 export function transformBillVendorTaxResponse(billVendorTax: any): BillVendorTax {
 	return {
-		vendorId: billVendorTax.vendor_id,
+		vendorId: billVendorTax.vendorid,
 		taxId: billVendorTax.tax_id,
 		systemTaxid: billVendorTax.system_taxid,
 		enabled: billVendorTax.enabled,
@@ -37,7 +37,7 @@ export function transformBillVendorTaxRequest({
 	taxAuthorityid,
 }: BillVendorTax): any {
 	return {
-		vendor_id: vendorId,
+		vendorid: vendorId,
 		tax_id: taxId,
 		system_taxid: systemTaxid,
 		enabled,

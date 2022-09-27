@@ -52,7 +52,7 @@ export function transformBillVendorsData({
 	street,
 	street2,
 	tax_defaults: taxDefaults,
-	vendor_id: vendorId,
+	vendorid: vendorId,
 	vis_state: visState,
 	website,
 	vendor_name: vendorName,
@@ -132,7 +132,7 @@ export function transformBillVendorsRequest(vendor: BillVendors): string {
 			tax_defaults:
 				vendor.taxDefaults &&
 				vendor.taxDefaults.map((billVendorTax: any): BillVendorTax => transformBillVendorTaxRequest(billVendorTax)),
-			vendor_id: vendor.vendorId,
+			vendorid: vendor.vendorId,
 			vis_state: vendor.visState,
 			website: vendor.website,
 			vendor_name: vendor.vendorName,
