@@ -4,6 +4,8 @@
 
 ### Unreleased
 
+### 3.1.0
+
 - Allow invoices to be marked as sent
 - Support for Profit & Loss Report
 - Support for Tax Summary Report
