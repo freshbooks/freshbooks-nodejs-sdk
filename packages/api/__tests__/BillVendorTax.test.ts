@@ -5,7 +5,7 @@ describe('@freshbooks/api', () => {
 	describe('BillVendorTax', () => {
 		test('Verify JSON -> model transform', async () => {
 			const json = `{
-                "vendor_id": 1563,
+                "vendorid": 1563,
 				"tax_id":515,
 				"system_taxid":1752,
 				"enabled": true,
@@ -34,7 +34,7 @@ describe('@freshbooks/api', () => {
 		})
 		test('Verify parsed JSON -> model transform', async () => {
 			const data = {
-				vendor_id: 1563,
+				vendorid: 1563,
 				tax_id: 515,
 				system_taxid: 1752,
 				enabled: true,

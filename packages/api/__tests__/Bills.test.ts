@@ -118,7 +118,7 @@ const buildBillsResponse = (billProperties: any = {}): string =>
 			created_at: '2021-06-17 12:08:25',
 			updated_at: '2021-06-17 12:08:25',
 			vendor_name: 'IKEA',
-			vendor_id: 1563,
+			vendorid: 1563,
 			vis_state: 0,
 			website: 'ikea.com',
 		},
