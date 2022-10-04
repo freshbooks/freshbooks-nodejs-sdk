@@ -1,8 +1,8 @@
 const { Client } = require('@freshbooks/api')
 
 const CLIENT_ID = '<your client id>'
-const ACCESS_TOKEN = '4486bcc8755997bd9cb6afeace7c30bb8d014871d5033e4999ffe9815f80c03f'
-const ACCOUNT_ID = '6VApk'
+const ACCESS_TOKEN = '<your access token>'
+const ACCOUNT_ID = '<your account id>'
 
 const fbClient = new Client(CLIENT_ID, { accessToken: ACCESS_TOKEN })
 
