@@ -7,7 +7,6 @@ packages/**/coverage/*
 
 packages/api/node_modules/*
 packages/app/node_modules/*
-packages/events/node_modules/*
 
 # data definition files
 **/*.d.ts

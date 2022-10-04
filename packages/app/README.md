@@ -7,7 +7,6 @@ The FreshBooks NodeJS SDK is a collection of single-purpose packages designed to
 | Package                             | What it's for                                                                                                                 |
 | ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
 | [`@freshbooks/api`](https://www.npmjs.com/package/@freshbooks/api) | Get/set data from FreshBooks using the REST API.                                                                              |
-| [`@freshbooks/events`](https://www.npmjs.com/package/@freshbooks/events)                | Register/listen for incoming events via webhooks.                                                                             |
 | [`@freshbooks/app`](https://www.npmjs.com/package/@freshbooks/api) | Pre-configured [ExpressJS](https://expressjs.com/) app. Includes authentication via [PassportJS](http://www.passportjs.org/). |
 
 ## Installation
@@ -15,10 +14,10 @@ The FreshBooks NodeJS SDK is a collection of single-purpose packages designed to
 Use your favorite package manager to install any of the packages and save to your `package.json`:
 
 ```shell
-$ npm install @freshbooks/api @freshbooks/events @freshbooks/app
+$ npm install @freshbooks/api @freshbooks/app
 
 # Or, if you prefer yarn
-$ yarn add @freshbooks/api @freshbooks/events @freshbooks/app
+$ yarn add @freshbooks/api @freshbooks/app
 ```
 
 ## Usage

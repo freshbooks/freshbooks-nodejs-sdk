@@ -83,9 +83,3 @@
 ### 2.0.0
 
 - (**Breaking Change**) Updated to latest breaking api changes.
-
-### 1.0.6
-
-## @freshbooks/events
-
-### 0.1.2
