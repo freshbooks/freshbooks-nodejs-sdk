@@ -1,6 +1,6 @@
-import VisState from './VisState'
-import { transformIdResponse } from './helpers'
 import { transformDateResponse, DateFormat } from './Date'
+import { ErrorResponse, isAccountingErrorResponse, transformErrorResponse } from './Error'
+import VisState from './VisState'
 
 /* eslint-disable @typescript-eslint/camelcase */
 export default interface ExpenseCategory {
@@ -15,23 +15,7 @@ export default interface ExpenseCategory {
 	visState: VisState
 }
 
-/**
- * Format an ExpenseCategory response object
- * @param data ExpenseCategory response object
- * eg: {
- *      "category": "Accident Insurance",
- *      "categoryid": 3012676,
- *      "created_at": "2019-06-05 11:42:54",
- *      "id": 3012676,
- *      "is_cogs": false,
- *      "is_editable": false,
- *      "parentid": 3012670,
- *      "updated_at": "2019-06-05 11:42:54",
- *      "vis_state": 0
- *    }
- * @returns ExpenseCategory object
- */
-export function transformExpenseCategoryResponse({
+export function transformExpenseCategoryData({
 	category,
 	categoryid: categoryId,
 	created_at: createdAt,
@@ -55,23 +39,18 @@ export function transformExpenseCategoryResponse({
 	}
 }
 
-/**
- * Format an Category response JSON object
- * @param data Category response JSON object
- * eg: `{
- *      "category": "Accident Insurance",
- *      "categoryid": 3012676,
- *      "created_at": "2019-06-05 11:42:54",
- *      "id": 3012676,
- *      "is_cogs": false,
- *      "is_editable": false,
- *      "parentid": 3012670,
- *      "updated_at": "2019-06-05 11:42:54",
- *      "vis_state": 0
- *    }`
- * @returns Category object
- */
-export function transformExpenseCategoryJSON(data: string): ExpenseCategory {
-	const category = JSON.parse(data)
-	return transformExpenseCategoryResponse(category)
+export function transformExpenseCategoryResponse(data: string): ExpenseCategory | ErrorResponse {
+	const response = JSON.parse(data)
+
+	if (isAccountingErrorResponse(response)) {
+		return transformErrorResponse(response)
+	}
+
+	const {
+		response: {
+			result: { category },
+		},
+	} = response
+
+	return transformExpenseCategoryData(category)
 }

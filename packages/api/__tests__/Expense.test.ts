@@ -5,7 +5,7 @@ import APIClient, { Options } from '../src/APIClient'
 import Expense from '../src/models/Expense'
 import { joinQueries } from '../src/models/builders'
 import { SearchQueryBuilder } from '../src/models/builders/SearchQueryBuilder'
-import { transformExpenseCategoryResponse } from '../src/models/ExpenseCategory'
+import { transformExpenseCategoryData } from '../src/models/ExpenseCategory'
 
 const mock = new MockAdapter(axios) // set mock adapter on default axios instance
 
@@ -218,7 +218,7 @@ describe('@freshbooks/api', () => {
 			const expected = {
 				expenses: [
 					buildExpense({
-						category: transformExpenseCategoryResponse(category),
+						category: transformExpenseCategoryData(category),
 					}),
 				],
 				pages: {
