@@ -12,6 +12,7 @@ import {
 	Client,
 	Error,
 	Expense,
+	ExpenseCategory,
 	Invoice,
 	OtherIncome,
 	Item,
@@ -47,6 +48,7 @@ import {
 import { QueryBuilderType, joinQueries } from './models/builders'
 
 import { transformExpenseResponse, transformExpenseListResponse, transformExpenseRequest } from './models/Expense'
+import { transformExpenseCategoryResponse } from './models/ExpenseCategory'
 import { transformProjectResponse, transformProjectListResponse, transformProjectRequest } from './models/Project'
 import {
 	transformTimeEntryResponse,
@@ -602,6 +604,19 @@ export default class APIClient {
 				},
 				{ expense: { vis_state: 1 } },
 				'Delete Expense'
+			),
+	}
+
+	public readonly expenseCategories = {
+		single: (accountId: string, expenseCategoryId: string, queryBuilders?: QueryBuilderType[]): Promise<Result<ExpenseCategory>> =>
+			this.call(
+				'GET',
+				`/accounting/account/${accountId}/expenses/categories/${expenseCategoryId}${joinQueries(queryBuilders)}`,
+				{
+					transformResponse: transformExpenseCategoryResponse,
+				},
+				null,
+				'Get Expense Category'
 			),
 	}
 
