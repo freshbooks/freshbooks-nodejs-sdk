@@ -48,7 +48,7 @@ import {
 import { QueryBuilderType, joinQueries } from './models/builders'
 
 import { transformExpenseResponse, transformExpenseListResponse, transformExpenseRequest } from './models/Expense'
-import { transformExpenseCategoryResponse } from './models/ExpenseCategory'
+import { transformExpenseCategoryResponse, transformExpenseCategoryListResponse } from './models/ExpenseCategory'
 import { transformProjectResponse, transformProjectListResponse, transformProjectRequest } from './models/Project'
 import {
 	transformTimeEntryResponse,
@@ -617,6 +617,19 @@ export default class APIClient {
 				},
 				null,
 				'Get Expense Category'
+			),
+		list: (
+			accountId: string,
+			queryBuilders?: QueryBuilderType[]
+		): Promise<Result<{ expenseCategories: ExpenseCategory[]; pages: Pagination }>> =>
+			this.call(
+				'GET',
+				`/accounting/account/${accountId}/expenses/categories${joinQueries(queryBuilders)}`,
+				{
+					transformResponse: transformExpenseCategoryListResponse,
+				},
+				null,
+				'List Expense Categories'
 			),
 	}
 

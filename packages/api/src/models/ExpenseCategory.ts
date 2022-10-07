@@ -1,5 +1,6 @@
 import { transformDateResponse, DateFormat } from './Date'
 import { ErrorResponse, isAccountingErrorResponse, transformErrorResponse } from './Error'
+import Pagination from './Pagination'
 import VisState from './VisState'
 
 /* eslint-disable @typescript-eslint/camelcase */
@@ -53,4 +54,28 @@ export function transformExpenseCategoryResponse(data: string): ExpenseCategory 
 	} = response
 
 	return transformExpenseCategoryData(category)
+}
+
+export function transformExpenseCategoryListResponse(data: string): { categories: ExpenseCategory[]; pages: Pagination } | ErrorResponse {
+	const response = JSON.parse(data)
+
+	if (isAccountingErrorResponse(response)) {
+		return transformErrorResponse(response)
+	}
+
+	const {
+		response: {
+			result: { categories, per_page, total, page, pages },
+		},
+	} = response
+
+	return {
+		categories: categories.map((category: any) => transformExpenseCategoryData(category)),
+		pages: {
+			size: per_page,
+			total,
+			page,
+			pages,
+		},
+	}
 }
