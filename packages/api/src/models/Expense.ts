@@ -5,7 +5,7 @@ import { Nullable, transformIdResponse } from './helpers'
 import Pagination from './Pagination'
 import VisState from './VisState'
 import { transformDateResponse, DateFormat, transformDateRequest } from './Date'
-import Category, { transformCategoryResponse } from './Category'
+import ExpenseCategory, { transformExpenseCategoryResponse } from './ExpenseCategory'
 
 export enum ExpenseStatus {
 	internal,
@@ -47,7 +47,7 @@ export default interface Expense {
 	expenseId?: number
 	compoundedTax?: boolean
 	accountId?: Nullable<number>
-	category?: Category
+	category?: ExpenseCategory
 }
 
 function transformExpenseData({
@@ -118,7 +118,7 @@ function transformExpenseData({
 		expenseId: transformIdResponse(expenseId),
 		compoundedTax,
 		accountId: transformIdResponse(accountId),
-		category: category && transformCategoryResponse(category),
+		category: category && transformExpenseCategoryResponse(category),
 	}
 }
 

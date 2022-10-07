@@ -3,7 +3,7 @@ import { transformIdResponse } from './helpers'
 import { transformDateResponse, DateFormat } from './Date'
 
 /* eslint-disable @typescript-eslint/camelcase */
-export default interface Category {
+export default interface ExpenseCategory {
 	category: string
 	categoryId: number
 	createdAt: Date
@@ -16,8 +16,8 @@ export default interface Category {
 }
 
 /**
- * Format an Category response object
- * @param data Category response object
+ * Format an ExpenseCategory response object
+ * @param data ExpenseCategory response object
  * eg: {
  *      "category": "Accident Insurance",
  *      "categoryid": 3012676,
@@ -29,9 +29,9 @@ export default interface Category {
  *      "updated_at": "2019-06-05 11:42:54",
  *      "vis_state": 0
  *    }
- * @returns Category object
+ * @returns ExpenseCategory object
  */
-export function transformCategoryResponse({
+export function transformExpenseCategoryResponse({
 	category,
 	categoryid: categoryId,
 	created_at: createdAt,
@@ -41,7 +41,7 @@ export function transformCategoryResponse({
 	parentid: parentId,
 	updated_at: updatedAt,
 	vis_state: visState,
-}: any): Category {
+}: any): ExpenseCategory {
 	return {
 		category,
 		categoryId: categoryId,
@@ -71,7 +71,7 @@ export function transformCategoryResponse({
  *    }`
  * @returns Category object
  */
-export function transformCategoryJSON(data: string): Category {
+export function transformExpenseCategoryJSON(data: string): ExpenseCategory {
 	const category = JSON.parse(data)
-	return transformCategoryResponse(category)
+	return transformExpenseCategoryResponse(category)
 }

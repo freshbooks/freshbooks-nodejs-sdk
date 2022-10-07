@@ -1,4 +1,4 @@
-import { transformCategoryJSON, transformCategoryResponse } from '../src/models/Category'
+import { transformExpenseCategoryJSON, transformExpenseCategoryResponse } from '../src/models/ExpenseCategory'
 
 /* eslint-disable @typescript-eslint/camelcase */
 
@@ -17,7 +17,7 @@ describe('@freshbooks/api', () => {
                 "vis_state": 0
             }
                 `
-			const model = transformCategoryJSON(json)
+			const model = transformExpenseCategoryJSON(json)
 			const expected = {
 				category: 'Car & Truck Expenses',
 				categoryId: 3012654,
