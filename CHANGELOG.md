@@ -4,6 +4,8 @@
 
 ### Unreleased
 
+- Support Expense Categories (See #402)
+
 ### 3.1.0
 
 - Allow invoices to be marked as sent
