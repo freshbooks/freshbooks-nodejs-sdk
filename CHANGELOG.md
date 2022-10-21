@@ -4,6 +4,7 @@
 
 ### Unreleased
 
+- Support Journal Entry Accounts (See #401)
 - Support Expense Categories (See #402)
 
 ### 3.1.0
