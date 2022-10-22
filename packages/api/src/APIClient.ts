@@ -15,6 +15,7 @@ import {
 	Invoice,
 	Item,
 	JournalEntryAccount,
+	JournalEntryDetail,
 	OtherIncome,
 	Pagination,
 	Payment,
@@ -86,6 +87,7 @@ import { transformProfitLossReportResponse } from './models/report/ProfitLossRep
 import { transformTaxSummaryReportResponse } from './models/report/TaxSummaryReport'
 import { transformPaymentsCollectedReportResponse } from './models/report/PaymentsCollectedReport'
 import { transformJournalEntryAccountListResponse } from './models/JournalEntryAccount'
+import { transformJournalEntryDetailListResponse } from './models/JournalEntryDetail'
 
 // defaults
 const API_BASE_URL = 'https://api.freshbooks.com'
@@ -489,6 +491,25 @@ export default class APIClient {
 				},
 				null,
 				'List Journal Entry Accounts'
+			),
+	}
+
+	public readonly journalEntryDetails = {
+		/**
+		 * Get list of journal entry details
+		 */
+		list: (
+			accountId: string,
+			queryBuilders?: QueryBuilderType[]
+		): Promise<Result<{ journalEntryAccounts: JournalEntryDetail[]; pages: Pagination }>> =>
+			this.call(
+				'GET',
+				`/accounting/account/${accountId}/journal_entries/journal_entry_details${joinQueries(queryBuilders)}`,
+				{
+					transformResponse: transformJournalEntryDetailListResponse,
+				},
+				null,
+				'List Journal Entry Details'
 			),
 	}
 
