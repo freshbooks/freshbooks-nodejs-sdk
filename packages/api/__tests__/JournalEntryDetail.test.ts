@@ -136,7 +136,7 @@ const buildJournalEntryDetail = (journalEntryDetailProperties: any = {}): Journa
 			subAccountId: SUB_ACCOUNT_ID,
 			transactionPosted: undefined,
 	},
-	userEnteredDate: new Date('2022-08-16T07:00:00Z'),
+	userEnteredDate: new Date('2022-08-16 00:00:00'),
 	...journalEntryDetailProperties,
 	})
 
