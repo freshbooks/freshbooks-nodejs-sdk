@@ -13,7 +13,6 @@ const testOptions: Options = { accessToken: 'token' }
 const ACCOUNT_NAME = 'Operating Expenses'
 const ACCOUNT_NUMBER = '6000'
 const ACCOUNT_TYPE = 'expense'
-const BALANCE = '0'
 const CURRENCY_CODE = 'CAD'
 const ID = 1234567
 
@@ -27,7 +26,7 @@ const buildMockResponse = (journalEntryAccountProperties: any = {}): string =>
 		account_number: ACCOUNT_NUMBER,
 		account_type: ACCOUNT_TYPE,
 		accountid: ID,
-		balance: BALANCE,
+		balance: '0',
 		created_at: '2022-08-16 14:11:07',
 		currency_code: CURRENCY_CODE,
 		id: ID,
@@ -36,7 +35,7 @@ const buildMockResponse = (journalEntryAccountProperties: any = {}): string =>
 				account_sub_name: ACCOUNT_SUB_NAME,
 				account_sub_number: ACCOUNT_SUB_NUMBER,
 				account_type: ACCOUNT_TYPE,
-				balance: BALANCE,
+				balance: '0',
 				created_at: '2022-08-16 14:11:07',
 				currency_code: CURRENCY_CODE,
 				custom: true,
@@ -54,7 +53,7 @@ const buildJournalEntryAccount = (journalEntryAccountProperties: any = {}): Jour
 	accountNumber: ACCOUNT_NUMBER,
 	accountType: ACCOUNT_TYPE,
 	accountId: ID,
-	balance: BALANCE,
+	balance: 0,
 	createdAt: new Date('2022-08-16T18:11:07Z'),
 	currencyCode: CURRENCY_CODE,
 	id: ID,
@@ -63,7 +62,7 @@ const buildJournalEntryAccount = (journalEntryAccountProperties: any = {}): Jour
 			accountSubName: ACCOUNT_SUB_NAME,
 			accountSubNumber: ACCOUNT_SUB_NUMBER,
 			accountType: ACCOUNT_TYPE,
-			balance: BALANCE,
+			balance: 0,
 			createdAt: new Date('2022-08-16T18:11:07Z'),
 			currencyCode: CURRENCY_CODE,
 			custom: true,
