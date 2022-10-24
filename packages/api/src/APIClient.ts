@@ -8,19 +8,20 @@ import APIClientError, { APIClientConfigError } from './models/Error'
 import {
 	Bills,
 	BillPayments,
-	Tasks,
 	Client,
 	Error,
 	Expense,
 	ExpenseCategory,
 	Invoice,
-	OtherIncome,
 	Item,
+	JournalEntryAccount,
+	OtherIncome,
 	Pagination,
 	Payment,
 	Project,
 	Service,
 	ServiceRate,
+	Tasks,
 	TimeEntry,
 	User,
 	BillVendors,
@@ -84,6 +85,7 @@ import { transformPaymentOptionsRequest, transformPaymentOptionsResponse } from 
 import { transformProfitLossReportResponse } from './models/report/ProfitLossReport'
 import { transformTaxSummaryReportResponse } from './models/report/TaxSummaryReport'
 import { transformPaymentsCollectedReportResponse } from './models/report/PaymentsCollectedReport'
+import { transformJournalEntryAccountListResponse } from './models/JournalEntryAccount'
 
 // defaults
 const API_BASE_URL = 'https://api.freshbooks.com'
@@ -468,6 +470,25 @@ export default class APIClient {
 				},
 				null,
 				'Get Invoice Share Link'
+			),
+	}
+
+	public readonly journalEntryAccounts = {
+		/**
+		 * Get list of journal entry accounts
+		 */
+		list: (
+			accountId: string,
+			queryBuilders?: QueryBuilderType[]
+		): Promise<Result<{ journalEntryAccounts: JournalEntryAccount[]; pages: Pagination }>> =>
+			this.call(
+				'GET',
+				`/accounting/account/${accountId}/journal_entry_accounts/journal_entry_accounts${joinQueries(queryBuilders)}`,
+				{
+					transformResponse: transformJournalEntryAccountListResponse,
+				},
+				null,
+				'List Journal Entry Accounts'
 			),
 	}
 
