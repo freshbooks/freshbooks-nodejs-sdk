@@ -6,7 +6,7 @@ export default interface SubAccount {
     accountSubNumber: string
     accountingSystemId?: string
     accountType?: string
-    balance?: string
+    balance?: number
     createdAt?: Date
     currencyCode?: string
     custom?: boolean
@@ -22,7 +22,7 @@ export function transformSubAccountResponse(account: any): SubAccount {
         accountSubNumber: account.account_sub_number,
         accountingSystemId: account.accounting_systemid,
         accountType: account.account_type,
-        balance: account.balance,
+        balance: Number(account.balance),
         createdAt: account.created_at && transformDateResponse(account.created_at, DateFormat['YYYY-MM-DD hh:mm:ss']),
         currencyCode: account.currency_code,
         custom: account.custom,
