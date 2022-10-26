@@ -23,7 +23,7 @@ export function transformJournalEntryAccountData(account: any): JournalEntryAcco
         accountNumber: account.account_number,
         accountType: account.account_type,
         accountId: account.accountid,
-	    accountingSystemId: account.accounting_systemid,
+        accountingSystemId: account.accounting_systemid,
         balance: Number(account.balance),
         createdAt: account.created_at && transformDateResponse(account.created_at, DateFormat['YYYY-MM-DD hh:mm:ss']),
         currencyCode: account.currency_code,
