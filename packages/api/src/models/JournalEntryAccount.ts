@@ -9,11 +9,12 @@ export default interface JournalEntryAccount {
     accountNumber: string
     accountType: string
     accountId: number
-    balance: number
-    createdAt: Date
-    currencyCode: string
+    accountingSystemId?: string
+    balance?: number
+    createdAt?: Date
+    currencyCode?: string
     id: number
-    subAccounts: SubAccount[]
+    subAccounts?: SubAccount[]
 }
 
 export function transformJournalEntryAccountData(account: any): JournalEntryAccount {
@@ -22,6 +23,7 @@ export function transformJournalEntryAccountData(account: any): JournalEntryAcco
         accountNumber: account.account_number,
         accountType: account.account_type,
         accountId: account.accountid,
+        accountingSystemId: account.accounting_systemid,
         balance: Number(account.balance),
         createdAt: account.created_at && transformDateResponse(account.created_at, DateFormat['YYYY-MM-DD hh:mm:ss']),
         currencyCode: account.currency_code,
