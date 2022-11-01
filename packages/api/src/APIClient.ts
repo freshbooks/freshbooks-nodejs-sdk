@@ -14,6 +14,7 @@ import {
 	ExpenseCategory,
 	Invoice,
 	Item,
+	JournalEntry,
 	JournalEntryAccount,
 	JournalEntryDetail,
 	OtherIncome,
@@ -86,6 +87,7 @@ import { transformPaymentOptionsRequest, transformPaymentOptionsResponse } from 
 import { transformProfitLossReportResponse } from './models/report/ProfitLossReport'
 import { transformTaxSummaryReportResponse } from './models/report/TaxSummaryReport'
 import { transformPaymentsCollectedReportResponse } from './models/report/PaymentsCollectedReport'
+import { transformJournalEntryRequest, transformJournalEntryResponse } from './models/JournalEntry'
 import { transformJournalEntryAccountListResponse } from './models/JournalEntryAccount'
 import { transformJournalEntryDetailListResponse } from './models/JournalEntryDetail'
 
@@ -472,6 +474,20 @@ export default class APIClient {
 				},
 				null,
 				'Get Invoice Share Link'
+			),
+	}
+
+	public readonly journalEntries = {
+		create: (journalEntry: JournalEntry, accountId: string, queryBuilders?: QueryBuilderType[]): Promise<Result<JournalEntry>> =>
+			this.call(
+				'POST',
+				`/accounting/account/${accountId}/journal_entries/journal_entries${joinQueries(queryBuilders)}`,
+				{
+					transformResponse: transformJournalEntryResponse,
+					transformRequest: transformJournalEntryRequest,
+				},
+				journalEntry,
+				'Create Journal Entry'
 			),
 	}
 

@@ -4,6 +4,7 @@
 
 ### Unreleased
 
+- Support Journal Entry (See #401)
 - Support Journal Entry Accounts (See #401)
 - Support Journal Entry Details (See #401)
 - Support Expense Categories (See #402)
