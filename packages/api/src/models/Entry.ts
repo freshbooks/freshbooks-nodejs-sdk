@@ -1,17 +1,15 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { Nullable } from './helpers'
-
 export default interface Entry {
     accountingSystemId: string
-    categoryId: Nullable<number>
-    clientId: Nullable<number>
-    creditId: Nullable<number>
+    categoryId: number
+    clientId: number
+    creditId: number
     entryId: number
-    expenseId: Nullable<number>
+    expenseId: number
     id: number
-    incomeId: Nullable<number>
-    invoiceId: Nullable<number>
-    paymentId: Nullable<number>
+    incomeId: number
+    invoiceId: number
+    paymentId: number
 }
 
 export function transformEntryResponse(entry: any): Entry {
