@@ -2,9 +2,9 @@
 import { DateFormat, transformDateResponse } from './Date'
 import Entry, { transformEntryResponse } from './Entry'
 import { ErrorResponse, isAccountingErrorResponse, transformErrorResponse } from './Error'
-import { Nullable } from './helpers'
 import JournalEntryAccount, { transformJournalEntryAccountData } from './JournalEntryAccount'
 import Money, { transformMoneyResponse } from './Money'
+import { Nullable } from './helpers'
 import Pagination from './Pagination'
 import SubAccount, { transformSubAccountResponse } from './SubAccount'
 
