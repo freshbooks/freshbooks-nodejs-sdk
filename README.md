@@ -295,6 +295,7 @@ yarn test
 
 1. Make sure everything is up to date locally
 2. Update CHANGELOG.md and move any changes in "Unreleased" to the new version number
-3. Update the package versions. `./node_modules/.bin/lerna version`
-4. Commit the changes and push to origin
-5. After the new tags have been pushed to github, log in there and create a release from one of the new tags to push to npm.
+3. Commit changes and push to origin
+4. Update the package versions by executing: `./node_modules/.bin/lerna version`
+5. Commit the changes and push to origin
+6. After the new tags have been pushed to github, log in there and create a release from one of the new tags to push to npm.

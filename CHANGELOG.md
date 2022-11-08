@@ -4,6 +4,8 @@
 
 ### Unreleased
 
+### 3.2.0
+
 - Support Journal Entry (See #401)
 - Support Journal Entry Accounts (See #401)
 - Support Journal Entry Details (See #401)
