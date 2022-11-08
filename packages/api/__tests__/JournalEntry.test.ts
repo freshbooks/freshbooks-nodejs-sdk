@@ -102,7 +102,7 @@ const buildModelResponse = (journalEntryProperties: any = {}): JournalEntry => (
     details: [
         {
             categoryId: null,
-            credit: 0,
+            credit: null,
             currencyCode: CURRENCY_CODE,
             debit: Number(DEBIT),
             description: DESCRIPTION,
@@ -116,7 +116,7 @@ const buildModelResponse = (journalEntryProperties: any = {}): JournalEntry => (
             categoryId: null,
             credit: Number(CREDIT),
             currencyCode: CURRENCY_CODE,
-            debit: 0,
+            debit: null,
             description: DESCRIPTION,
             detailId: ID_DETAIL,
             id: ID_DETAIL,
