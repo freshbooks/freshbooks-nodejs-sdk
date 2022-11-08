@@ -48,7 +48,7 @@ const buildMockResponse = (journalEntryAccountProperties: any = {}): string =>
 		...journalEntryAccountProperties,
 	})
 
-const buildJournalEntryAccount = (journalEntryAccountProperties: any = {}): JournalEntryAccount => ({
+const buildModelResponse = (journalEntryAccountProperties: any = {}): JournalEntryAccount => ({
 	accountName: ACCOUNT_NAME,
 	accountNumber: ACCOUNT_NUMBER,
 	accountType: ACCOUNT_TYPE,
@@ -96,8 +96,8 @@ describe('@freshbooks/api', () => {
 
 			const { data } = await client.journalEntryAccounts.list(ACCOUNT_ID)
 
-			const expected = {
-				journalEntryAccounts: [buildJournalEntryAccount()],
+			const modelResponse = {
+				journalEntryAccounts: [buildModelResponse()],
 				pages: {
 					page: 1,
 					pages: 1,
@@ -106,7 +106,7 @@ describe('@freshbooks/api', () => {
 				},
 			}
 
-			expect(data).toEqual(expected)
+			expect(data).toEqual(modelResponse)
 		})
 	})
 })

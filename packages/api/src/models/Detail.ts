@@ -17,9 +17,9 @@ export default interface Detail {
 export function transformDetailResponse(detail: any): Detail {
     return {
         categoryId: detail.categoryid,
-        credit: Number(detail.credit),
+        credit: detail.credit ? Number(detail.credit) : detail.credit,
         currencyCode: detail.currency_code,
-        debit: Number(detail.debit),
+        debit: detail.debit ? Number(detail.debit) : detail.debit,
         description: detail.description,
         detailId: detail.detailid,
         id: detail.id,

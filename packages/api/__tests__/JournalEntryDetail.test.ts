@@ -82,14 +82,14 @@ const buildMockResponse = (journalEntryDetailProperties: any = {}): string =>
 		...journalEntryDetailProperties,
 	})
 
-const buildJournalEntryDetail = (journalEntryDetailProperties: any = {}): JournalEntryDetail => ({
+const buildModelResponse = (journalEntryDetailProperties: any = {}): JournalEntryDetail => ({
 	account: {
 		accountName: ACCOUNT_NAME,
 		accountNumber: ACCOUNT_NUMBER,
 		accountType: ACCOUNT_TYPE,
 		accountId: ACCOUNT_ID,
 		accountingSystemId: SYSTEM_ID,
-		balance: NaN,
+		balance: undefined,
 		createdAt: undefined,
 		currencyCode: undefined,
 		id: ACCOUNT_ID,
@@ -127,7 +127,7 @@ const buildJournalEntryDetail = (journalEntryDetailProperties: any = {}): Journa
 			accountSubNumber: SUB_ACCOUNT_NUMBER,
 			accountingSystemId: SYSTEM_ID,
 			accountType: undefined,
-			balance: NaN,
+			balance: undefined,
 			createdAt: undefined,
 			currencyCode: undefined,
 			custom:	undefined,
@@ -161,8 +161,8 @@ describe('@freshbooks/api', () => {
 
 			const { data } = await client.journalEntryDetails.list(SYSTEM_ID)
 
-			const expected = {
-				journalEntryDetails: [buildJournalEntryDetail()],
+			const modelResponse= {
+				journalEntryDetails: [buildModelResponse()],
 				pages: {
 					page: 1,
 					pages: 7,
@@ -171,7 +171,7 @@ describe('@freshbooks/api', () => {
 				},
 			}
 
-			expect(data).toEqual(expected)
+			expect(data).toEqual(modelResponse)
 		})
 	})
 })
