@@ -31,7 +31,7 @@ export default class APIClientError extends Error {
 export const isAccountingErrorResponse = ({ error, error_type: errorType, response }: any): any =>
 	error || errorType || response.errors
 
-export const isProjectErrorResponse = ({ error, error_type: errorType }: any): any => error || errorType
+export const isProjectErrorResponse = ({ error, error_type: errorType, message }: any): any => error || errorType || message
 
 export const isEventErrorResponse = ({ errno, message }: any): any => errno || message
 
