@@ -4,6 +4,8 @@
 
 ### Unreleased
 
+- Update error detection for Projects (See #450)
+
 ### 3.2.0
 
 - Support Journal Entry (See #401)
