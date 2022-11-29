@@ -4,6 +4,8 @@
 
 ### Unreleased
 
+### 3.2.1
+
 - Update error detection for Projects (See #450)
 
 ### 3.2.0
