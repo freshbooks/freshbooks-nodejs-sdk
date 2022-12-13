@@ -41,7 +41,39 @@ export default interface Bills {
 	vendor?: BillVendors
 }
 
-export function transformBillsData(bill: any): Bills {
+export function transformBillsResponse(data: string): Bills | ErrorResponse {
+	const response = JSON.parse(data)
+
+	if (isAccountingErrorResponse(response)) {
+		return transformErrorResponse(response)
+	}
+
+	const { bill } = response.response.result
+	
+	return transformBillsParsedResponse(bill)
+}
+
+export function transformBillsListResponse(data: string): { bills: Bills[]; pages: Pagination } | ErrorResponse {
+	const response = JSON.parse(data)
+
+	if (isAccountingErrorResponse(response)) {
+		return transformErrorResponse(response)
+	}
+
+	const { bills, per_page, total, page, pages } = response.response.result
+
+	return {
+		bills: bills.map((bills: Bills) => transformBillsParsedResponse(bills)),
+		pages: {
+			total,
+			size: per_page,
+			pages,
+			page,
+		},	
+	}
+}
+
+export function transformBillsParsedResponse(bill: any): Bills {
 	return {
 		id: bill.id,
 		amount: bill.amount && transformMoneyResponse(bill.amount),
@@ -68,38 +100,6 @@ export function transformBillsData(bill: any): Bills {
 		vendorId: bill.vendorid,
 		visState: bill.vis_state,
 		vendor: bill.vendor && transformBillVendorsData(bill.vendor),
-	}
-}
-
-export function transformBillsResponse(data: string): Bills | ErrorResponse {
-	const response = JSON.parse(data)
-
-	if (isAccountingErrorResponse(response)) {
-		return transformErrorResponse(response)
-	}
-
-	const { bill } = response.response.result
-	
-	return transformBillsData(bill)
-}
-
-export function transformBillsListResponse(data: string): { bills: Bills[]; pages: Pagination } | ErrorResponse {
-	const response = JSON.parse(data)
-
-	if (isAccountingErrorResponse(response)) {
-		return transformErrorResponse(response)
-	}
-
-	const { bills, per_page, total, page, pages } = response.response.result
-
-	return {
-		bills: bills.map((bills: Bills) => transformBillsData(bills)),
-		pages: {
-			total,
-			size: per_page,
-			pages,
-			page,
-		},	
 	}
 }
 
