@@ -71,22 +71,15 @@ export function transformBillsData(bill: any): Bills {
 	}
 }
 
-/**
- * Parses JSON Bill response and converts to @Bills model
- * @param data representing JSON response
- * @returns @Bills | @Error
- */
-export function transformBillsResponse(data: any): Bills | ErrorResponse {
+export function transformBillsResponse(data: string): Bills | ErrorResponse {
 	const response = JSON.parse(data)
+
 	if (isAccountingErrorResponse(response)) {
 		return transformErrorResponse(response)
 	}
 
-	const {
-		response: { result },
-	} = response
-
-	const { bill } = result
+	const { bill } = response.response.result
+	
 	return transformBillsData(bill)
 }
 
