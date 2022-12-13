@@ -102,7 +102,7 @@ export function transformBillVendorsResponse(data: string): BillVendors | ErrorR
 	return transformBillVendorsData(bill_vendor)
 }
 
-export function transformListBillVendorsResponse(data: string): { bill_vendors: BillVendors[]; pages: Pagination } | ErrorResponse {
+export function transformBillVendorsListResponse(data: string): { bill_vendors: BillVendors[]; pages: Pagination } | ErrorResponse {
 	const response = JSON.parse(data)
 
 	if (isAccountingErrorResponse(response)) {
