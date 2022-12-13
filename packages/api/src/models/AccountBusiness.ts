@@ -15,8 +15,3 @@ export function transformAccountBusinessResponse(accountBusiness: AccountBusines
 		businessId: Number(accountBusiness.account_business_id),
 	}
 }
-
-export function transformAccountBusinessJSON(json: string): AccountBusiness {
-	const response: AccountBusinessResponse = JSON.parse(json)
-	return transformAccountBusinessResponse(response)
-}
