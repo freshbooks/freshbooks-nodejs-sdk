@@ -2,7 +2,7 @@
 import { isAccountingErrorResponse, transformErrorResponse, ErrorResponse } from './Error'
 import PhoneNumber, { transformPhoneNumberResponse } from './PhoneNumber'
 import Address, { transformAddressParsedResponse, AddressResponse } from './Address'
-import BusinessMembership, { transformBusinessMembershipResponse } from './BusinessMembership'
+import BusinessMembership, { transformBusinessMembershipParsedResponse } from './BusinessMembership'
 import Role, { transformRoleResponse } from './Role'
 import Profession, { transformProfessionResponse } from './Profession'
 import Group, { transformGroupResponse } from './Group'
@@ -55,7 +55,7 @@ export function transformUserResponse(data: string): User | ErrorResponse {
 		phoneNumbers: phoneNumbers.map(transformPhoneNumberResponse),
 		permissions,
 		subscriptionStatuses,
-		businessMemberships: businessMemberships.map(transformBusinessMembershipResponse),
+		businessMemberships: businessMemberships.map(transformBusinessMembershipParsedResponse),
 		roles: roles.map(transformRoleResponse),
 		addresses: addresses.filter((address: Nullable<AddressResponse>) => address !== null).map(transformAddressParsedResponse),
 		profession: profession && transformProfessionResponse(profession),
