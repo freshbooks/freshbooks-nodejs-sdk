@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { transformAccountBusinessResponse } from '../src/models/AccountBusiness'
+import { transformAccountBusinessParsedResponse } from '../src/models/AccountBusiness'
 
 describe('@freshbooks/api', () => {
 	describe('Account Business', () => {
@@ -8,7 +8,7 @@ describe('@freshbooks/api', () => {
 				account_business_id: 363103,
 				account_id: 'Xr82w',
 			}
-			const model = transformAccountBusinessResponse(data)
+			const model = transformAccountBusinessParsedResponse(data)
 
 			expect(model).toEqual(
 				expect.objectContaining({

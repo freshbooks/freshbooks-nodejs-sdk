@@ -9,7 +9,7 @@ export interface AccountBusinessResponse {
 	account_business_id: number
 }
 
-export function transformAccountBusinessResponse(accountBusiness: AccountBusinessResponse): AccountBusiness {
+export function transformAccountBusinessParsedResponse(accountBusiness: AccountBusinessResponse): AccountBusiness {
 	return {
 		accountId: accountBusiness.account_id,
 		businessId: Number(accountBusiness.account_business_id),
