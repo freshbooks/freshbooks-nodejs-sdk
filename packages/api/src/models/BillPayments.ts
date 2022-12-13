@@ -34,18 +34,6 @@ export default interface BillPayments {
 	visState?: VisState
 }
 
-export function transformBillPaymentsData(billPayments: any): BillPayments {
-	return {
-		id: billPayments.id,
-		amount: billPayments.amount && transformMoneyResponse(billPayments.amount),
-		billId: billPayments.billid,
-		paidDate: billPayments.paid_date && transformDateResponse(billPayments.paid_date, DateFormat['YYYY-MM-DD']),
-		paymentType: billPayments.payment_type,
-		note: billPayments.note,
-		visState: billPayments.vis_state,
-	}
-}
-
 export function transformBillPaymentsResponse(data: string): BillPayments | ErrorResponse {
 	const response = JSON.parse(data)
 	
@@ -55,7 +43,7 @@ export function transformBillPaymentsResponse(data: string): BillPayments | Erro
 	
 	const { bill_payment } = response.response.result
 	
-	return transformBillPaymentsData(bill_payment)
+	return transformBillPaymentsParsedResponse(bill_payment)
 }
 
 export function transformBillPaymentsListResponse(data: string): { billPayments: BillPayments[]; pages: Pagination } | ErrorResponse {
@@ -68,13 +56,25 @@ export function transformBillPaymentsListResponse(data: string): { billPayments:
 	const { bill_payments, per_page, total, page, pages } = response.response.result
 	
 	return {
-		billPayments: bill_payments.map((billPayment: BillPayments) => transformBillPaymentsData(billPayment)),
+		billPayments: bill_payments.map((billPayment: BillPayments) => transformBillPaymentsParsedResponse(billPayment)),
 		pages: {
 			total,
 			size: per_page,
 			pages,
 			page,
 		},
+	}
+}
+
+export function transformBillPaymentsParsedResponse(billPayments: any): BillPayments {
+	return {
+		id: billPayments.id,
+		amount: billPayments.amount && transformMoneyResponse(billPayments.amount),
+		billId: billPayments.billid,
+		paidDate: billPayments.paid_date && transformDateResponse(billPayments.paid_date, DateFormat['YYYY-MM-DD']),
+		paymentType: billPayments.payment_type,
+		note: billPayments.note,
+		visState: billPayments.vis_state,
 	}
 }
 

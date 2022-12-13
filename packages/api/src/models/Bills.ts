@@ -3,7 +3,7 @@ import Money, { transformMoneyResponse } from './Money'
 import { DateFormat, transformDateRequest, transformDateResponse } from './Date'
 import { ErrorResponse, isAccountingErrorResponse, transformErrorResponse } from './Error'
 import Pagination from './Pagination'
-import BillPayments, { transformBillPaymentsData } from './BillPayments'
+import BillPayments, { transformBillPaymentsParsedResponse } from './BillPayments'
 import VisState from './VisState'
 import BillLines, { transformBillLinesRequest, transformBillLinesResponse } from './BillLines'
 import BillVendors, { transformBillVendorsData } from './BillVendors'
@@ -49,7 +49,7 @@ export function transformBillsData(bill: any): Bills {
 		billNumber: bill.bill_number,
 		billPayments:
 			bill.bill_payments &&
-			bill.bill_payments.map((billPayment: any): BillPayments => transformBillPaymentsData(billPayment)),
+			bill.bill_payments.map((billPayment: any): BillPayments => transformBillPaymentsParsedResponse(billPayment)),
 		createdAt: bill.created_at && transformDateResponse(bill.created_at, DateFormat['YYYY-MM-DD hh:mm:ss'], 'UTC'),
 		currencyCode: bill.currency_code,
 		dueDate: bill.due_date && transformDateResponse(bill.due_date, DateFormat['YYYY-MM-DD']),
@@ -124,7 +124,7 @@ export function transformBillsRequest(bill: Bills): string {
 			attachment: bill.attachment,
 			bill_number: bill.billNumber,
 			bill_payments:
-				bill.billPayments && bill.billPayments.map((billPayment) => transformBillPaymentsData(billPayment)),
+				bill.billPayments && bill.billPayments.map((billPayment) => transformBillPaymentsParsedResponse(billPayment)),
 			currency_code: bill.currencyCode,
 			due_date: bill.dueDate && transformDateRequest(bill.dueDate),
 			due_offset_days: bill.dueOffsetDays,
