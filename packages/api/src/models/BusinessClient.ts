@@ -20,39 +20,14 @@ export interface BusinessClientResponse {
 	account_business: AccountBusinessResponse
 }
 
-/**
- * Format a BusinessClient response object
- * @param data Business client object
- * eg: {
- *          "id": 22347,
- *          "business_id": 77128,
- *          "account_id": "Xr82w",
- *          "userid": 74353,
- *          "client_business": {
- *              "business_id": 77128
- *          },
- *          "account_business": {
- *              "account_business_id": 363103,
- *              "account_id": "Xr82w"
- *          }
- *      }
- * @returns Business client object
- */
-export function transformBusinessClientResponse({
-	id,
-	business_id,
-	account_id,
-	userid,
-	client_business,
-	account_business,
-}: BusinessClientResponse): BusinessClient {
+export function transformBusinessClientResponse(businessClient: BusinessClientResponse): BusinessClient {
 	return {
-		id: id,
-		businessId: business_id,
-		accountId: account_id,
-		userId: userid,
-		clientBusiness: transformClientBusinessResponse(client_business),
-		accountBusiness: transformAccountBusinessParsedResponse(account_business),
+		id: businessClient.id,
+		businessId: businessClient.business_id,
+		accountId: businessClient.account_id,
+		userId: businessClient.userid,
+		clientBusiness: businessClient.client_business && transformClientBusinessResponse(businessClient.client_business),
+		accountBusiness: businessClient.account_business && transformAccountBusinessParsedResponse(businessClient.account_business),
 	}
 }
 /**
