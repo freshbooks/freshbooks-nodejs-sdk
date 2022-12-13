@@ -66,15 +66,15 @@ export function transformBillPaymentsListResponse(data: string): { billPayments:
 	}
 }
 
-export function transformBillPaymentsParsedResponse(billPayments: any): BillPayments {
+export function transformBillPaymentsParsedResponse(billPayment: any): BillPayments {
 	return {
-		id: billPayments.id,
-		amount: billPayments.amount && transformMoneyResponse(billPayments.amount),
-		billId: billPayments.billid,
-		paidDate: billPayments.paid_date && transformDateResponse(billPayments.paid_date, DateFormat['YYYY-MM-DD']),
-		paymentType: billPayments.payment_type,
-		note: billPayments.note,
-		visState: billPayments.vis_state,
+		id: billPayment.id,
+		amount: billPayment.amount && transformMoneyResponse(billPayment.amount),
+		billId: billPayment.billid,
+		paidDate: billPayment.paid_date && transformDateResponse(billPayment.paid_date, DateFormat['YYYY-MM-DD']),
+		paymentType: billPayment.payment_type,
+		note: billPayment.note,
+		visState: billPayment.vis_state,
 	}
 }
 
