@@ -44,8 +44,3 @@ export function transformBillVendorTaxRequest({
 		tax_authorityid: taxAuthorityid,
 	}
 }
-
-export function transformBillVendorTaxJSON(json: string): BillVendorTax {
-	const response: BillVendorTax = JSON.parse(json)
-	return transformBillVendorTaxParsedResponse(response)
-}
