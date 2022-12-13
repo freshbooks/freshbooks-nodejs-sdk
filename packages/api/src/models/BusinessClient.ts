@@ -30,25 +30,3 @@ export function transformBusinessClientResponse(businessClient: BusinessClientRe
 		accountBusiness: businessClient.account_business && transformAccountBusinessParsedResponse(businessClient.account_business),
 	}
 }
-/**
- * Parse a JSON string to @BusinessClient object
- * @param json JSON string
- * eg: '{
- *          "id": 22347,
- *          "business_id": 77128,
- *          "account_id": "Xr82w",
- *          "userid": 74353,
- *          "client_business": {
- *              "business_id": 77128
- *          },
- *          "account_business": {
- *              "account_business_id": 363103,
- *              "account_id": "Xr82w"
- *          }
- *      }'
- * @returns BusinessClient object
- */
-export function transformBusinessClientJSON(json: string): BusinessClient {
-	const response: BusinessClientResponse = JSON.parse(json)
-	return transformBusinessClientResponse(response)
-}
