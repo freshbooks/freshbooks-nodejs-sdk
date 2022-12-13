@@ -90,6 +90,18 @@ export function transformBillVendorsData({
 	}
 }
 
+export function transformBillVendorsResponse(data: string): BillVendors | ErrorResponse {
+	const response = JSON.parse(data)
+
+	if (isAccountingErrorResponse(response)) {
+		return transformErrorResponse(response)
+	}
+
+	const { bill_vendor } = response.response.result
+	
+	return transformBillVendorsData(bill_vendor)
+}
+
 export function transformListBillVendorsResponse(
 	data: string
 ): { bill_vendors: BillVendors[]; pages: Pagination } | ErrorResponse {
@@ -139,18 +151,4 @@ export function transformBillVendorsRequest(vendor: BillVendors): string {
 		},
 	})
 	return request
-}
-
-export function transformBillVendorsResponse(data: string): BillVendors | ErrorResponse {
-	const response = JSON.parse(data)
-
-	if (isAccountingErrorResponse(response)) {
-		return transformErrorResponse(response)
-	}
-
-	const {
-		response: { result },
-	} = response
-	const { bill_vendor } = result
-	return transformBillVendorsData(bill_vendor)
 }
