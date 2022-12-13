@@ -1,6 +1,6 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import { Nullable } from './helpers'
 
-/* eslint-disable @typescript-eslint/camelcase */
 export default interface Address {
 	id: number
 	street?: Nullable<string>
@@ -28,9 +28,4 @@ export function transformAddressResponse(address: AddressResponse): Address {
 		country: address.country,
 		postalCode: address.postal_code,
 	}
-}
-
-export function transformAddressJSON(json: string): Address {
-	const response: AddressResponse = JSON.parse(json)
-	return transformAddressResponse(response)
 }
