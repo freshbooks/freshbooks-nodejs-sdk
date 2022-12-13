@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { transformAddressResponse } from '../src/models/Address'
+import { transformAddressParsedResponse } from '../src/models/Address'
 
 describe('@freshbooks/api', () => {
 	describe('Address', () => {
@@ -12,7 +12,7 @@ describe('@freshbooks/api', () => {
 				country: 'Canada',
 				postal_code: 'K3I6R9',
 			}
-			const model = transformAddressResponse(data)
+			const model = transformAddressParsedResponse(data)
 			const expected = {
 				id: 1,
 				street: '10 King Street',

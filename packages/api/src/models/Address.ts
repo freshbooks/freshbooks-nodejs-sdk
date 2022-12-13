@@ -19,7 +19,7 @@ export interface AddressResponse {
 	postal_code: Nullable<string>
 }
 
-export function transformAddressResponse(address: AddressResponse): Address {
+export function transformAddressParsedResponse(address: AddressResponse): Address {
 	return {
 		id: address.id,
 		street: address.street,

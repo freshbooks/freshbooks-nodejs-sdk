@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import Address, { transformAddressResponse, AddressResponse } from './Address'
+import Address, { transformAddressParsedResponse, AddressResponse } from './Address'
 import PhoneNumber, { transformPhoneNumberResponse, PhoneNumberResponse } from './PhoneNumber'
 import BusinessClient, { transformBusinessClientResponse, BusinessClientResponse } from './BusinessClient'
 import { Nullable } from './helpers'
@@ -68,7 +68,7 @@ export function transformBusinessResponse({
 		id: id,
 		name,
 		accountId: accountId !== null ? accountId.toString() : '',
-		address: address !== null ? transformAddressResponse(address) : null,
+		address: address !== null ? transformAddressParsedResponse(address) : null,
 		phoneNumber: phone_number !== null ? transformPhoneNumberResponse(phone_number) : null,
 		businessClients: business_clients.map(transformBusinessClientResponse),
 	}

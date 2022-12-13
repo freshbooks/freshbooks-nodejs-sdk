@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { isAccountingErrorResponse, transformErrorResponse, ErrorResponse } from './Error'
 import PhoneNumber, { transformPhoneNumberResponse } from './PhoneNumber'
-import Address, { transformAddressResponse, AddressResponse } from './Address'
+import Address, { transformAddressParsedResponse, AddressResponse } from './Address'
 import BusinessMembership, { transformBusinessMembershipResponse } from './BusinessMembership'
 import Role, { transformRoleResponse } from './Role'
 import Profession, { transformProfessionResponse } from './Profession'
@@ -57,7 +57,7 @@ export function transformUserResponse(data: string): User | ErrorResponse {
 		subscriptionStatuses,
 		businessMemberships: businessMemberships.map(transformBusinessMembershipResponse),
 		roles: roles.map(transformRoleResponse),
-		addresses: addresses.filter((address: Nullable<AddressResponse>) => address !== null).map(transformAddressResponse),
+		addresses: addresses.filter((address: Nullable<AddressResponse>) => address !== null).map(transformAddressParsedResponse),
 		profession: profession && transformProfessionResponse(profession),
 		groups: groups.map(transformGroupResponse),
 		links,
