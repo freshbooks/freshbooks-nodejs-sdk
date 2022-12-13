@@ -33,63 +33,6 @@ export default interface BillVendors {
 	updatedAt?: Date
 }
 
-export function transformBillVendorsData({
-	account_number: accountNumber,
-	city,
-	country,
-	currency_code: currencyCode,
-	is_1099: is1099,
-	language,
-	note,
-	outstanding_balance: outstandingBalance,
-	overdue_balance: overdueBalance,
-	phone,
-	postal_code: postalCode,
-	primary_contact_email: primaryContactEmail,
-	primary_contact_first_name: primaryContactFirstName,
-	primary_contact_last_name: primaryContactLastName,
-	province,
-	street,
-	street2,
-	tax_defaults: taxDefaults,
-	vendorid: vendorId,
-	vis_state: visState,
-	website,
-	vendor_name: vendorName,
-	created_at: createdAt,
-	updated_at: updatedAt,
-}: any): BillVendors {
-	return {
-		accountNumber,
-		city,
-		country,
-		currencyCode,
-		is1099,
-		language,
-		note,
-		outstandingBalance:
-			outstandingBalance && outstandingBalance.map((balance: any): Money => transformMoneyResponse(balance)),
-		overdueBalance: overdueBalance && overdueBalance.map((balance: any): Money => transformMoneyResponse(balance)),
-		phone,
-		postalCode,
-		primaryContactEmail,
-		primaryContactFirstName,
-		primaryContactLastName,
-		province,
-		street,
-		street2,
-		taxDefaults:
-			taxDefaults &&
-			taxDefaults.map((billVendorTax: any): BillVendorTax => transformBillVendorTaxResponse(billVendorTax)),
-		vendorId,
-		visState,
-		website,
-		vendorName,
-		createdAt: createdAt && transformDateResponse(createdAt, DateFormat['YYYY-MM-DD hh:mm:ss']),
-		updatedAt: updatedAt && transformDateResponse(updatedAt, DateFormat['YYYY-MM-DD hh:mm:ss']),
-	}
-}
-
 export function transformBillVendorsResponse(data: string): BillVendors | ErrorResponse {
 	const response = JSON.parse(data)
 
@@ -119,6 +62,41 @@ export function transformBillVendorsListResponse(data: string): { bill_vendors: 
 			pages,
 			page,
 		},
+	}
+}
+
+export function transformBillVendorsData(billVendor: any): BillVendors {
+	return {
+		accountNumber: billVendor.account_number,
+		city: billVendor.city,
+		country: billVendor.country,
+		currencyCode: billVendor.currency_code,
+		is1099: billVendor.is_1099,
+		language: billVendor.language,
+		note: billVendor.note,
+		outstandingBalance: 
+			billVendor.outstanding_balance && 
+			billVendor.outstanding_balance.map((balance: any): Money => transformMoneyResponse(balance)),
+		overdueBalance: 
+			billVendor.overdue_balance && 
+			billVendor.overdue_balance.map((balance: any): Money => transformMoneyResponse(balance)),
+		phone: billVendor.phone,
+		postalCode: billVendor.postal_code,
+		primaryContactEmail: billVendor.primary_contact_email,
+		primaryContactFirstName: billVendor.primary_contact_first_name,
+		primaryContactLastName: billVendor.primary_contact_last_name,
+		province: billVendor.province,
+		street: billVendor.street,
+		street2: billVendor.street2,
+		taxDefaults: 
+			billVendor.tax_defaults && 
+			billVendor.tax_defaults.map((billVendorTax: any): BillVendorTax => transformBillVendorTaxResponse(billVendorTax)),
+		vendorId: billVendor.vendorid,
+		visState: billVendor.vis_state,
+		website: billVendor.website,
+		vendorName: billVendor.vendor_name,
+		createdAt: billVendor.created_at && transformDateResponse(billVendor.created_at, DateFormat['YYYY-MM-DD hh:mm:ss']),
+		updatedAt: billVendor.updated_at && transformDateResponse(billVendor.updated_at, DateFormat['YYYY-MM-DD hh:mm:ss']),
 	}
 }
 
