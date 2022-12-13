@@ -83,30 +83,23 @@ export function transformBillsResponse(data: string): Bills | ErrorResponse {
 	return transformBillsData(bill)
 }
 
-/**
- * Parses JSON list response and converts to internal bills list response
- * @param data representing JSON response
- * @returns bills list response
- */
 export function transformBillsListResponse(data: string): { bills: Bills[]; pages: Pagination } | ErrorResponse {
 	const response = JSON.parse(data)
+
 	if (isAccountingErrorResponse(response)) {
 		return transformErrorResponse(response)
 	}
 
-	const {
-		response: { result },
-	} = response
+	const { bills, per_page, total, page, pages } = response.response.result
 
-	const { bills, per_page, total, page, pages } = result
 	return {
-		pages: {
-			page,
-			pages,
-			size: per_page,
-			total,
-		},
 		bills: bills.map((bills: Bills) => transformBillsData(bills)),
+		pages: {
+			total,
+			size: per_page,
+			pages,
+			page,
+		},	
 	}
 }
 
