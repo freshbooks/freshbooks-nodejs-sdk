@@ -22,7 +22,7 @@ export interface BusinessResponse {
 	business_clients: BusinessClientResponse[]
 }
 
-export function transformBusinessResponse(business: BusinessResponse): Business {
+export function transformBusinessParsedResponse(business: BusinessResponse): Business {
 	return {
 		id: business.id,
 		name: business.name,
@@ -69,5 +69,5 @@ export function transformBusinessResponse(business: BusinessResponse): Business 
  */
 export function transformBusinessJSON(json: string): Business {
 	const response: BusinessResponse = JSON.parse(json)
-	return transformBusinessResponse(response)
+	return transformBusinessParsedResponse(response)
 }

@@ -1,4 +1,4 @@
-import Business, { transformBusinessResponse, BusinessResponse } from './Business'
+import Business, { transformBusinessParsedResponse, BusinessResponse } from './Business'
 
 export default interface BusinessMembership {
 	id: number
@@ -58,7 +58,7 @@ export function transformBusinessMembershipResponse({
 	return {
 		id: id,
 		role,
-		business: transformBusinessResponse(business),
+		business: transformBusinessParsedResponse(business),
 	}
 }
 
