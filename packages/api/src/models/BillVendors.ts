@@ -4,7 +4,7 @@ import Money, { MoneyResponse, transformMoneyResponse } from './Money'
 import { transformDateResponse, DateFormat } from './Date'
 import VisState from './VisState'
 import Pagination from './Pagination'
-import BillVendorTax, { transformBillVendorTaxRequest, transformBillVendorTaxResponse } from './BillVendorTax'
+import BillVendorTax, { transformBillVendorTaxRequest, transformBillVendorTaxParsedResponse } from './BillVendorTax'
 
 export default interface BillVendors {
 	accountNumber?: string
@@ -90,7 +90,7 @@ export function transformBillVendorsParsedResponse(billVendor: any): BillVendors
 		street2: billVendor.street2,
 		taxDefaults: 
 			billVendor.tax_defaults && 
-			billVendor.tax_defaults.map((billVendorTax: any): BillVendorTax => transformBillVendorTaxResponse(billVendorTax)),
+			billVendor.tax_defaults.map((billVendorTax: any): BillVendorTax => transformBillVendorTaxParsedResponse(billVendorTax)),
 		vendorId: billVendor.vendorid,
 		visState: billVendor.vis_state,
 		website: billVendor.website,

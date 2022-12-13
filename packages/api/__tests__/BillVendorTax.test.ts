@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { transformBillVendorTaxJSON, transformBillVendorTaxResponse } from '../src/models/BillVendorTax'
+import { transformBillVendorTaxJSON, transformBillVendorTaxParsedResponse } from '../src/models/BillVendorTax'
 
 describe('@freshbooks/api', () => {
 	describe('BillVendorTax', () => {
@@ -44,7 +44,7 @@ describe('@freshbooks/api', () => {
 				updated_at: '2019-06-05 11:42:54',
 				created_at: '2019-06-05 11:42:54',
 			}
-			const model = transformBillVendorTaxResponse(data)
+			const model = transformBillVendorTaxParsedResponse(data)
 
 			expect(model).toEqual(
 				expect.objectContaining({

@@ -15,7 +15,7 @@ export default interface BillVendorTax {
 	updatedAt?: Date
 }
 
-export function transformBillVendorTaxResponse(billVendorTax: any): BillVendorTax {
+export function transformBillVendorTaxParsedResponse(billVendorTax: any): BillVendorTax {
 	return {
 		vendorId: billVendorTax.vendorid,
 		taxId: billVendorTax.tax_id,
@@ -47,5 +47,5 @@ export function transformBillVendorTaxRequest({
 
 export function transformBillVendorTaxJSON(json: string): BillVendorTax {
 	const response: BillVendorTax = JSON.parse(json)
-	return transformBillVendorTaxResponse(response)
+	return transformBillVendorTaxParsedResponse(response)
 }
