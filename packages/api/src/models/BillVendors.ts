@@ -100,32 +100,31 @@ export function transformBillVendorsParsedResponse(billVendor: any): BillVendors
 	}
 }
 
-export function transformBillVendorsRequest(vendor: BillVendors): string {
-	const request = JSON.stringify({
+export function transformBillVendorsRequest(billVendor: BillVendors): string {
+	return JSON.stringify({
 		bill_vendor: {
-			account_number: vendor.accountNumber,
-			city: vendor.city,
-			country: vendor.country,
-			currency_code: vendor.currencyCode,
-			is_1099: vendor.is1099,
-			language: vendor.language,
-			note: vendor.note,
-			phone: vendor.phone,
-			postal_code: vendor.postalCode,
-			primary_contact_email: vendor.primaryContactEmail,
-			primary_contact_first_name: vendor.primaryContactFirstName,
-			primary_contact_last_name: vendor.primaryContactLastName,
-			province: vendor.province,
-			street: vendor.street,
-			street2: vendor.street2,
+			account_number: billVendor.accountNumber,
+			city: billVendor.city,
+			country: billVendor.country,
+			currency_code: billVendor.currencyCode,
+			is_1099: billVendor.is1099,
+			language: billVendor.language,
+			note: billVendor.note,
+			phone: billVendor.phone,
+			postal_code: billVendor.postalCode,
+			primary_contact_email: billVendor.primaryContactEmail,
+			primary_contact_first_name: billVendor.primaryContactFirstName,
+			primary_contact_last_name: billVendor.primaryContactLastName,
+			province: billVendor.province,
+			street: billVendor.street,
+			street2: billVendor.street2,
 			tax_defaults:
-				vendor.taxDefaults &&
-				vendor.taxDefaults.map((billVendorTax: any): BillVendorTax => transformBillVendorTaxRequest(billVendorTax)),
-			vendorid: vendor.vendorId,
-			vis_state: vendor.visState,
-			website: vendor.website,
-			vendor_name: vendor.vendorName,
+				billVendor.taxDefaults &&
+				billVendor.taxDefaults.map((billVendorTax: any): BillVendorTax => transformBillVendorTaxRequest(billVendorTax)),
+			vendorid: billVendor.vendorId,
+			vis_state: billVendor.visState,
+			website: billVendor.website,
+			vendor_name: billVendor.vendorName,
 		},
 	})
-	return request
 }
