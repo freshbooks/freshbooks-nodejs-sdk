@@ -29,18 +29,12 @@ export function transformBillVendorTaxParsedResponse(billVendorTax: any): BillVe
 	}
 }
 
-export function transformBillVendorTaxRequest({
-	vendorId,
-	taxId,
-	systemTaxid,
-	enabled,
-	taxAuthorityid,
-}: BillVendorTax): any {
+export function transformBillVendorTaxRequest(billVendorTax: BillVendorTax): any {
 	return {
-		vendorid: vendorId,
-		tax_id: taxId,
-		system_taxid: systemTaxid,
-		enabled,
-		tax_authorityid: taxAuthorityid,
+		vendorid: billVendorTax.vendorId,
+		tax_id: billVendorTax.taxId,
+		system_taxid: billVendorTax.systemTaxid,
+		enabled: billVendorTax.enabled,
+		tax_authorityid: billVendorTax.taxAuthorityid,
 	}
 }
