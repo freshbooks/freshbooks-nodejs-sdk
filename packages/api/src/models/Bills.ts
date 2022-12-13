@@ -6,7 +6,7 @@ import Pagination from './Pagination'
 import BillPayments, { transformBillPaymentsParsedResponse } from './BillPayments'
 import VisState from './VisState'
 import BillLines, { transformBillLinesRequest, transformBillLinesResponse } from './BillLines'
-import BillVendors, { transformBillVendorsData } from './BillVendors'
+import BillVendors, { transformBillVendorsParsedResponse } from './BillVendors'
 
 enum BillStatus {
 	unpaid = 'unpaid',
@@ -99,7 +99,7 @@ export function transformBillsParsedResponse(bill: any): Bills {
 		updatedAt: bill.updated_at && transformDateResponse(bill.updated_at, DateFormat['YYYY-MM-DD hh:mm:ss'], 'UTC'),
 		vendorId: bill.vendorid,
 		visState: bill.vis_state,
-		vendor: bill.vendor && transformBillVendorsData(bill.vendor),
+		vendor: bill.vendor && transformBillVendorsParsedResponse(bill.vendor),
 	}
 }
 
