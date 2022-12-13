@@ -24,8 +24,8 @@ export function transformBillVendorTaxResponse(billVendorTax: any): BillVendorTa
 		name: billVendorTax.name,
 		amount: billVendorTax.amount,
 		taxAuthorityid: billVendorTax.tax_authorityid,
-		createdAt: transformDateResponse(billVendorTax.created_at, DateFormat['YYYY-MM-DD hh:mm:ss']),
-		updatedAt: transformDateResponse(billVendorTax.updated_at, DateFormat['YYYY-MM-DD hh:mm:ss']),
+		createdAt: billVendorTax.created_at && transformDateResponse(billVendorTax.created_at, DateFormat['YYYY-MM-DD hh:mm:ss']),
+		updatedAt: billVendorTax.updated_at && transformDateResponse(billVendorTax.updated_at, DateFormat['YYYY-MM-DD hh:mm:ss']),
 	}
 }
 
