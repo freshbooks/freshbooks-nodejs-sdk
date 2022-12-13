@@ -102,9 +102,7 @@ export function transformBillVendorsResponse(data: string): BillVendors | ErrorR
 	return transformBillVendorsData(bill_vendor)
 }
 
-export function transformListBillVendorsResponse(
-	data: string
-): { bill_vendors: BillVendors[]; pages: Pagination } | ErrorResponse {
+export function transformListBillVendorsResponse(data: string): { bill_vendors: BillVendors[]; pages: Pagination } | ErrorResponse {
 	const response = JSON.parse(data)
 
 	if (isAccountingErrorResponse(response)) {
@@ -112,13 +110,14 @@ export function transformListBillVendorsResponse(
 	}
 
 	const { bill_vendors, per_page, total, page, pages } = response.response.result
+
 	return {
 		bill_vendors: bill_vendors.map((vendor: any) => transformBillVendorsData(vendor)),
 		pages: {
-			page,
-			pages,
-			size: per_page,
 			total,
+			size: per_page,
+			pages,
+			page,
 		},
 	}
 }
