@@ -46,22 +46,15 @@ export function transformBillPaymentsData(billPayments: any): BillPayments {
 	}
 }
 
-/**
- * Parses JSON Bill response and converts to @BillPayments model
- * @param data representing JSON response
- * @returns @BillPayments | @Error
- */
-export function transformBillPaymentsResponse(data: any): BillPayments | ErrorResponse {
+export function transformBillPaymentsResponse(data: string): BillPayments | ErrorResponse {
 	const response = JSON.parse(data)
+	
 	if (isAccountingErrorResponse(response)) {
 		return transformErrorResponse(response)
 	}
-
-	const {
-		response: { result },
-	} = response
-
-	const { bill_payment } = result
+	
+	const { bill_payment } = response.response.result
+	
 	return transformBillPaymentsData(bill_payment)
 }
 
