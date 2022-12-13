@@ -20,7 +20,7 @@ export interface BusinessClientResponse {
 	account_business: AccountBusinessResponse
 }
 
-export function transformBusinessClientResponse(businessClient: BusinessClientResponse): BusinessClient {
+export function transformBusinessClientParsedResponse(businessClient: BusinessClientResponse): BusinessClient {
 	return {
 		id: businessClient.id,
 		businessId: businessClient.business_id,
