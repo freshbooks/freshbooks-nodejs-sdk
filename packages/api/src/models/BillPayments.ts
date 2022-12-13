@@ -58,32 +58,23 @@ export function transformBillPaymentsResponse(data: string): BillPayments | Erro
 	return transformBillPaymentsData(bill_payment)
 }
 
-/**
- * Parses JSON list response and converts to internal bills list response
- * @param data representing JSON response
- * @returns bill_payments list response
- */
-export function transformBillPaymentsListResponse(
-	data: string
-): { billPayments: BillPayments[]; pages: Pagination } | ErrorResponse {
+export function transformBillPaymentsListResponse(data: string): { billPayments: BillPayments[]; pages: Pagination } | ErrorResponse {
 	const response = JSON.parse(data)
+
 	if (isAccountingErrorResponse(response)) {
 		return transformErrorResponse(response)
 	}
 
-	const {
-		response: { result },
-	} = response
-
-	const { bill_payments, per_page, total, page, pages } = result
+	const { bill_payments, per_page, total, page, pages } = response.response.result
+	
 	return {
-		pages: {
-			page,
-			pages,
-			size: per_page,
-			total,
-		},
 		billPayments: bill_payments.map((billPayment: BillPayments) => transformBillPaymentsData(billPayment)),
+		pages: {
+			total,
+			size: per_page,
+			pages,
+			page,
+		},
 	}
 }
 
