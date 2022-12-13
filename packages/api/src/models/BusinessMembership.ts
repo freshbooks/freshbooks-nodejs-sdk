@@ -12,53 +12,11 @@ export interface BusinessMembershipResponse {
 	business: BusinessResponse
 }
 
-/**
- * Format a BusinessMembership response object
- * @param data BusinessMembership object
- * eg: {
- * 			"id": 168372,
- * 			"role": "owner",
- * 			"business": {
- *          	"id": 77128,
- *          	"name": "BillSpring",
- *          	"account_id": "zDmNq",
- *          	"address": {
- *              	"id": 74595,
- *              	"street": "123",
- *              	"city": "Toronto",
- *              	"province": "Ontario",
- *              	"country": "Canada",
- *              	"postal_code": "A1B2C3"
- *          	},
- *          	"phone_number": null,
- *          	"business_clients": [
- *           		{
- *              		"id": 22347,
- *              		"business_id": 77128,
- *              		"account_id": "Xr82w",
- *              		"userid": 74353,
- *              		"client_business": {
- *                  		"business_id": 77128
- *              		},
- *              		"account_business": {
- *                  		"account_business_id": 363103,
- *                  		"account_id": "Xr82w"
- *              		}
- *           		}
- *          	]
- * 			}
- *      }
- * @returns BusinessMembership object
- */
-export function transformBusinessMembershipResponse({
-	id,
-	role,
-	business,
-}: BusinessMembershipResponse): BusinessMembership {
+export function transformBusinessMembershipResponse(businessMembership: BusinessMembershipResponse): BusinessMembership {
 	return {
-		id: id,
-		role,
-		business: transformBusinessParsedResponse(business),
+		id: businessMembership.id,
+		role: businessMembership.role,
+		business: businessMembership.business && transformBusinessParsedResponse(businessMembership.business),
 	}
 }
 
