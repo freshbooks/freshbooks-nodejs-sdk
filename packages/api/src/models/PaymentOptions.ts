@@ -1,6 +1,5 @@
-import { ErrorResponse, isProjectErrorResponse, transformErrorResponse } from './Error'
-
 /* eslint-disable @typescript-eslint/camelcase */
+import { ErrorResponse, isProjectErrorResponse, transformErrorResponse } from './Error'
 
 export enum PaymentGatewayName {
 	WePay = 'fbpay',
@@ -34,27 +33,17 @@ export function transformPaymentOptionsResponse(data: string): PaymentOptions | 
 	return transformPaymentOptionsData(paymentOptions)
 }
 
-function transformPaymentOptionsData({
-	gateway_name: gatewayName,
-	has_credit_card: hasCreditCard,
-	has_ach_transfer: hasAchTransfer,
-	has_bacs_debit: hasBacsDebit,
-	has_sepa_debit: hasSepaDebit,
-	has_paypal_smart_checkout: hasPayPalSmartCheckout,
-	allow_partial_payments: allowPartialPayments,
-	entity_id: entityId,
-	entity_type: entityType,
-}: any): PaymentOptions {
+function transformPaymentOptionsData(paymentOptions: any): PaymentOptions {
 	return {
-		gatewayName,
-		hasCreditCard,
-		hasAchTransfer,
-		hasBacsDebit,
-		hasSepaDebit,
-		hasPayPalSmartCheckout,
-		allowPartialPayments,
-		entityId,
-		entityType,
+		gatewayName: paymentOptions.gateway_name,
+		hasCreditCard: paymentOptions.has_credit_card,
+		hasAchTransfer: paymentOptions.has_ach_transfer,
+		hasBacsDebit: paymentOptions.has_bacs_debit,
+		hasSepaDebit: paymentOptions.has_sepa_debit,
+		hasPayPalSmartCheckout: paymentOptions.has_paypal_smart_checkout,
+		allowPartialPayments: paymentOptions.allow_partial_payments,
+		entityId: paymentOptions.entity_id,
+		entityType: paymentOptions.entity_type,
 	}
 }
 
