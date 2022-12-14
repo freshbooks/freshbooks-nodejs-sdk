@@ -6,16 +6,6 @@ export enum DateFormat {
 	'YYYY-MM-DDThh:mm:ss' = 2,
 }
 
-export const transformDateRequest = (date: Date): string => {
-	if (typeof date === 'string') {
-		date = new Date(date);
-	}
-	const year = date.getFullYear()
-	const month = date.toLocaleDateString(undefined, { month: '2-digit' })
-	const day = date.toLocaleDateString(undefined, { day: '2-digit' })
-	return `${year}-${month}-${day}`
-}
-
 export const transformDateResponse = (
 	dateString: string,
 	dateFormat: DateFormat = DateFormat['YYYY-MM-DD'],
@@ -30,4 +20,14 @@ export const transformDateResponse = (
 		default:
 			return new Date(`${dateString} 00:00:00`)
 	}
+}
+
+export const transformDateRequest = (date: Date): string => {
+	if (typeof date === 'string') {
+		date = new Date(date);
+	}
+	const year = date.getFullYear()
+	const month = date.toLocaleDateString(undefined, { month: '2-digit' })
+	const day = date.toLocaleDateString(undefined, { day: '2-digit' })
+	return `${year}-${month}-${day}`
 }
