@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { transformGroupResponse } from '../src/models/Group'
+import { transformGroupParsedResponse } from '../src/models/Group'
 
 describe('@freshbooks/api', () => {
 	describe('Group', () => {
@@ -16,7 +16,7 @@ describe('@freshbooks/api', () => {
 				business_id: 77128,
 				active: true,
 			}
-			const model = transformGroupResponse(data)
+			const model = transformGroupParsedResponse(data)
 			const expected = {
 				id: 90610,
 				groupId: 23738,
