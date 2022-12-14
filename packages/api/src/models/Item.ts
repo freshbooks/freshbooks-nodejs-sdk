@@ -60,11 +60,8 @@ export function transformItemResponse(data: string): Item | ErrorResponse {
 	if (isAccountingErrorResponse(response)) {
 		return transformErrorResponse(response)
 	}
-	const {
-		response: {
-			result: { item },
-		},
-	} = response
+	
+	const { item } = response.response.result
 
 	return transformItemData(item)
 }
