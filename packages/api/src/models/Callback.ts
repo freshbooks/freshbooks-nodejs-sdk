@@ -12,19 +12,13 @@ export default interface Callback {
 	updatedAt?: Nullable<Date>
 
 }
-export function transformCallbackData({
-	callbackid: callbackId,
-	uri,
-	event,
-	verified,
-	updated_at: updatedAt,
-}: any): Callback {
+export function transformCallbackData(callback: any): Callback {
 	return {
-		callbackId,
-		uri,
-		event,
-		verified,
-		updatedAt: transformDateResponse(updatedAt, DateFormat['YYYY-MM-DD hh:mm:ss']),
+		callbackId: callback.callbackid,
+		uri: callback.uri,
+		event: callback.event,
+		verified: callback.verified,
+		updatedAt: callback.updated_at && transformDateResponse(callback.updated_at, DateFormat['YYYY-MM-DD hh:mm:ss']),
 	}
 }
 
