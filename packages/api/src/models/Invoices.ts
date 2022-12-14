@@ -141,7 +141,7 @@ export function transformInvoiceResponse(data: string): Invoice | ErrorResponse 
 
 	const { invoice } = response.response.result
 	
-	return transformInvoiceData(invoice)
+	return transformInvoiceParsedResponse(invoice)
 }
 
 export function transformInvoiceListResponse(data: string): { invoices: Invoice[]; pages: Pagination } | ErrorResponse {
@@ -154,7 +154,7 @@ export function transformInvoiceListResponse(data: string): { invoices: Invoice[
 	const { invoices, per_page, total, page, pages } = response.response.result
 
 	return {
-		invoices: invoices.map((invoice: any) => transformInvoiceData(invoice)),
+		invoices: invoices.map((invoice: any) => transformInvoiceParsedResponse(invoice)),
 		pages: {
 			total,
 			size: per_page,
@@ -164,7 +164,7 @@ export function transformInvoiceListResponse(data: string): { invoices: Invoice[
 	}
 }
 
-function transformInvoiceData(invoice: any): Invoice {
+function transformInvoiceParsedResponse(invoice: any): Invoice {
 	return {
 		id: invoice.id,
 		accountId: invoice.accountid,
