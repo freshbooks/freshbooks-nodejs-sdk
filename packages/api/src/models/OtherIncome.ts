@@ -60,6 +60,18 @@ function transformOtherIncomeData({
 	}
 }
 
+export function transformOtherIncomeResponse(data: string): OtherIncome | ErrorResponse {
+	const response = JSON.parse(data)
+	
+	if (isAccountingErrorResponse(response)) {
+		return transformErrorResponse(response)
+	}
+
+	const { other_income } = response.response.result
+
+	return transformOtherIncomeData(other_income)
+}
+
 export function transformListOtherIncomesResponse(
 	data: string
 ): { otherIncomes: OtherIncome[]; pages: Pagination } | ErrorResponse {
@@ -79,19 +91,6 @@ export function transformListOtherIncomesResponse(
 			total,
 		},
 	}
-}
-
-export function transformOtherIncomeResponse(data: string): OtherIncome | ErrorResponse {
-	const response = JSON.parse(data)
-	if (isAccountingErrorResponse(response)) {
-		return transformErrorResponse(response)
-	}
-
-	const {
-		response: { result },
-	} = response
-	const { other_income } = result
-	return transformOtherIncomeData(other_income)
 }
 
 export function transformOtherIncomeRequest(otherIncome: OtherIncome): string {
