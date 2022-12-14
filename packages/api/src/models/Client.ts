@@ -124,29 +124,23 @@ export function transformClientResponse(data: string): Client | ErrorResponse {
 	return transformClientData(client)
 }
 
-/**
- * Parses JSON list response and converts to internal client list response
- * @param data representing JSON response
- * @returns client list response
- */
 export function transformClientListResponse(data: string): { clients: Client[]; pages: Pagination } | ErrorResponse {
 	const response = JSON.parse(data)
 
 	if (isAccountingErrorResponse(response)) {
 		return transformErrorResponse(response)
 	}
-	const {
-		response: { result },
-	} = response
-	const { clients, per_page, total, page, pages } = result
+
+	const { clients, per_page, total, page, pages } = response.response.result
+
 	return {
-		pages: {
-			page,
-			pages,
-			size: per_page,
-			total,
-		},
 		clients: clients.map((client: Client) => transformClientData(client)),
+		pages: {
+			total,
+			size: per_page,
+			pages,
+			page,
+		},
 	}
 }
 
