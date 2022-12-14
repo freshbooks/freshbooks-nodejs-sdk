@@ -58,38 +58,19 @@ export function transformLineParsedResponse(line: any): Line {
 	}
 }
 
-/**
- * Format a Line request object
- * @param data Account business object
- * eg: { "amount": "1234.00", "code": "USD" }
- * @returns Money object
- */
-export function transformLineRequest({
-	compoundedTax,
-	description,
-	expenseId,
-	invoiceId,
-	name,
-	qty,
-	taxName1,
-	taxAmount1,
-	taxName2,
-	taxAmount2,
-	type,
-	unitCost,
-}: Line): any {
+export function transformLineRequest(line: Line): any {
 	return {
-		compounded_tax: compoundedTax,
-		type,
-		description,
-		expenseid: expenseId,
-		invoiceid: invoiceId,
-		name,
-		qty,
-		taxName1,
-		taxAmount1,
-		taxName2,
-		taxAmount2,
-		unit_cost: unitCost,
+		compounded_tax: line.compoundedTax,
+		type: line.type,
+		description: line.description,
+		expenseid: line.expenseId,
+		invoiceid: line.invoiceId,
+		name: line.name,
+		qty: line.qty,
+		taxName1: line.taxName1,
+		taxAmount1: line.taxAmount1,
+		taxName2: line.taxName2,
+		taxAmount2: line.taxAmount2,
+		unit_cost: line.unitCost,
 	}
 }
