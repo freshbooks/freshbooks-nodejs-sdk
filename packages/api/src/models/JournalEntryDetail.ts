@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { DateFormat, transformDateResponse } from './Date'
-import Entry, { transformEntryResponse } from './Entry'
+import Entry, { transformEntryParsedResponse } from './Entry'
 import { ErrorResponse, isAccountingErrorResponse, transformErrorResponse } from './Error'
 import JournalEntryAccount, { transformJournalEntryAccountData } from './JournalEntryAccount'
 import Money, { transformMoneyResponse } from './Money'
@@ -34,7 +34,7 @@ export function transformJournalEntryDetailData(detail: any): JournalEntryDetail
         description: detail.description,
         detailType: detail.detail_type,
         detailId: detail.detailid,
-        entry: detail.entry && transformEntryResponse(detail.entry),
+        entry: detail.entry && transformEntryParsedResponse(detail.entry),
         id: detail.id,
         name: detail.name,
         subAccount: detail.sub_account && transformSubAccountResponse(detail.sub_account),
