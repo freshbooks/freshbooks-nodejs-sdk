@@ -60,7 +60,7 @@ export function transformItemResponse(data: string): Item | ErrorResponse {
 	if (isAccountingErrorResponse(response)) {
 		return transformErrorResponse(response)
 	}
-	
+
 	const { item } = response.response.result
 
 	return transformItemData(item)
@@ -73,19 +73,15 @@ export function transformItemListResponse(data: string): { items: Item[]; pages:
 		return transformErrorResponse(response)
 	}
 
-	const {
-		response: {
-			result: { items, per_page, total, page, pages },
-		},
-	} = response
+	const { items, per_page, total, page, pages } = response.response.result
 
 	return {
 		items: items.map((item: any) => transformItemData(item)),
 		pages: {
-			size: per_page,
 			total,
-			page,
+			size: per_page,
 			pages,
+			page,
 		},
 	}
 }
