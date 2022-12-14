@@ -13,18 +13,6 @@ export default interface JournalEntry {
     userEnteredDate: Date
 }
 
-export function transformJournalEntryData(entry: any): JournalEntry {
-    return {
-        currencyCode: entry.currency_code,
-        description: entry.description,
-        details: entry.details && entry.details.map((detail: any): Detail => transformDetailParsedResponse(detail)),
-        entryId: entry.entryid,
-        id: entry.id,
-        name: entry.name,
-        userEnteredDate: entry.user_entered_date && transformDateResponse(entry.user_entered_date, DateFormat['YYYY-MM-DD']),
-    }
-}
-
 export function transformJournalEntryResponse(data: string): JournalEntry | ErrorResponse {
     const response = JSON.parse(data)
 
@@ -34,7 +22,19 @@ export function transformJournalEntryResponse(data: string): JournalEntry | Erro
 
     const{ journal_entry } = response.response.result
 
-    return transformJournalEntryData(journal_entry)
+    return transformJournalEntryParsedResponse(journal_entry)
+}
+
+export function transformJournalEntryParsedResponse(entry: any): JournalEntry {
+    return {
+        currencyCode: entry.currency_code,
+        description: entry.description,
+        details: entry.details && entry.details.map((detail: any): Detail => transformDetailParsedResponse(detail)),
+        entryId: entry.entryid,
+        id: entry.id,
+        name: entry.name,
+        userEnteredDate: entry.user_entered_date && transformDateResponse(entry.user_entered_date, DateFormat['YYYY-MM-DD']),
+    }
 }
 
 export function transformJournalEntryRequest(entry: JournalEntry): string {
