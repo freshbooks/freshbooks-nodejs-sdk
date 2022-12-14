@@ -5,7 +5,7 @@ import { Nullable, transformIdResponse } from './helpers'
 import Pagination from './Pagination'
 import VisState from './VisState'
 import { transformDateResponse, DateFormat, transformDateRequest } from './Date'
-import ExpenseCategory, { transformExpenseCategoryData } from './ExpenseCategory'
+import ExpenseCategory, { transformExpenseCategoryParsedResponse } from './ExpenseCategory'
 
 export enum ExpenseStatus {
 	internal,
@@ -116,7 +116,7 @@ function transformExpenseParsedResponse(expense: any): Expense {
 		expenseId: transformIdResponse(expense.expenseid),
 		compoundedTax: expense.compounded_tax,
 		accountId: transformIdResponse(expense.accountid),
-		category: expense.category && transformExpenseCategoryData(expense.category),
+		category: expense.category && transformExpenseCategoryParsedResponse(expense.category),
 	}
 }
 
