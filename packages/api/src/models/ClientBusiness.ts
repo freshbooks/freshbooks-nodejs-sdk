@@ -12,16 +12,3 @@ export function transformClientBusinessResponse(clientBusiness: ClientBusinessRe
 		businessId: clientBusiness.business_id,
 	}
 }
-
-/**
- * Parse a JSON string to @ClientBusiness object
- * @param json JSON string
- * eg: '{
- *          "business_id": 77128
- *      }'
- * @returns ClientBusiness object
- */
-export function transformClientBusinessJSON(json: string): ClientBusiness {
-	const response: ClientBusinessResponse = JSON.parse(json)
-	return transformClientBusinessResponse(response)
-}
