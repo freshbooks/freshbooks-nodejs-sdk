@@ -141,19 +141,15 @@ export function transformExpenseListResponse(data: string): { expenses: Expense[
 		return transformErrorResponse(response)
 	}
 
-	const {
-		response: {
-			result: { expenses, per_page, total, page, pages },
-		},
-	} = response
+	const { expenses, per_page, total, page, pages } = response.response.result
 
 	return {
 		expenses: expenses.map((expense: any): Expense => transformExpenseData(expense)),
 		pages: {
-			size: per_page,
 			total,
-			page,
+			size: per_page,
 			pages,
+			page,
 		},
 	}
 }
