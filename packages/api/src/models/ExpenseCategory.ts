@@ -17,21 +17,6 @@ export default interface ExpenseCategory {
 	visState: VisState
 }
 
-export function transformExpenseCategoryData(category: any): ExpenseCategory {
-	return {
-		category: category.category,
-		categoryId: category.categoryid,
-		createdAt: category.created_at && transformDateResponse(category.created_at, DateFormat['YYYY-MM-DD hh:mm:ss']),
-		id: category.id,
-		isCogs: category.is_cogs,
-		isEditable: category.is_editable,
-		parentId: category.parentid,
-		transactionPosted: category.transaction_posted,
-		updatedAt: category.updated_at && transformDateResponse(category.updated_at, DateFormat['YYYY-MM-DD hh:mm:ss']),
-		visState: category.vis_state,
-	}
-}
-
 export function transformExpenseCategoryResponse(data: string): ExpenseCategory | ErrorResponse {
 	const response = JSON.parse(data)
 
@@ -41,7 +26,7 @@ export function transformExpenseCategoryResponse(data: string): ExpenseCategory 
 
 	const { category } = response.response.result
 
-	return transformExpenseCategoryData(category)
+	return transformExpenseCategoryParsedResponse(category)
 }
 
 export function transformExpenseCategoryListResponse(data: string): { categories: ExpenseCategory[]; pages: Pagination } | ErrorResponse {
@@ -54,12 +39,27 @@ export function transformExpenseCategoryListResponse(data: string): { categories
 	const { categories, page, pages, per_page, total } = response.response.result
 
 	return {
-		categories: categories.map((category: any) => transformExpenseCategoryData(category)),
+		categories: categories.map((category: any) => transformExpenseCategoryParsedResponse(category)),
 		pages: {
 			total,
 			size: per_page,
 			pages,
 			page,
 		},
+	}
+}
+
+export function transformExpenseCategoryParsedResponse(category: any): ExpenseCategory {
+	return {
+		category: category.category,
+		categoryId: category.categoryid,
+		createdAt: category.created_at && transformDateResponse(category.created_at, DateFormat['YYYY-MM-DD hh:mm:ss']),
+		id: category.id,
+		isCogs: category.is_cogs,
+		isEditable: category.is_editable,
+		parentId: category.parentid,
+		transactionPosted: category.transaction_posted,
+		updatedAt: category.updated_at && transformDateResponse(category.updated_at, DateFormat['YYYY-MM-DD hh:mm:ss']),
+		visState: category.vis_state,
 	}
 }
