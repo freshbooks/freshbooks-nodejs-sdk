@@ -32,7 +32,7 @@ import {
 	PaymentOptions,
 } from './models'
 import { transformClientResponse, transformClientListResponse, transformClientRequest } from './models/Client'
-import { transformListInvoicesResponse, transformInvoiceResponse, transformInvoiceRequest } from './models/Invoices'
+import { transformInvoiceListResponse, transformInvoiceResponse, transformInvoiceRequest } from './models/Invoices'
 import {
 	transformListOtherIncomesResponse,
 	transformOtherIncomeResponse,
@@ -407,7 +407,7 @@ export default class APIClient {
 				'GET',
 				`/accounting/account/${accountId}/invoices/invoices${joinQueries(queryBuilders)}`,
 				{
-					transformResponse: transformListInvoicesResponse,
+					transformResponse: transformInvoiceListResponse,
 				},
 				null,
 				'List Invoices'

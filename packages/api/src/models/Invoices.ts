@@ -278,7 +278,7 @@ export function transformInvoiceResponse(data: string): Invoice | ErrorResponse 
 	return transformInvoiceData(invoice)
 }
 
-export function transformListInvoicesResponse(data: string): { invoices: Invoice[]; pages: Pagination } | ErrorResponse {
+export function transformInvoiceListResponse(data: string): { invoices: Invoice[]; pages: Pagination } | ErrorResponse {
 	const response = JSON.parse(data)
 
 	if (isAccountingErrorResponse(response)) {
