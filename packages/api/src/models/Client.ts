@@ -58,7 +58,39 @@ export default interface Client {
 	role?: Nullable<string>
 }
 
-function transformClientData(client: any): Client {
+export function transformClientResponse(data: string): Client | ErrorResponse {
+	const response = JSON.parse(data)
+
+	if (isAccountingErrorResponse(response)) {
+		return transformErrorResponse(response)
+	}
+
+	const { client } = response.response.result
+
+	return transformClientParsedResponse(client)
+}
+
+export function transformClientListResponse(data: string): { clients: Client[]; pages: Pagination } | ErrorResponse {
+	const response = JSON.parse(data)
+
+	if (isAccountingErrorResponse(response)) {
+		return transformErrorResponse(response)
+	}
+
+	const { clients, per_page, total, page, pages } = response.response.result
+
+	return {
+		clients: clients.map((client: Client) => transformClientParsedResponse(client)),
+		pages: {
+			total,
+			size: per_page,
+			pages,
+			page,
+		},
+	}
+}
+
+function transformClientParsedResponse(client: any): Client {
 	return {
 		id: client.id,
 		allowLateNotifications: client.allow_late_notifications,
@@ -109,38 +141,6 @@ function transformClientData(client: any): Client {
 		hasRetainer: client.has_retainer,
 		retainerId: client.retainer_id,
 		role: client.role,
-	}
-}
-
-export function transformClientResponse(data: string): Client | ErrorResponse {
-	const response = JSON.parse(data)
-
-	if (isAccountingErrorResponse(response)) {
-		return transformErrorResponse(response)
-	}
-
-	const { client } = response.response.result
-
-	return transformClientData(client)
-}
-
-export function transformClientListResponse(data: string): { clients: Client[]; pages: Pagination } | ErrorResponse {
-	const response = JSON.parse(data)
-
-	if (isAccountingErrorResponse(response)) {
-		return transformErrorResponse(response)
-	}
-
-	const { clients, per_page, total, page, pages } = response.response.result
-
-	return {
-		clients: clients.map((client: Client) => transformClientData(client)),
-		pages: {
-			total,
-			size: per_page,
-			pages,
-			page,
-		},
 	}
 }
 
