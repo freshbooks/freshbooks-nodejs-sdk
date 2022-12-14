@@ -34,7 +34,7 @@ export function transformItemResponse(data: string): Item | ErrorResponse {
 
 	const { item } = response.response.result
 
-	return transformItemData(item)
+	return transformItemParsedResponse(item)
 }
 
 export function transformItemListResponse(data: string): { items: Item[]; pages: Pagination } | ErrorResponse {
@@ -47,7 +47,7 @@ export function transformItemListResponse(data: string): { items: Item[]; pages:
 	const { items, per_page, total, page, pages } = response.response.result
 
 	return {
-		items: items.map((item: any) => transformItemData(item)),
+		items: items.map((item: any) => transformItemParsedResponse(item)),
 		pages: {
 			total,
 			size: per_page,
@@ -57,7 +57,7 @@ export function transformItemListResponse(data: string): { items: Item[]; pages:
 	}
 }
 
-function transformItemData(item: any): Item {
+function transformItemParsedResponse(item: any): Item {
 	return {
 		id: item.id.toString(),
 		accountingSystemId: item.accounting_systemid,
