@@ -30,14 +30,13 @@ export function transformCallbackData({
 
 export function transformCallbackResponse(data: string): Callback | ErrorResponse {
 	const response = JSON.parse(data)
+	
 	if (isEventErrorResponse(response)) {
 		return transformErrorResponse(response)
 	}
 
-	const {
-		response: { result },
-	} = response
-	const { callback } = result
+	const { callback } = response.response.result
+	
 	return transformCallbackData(callback)
 }
 
