@@ -1,6 +1,6 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import { Nullable } from './helpers'
 
-/* eslint-disable @typescript-eslint/camelcase */
 export default interface PhoneNumber {
 	title: string
 	number?: Nullable<string>
@@ -22,15 +22,4 @@ export function transformPhoneNumberResponse({ title, phone_number }: PhoneNumbe
 		title,
 		number: phone_number,
 	}
-}
-
-/**
- * Parse a JSON string to @PhoneNumber object
- * @param json JSON string
- * eg: '{ "title": "Mobile", "phone_number": "555-555-5555"}'
- * @returns @PhoneNumber object
- */
-export function transformPhoneNumberJSON(json: string): PhoneNumber {
-	const response: PhoneNumberResponse = JSON.parse(json)
-	return transformPhoneNumberResponse(response)
 }
