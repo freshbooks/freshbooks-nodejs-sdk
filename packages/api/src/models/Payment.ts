@@ -105,19 +105,15 @@ export function transformPaymentListResponse(data: string): { payments: Payment[
 		return transformErrorResponse(response)
 	}
 
-	const {
-		response: {
-			result: { payments, per_page, total, page, pages },
-		},
-	} = response
+	const { payments, per_page, total, page, pages } = response.response.result
 
 	return {
 		payments: payments.map((payment: any) => transformPaymentData(payment)),
 		pages: {
-			page,
-			pages,
-			size: per_page,
 			total,
+			size: per_page,
+			pages,
+			page,	
 		},
 	}
 }
