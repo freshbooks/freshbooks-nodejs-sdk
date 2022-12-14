@@ -49,19 +49,15 @@ export function transformJournalEntryDetailListResponse(data: string): { journal
 		return transformErrorResponse(response)
 	}
 
-	const {
-		response: {
-			result: { journal_entry_details, page, pages, per_page, total },
-		},
-	} = response
+	const { journal_entry_details, page, pages, per_page, total } = response.response.result
 
 	return {
 		journalEntryDetails: journal_entry_details.map((detail: any) => transformJournalEntryDetailData(detail)),
 		pages: {
-			page,
-			pages,
-            size: per_page,
 			total,
+            size: per_page,
+            pages,
+			page,
 		},
 	}
 }
