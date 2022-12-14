@@ -22,6 +22,18 @@ export default interface PaymentOptions {
 
 type PaymentOptionsResponse = Required<PaymentOptions>
 
+export function transformPaymentOptionsResponse(data: string): PaymentOptions | ErrorResponse {
+	const response = JSON.parse(data)
+
+	if (isProjectErrorResponse(response)) {
+		return transformErrorResponse(response)
+	}
+
+	const paymentOptions: PaymentOptionsResponse = response['payment_options']
+
+	return transformPaymentOptionsData(paymentOptions)
+}
+
 function transformPaymentOptionsData({
 	gateway_name: gatewayName,
 	has_credit_card: hasCreditCard,
@@ -68,13 +80,4 @@ export function transformPaymentOptionsRequest({
 		has_ach_transfer,
 		has_credit_card,
 	})
-}
-
-export function transformPaymentOptionsResponse(data: any): PaymentOptions | ErrorResponse {
-	const res = JSON.parse(data)
-	if (isProjectErrorResponse(res)) {
-		return transformErrorResponse(res)
-	}
-	const paymentOptions: PaymentOptionsResponse = res['payment_options']
-	return transformPaymentOptionsData(paymentOptions)
 }
