@@ -184,10 +184,8 @@ export function transformCreditNoteResponse(data: string): CreditNote | ErrorRes
         return transformErrorResponse(response)
     }
 
-    const {
-        response: { result },
-    } = response
-    const { credit_notes } = result
+    const { credit_notes } = response.response.result
+    
     return transformCreditNoteData(credit_notes)
 }
 
