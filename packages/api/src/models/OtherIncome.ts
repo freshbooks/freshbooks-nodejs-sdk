@@ -41,7 +41,7 @@ export function transformOtherIncomeResponse(data: string): OtherIncome | ErrorR
 
 	const { other_income } = response.response.result
 
-	return transformOtherIncomeData(other_income)
+	return transformOtherIncomeParsedResponse(other_income)
 }
 
 export function transformOtherIncomeListResponse(data: string): { otherIncomes: OtherIncome[]; pages: Pagination } | ErrorResponse {
@@ -54,7 +54,7 @@ export function transformOtherIncomeListResponse(data: string): { otherIncomes: 
 	const { other_income, per_page, total, page, pages } = response.response.result
 
 	return {
-		otherIncomes: other_income.map((otherIncome: any) => transformOtherIncomeData(otherIncome)),
+		otherIncomes: other_income.map((otherIncome: any) => transformOtherIncomeParsedResponse(otherIncome)),
 		pages: {
 			total,
 			size: per_page,
@@ -64,7 +64,7 @@ export function transformOtherIncomeListResponse(data: string): { otherIncomes: 
 	}
 }
 
-function transformOtherIncomeData(otherIncome: any): OtherIncome {
+function transformOtherIncomeParsedResponse(otherIncome: any): OtherIncome {
 	return {
 		incomeId: otherIncome.incomeid,
 		amount: otherIncome.amount && transformMoneyParsedResponse(otherIncome.amount),
