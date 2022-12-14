@@ -118,23 +118,6 @@ export function transformPaymentListResponse(data: string): { payments: Payment[
 	}
 }
 
-/**
- * Parse a JSON string to @Payment object
- * @param json JSON string
- * eg: `{
- *         "email": "bhaskar@secretmission.io",
- *         "fname": "Johnny",
- *         "lname": "Appleseed",
- *         "organization": "",
- *         "userid": 1
- *      }`
- * @returns Payment object
- */
-export function transformPaymentJSON(json: string): Payment | ErrorResponse {
-	const response = JSON.parse(json)
-	return transformPaymentResponse(response)
-}
-
 export function transformPaymentRequest({
 	orderId: orderid,
 	invoiceId: invoiceid,
