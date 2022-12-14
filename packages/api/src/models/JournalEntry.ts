@@ -32,11 +32,7 @@ export function transformJournalEntryResponse(data: string): JournalEntry | Erro
         return transformErrorResponse(response)
     }
 
-    const {
-        response: {
-            result: {journal_entry}
-        }
-    } = response
+    const{ journal_entry } = response.response.result
 
     return transformJournalEntryData(journal_entry)
 }
