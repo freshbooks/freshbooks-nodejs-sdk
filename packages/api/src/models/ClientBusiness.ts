@@ -7,7 +7,7 @@ export interface ClientBusinessResponse {
 	business_id: number
 }
 
-export function transformClientBusinessResponse(clientBusiness: ClientBusinessResponse): ClientBusiness {
+export function transformClientBusinessParsedResponse(clientBusiness: ClientBusinessResponse): ClientBusiness {
 	return {
 		businessId: clientBusiness.business_id,
 	}
