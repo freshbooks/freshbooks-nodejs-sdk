@@ -30,10 +30,10 @@ export function transformPaymentOptionsResponse(data: string): PaymentOptions | 
 
 	const paymentOptions: PaymentOptionsResponse = response['payment_options']
 
-	return transformPaymentOptionsData(paymentOptions)
+	return transformPaymentOptionsParsedResponse(paymentOptions)
 }
 
-function transformPaymentOptionsData(paymentOptions: any): PaymentOptions {
+function transformPaymentOptionsParsedResponse(paymentOptions: any): PaymentOptions {
 	return {
 		gatewayName: paymentOptions.gateway_name,
 		hasCreditCard: paymentOptions.has_credit_card,
