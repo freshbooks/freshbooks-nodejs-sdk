@@ -59,7 +59,7 @@ export function transformExpenseResponse(data: string): Expense | ErrorResponse 
 
 	const { expense } = response.response.result
 
-	return transformExpenseData(expense)
+	return transformExpenseParsedResponse(expense)
 }
 
 export function transformExpenseListResponse(data: string): { expenses: Expense[]; pages: Pagination } | ErrorResponse {
@@ -72,7 +72,7 @@ export function transformExpenseListResponse(data: string): { expenses: Expense[
 	const { expenses, per_page, total, page, pages } = response.response.result
 
 	return {
-		expenses: expenses.map((expense: any): Expense => transformExpenseData(expense)),
+		expenses: expenses.map((expense: any): Expense => transformExpenseParsedResponse(expense)),
 		pages: {
 			total,
 			size: per_page,
@@ -82,7 +82,7 @@ export function transformExpenseListResponse(data: string): { expenses: Expense[
 	}
 }
 
-function transformExpenseData(expense: any): Expense {
+function transformExpenseParsedResponse(expense: any): Expense {
 	return {
 		categoryId: transformIdResponse(expense.categoryid),
 		markupPercent: Number(expense.markup_percent),
