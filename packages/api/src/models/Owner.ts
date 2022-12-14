@@ -16,20 +16,3 @@ export function transformOwnerResponse(owner: any): Owner {
 		organization: owner.organization,
 	}
 }
-
-/**
- * Parse a JSON string to @Owner object
- * @param json JSON string
- * eg: `{
- *         "email": "bhaskar@secretmission.io",
- *         "fname": "Johnny",
- *         "lname": "Appleseed",
- *         "organization": "",
- *         "userid": 1
- *      }`
- * @returns Owner object
- */
-export function transformOwnerJSON(json: string): Owner {
-	const response = JSON.parse(json)
-	return transformOwnerResponse(response)
-}
