@@ -47,26 +47,16 @@ function transformPaymentOptionsData(paymentOptions: any): PaymentOptions {
 	}
 }
 
-export function transformPaymentOptionsRequest({
-	gatewayName: gateway_name,
-	hasCreditCard: has_credit_card,
-	hasAchTransfer: has_ach_transfer,
-	hasBacsDebit: has_bacs_debit,
-	hasSepaDebit: has_sepa_debit,
-	hasPayPalSmartCheckout: has_paypal_smart_checkout,
-	allowPartialPayments: allow_partial_payments,
-	entityId: entity_id,
-	entityType: entity_type,
-}: PaymentOptions) {
+export function transformPaymentOptionsRequest(paymentOptions: PaymentOptions) {
 	return JSON.stringify({
-		gateway_name,
-		entity_type,
-		entity_id,
-		allow_partial_payments,
-		has_paypal_smart_checkout,
-		has_sepa_debit,
-		has_bacs_debit,
-		has_ach_transfer,
-		has_credit_card,
+		gateway_name: paymentOptions.gatewayName,
+		entity_type: paymentOptions.entityType,
+		entity_id: paymentOptions.entityId,
+		allow_partial_payments: paymentOptions.allowPartialPayments,
+		has_paypal_smart_checkout: paymentOptions.hasPayPalSmartCheckout,
+		has_sepa_debit: paymentOptions.hasSepaDebit,
+		has_bacs_debit: paymentOptions.hasBacsDebit,
+		has_ach_transfer: paymentOptions.hasAchTransfer,
+		has_credit_card: paymentOptions.hasCreditCard,
 	})
 }
