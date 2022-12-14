@@ -51,19 +51,15 @@ export function transformExpenseCategoryListResponse(data: string): { categories
 		return transformErrorResponse(response)
 	}
 
-	const {
-		response: {
-			result: { categories, page, pages, per_page, total },
-		},
-	} = response
+	const { categories, page, pages, per_page, total } = response.response.result
 
 	return {
 		categories: categories.map((category: any) => transformExpenseCategoryData(category)),
 		pages: {
-			page,
-			pages,
-			size: per_page,
 			total,
+			size: per_page,
+			pages,
+			page,
 		},
 	}
 }
