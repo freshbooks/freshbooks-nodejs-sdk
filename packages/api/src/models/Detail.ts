@@ -14,7 +14,7 @@ export default interface Detail {
     userEnteredDate?: Date
 }
 
-export function transformDetailResponse(detail: any): Detail {
+export function transformDetailParsedResponse(detail: any): Detail {
     return {
         categoryId: detail.categoryid,
         credit: detail.credit ? Number(detail.credit) : detail.credit,
