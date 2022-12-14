@@ -1,3 +1,5 @@
+import { group } from "console"
+
 /* eslint-disable @typescript-eslint/camelcase */
 export default interface Group {
 	id: number
@@ -42,29 +44,18 @@ export interface GroupResponse {
  *    }
  * @returns Group object
  */
-export function transformGroupResponse({
-	id,
-	group_id,
-	role,
-	identity_id,
-	first_name: firstName,
-	last_name: lastName,
-	email,
-	company,
-	business_id,
-	active,
-}: GroupResponse): Group {
+export function transformGroupResponse(group: GroupResponse): Group {
 	return {
-		id: id,
-		groupId: group_id,
-		role,
-		identityId: identity_id,
-		firstName,
-		lastName,
-		email,
-		company,
-		businessId: business_id,
-		active,
+		id: group.id,
+		groupId: group.group_id,
+		role: group.role,
+		identityId: group.identity_id,
+		firstName: group.first_name,
+		lastName: group.last_name,
+		email: group.email,
+		company: group.company,
+		businessId: group.business_id,
+		active: group.active,
 	}
 }
 
