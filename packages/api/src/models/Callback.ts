@@ -12,15 +12,6 @@ export default interface Callback {
 	updatedAt?: Nullable<Date>
 
 }
-export function transformCallbackData(callback: any): Callback {
-	return {
-		callbackId: callback.callbackid,
-		uri: callback.uri,
-		event: callback.event,
-		verified: callback.verified,
-		updatedAt: callback.updated_at && transformDateResponse(callback.updated_at, DateFormat['YYYY-MM-DD hh:mm:ss']),
-	}
-}
 
 export function transformCallbackResponse(data: string): Callback | ErrorResponse {
 	const response = JSON.parse(data)
@@ -31,7 +22,7 @@ export function transformCallbackResponse(data: string): Callback | ErrorRespons
 
 	const { callback } = response.response.result
 	
-	return transformCallbackData(callback)
+	return transformCallbackParsedResponse(callback)
 }
 
  export function transformCallbackListResponse(data: string): { callbacks: Callback[]; pages: Pagination } | ErrorResponse {
@@ -44,13 +35,23 @@ export function transformCallbackResponse(data: string): Callback | ErrorRespons
 	const { callbacks, per_page, total, page, pages } = response.response.result
 	
 	return {
-		callbacks: callbacks.map((callback: Callback) => transformCallbackData(callback)),
+		callbacks: callbacks.map((callback: Callback) => transformCallbackParsedResponse(callback)),
 		pages: {
 			total,
 			size: per_page,
 			pages,
 			page,
 		},	
+	}
+}
+
+export function transformCallbackParsedResponse(callback: any): Callback {
+	return {
+		callbackId: callback.callbackid,
+		uri: callback.uri,
+		event: callback.event,
+		verified: callback.verified,
+		updatedAt: callback.updated_at && transformDateResponse(callback.updated_at, DateFormat['YYYY-MM-DD hh:mm:ss']),
 	}
 }
 
