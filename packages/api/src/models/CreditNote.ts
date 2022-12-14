@@ -156,27 +156,6 @@ function transformCreditNoteData({
     }
 }
 
-export function transformCreditNoteListResponse(
-    data: string
-): { creditNotes: CreditNote[]; pages: Pagination } | ErrorResponse {
-    const response = JSON.parse(data)
-
-    if (isAccountingErrorResponse(response)) {
-        return transformErrorResponse(response)
-    }
-
-    const { credit_notes, per_page, total, page, pages } = response.response.result
-    return {
-        creditNotes: credit_notes.map(transformCreditNoteData),
-        pages: {
-            page,
-            pages,
-            size: per_page,
-            total,
-        }
-    }
-}
-
 export function transformCreditNoteResponse(data: string): CreditNote | ErrorResponse {
     const response = JSON.parse(data)
 
@@ -185,8 +164,28 @@ export function transformCreditNoteResponse(data: string): CreditNote | ErrorRes
     }
 
     const { credit_notes } = response.response.result
-    
+
     return transformCreditNoteData(credit_notes)
+}
+
+export function transformCreditNoteListResponse(data: string): { creditNotes: CreditNote[]; pages: Pagination } | ErrorResponse {
+    const response = JSON.parse(data)
+
+    if (isAccountingErrorResponse(response)) {
+        return transformErrorResponse(response)
+    }
+
+    const { credit_notes, per_page, total, page, pages } = response.response.result
+
+    return {
+        creditNotes: credit_notes.map(transformCreditNoteData),
+        pages: {
+            total,
+            size: per_page,
+            pages,
+            page,
+        }
+    }
 }
 
 export function transformCreditNoteRequest(credit_note: CreditNote): string {
