@@ -74,29 +74,18 @@ function transformItemParsedResponse(item: any): Item {
 	}
 }
 
-export function transformItemRequest({
-	name,
-	description,
-	qty,
-	sku,
-	inventory,
-	unitCost,
-	tax1,
-	tax2,
-	visState,
-}: Item): string {
-	const result = JSON.stringify({
+export function transformItemRequest(item: Item): string {
+	return JSON.stringify({
 		item: {
-			name,
-			description,
-			qty,
-			sku,
-			inventory,
-			unit_cost: unitCost && transformMoneyRequest(unitCost),
-			tax1,
-			tax2,
-			vis_state: visState,
+			name: item.name,
+			description: item.description,
+			qty: item.qty,
+			sku: item.sku,
+			inventory: item.inventory,
+			unit_cost: item.unitCost && transformMoneyRequest(item.unitCost),
+			tax1: item.tax1,
+			tax2: item.tax2,
+			vis_state: item.visState,
 		},
 	})
-	return result
 }
