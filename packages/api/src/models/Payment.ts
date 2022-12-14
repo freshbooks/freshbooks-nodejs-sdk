@@ -114,23 +114,15 @@ export function transformPaymentRequest(payment: Payment): string {
 	})
 }
 
-export function transformPaymentUpdateRequest({
-	orderId: orderid,
-	amount,
-	note,
-	date,
-	transactionId: transactionid,
-	type,
-}: Payment): string {
-	const result = JSON.stringify({
+export function transformPaymentUpdateRequest(payment: Payment): string {
+	return JSON.stringify({
 		payment: {
-			amount: amount && transformMoneyRequest(amount),
-			date: date && transformDateRequest(date),
-			note,
-			orderid,
-			transactionid,
-			type,
+			amount: payment.amount && transformMoneyRequest(payment.amount),
+			date: payment.date && transformDateRequest(payment.date),
+			note: payment.note,
+			orderid: payment.orderId,
+			transactionid: payment.transactionId,
+			type: payment.type,
 		},
 	})
-	return result
 }
