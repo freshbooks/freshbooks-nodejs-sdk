@@ -85,43 +85,16 @@ function transformPaymentData({
 		id,
 	}
 }
-/**
- * Format an Payment response object
- * @param data Payment object
- *  eg. {
- *        "accounting_systemid": "xZNQ1X",
- *        "amount": {
- *          "amount": "100.00",
- *          "code": "USD"
- *        },
- *        "clientid": 212566,
- *        "creditid": null,
- *        "date": "2019-10-22",
- *        "from_credit": false,
- *        "gateway": null,
- *        "id": 115804,
- *        "invoiceid": 197902,
- *        "logid": 115804,
- *        "note": "",
- *        "orderid": null,
- *        "overpaymentid": null,
- *        "transactionid": null,
- *        "type": "Cash",
- *        "updated": "2019-10-22 12:18:29",
- *        "vis_state": 0
- *      }
- * @returns Payment object
- */
-export function transformPaymentResponse(data: any): Payment | ErrorResponse {
+
+export function transformPaymentResponse(data: string): Payment | ErrorResponse {
 	const response = JSON.parse(data)
 
 	if (isAccountingErrorResponse(response)) {
 		return transformErrorResponse(response)
 	}
-	const {
-		response: { result },
-	} = response
-	const { payment } = result
+
+	const { payment } = response.response.result
+
 	return transformPaymentData(payment)
 }
 
