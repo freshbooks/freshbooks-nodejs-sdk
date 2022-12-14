@@ -112,20 +112,15 @@ function transformClientData(client: any): Client {
 	}
 }
 
-/**
- * Parses JSON client response and converts to @Client model
- * @param data representing JSON response
- * @returns @Client | @Error
- */
-export function transformClientResponse(data: any): Client | ErrorResponse {
+export function transformClientResponse(data: string): Client | ErrorResponse {
 	const response = JSON.parse(data)
+
 	if (isAccountingErrorResponse(response)) {
 		return transformErrorResponse(response)
 	}
-	const {
-		response: { result },
-	} = response
-	const { client } = result
+
+	const { client } = response.response.result
+
 	return transformClientData(client)
 }
 
