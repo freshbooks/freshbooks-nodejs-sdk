@@ -1,11 +1,10 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import Money, { transformMoneyRequest, transformMoneyParsedResponse } from './Money'
 import VisState from './VisState'
 import { ErrorResponse, isAccountingErrorResponse, transformErrorResponse } from './Error'
 import Pagination from './Pagination'
 import { transformDateRequest, DateFormat, transformDateResponse } from './Date'
 import { Nullable } from './helpers'
-
-/* eslint-disable @typescript-eslint/camelcase */
 
 export enum PaymentType {
 	Check = 'Check',
@@ -100,29 +99,19 @@ function transformPaymentParsedResponse(payment: any): Payment {
 	}
 }
 
-export function transformPaymentRequest({
-	orderId: orderid,
-	invoiceId: invoiceid,
-	amount,
-	visState: vis_state,
-	note,
-	date,
-	transactionId: transactionid,
-	type,
-}: Payment): string {
-	const result = JSON.stringify({
+export function transformPaymentRequest(payment: Payment): string {
+	return JSON.stringify({
 		payment: {
-			amount: amount && transformMoneyRequest(amount),
-			date: transformDateRequest(date),
-			invoiceid,
-			note,
-			orderid,
-			transactionid,
-			type,
-			vis_state,
+			amount: payment.amount && transformMoneyRequest(payment.amount),
+			date: transformDateRequest(payment.date),
+			invoiceid: payment.invoiceId,
+			note: payment.note,
+			orderid: payment.orderId,
+			transactionid: payment.transactionId,
+			type: payment.type,
+			vis_state: payment.visState,
 		},
 	})
-	return result
 }
 
 export function transformPaymentUpdateRequest({
