@@ -241,7 +241,8 @@ export function transformInvoiceRequest(invoice: Invoice): string {
 			},
 		})
 	}
-	const request = JSON.stringify({
+	
+	return JSON.stringify({
 		invoice: {
 			address: invoice.address,
 			auto_bill: invoice.autoBill,
@@ -285,5 +286,4 @@ export function transformInvoiceRequest(invoice: Invoice): string {
 			vis_state: invoice.visState,
 		},
 	})
-	return request
 }
