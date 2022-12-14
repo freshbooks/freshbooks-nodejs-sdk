@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import Money, { transformMoneyRequest, transformMoneyResponse } from './Money'
+import Money, { transformMoneyRequest, transformMoneyParsedResponse } from './Money'
 
 export default interface BillLines {
 	categoryId?: number
@@ -27,17 +27,17 @@ export function transformBillLinesParsedResponse(billLine: any): BillLines {
 		listIndex: billLine.list_index,
 		description: billLine.description,
 		quantity: billLine.quantity,
-		unitCost: billLine.unit_cost && transformMoneyResponse(billLine.unit_cost),
-		amount: billLine.amount && transformMoneyResponse(billLine.amount),
-		totalAmount: billLine.total_amount && transformMoneyResponse(billLine.total_amount),
+		unitCost: billLine.unit_cost && transformMoneyParsedResponse(billLine.unit_cost),
+		amount: billLine.amount && transformMoneyParsedResponse(billLine.amount),
+		totalAmount: billLine.total_amount && transformMoneyParsedResponse(billLine.total_amount),
 		taxName1: billLine.tax_name1,
 		taxName2: billLine.tax_name2,
 		taxPercent1: billLine.tax_percent1,
 		taxPercent2: billLine.tax_percent2,
 		taxAuthorityId1: billLine.tax_authorityid1,
 		taxAuthorityId2: billLine.tax_authorityid2,
-		taxAmount1: billLine.tax_amount1 && transformMoneyResponse(billLine.tax_amount1),
-		taxAmount2: billLine.tax_amount2 && transformMoneyResponse(billLine.tax_amount2),
+		taxAmount1: billLine.tax_amount1 && transformMoneyParsedResponse(billLine.tax_amount1),
+		taxAmount2: billLine.tax_amount2 && transformMoneyParsedResponse(billLine.tax_amount2),
 	}
 }
 

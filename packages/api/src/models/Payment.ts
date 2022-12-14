@@ -1,4 +1,4 @@
-import Money, { transformMoneyRequest, transformMoneyResponse } from './Money'
+import Money, { transformMoneyRequest, transformMoneyParsedResponse } from './Money'
 import VisState from './VisState'
 import { ErrorResponse, isAccountingErrorResponse, transformErrorResponse } from './Error'
 import Pagination from './Pagination'
@@ -71,7 +71,7 @@ function transformPaymentData({
 		updated: transformDateResponse(updated, DateFormat['YYYY-MM-DD hh:mm:ss']),
 		invoiceId,
 		creditId,
-		amount: transformMoneyResponse(amount),
+		amount: transformMoneyParsedResponse(amount),
 		clientId,
 		visState,
 		logId,

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import Money, { MoneyResponse, transformMoneyResponse } from '../Money'
+import Money, { MoneyResponse, transformMoneyParsedResponse } from '../Money'
 
 export default interface PaymentsCollectedEntry {
 	amount: Money
@@ -33,7 +33,7 @@ export function transformPaymentsCollectedEntryRespone(
 	response: PaymentsCollectedEntryResponse
 ): PaymentsCollectedEntry {
 	return {
-		amount: response.amount && transformMoneyResponse(response.amount),
+		amount: response.amount && transformMoneyParsedResponse(response.amount),
 		client: response.client,
 		clientId: response.clientid,
 		creditNumber: response.credit_number,

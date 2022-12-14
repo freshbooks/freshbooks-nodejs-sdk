@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import Pagination from './Pagination'
 import { transformErrorResponse, isAccountingErrorResponse, ErrorResponse } from './Error'
-import Money, { transformMoneyResponse } from './Money'
+import Money, { transformMoneyParsedResponse } from './Money'
 import { Nullable } from './helpers'
 import VisState from './VisState'
 import Line, { transformLineRequest, transformLineParsedResponse } from './Line'
@@ -170,7 +170,7 @@ function transformInvoiceParsedResponse(invoice: any): Invoice {
 		accountId: invoice.accountid,
 		accountingSystemId: invoice.accounting_systemid,
 		address: invoice.address,
-		amount: invoice.amount && transformMoneyResponse(invoice.amount),
+		amount: invoice.amount && transformMoneyParsedResponse(invoice.amount),
 		autoBill: invoice.auto_bill,
 		autobillStatus: invoice.autobill_status,
 		city: invoice.city,
@@ -187,7 +187,7 @@ function transformInvoiceParsedResponse(invoice: any): Invoice {
 		depositStatus: invoice.deposit_status,
 		description: invoice.description,
 		discountDescription: invoice.discount_description,
-		discountTotal: invoice.discount_total && transformMoneyResponse(invoice.discount_total),
+		discountTotal: invoice.discount_total && transformMoneyParsedResponse(invoice.discount_total),
 		discountValue: invoice.discount_value,
 		displayStatus: invoice.display_status,
 		disputeStatus: invoice.dispute_status,
@@ -208,10 +208,10 @@ function transformInvoiceParsedResponse(invoice: any): Invoice {
 		lName: invoice.lname,
 		notes: invoice.notes,
 		organization: invoice.organization,
-		outstanding: invoice.outstanding && transformMoneyResponse(invoice.outstanding),
+		outstanding: invoice.outstanding && transformMoneyParsedResponse(invoice.outstanding),
 		owner: invoice.owner && transformOwnerResponse(invoice.owner),
 		ownerId: invoice.ownerid,
-		paid: invoice.paid && transformMoneyResponse(invoice.paid),
+		paid: invoice.paid && transformMoneyParsedResponse(invoice.paid),
 		parent: invoice.parent,
 		paymentDetails: invoice.payment_details,
 		paymentStatus: invoice.payment_status,

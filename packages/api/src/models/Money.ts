@@ -8,13 +8,7 @@ export interface MoneyResponse {
 	code: string
 }
 
-/**
- * Format a Money response object
- * @param data Account business object
- * eg: { "amount": "1234.00", "code": "USD" }
- * @returns Money object
- */
-export function transformMoneyResponse({ amount, code }: MoneyResponse): Money {
+export function transformMoneyParsedResponse({ amount, code }: MoneyResponse): Money {
 	return {
 		amount: Number(amount),
 		code,
@@ -32,7 +26,7 @@ export function transformMoneyResponse({ amount, code }: MoneyResponse): Money {
  */
 export function transformMoneyJSON(json: string): Money {
 	const response: MoneyResponse = JSON.parse(json)
-	return transformMoneyResponse(response)
+	return transformMoneyParsedResponse(response)
 }
 
 export function transformMoneyRequest({ amount, code }: Money = {}): any {

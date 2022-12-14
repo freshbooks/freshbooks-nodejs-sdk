@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import Money, { transformMoneyResponse, transformMoneyRequest } from './Money'
+import Money, { transformMoneyParsedResponse, transformMoneyRequest } from './Money'
 import { ErrorResponse, isAccountingErrorResponse, transformErrorResponse } from './Error'
 import { Nullable, transformIdResponse } from './helpers'
 import Pagination from './Pagination'
@@ -98,8 +98,8 @@ function transformExpenseParsedResponse(expense: any): Expense {
 		transactionId: transformIdResponse(expense.transactionid),
 		invoiceId: transformIdResponse(expense.invoiceid),
 		id: transformIdResponse(expense.id),
-		taxAmount2: expense.taxAmount2 && transformMoneyResponse(expense.taxAmount2),
-		taxAmount1: expense.taxAmount1 && transformMoneyResponse(expense.taxAmount1),
+		taxAmount2: expense.taxAmount2 && transformMoneyParsedResponse(expense.taxAmount2),
+		taxAmount1: expense.taxAmount1 && transformMoneyParsedResponse(expense.taxAmount1),
 		visState: expense.vis_state,
 		status: expense.status,
 		bankName: expense.bank_name,
@@ -112,7 +112,7 @@ function transformExpenseParsedResponse(expense: any): Expense {
 		accountingSystemId: transformIdResponse(expense.accounting_systemid),
 		notes: expense.notes,
 		extInvoiceId: transformIdResponse(expense.ext_invoiceid),
-		amount: transformMoneyResponse(expense.amount),
+		amount: transformMoneyParsedResponse(expense.amount),
 		expenseId: transformIdResponse(expense.expenseid),
 		compoundedTax: expense.compounded_tax,
 		accountId: transformIdResponse(expense.accountid),

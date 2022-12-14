@@ -1,6 +1,6 @@
 import Pagination from './Pagination'
 import { transformErrorResponse, isAccountingErrorResponse, ErrorResponse } from './Error'
-import Money, { transformMoneyRequest, transformMoneyResponse } from './Money'
+import Money, { transformMoneyRequest, transformMoneyParsedResponse } from './Money'
 import { Nullable } from './helpers'
 import VisState from './VisState'
 import Line, { transformLineRequest, transformLineParsedResponse } from './Line'
@@ -116,7 +116,7 @@ function transformCreditNoteParsedResponse(creditNote: any): CreditNote {
         clientId: creditNote.clientid,
         code: creditNote.code,
         sentId: creditNote.sentid,
-        amount: creditNote.amount && transformMoneyResponse(creditNote.amount),
+        amount: creditNote.amount && transformMoneyParsedResponse(creditNote.amount),
         city: creditNote.city,
         country: creditNote.country,
         createDate: creditNote.create_date && transformDateResponse(creditNote.create_date, DateFormat['YYYY-MM-DD']),
@@ -135,7 +135,7 @@ function transformCreditNoteParsedResponse(creditNote: any): CreditNote {
         lName: creditNote.lname,
         notes: creditNote.notes,
         organization: creditNote.organization,
-        paid: creditNote.paid && transformMoneyResponse(creditNote.paid),
+        paid: creditNote.paid && transformMoneyParsedResponse(creditNote.paid),
         paymentStatus: creditNote.payment_status,
         paymentType: creditNote.payment_type,
         province: creditNote.province,

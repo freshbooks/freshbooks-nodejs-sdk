@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import Money, { transformMoneyResponse, transformMoneyRequest } from './Money'
+import Money, { transformMoneyParsedResponse, transformMoneyRequest } from './Money'
 import { ErrorResponse, isAccountingErrorResponse, transformErrorResponse } from './Error'
 import { Nullable } from './helpers'
 import Pagination from './Pagination'
@@ -67,7 +67,7 @@ function transformItemParsedResponse(item: any): Item {
 		qty: item.qty,
 		sku: item.sku,
 		inventory: item.inventory,
-		unitCost: transformMoneyResponse(item.unit_cost),
+		unitCost: transformMoneyParsedResponse(item.unit_cost),
 		tax1: item.tax1.toString(),
 		tax2: item.tax2.toString(),
 		visState: item.vis_state,

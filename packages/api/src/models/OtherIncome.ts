@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import Pagination from './Pagination'
 import { transformErrorResponse, isAccountingErrorResponse, ErrorResponse } from './Error'
-import Money, { transformMoneyResponse } from './Money'
+import Money, { transformMoneyParsedResponse } from './Money'
 import Tax, { transformTaxResponse, transformTaxRequest } from './Tax'
 import { transformDateResponse, DateFormat, transformDateRequest } from './Date'
 
@@ -47,7 +47,7 @@ function transformOtherIncomeData({
 }: any): OtherIncome {
 	return {
 		incomeId,
-		amount: amount && transformMoneyResponse(amount),
+		amount: amount && transformMoneyParsedResponse(amount),
 		categoryName,
 		createdAt: createdAt && transformDateResponse(createdAt, DateFormat['YYYY-MM-DD hh:mm:ss']),
 		date: date && transformDateResponse(date, DateFormat['YYYY-MM-DD']),

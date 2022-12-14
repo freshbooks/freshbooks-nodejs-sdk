@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { ErrorResponse, isAccountingErrorResponse, transformErrorResponse } from '../Error'
-import Money, { MoneyResponse, transformMoneyResponse } from '../Money'
+import Money, { MoneyResponse, transformMoneyParsedResponse } from '../Money'
 import PaymentsCollectedEntry, {
 	PaymentsCollectedEntryResponse,
 	transformPaymentsCollectedEntryResponeList,
@@ -47,7 +47,7 @@ export function transformPaymentsCollectedReportData({
 		downloadToken: download_token,
 		paymentMethods: payment_methods,
 		payments: payments && transformPaymentsCollectedEntryResponeList(payments),
-		totals: totals && totals.map((moneyResponse: MoneyResponse) => transformMoneyResponse(moneyResponse)),
+		totals: totals && totals.map((moneyResponse: MoneyResponse) => transformMoneyParsedResponse(moneyResponse)),
 	}
 }
 

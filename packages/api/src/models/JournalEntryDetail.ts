@@ -3,7 +3,7 @@ import { DateFormat, transformDateResponse } from './Date'
 import Entry, { transformEntryParsedResponse } from './Entry'
 import { ErrorResponse, isAccountingErrorResponse, transformErrorResponse } from './Error'
 import JournalEntryAccount, { transformJournalEntryAccountParsedResponse } from './JournalEntryAccount'
-import Money, { transformMoneyResponse } from './Money'
+import Money, { transformMoneyParsedResponse } from './Money'
 import { Nullable } from './helpers'
 import Pagination from './Pagination'
 import SubAccount, { transformSubAccountResponse } from './SubAccount'
@@ -48,9 +48,9 @@ export function transformJournalEntryDetailParsedResponse(detail: any): JournalE
 	return {
         account: detail.account && transformJournalEntryAccountParsedResponse(detail.account),
         accountingSystemId: detail.accounting_systemid,
-        balance: detail.balance && transformMoneyResponse(detail.balance),
-        credit: detail.credit && transformMoneyResponse(detail.credit),
-        debit: detail.debit && transformMoneyResponse(detail.debit),
+        balance: detail.balance && transformMoneyParsedResponse(detail.balance),
+        credit: detail.credit && transformMoneyParsedResponse(detail.credit),
+        debit: detail.debit && transformMoneyParsedResponse(detail.debit),
         description: detail.description,
         detailType: detail.detail_type,
         detailId: detail.detailid,

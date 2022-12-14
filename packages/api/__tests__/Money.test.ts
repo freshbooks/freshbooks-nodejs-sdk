@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { transformMoneyJSON, transformMoneyResponse } from '../src/models/Money'
+import { transformMoneyJSON, transformMoneyParsedResponse } from '../src/models/Money'
 
 describe('@freshbooks/api', () => {
 	describe('Money', () => {
@@ -22,7 +22,7 @@ describe('@freshbooks/api', () => {
 				amount: '1234.00',
 				code: 'USD',
 			}
-			const model = transformMoneyResponse(data)
+			const model = transformMoneyParsedResponse(data)
 
 			expect(model).toEqual(
 				expect.objectContaining({
