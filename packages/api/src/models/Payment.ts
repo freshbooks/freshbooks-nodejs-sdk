@@ -55,7 +55,7 @@ export function transformPaymentResponse(data: string): Payment | ErrorResponse 
 
 	const { payment } = response.response.result
 
-	return transformPaymentData(payment)
+	return transformPaymentParsedResponse(payment)
 }
 
 export function transformPaymentListResponse(data: string): { payments: Payment[]; pages: Pagination } | ErrorResponse {
@@ -68,7 +68,7 @@ export function transformPaymentListResponse(data: string): { payments: Payment[
 	const { payments, per_page, total, page, pages } = response.response.result
 
 	return {
-		payments: payments.map((payment: any) => transformPaymentData(payment)),
+		payments: payments.map((payment: any) => transformPaymentParsedResponse(payment)),
 		pages: {
 			total,
 			size: per_page,
@@ -78,7 +78,7 @@ export function transformPaymentListResponse(data: string): { payments: Payment[
 	}
 }
 
-function transformPaymentData(payment: any): Payment {
+function transformPaymentParsedResponse(payment: any): Payment {
 	return {
 		orderId: payment.orderid,
 		accountingSystemId: payment.accounting_systemid,
