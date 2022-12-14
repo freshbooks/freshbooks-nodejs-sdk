@@ -3,6 +3,7 @@ import Money, { transformMoneyResponse, transformMoneyRequest } from './Money'
 import { ErrorResponse, isAccountingErrorResponse, transformErrorResponse } from './Error'
 import { Nullable } from './helpers'
 import Pagination from './Pagination'
+import { isTemplateExpression } from 'typescript'
 
 enum VisState {
 	active,
@@ -22,36 +23,6 @@ export default interface Item {
 	tax1: number
 	tax2: number
 	visState: VisState
-}
-
-function transformItemData({
-	id,
-	accounting_systemid: accountingSystemId,
-	updated,
-	name,
-	description,
-	qty,
-	sku,
-	inventory,
-	unit_cost: unitCost,
-	tax1,
-	tax2,
-	vis_state: visState,
-}: any): Item {
-	return {
-		id: id.toString(),
-		accountingSystemId,
-		updated: new Date(updated),
-		name,
-		description,
-		qty,
-		sku,
-		inventory,
-		unitCost: transformMoneyResponse(unitCost),
-		tax1: tax1.toString(),
-		tax2: tax2.toString(),
-		visState,
-	}
 }
 
 export function transformItemResponse(data: string): Item | ErrorResponse {
@@ -83,6 +54,23 @@ export function transformItemListResponse(data: string): { items: Item[]; pages:
 			pages,
 			page,
 		},
+	}
+}
+
+function transformItemData(item: any): Item {
+	return {
+		id: item.id.toString(),
+		accountingSystemId: item.accounting_systemid,
+		updated: new Date(item.updated),
+		name: item.name,
+		description: item.description,
+		qty: item.qty,
+		sku: item.sku,
+		inventory: item.inventory,
+		unitCost: transformMoneyResponse(item.unit_cost),
+		tax1: item.tax1.toString(),
+		tax2: item.tax2.toString(),
+		visState: item.vis_state,
 	}
 }
 
