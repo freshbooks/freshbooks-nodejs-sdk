@@ -58,25 +58,3 @@ export function transformGroupResponse(group: GroupResponse): Group {
 		active: group.active,
 	}
 }
-
-/**
- * Parse a JSON string to @Group object
- * @param json JSON string
- * eg: '{
- *       "id": 90610,
- *       "group_id": 23738,
- *       "role": "owner",
- *       "identity_id": 712052,
- *       "first_name": "Bruce",
- *       "last_name": "Wayne",
- *       "email": "b@example.com",
- *       "company": "BillSpring",
- *       "business_id": 77128,
- *       "active": true
- *     }'
- * @returns Group object
- */
-export function transformGroupJSON(json: string): Group {
-	const response: GroupResponse = JSON.parse(json)
-	return transformGroupResponse(response)
-}
