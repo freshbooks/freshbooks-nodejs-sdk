@@ -7,15 +7,9 @@ export interface ClientBusinessResponse {
 	business_id: number
 }
 
-/**
- * Format a ClientBusiness response object
- * @param data Client business object
- * eg: { "business_id": 77128 }
- * @returns Client business object
- */
-export function transformClientBusinessResponse({ business_id }: ClientBusinessResponse): ClientBusiness {
+export function transformClientBusinessResponse(clientBusiness: ClientBusinessResponse): ClientBusiness {
 	return {
-		businessId: business_id,
+		businessId: clientBusiness.business_id,
 	}
 }
 
