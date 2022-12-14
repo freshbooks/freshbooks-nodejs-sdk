@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { transformOwnerResponse } from '../src/models/Owner'
+import { transformOwnerParsedResponse } from '../src/models/Owner'
 
 describe('@freshbooks/api', () => {
 	describe('Group', () => {
@@ -11,7 +11,7 @@ describe('@freshbooks/api', () => {
 				organization: '',
 				userid: 1,
 			}
-			const model = transformOwnerResponse(data)
+			const model = transformOwnerParsedResponse(data)
 			const expected = {
 				email: 'bhaskar@secretmission.io',
 				fName: 'Johnny',

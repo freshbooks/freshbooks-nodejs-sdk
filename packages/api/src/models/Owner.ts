@@ -7,7 +7,7 @@ export default interface Owner {
 	userId: string
 }
 
-export function transformOwnerResponse(owner: any): Owner {
+export function transformOwnerParsedResponse(owner: any): Owner {
 	return {
 		userId: owner.userid,
 		email: owner.email,
