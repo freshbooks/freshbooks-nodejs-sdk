@@ -144,13 +144,8 @@ function transformClientParsedResponse(client: any): Client {
 	}
 }
 
-/**
- * Converts @Client object into JSON string
- * @param client @Client object
- * @returns JSON string representing client request
- */
 export function transformClientRequest(client: Client): string {
-	const model = {
+	return JSON.stringify({
 		client: {
 			id: client.id,
 			allow_late_notifications: client.allowLateNotifications,
@@ -200,6 +195,5 @@ export function transformClientRequest(client: Client): string {
 			retainer_id: client.retainerId,
 			role: client.role,
 		},
-	}
-	return JSON.stringify(model)
+	})
 }
