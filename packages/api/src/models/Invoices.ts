@@ -266,6 +266,18 @@ function transformInvoiceData({
 	}
 }
 
+export function transformInvoiceResponse(data: string): Invoice | ErrorResponse {
+	const response = JSON.parse(data)
+
+	if (isAccountingErrorResponse(response)) {
+		return transformErrorResponse(response)
+	}
+
+	const { invoice } = response.response.result
+	
+	return transformInvoiceData(invoice)
+}
+
 export function transformListInvoicesResponse(
 	data: string
 ): { invoices: Invoice[]; pages: Pagination } | ErrorResponse {
@@ -285,20 +297,6 @@ export function transformListInvoicesResponse(
 			total,
 		},
 	}
-}
-
-export function transformInvoiceResponse(data: string): Invoice | ErrorResponse {
-	const response = JSON.parse(data)
-
-	if (isAccountingErrorResponse(response)) {
-		return transformErrorResponse(response)
-	}
-
-	const {
-		response: { result },
-	} = response
-	const { invoice } = result
-	return transformInvoiceData(invoice)
 }
 
 export function transformInvoiceRequest(invoice: Invoice): string {
