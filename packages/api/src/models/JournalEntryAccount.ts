@@ -39,19 +39,15 @@ export function transformJournalEntryAccountListResponse(data: string): { journa
 		return transformErrorResponse(response)
 	}
 
-	const {
-		response: {
-			result: { journal_entry_accounts, per_page, total, page, pages },
-		},
-	} = response
+	const { journal_entry_accounts, per_page, total, page, pages } = response.response.result
 
 	return {
 		journalEntryAccounts: journal_entry_accounts.map((account: any) => transformJournalEntryAccountData(account)),
 		pages: {
-			size: per_page,
 			total,
-			page,
+            size: per_page,
 			pages,
+			page,
 		},
 	}
 }
