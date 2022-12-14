@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import ClientBusiness, { transformClientBusinessResponse, ClientBusinessResponse } from './ClientBusiness'
+import ClientBusiness, { transformClientBusinessParsedResponse, ClientBusinessResponse } from './ClientBusiness'
 import AccountBusiness, { transformAccountBusinessParsedResponse, AccountBusinessResponse } from './AccountBusiness'
 
 export default interface BusinessClient {
@@ -26,7 +26,7 @@ export function transformBusinessClientParsedResponse(businessClient: BusinessCl
 		businessId: businessClient.business_id,
 		accountId: businessClient.account_id,
 		userId: businessClient.userid,
-		clientBusiness: businessClient.client_business && transformClientBusinessResponse(businessClient.client_business),
+		clientBusiness: businessClient.client_business && transformClientBusinessParsedResponse(businessClient.client_business),
 		accountBusiness: businessClient.account_business && transformAccountBusinessParsedResponse(businessClient.account_business),
 	}
 }
