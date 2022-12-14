@@ -76,7 +76,39 @@ export default interface CreditNote {
     visState?: VisState
 }
 
-function transformCreditNoteData(creditNote: any): CreditNote {
+export function transformCreditNoteResponse(data: string): CreditNote | ErrorResponse {
+    const response = JSON.parse(data)
+
+    if (isAccountingErrorResponse(response)) {
+        return transformErrorResponse(response)
+    }
+
+    const { credit_notes } = response.response.result
+
+    return transformCreditNoteParsedResponse(credit_notes)
+}
+
+export function transformCreditNoteListResponse(data: string): { creditNotes: CreditNote[]; pages: Pagination } | ErrorResponse {
+    const response = JSON.parse(data)
+
+    if (isAccountingErrorResponse(response)) {
+        return transformErrorResponse(response)
+    }
+
+    const { credit_notes, per_page, total, page, pages } = response.response.result
+
+    return {
+        creditNotes: credit_notes.map(transformCreditNoteParsedResponse),
+        pages: {
+            total,
+            size: per_page,
+            pages,
+            page,
+        }
+    }
+}
+
+function transformCreditNoteParsedResponse(creditNote: any): CreditNote {
     return {
         id: creditNote.id,
         creditId: creditNote.creditid,
@@ -115,38 +147,6 @@ function transformCreditNoteData(creditNote: any): CreditNote {
         vatName: creditNote.vat_name,
         vatNumber: creditNote.vat_number,
         visState: creditNote.vis_state,
-    }
-}
-
-export function transformCreditNoteResponse(data: string): CreditNote | ErrorResponse {
-    const response = JSON.parse(data)
-
-    if (isAccountingErrorResponse(response)) {
-        return transformErrorResponse(response)
-    }
-
-    const { credit_notes } = response.response.result
-
-    return transformCreditNoteData(credit_notes)
-}
-
-export function transformCreditNoteListResponse(data: string): { creditNotes: CreditNote[]; pages: Pagination } | ErrorResponse {
-    const response = JSON.parse(data)
-
-    if (isAccountingErrorResponse(response)) {
-        return transformErrorResponse(response)
-    }
-
-    const { credit_notes, per_page, total, page, pages } = response.response.result
-
-    return {
-        creditNotes: credit_notes.map(transformCreditNoteData),
-        pages: {
-            total,
-            size: per_page,
-            pages,
-            page,
-        }
     }
 }
 
