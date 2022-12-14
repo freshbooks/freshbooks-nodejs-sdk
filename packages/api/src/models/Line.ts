@@ -32,45 +32,7 @@ export default interface Line {
 	updated?: Date
 }
 
-/**
- * Format a Line response object
- * @param line Account business object
- * eg:             
- * 	{
- * 		amount: 
- *		 	{
-				amount: "3000.00",
-				code: "USD"
-			},
-		compounded_tax: false,
-		date: null,
-		description: "",
-		expenseid: 0,
-		invoiceid: 225500,
-		lineid: 2,
-		modern_project_id: null,
-		modern_time_entries: [],
-		name: "TV Ads",
-		qty: "1",
-		retainer_id: null,
-		retainer_period_id: null,
-		taskno: 2,
-		taxAmount1: "0",
-		taxAmount2: "0",
-		taxName1: "",
-		taxName2: "",
-		taxNumber1: null,
-		taxNumber2: null,
-		type: 0,
-		unit_cost: {
-			amount: "3000.00",
-			code: "USD"
-		},
-		updated: "2019-11-25 15:43:26"
-	}
- * @returns Money object
- */
-export function transformLineResponse(line: any): Line {
+export function transformLineParsedResponse(line: any): Line {
 	return {
 		amount: line.amount,
 		compoundedTax: line.compounded_tax,

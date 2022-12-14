@@ -4,7 +4,7 @@ import { transformErrorResponse, isAccountingErrorResponse, ErrorResponse } from
 import Money, { transformMoneyResponse } from './Money'
 import { Nullable } from './helpers'
 import VisState from './VisState'
-import Line, { transformLineRequest, transformLineResponse } from './Line'
+import Line, { transformLineRequest, transformLineParsedResponse } from './Line'
 import { transformDateResponse, DateFormat, transformDateRequest } from './Date'
 import Owner, { transformOwnerResponse } from './Owner'
 
@@ -204,7 +204,7 @@ function transformInvoiceParsedResponse(invoice: any): Invoice {
 		invoiceId: invoice.invoiceid,
 		language: invoice.language,
 		lastOrderStatus: invoice.last_order_status,
-		lines: invoice.lines && invoice.lines.map((line: any): Line => transformLineResponse(line)),
+		lines: invoice.lines && invoice.lines.map((line: any): Line => transformLineParsedResponse(line)),
 		lName: invoice.lname,
 		notes: invoice.notes,
 		organization: invoice.organization,

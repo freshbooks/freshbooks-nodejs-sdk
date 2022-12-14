@@ -3,7 +3,7 @@ import { transformErrorResponse, isAccountingErrorResponse, ErrorResponse } from
 import Money, { transformMoneyRequest, transformMoneyResponse } from './Money'
 import { Nullable } from './helpers'
 import VisState from './VisState'
-import Line, { transformLineRequest, transformLineResponse } from './Line'
+import Line, { transformLineRequest, transformLineParsedResponse } from './Line'
 import { transformDateResponse, DateFormat, transformDateRequest } from './Date'
 
 enum CreditType {
@@ -131,7 +131,7 @@ function transformCreditNoteParsedResponse(creditNote: any): CreditNote {
         fName: creditNote.fname,
         language: creditNote.language,
         lastOrderStatus: creditNote.last_order_status,
-        lines: creditNote.lines && creditNote.lines.map(transformLineResponse),
+        lines: creditNote.lines && creditNote.lines.map(transformLineParsedResponse),
         lName: creditNote.lname,
         notes: creditNote.notes,
         organization: creditNote.organization,
