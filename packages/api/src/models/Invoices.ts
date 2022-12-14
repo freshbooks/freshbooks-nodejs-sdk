@@ -278,9 +278,7 @@ export function transformInvoiceResponse(data: string): Invoice | ErrorResponse 
 	return transformInvoiceData(invoice)
 }
 
-export function transformListInvoicesResponse(
-	data: string
-): { invoices: Invoice[]; pages: Pagination } | ErrorResponse {
+export function transformListInvoicesResponse(data: string): { invoices: Invoice[]; pages: Pagination } | ErrorResponse {
 	const response = JSON.parse(data)
 
 	if (isAccountingErrorResponse(response)) {
@@ -288,13 +286,14 @@ export function transformListInvoicesResponse(
 	}
 
 	const { invoices, per_page, total, page, pages } = response.response.result
+
 	return {
 		invoices: invoices.map((invoice: any) => transformInvoiceData(invoice)),
 		pages: {
-			page,
-			pages,
-			size: per_page,
 			total,
+			size: per_page,
+			pages,
+			page,
 		},
 	}
 }
