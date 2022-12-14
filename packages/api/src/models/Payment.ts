@@ -46,46 +46,6 @@ export default interface Payment {
 	id?: string
 }
 
-function transformPaymentData({
-	orderid: orderId,
-	accounting_systemid: accountingSystemId,
-	updated,
-	invoiceid: invoiceId,
-	creditid: creditId,
-	amount,
-	clientid: clientId,
-	vis_state: visState,
-	logid: logId,
-	note,
-	overpaymentid: overpaymentId,
-	gateway,
-	date,
-	transactionid: transactionId,
-	from_credit: fromCredit,
-	type,
-	id,
-}: any): Payment {
-	return {
-		orderId,
-		accountingSystemId,
-		updated: transformDateResponse(updated, DateFormat['YYYY-MM-DD hh:mm:ss']),
-		invoiceId,
-		creditId,
-		amount: transformMoneyParsedResponse(amount),
-		clientId,
-		visState,
-		logId,
-		note,
-		overpaymentId,
-		gateway,
-		date: transformDateResponse(date, DateFormat['YYYY-MM-DD']),
-		transactionId,
-		fromCredit,
-		type,
-		id,
-	}
-}
-
 export function transformPaymentResponse(data: string): Payment | ErrorResponse {
 	const response = JSON.parse(data)
 
@@ -115,6 +75,28 @@ export function transformPaymentListResponse(data: string): { payments: Payment[
 			pages,
 			page,	
 		},
+	}
+}
+
+function transformPaymentData(payment: any): Payment {
+	return {
+		orderId: payment.orderid,
+		accountingSystemId: payment.accounting_systemid,
+		updated: transformDateResponse(payment.updated, DateFormat['YYYY-MM-DD hh:mm:ss']),
+		invoiceId: payment.invoiceid,
+		creditId: payment.creditid,
+		amount: transformMoneyParsedResponse(payment.amount),
+		clientId: payment.clientid,
+		visState: payment.vis_state,
+		logId: payment.logid,
+		note: payment.note,
+		overpaymentId: payment.overpaymentid,
+		gateway: payment.gateway,
+		date: transformDateResponse(payment.date, DateFormat['YYYY-MM-DD']),
+		transactionId: payment.transactionid,
+		fromCredit: payment.from_credit,
+		type: payment.type,
+		id: payment.id,
 	}
 }
 
