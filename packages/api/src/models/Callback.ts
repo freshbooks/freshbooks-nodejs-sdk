@@ -40,29 +40,23 @@ export function transformCallbackResponse(data: string): Callback | ErrorRespons
 	return transformCallbackData(callback)
 }
 
-/**
- * Parses JSON list response and converts to internal callback list response
- * @param data representing JSON response
- * @returns callback list response
- */
  export function transformCallbackListResponse(data: string): { callbacks: Callback[]; pages: Pagination } | ErrorResponse {
 	const response = JSON.parse(data)
 
 	if (isEventErrorResponse(response)) {
 		return transformErrorResponse(response)
 	}
-	const {
-		response: { result },
-	} = response
-	const { callbacks, per_page, total, page, pages } = result
+
+	const { callbacks, per_page, total, page, pages } = response.response.result
+	
 	return {
-		pages: {
-			page,
-			pages,
-			size: per_page,
-			total,
-		},
 		callbacks: callbacks.map((callback: Callback) => transformCallbackData(callback)),
+		pages: {
+			total,
+			size: per_page,
+			pages,
+			page,
+		},	
 	}
 }
 
