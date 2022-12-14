@@ -39,11 +39,7 @@ export function transformExpenseCategoryResponse(data: string): ExpenseCategory 
 		return transformErrorResponse(response)
 	}
 
-	const {
-		response: {
-			result: { category },
-		},
-	} = response
+	const { category } = response.response.result
 
 	return transformExpenseCategoryData(category)
 }
