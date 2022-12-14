@@ -128,11 +128,8 @@ export function transformExpenseResponse(data: string): Expense | ErrorResponse 
 	if (isAccountingErrorResponse(response)) {
 		return transformErrorResponse(response)
 	}
-	const {
-		response: {
-			result: { expense },
-		},
-	} = response
+
+	const { expense } = response.response.result
 
 	return transformExpenseData(expense)
 }
