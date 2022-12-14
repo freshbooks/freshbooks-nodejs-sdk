@@ -72,7 +72,7 @@ export function transformOtherIncomeResponse(data: string): OtherIncome | ErrorR
 	return transformOtherIncomeData(other_income)
 }
 
-export function transformListOtherIncomesResponse(data: string): { otherIncomes: OtherIncome[]; pages: Pagination } | ErrorResponse {
+export function transformOtherIncomeListResponse(data: string): { otherIncomes: OtherIncome[]; pages: Pagination } | ErrorResponse {
 	const response = JSON.parse(data)
 
 	if (isAccountingErrorResponse(response)) {
