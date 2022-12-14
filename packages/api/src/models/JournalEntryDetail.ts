@@ -2,7 +2,7 @@
 import { DateFormat, transformDateResponse } from './Date'
 import Entry, { transformEntryParsedResponse } from './Entry'
 import { ErrorResponse, isAccountingErrorResponse, transformErrorResponse } from './Error'
-import JournalEntryAccount, { transformJournalEntryAccountData } from './JournalEntryAccount'
+import JournalEntryAccount, { transformJournalEntryAccountParsedResponse } from './JournalEntryAccount'
 import Money, { transformMoneyResponse } from './Money'
 import { Nullable } from './helpers'
 import Pagination from './Pagination'
@@ -26,7 +26,7 @@ export default interface JournalEntryDetail {
 
 export function transformJournalEntryDetailData(detail: any): JournalEntryDetail {
 	return {
-        account: detail.account && transformJournalEntryAccountData(detail.account),
+        account: detail.account && transformJournalEntryAccountParsedResponse(detail.account),
         accountingSystemId: detail.accounting_systemid,
         balance: detail.balance && transformMoneyResponse(detail.balance),
         credit: detail.credit && transformMoneyResponse(detail.credit),

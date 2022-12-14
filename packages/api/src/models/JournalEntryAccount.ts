@@ -17,7 +17,27 @@ export default interface JournalEntryAccount {
     subAccounts?: SubAccount[]
 }
 
-export function transformJournalEntryAccountData(account: any): JournalEntryAccount {
+export function transformJournalEntryAccountListResponse(data: string): { journalEntryAccounts: JournalEntryAccount[]; pages: Pagination } | ErrorResponse {
+	const response = JSON.parse(data)
+
+	if (isAccountingErrorResponse(response)) {
+		return transformErrorResponse(response)
+	}
+
+	const { journal_entry_accounts, per_page, total, page, pages } = response.response.result
+
+	return {
+		journalEntryAccounts: journal_entry_accounts.map((account: any) => transformJournalEntryAccountParsedResponse(account)),
+		pages: {
+			total,
+            size: per_page,
+			pages,
+			page,
+		},
+	}
+}
+
+export function transformJournalEntryAccountParsedResponse(account: any): JournalEntryAccount {
 	return {
         accountName: account.account_name,
         accountNumber: account.account_number,
@@ -29,25 +49,5 @@ export function transformJournalEntryAccountData(account: any): JournalEntryAcco
         currencyCode: account.currency_code,
         id: account.id,
         subAccounts: account.sub_accounts && account.sub_accounts.map((subAccount: any): SubAccount => transformSubAccountResponse(subAccount)),
-	}
-}
-
-export function transformJournalEntryAccountListResponse(data: string): { journalEntryAccounts: JournalEntryAccount[]; pages: Pagination } | ErrorResponse {
-	const response = JSON.parse(data)
-
-	if (isAccountingErrorResponse(response)) {
-		return transformErrorResponse(response)
-	}
-
-	const { journal_entry_accounts, per_page, total, page, pages } = response.response.result
-
-	return {
-		journalEntryAccounts: journal_entry_accounts.map((account: any) => transformJournalEntryAccountData(account)),
-		pages: {
-			total,
-            size: per_page,
-			pages,
-			page,
-		},
 	}
 }
