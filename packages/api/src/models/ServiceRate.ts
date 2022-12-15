@@ -14,10 +14,10 @@ export function transformServiceRateResponse(data: string): ServiceRate | ErrorR
 	}
 
 	const { service_rate } = response
-	return transformServiceRateData(service_rate)
+	return transformServiceRateParsedResponse(service_rate)
 }
 
-function transformServiceRateData(serviceRate: any): ServiceRate {
+function transformServiceRateParsedResponse(serviceRate: any): ServiceRate {
 	return {
 		rate: serviceRate.rate,
 		businessId: serviceRate.business_id,
