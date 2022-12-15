@@ -11,9 +11,9 @@ export interface PhoneNumberResponse {
 	phone_number: Nullable<string>
 }
 
-export function transformPhoneNumberParsedResponse({ title, phone_number }: PhoneNumberResponse): PhoneNumber {
+export function transformPhoneNumberParsedResponse(phoneNumber: PhoneNumberResponse): PhoneNumber {
 	return {
-		title,
-		number: phone_number,
+		title: phoneNumber.title,
+		number: phoneNumber.phone_number,
 	}
 }
