@@ -19,7 +19,7 @@ export interface RoleResponse {
 	links: { [key: string]: string }
 }
 
-export function transformRoleResponse(role: RoleResponse): Role {
+export function transformRoleParsedResponse(role: RoleResponse): Role {
 	return {
 		id: role.id,
 		role: role.role,

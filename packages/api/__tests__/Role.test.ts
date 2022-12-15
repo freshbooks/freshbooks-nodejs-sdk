@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { transformRoleResponse } from '../src/models/Role'
+import { transformRoleParsedResponse } from '../src/models/Role'
 
 describe('@freshbooks/api', () => {
 	describe('Role', () => {
@@ -15,7 +15,7 @@ describe('@freshbooks/api', () => {
 				accountid: 'zDmNq',
 				created_at: '2016-01-26T16:00:44Z',
 			}
-			const model = transformRoleResponse(data)
+			const model = transformRoleParsedResponse(data)
 
 			expect(model).toEqual(
 				expect.objectContaining({
