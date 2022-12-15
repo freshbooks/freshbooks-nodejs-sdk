@@ -15,7 +15,7 @@ export function transformServiceRateResponse(data: string): ServiceRate | ErrorR
 	}
 
 	const { service_rate } = response
-	
+
 	return transformServiceRateParsedResponse(service_rate)
 }
 
@@ -27,11 +27,10 @@ function transformServiceRateParsedResponse(serviceRate: any): ServiceRate {
 	}
 }
 
-export function transformServiceRateRequest(service_rate: ServiceRate): string {
-	const request = JSON.stringify({
+export function transformServiceRateRequest(serviceRate: ServiceRate): string {
+	return JSON.stringify({
 		service_rate: {
-			rate: service_rate.rate,
+			rate: serviceRate.rate,
 		},
 	})
-	return request
 }
