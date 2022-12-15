@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import Business, { transformBusinessParsedResponse, BusinessResponse } from './Business'
 
 export default interface BusinessMembership {
