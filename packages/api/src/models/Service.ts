@@ -11,21 +11,7 @@ export default interface Service {
 	billable?: boolean
 	visState?: VisState
 }
-export function transformServiceData({
-	business_id: businessId,
-	id: id,
-	name: name,
-	billable: billable,
-	vis_state: visState,
-}: any): Service {
-	return {
-		businessId,
-		id,
-		name,
-		billable,
-		visState,
-	}
-}
+
 export function transformServiceResponse(data: string): Service | ErrorResponse {
 	const response = JSON.parse(data)
 	if (isProjectErrorResponse(response)) {
@@ -54,6 +40,16 @@ export function transformServiceListResponse(data: string): { services: Service[
 			pages,
 			page,
 		},
+	}
+}
+
+export function transformServiceData(service: any): Service {
+	return {
+		businessId: service.business_id,
+		id: service.id,
+		name: service.name,
+		billable: service.billable,
+		visState: service.vis_state,
 	}
 }
 
