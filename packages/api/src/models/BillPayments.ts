@@ -56,7 +56,7 @@ export function transformBillPaymentsListResponse(data: string): { billPayments:
 	const { bill_payments, per_page, total, page, pages } = response.response.result
 	
 	return {
-		billPayments: bill_payments.map((payment: BillPayments) => transformBillPaymentsParsedResponse(payment)),
+		billPayments: bill_payments.map((payment: any) => transformBillPaymentsParsedResponse(payment)),
 		pages: {
 			total,
 			size: per_page,

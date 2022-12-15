@@ -75,7 +75,7 @@ export function transformProjectListResponse(data: string): { projects: Project[
 	const { total, per_page, page, pages } = meta
 
 	return {
-		projects: projects.map((project: Project) => transformProjectParsedResponse(project)),
+		projects: projects.map((project: any) => transformProjectParsedResponse(project)),
 		pages: {
 			total,
 			size: per_page,

@@ -80,7 +80,7 @@ export function transformClientListResponse(data: string): { clients: Client[]; 
 	const { clients, per_page, total, page, pages } = response.response.result
 
 	return {
-		clients: clients.map((client: Client) => transformClientParsedResponse(client)),
+		clients: clients.map((client: any) => transformClientParsedResponse(client)),
 		pages: {
 			total,
 			size: per_page,

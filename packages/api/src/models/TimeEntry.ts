@@ -50,7 +50,7 @@ export function transformTimeEntryListResponse(data: string): { timeEntries: Tim
 	const { total, per_page, page, pages } = meta
 
 	return {
-		timeEntries: time_entries.map((entry: TimeEntry) => transformTimeEntryParsedResponse(entry)),
+		timeEntries: time_entries.map((entry: any) => transformTimeEntryParsedResponse(entry)),
 		pages: {
 			total,
 			size: per_page,
