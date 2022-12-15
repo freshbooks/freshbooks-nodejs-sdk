@@ -1,6 +1,6 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import { Nullable } from './helpers'
 
-/* eslint-disable @typescript-eslint/camelcase */
 export default interface Profession {
 	id: string
 	title?: Nullable<string>
