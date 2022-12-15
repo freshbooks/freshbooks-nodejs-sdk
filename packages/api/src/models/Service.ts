@@ -19,7 +19,7 @@ export function transformServiceResponse(data: string): Service | ErrorResponse 
 	}
 
 	const { service } = response
-	return transformServiceData(service)
+	return transformServiceParsedResponse(service)
 }
 
 export function transformServiceListResponse(data: string): { services: Service[]; pages: Pagination } | ErrorResponse {
@@ -33,7 +33,7 @@ export function transformServiceListResponse(data: string): { services: Service[
 	const { total, per_page, page, pages } = meta
 
 	return {
-		services: services.map((service: Service) => transformServiceData(service)),
+		services: services.map((service: Service) => transformServiceParsedResponse(service)),
 		pages: {
 			total,
 			size: per_page,
@@ -43,7 +43,7 @@ export function transformServiceListResponse(data: string): { services: Service[
 	}
 }
 
-export function transformServiceData(service: any): Service {
+export function transformServiceParsedResponse(service: any): Service {
 	return {
 		businessId: service.business_id,
 		id: service.id,

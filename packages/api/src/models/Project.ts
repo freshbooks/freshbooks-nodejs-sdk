@@ -4,7 +4,7 @@ import Pagination from './Pagination'
 import { Nullable } from './helpers'
 import { transformDateResponse, DateFormat } from './Date'
 import ProjectGroup, { transformProjectGroupParsedResponse } from './ProjectGroup'
-import Service, { transformServiceData } from './Service'
+import Service, { transformServiceParsedResponse } from './Service'
 
 export enum ProjectType {
 	FixedPrice = 'fixed_price',
@@ -64,7 +64,6 @@ export function transformProjectResponse(data: string): Project | ErrorResponse 
 	return transformProjectParsedResponse(project)
 }
 
-
 export function transformProjectListResponse(data: string): { projects: Project[]; pages: Pagination } | ErrorResponse {
 	const response = JSON.parse(data)
 
@@ -106,7 +105,7 @@ function transformProjectParsedResponse(project: any): Project {
 		createdAt: transformDateResponse(project.created_at, DateFormat['YYYY-MM-DDThh:mm:ss']),
 		updatedAt: transformDateResponse(project.updated_at, DateFormat['YYYY-MM-DDThh:mm:ss']),
 		loggedDuration: project.logged_duration,
-		services: project.services && project.services.map(transformServiceData),
+		services: project.services && project.services.map(transformServiceParsedResponse),
 		billedAmount: project.billed_amount,
 		billedStatus: project.billed_status,
 		retainerId: project.retainer_id,
@@ -115,7 +114,6 @@ function transformProjectParsedResponse(project: any): Project {
 		group: project.group && transformProjectGroupParsedResponse(project.group),
 	}
 }
-
 
 export function transformProjectRequest(project: Project): string {
 	return JSON.stringify({
