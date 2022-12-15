@@ -24,15 +24,15 @@ export function transformProjectGroupResponse(projectGroup: any): ProjectGroup {
 	}
 }
 
-export function transformProjectGroupMemberResponse(data: any): ProjectGroupMembers {
+export function transformProjectGroupMemberResponse(projectGroupMember: any): ProjectGroupMembers {
 	return {
-		firstName: data.first_name,
-		lastName: data.last_name,
-		role: data.role,
-		identityId: data.identity_id,
-		active: data.active,
-		company: data.company,
-		id: data.id,
-		email: data.email,
+		firstName: projectGroupMember.first_name,
+		lastName: projectGroupMember.last_name,
+		role: projectGroupMember.role,
+		identityId: projectGroupMember.identity_id,
+		active: projectGroupMember.active,
+		company: projectGroupMember.company,
+		id: projectGroupMember.id,
+		email: projectGroupMember.email,
 	}
 }
