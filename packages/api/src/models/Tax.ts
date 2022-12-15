@@ -21,20 +21,6 @@ export function transformTaxResponse(tax: any): Tax {
 	}
 }
 
-/**
- * Parse a JSON string to @Tax object
- * @param json JSON string
- * eg: '{
- *          "amount": "1234.00",
- *          "code": "HST"
- *      }'
- * @returns Tax object
- */
-export function transformtaxJSON(json: string): Tax {
-	const response: TaxResponse = JSON.parse(json)
-	return transformTaxResponse(response)
-}
-
 export function transformTaxRequest({ amount, name }: Tax): any {
 	return {
 		amount,
