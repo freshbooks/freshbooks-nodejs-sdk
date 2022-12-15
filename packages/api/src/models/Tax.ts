@@ -15,9 +15,9 @@ export function transformTaxParsedResponse(tax: any): Tax {
 	}
 }
 
-export function transformTaxRequest({ amount, name }: Tax): any {
+export function transformTaxRequest(tax: Tax): any {
 	return {
-		amount,
-		name,
+		amount: tax.amount,
+		name: tax.name,
 	}
 }
