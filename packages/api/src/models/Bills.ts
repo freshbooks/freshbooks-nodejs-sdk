@@ -110,7 +110,8 @@ export function transformBillsRequest(bill: Bills): string {
 			attachment: bill.attachment,
 			bill_number: bill.billNumber,
 			bill_payments:
-				bill.billPayments && bill.billPayments.map((billPayment) => transformBillPaymentsParsedResponse(billPayment)),
+				bill.billPayments && 
+				bill.billPayments.map((billPayment) => transformBillPaymentsParsedResponse(billPayment)),
 			currency_code: bill.currencyCode,
 			due_date: bill.dueDate && transformDateRequest(bill.dueDate),
 			due_offset_days: bill.dueOffsetDays,
