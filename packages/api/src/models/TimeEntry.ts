@@ -64,29 +64,24 @@ export function transformTimeEntryResponse(data: string): TimeEntry | ErrorRespo
 	return transformTimeEntryData(time_entry)
 }
 
-/**
- * Parses JSON list response and converts to internal time_entry list response
- * @param data representing JSON response
- * @returns time_entry list response
- */
-export function transformTimeEntryListResponse(
-	data: string
-): { timeEntries: TimeEntry[]; pages: Pagination } | ErrorResponse {
+export function transformTimeEntryListResponse(data: string): { timeEntries: TimeEntry[]; pages: Pagination } | ErrorResponse {
 	const response = JSON.parse(data)
 
 	if (isProjectErrorResponse(response)) {
 		return transformErrorResponse(response)
 	}
+
 	const { time_entries, meta } = response
 	const { total, per_page, page, pages } = meta
+
 	return {
-		pages: {
-			page,
-			pages,
-			size: per_page,
-			total,
-		},
 		timeEntries: time_entries.map((time_entry: TimeEntry) => transformTimeEntryData(time_entry)),
+		pages: {
+			total,
+			size: per_page,
+			pages,
+			page,
+		},	
 	}
 }
 
