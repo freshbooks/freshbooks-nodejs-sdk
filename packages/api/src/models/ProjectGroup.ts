@@ -20,11 +20,11 @@ export interface ProjectGroupMembers {
 export function transformProjectGroupParsedResponse(projectGroup: any): ProjectGroup {
 	return {
 		id: projectGroup.id,
-		members: projectGroup.members && projectGroup.members.map(transformProjectGroupMemberResponse),
+		members: projectGroup.members && projectGroup.members.map(transformProjectGroupMemberParsedResponse),
 	}
 }
 
-export function transformProjectGroupMemberResponse(projectGroupMember: any): ProjectGroupMembers {
+export function transformProjectGroupMemberParsedResponse(projectGroupMember: any): ProjectGroupMembers {
 	return {
 		firstName: projectGroupMember.first_name,
 		lastName: projectGroupMember.last_name,
