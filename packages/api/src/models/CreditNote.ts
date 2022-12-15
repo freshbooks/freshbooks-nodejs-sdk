@@ -98,7 +98,7 @@ export function transformCreditNoteListResponse(data: string): { creditNotes: Cr
     const { credit_notes, per_page, total, page, pages } = response.response.result
 
     return {
-        creditNotes: credit_notes.map(transformCreditNoteParsedResponse),
+        creditNotes: credit_notes.map((creditNote: any) => transformCreditNoteParsedResponse(creditNote)),
         pages: {
             total,
             size: per_page,
