@@ -28,7 +28,39 @@ export default interface TimeEntry {
 	timer?: Nullable<Timer>
 }
 
-function transformTimeEntryData(timeEntry: any): TimeEntry {
+export function transformTimeEntryResponse(data: string): TimeEntry | ErrorResponse {
+	const response = JSON.parse(data)
+
+	if (isProjectErrorResponse(response)) {
+		return transformErrorResponse(response)
+	}
+	const { time_entry } = response
+
+	return transformTimeEntryParsedResponse(time_entry)
+}
+
+export function transformTimeEntryListResponse(data: string): { timeEntries: TimeEntry[]; pages: Pagination } | ErrorResponse {
+	const response = JSON.parse(data)
+
+	if (isProjectErrorResponse(response)) {
+		return transformErrorResponse(response)
+	}
+
+	const { time_entries, meta } = response
+	const { total, per_page, page, pages } = meta
+
+	return {
+		timeEntries: time_entries.map((time_entry: TimeEntry) => transformTimeEntryParsedResponse(time_entry)),
+		pages: {
+			total,
+			size: per_page,
+			pages,
+			page,
+		},	
+	}
+}
+
+function transformTimeEntryParsedResponse(timeEntry: any): TimeEntry {
 	return {
 		id: timeEntry.id,
 		identityId: timeEntry.identity_id,
@@ -50,38 +82,6 @@ function transformTimeEntryData(timeEntry: any): TimeEntry {
 		retainerId: timeEntry.retainer_id,
 		duration: timeEntry.duration,
 		timer: timeEntry.timer && transformTimerResponse(timeEntry.timer),
-	}
-}
-
-export function transformTimeEntryResponse(data: string): TimeEntry | ErrorResponse {
-	const response = JSON.parse(data)
-
-	if (isProjectErrorResponse(response)) {
-		return transformErrorResponse(response)
-	}
-	const { time_entry } = response
-
-	return transformTimeEntryData(time_entry)
-}
-
-export function transformTimeEntryListResponse(data: string): { timeEntries: TimeEntry[]; pages: Pagination } | ErrorResponse {
-	const response = JSON.parse(data)
-
-	if (isProjectErrorResponse(response)) {
-		return transformErrorResponse(response)
-	}
-
-	const { time_entries, meta } = response
-	const { total, per_page, page, pages } = meta
-
-	return {
-		timeEntries: time_entries.map((time_entry: TimeEntry) => transformTimeEntryData(time_entry)),
-		pages: {
-			total,
-			size: per_page,
-			pages,
-			page,
-		},	
 	}
 }
 
