@@ -3,11 +3,6 @@ export default interface Tax {
 	name?: string
 }
 
-export interface TaxResponse {
-	amount: string
-	name: string
-}
-
 export function transformTaxParsedResponse(tax: any): Tax {
 	return {
 		amount: tax.amount,
