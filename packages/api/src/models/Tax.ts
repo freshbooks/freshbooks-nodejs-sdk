@@ -8,13 +8,7 @@ export interface TaxResponse {
 	name: string
 }
 
-/**
- * Format a Tax response object
- * @param tax Account business object
- * eg: { "amount": "1234.00", "tax": "HST" }
- * @returns Tax object
- */
-export function transformTaxResponse(tax: any): Tax {
+export function transformTaxParsedResponse(tax: any): Tax {
 	return {
 		amount: tax.amount,
 		name: tax.name,
