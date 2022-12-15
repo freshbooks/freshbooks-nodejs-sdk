@@ -62,8 +62,7 @@ export function transformCallbackRequest(callback: Callback): string {
 			event: callback.event,
 		}
 	}
-	const request = JSON.stringify(payload)
-	return request
+	return JSON.stringify(payload)
 }
 
 export function transformCallbackVerifierRequest(verifier: string): string {
@@ -72,8 +71,7 @@ export function transformCallbackVerifierRequest(verifier: string): string {
 			verifier: verifier
 		}
 	}
-	const request = JSON.stringify(payload)
-	return request
+	return JSON.stringify(payload)
 }
 
 export function transformCallbackResendRequest(): string {
@@ -82,6 +80,5 @@ export function transformCallbackResendRequest(): string {
 			resend: true
 		}
 	}
-	const request = JSON.stringify(payload)
-	return request
+	return JSON.stringify(payload)
 }
