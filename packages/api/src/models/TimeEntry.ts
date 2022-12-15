@@ -85,13 +85,8 @@ function transformTimeEntryParsedResponse(timeEntry: any): TimeEntry {
 	}
 }
 
-/**
- * Converts @TimeEntry object into JSON string
- * @param timeEntry @TimeEntry object
- * @returns JSON string representing timeEntry request
- */
 export function transformTimeEntryRequest(timeEntry: TimeEntry): string {
-	const model = {
+	return JSON.stringify({
 		time_entry: {
 			id: timeEntry.id,
 			identity_id: timeEntry.identityId,
@@ -112,6 +107,5 @@ export function transformTimeEntryRequest(timeEntry: TimeEntry): string {
 			retainer_id: timeEntry.retainerId,
 			duration: timeEntry.duration,
 		},
-	}
-	return JSON.stringify(model)
+	})
 }
