@@ -3,7 +3,7 @@ import { ErrorResponse, isProjectErrorResponse, transformErrorResponse } from '.
 import Pagination from './Pagination'
 import { Nullable } from './helpers'
 import { transformDateResponse, DateFormat } from './Date'
-import ProjectGroup, { transformProjectGroupResponse } from './ProjectGroup'
+import ProjectGroup, { transformProjectGroupParsedResponse } from './ProjectGroup'
 import Service, { transformServiceData } from './Service'
 
 export enum ProjectType {
@@ -112,7 +112,7 @@ function transformProjectParsedResponse(project: any): Project {
 		retainerId: project.retainer_id,
 		expenseMarkup: project.expense_markup,
 		groupId: project.group_id,
-		group: project.group && transformProjectGroupResponse(project.group),
+		group: project.group && transformProjectGroupParsedResponse(project.group),
 	}
 }
 

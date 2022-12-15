@@ -17,7 +17,7 @@ export interface ProjectGroupMembers {
 	email: string
 }
 
-export function transformProjectGroupResponse(projectGroup: any): ProjectGroup {
+export function transformProjectGroupParsedResponse(projectGroup: any): ProjectGroup {
 	return {
 		id: projectGroup.id,
 		members: projectGroup.members && projectGroup.members.map(transformProjectGroupMemberResponse),
