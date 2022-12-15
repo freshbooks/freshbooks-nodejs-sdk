@@ -18,10 +18,10 @@ export function transformShareLinkResponse(data: string): ShareLink | ErrorRespo
 
 	const { share_link } = response.response.result
 
-	return transformShareLinkData(share_link)
+	return transformShareLinkParsedResponse(share_link)
 }
 
-function transformShareLinkData(link: any): ShareLink {
+function transformShareLinkParsedResponse(link: any): ShareLink {
 	return {
 		resourceId: link.resourceid,
 		clientId: link.client_id,
