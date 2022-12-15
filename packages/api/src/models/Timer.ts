@@ -6,12 +6,7 @@ export default interface Timer {
 	isRunning?: Nullable<boolean>
 }
 
-/**
- * Convert a Timer response object
- *
- * @param timer Account business object
- */
-export function transformTimerResponse(timer: any): Timer {
+export function transformTimerParsedResponse(timer: any): Timer {
 	return {
 		id: timer.id,
 		isRunning: timer.is_running,

@@ -3,7 +3,7 @@ import { ErrorResponse, isProjectErrorResponse, transformErrorResponse } from '.
 import Pagination from './Pagination'
 import { Nullable } from './helpers'
 import { transformDateResponse, DateFormat } from './Date'
-import Timer, { transformTimerResponse } from './Timer'
+import Timer, { transformTimerParsedResponse } from './Timer'
 
 export default interface TimeEntry {
 	id?: number
@@ -81,7 +81,7 @@ function transformTimeEntryParsedResponse(timeEntry: any): TimeEntry {
 		internal: timeEntry.internal,
 		retainerId: timeEntry.retainer_id,
 		duration: timeEntry.duration,
-		timer: timeEntry.timer && transformTimerResponse(timeEntry.timer),
+		timer: timeEntry.timer && transformTimerParsedResponse(timeEntry.timer),
 	}
 }
 
