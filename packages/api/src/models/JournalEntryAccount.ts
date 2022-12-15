@@ -2,7 +2,7 @@
 import { DateFormat, transformDateResponse } from './Date'
 import { ErrorResponse, isAccountingErrorResponse, transformErrorResponse } from './Error'
 import Pagination from './Pagination'
-import SubAccount, { transformSubAccountResponse } from './SubAccount'
+import SubAccount, { transformSubAccountParsedResponse } from './SubAccount'
 
 export default interface JournalEntryAccount {
     accountName: string
@@ -48,6 +48,6 @@ export function transformJournalEntryAccountParsedResponse(account: any): Journa
         createdAt: account.created_at && transformDateResponse(account.created_at, DateFormat['YYYY-MM-DD hh:mm:ss']),
         currencyCode: account.currency_code,
         id: account.id,
-        subAccounts: account.sub_accounts && account.sub_accounts.map((subAccount: any): SubAccount => transformSubAccountResponse(subAccount)),
+        subAccounts: account.sub_accounts && account.sub_accounts.map((subAccount: any): SubAccount => transformSubAccountParsedResponse(subAccount)),
 	}
 }
