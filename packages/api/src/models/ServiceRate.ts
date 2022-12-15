@@ -9,11 +9,13 @@ export default interface ServiceRate {
 
 export function transformServiceRateResponse(data: string): ServiceRate | ErrorResponse {
 	const response = JSON.parse(data)
+
 	if (isProjectErrorResponse(response)) {
 		return transformErrorResponse(response)
 	}
 
 	const { service_rate } = response
+	
 	return transformServiceRateParsedResponse(service_rate)
 }
 
