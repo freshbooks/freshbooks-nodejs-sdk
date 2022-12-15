@@ -44,29 +44,24 @@ export function transformTasksResponse(data: string): Tasks | ErrorResponse {
 
 	return transformTasksData(task)
 }
-/**
- * Parses JSON list response and converts to internal tasks list response
- * @param data representing JSON response
- * @returns tasks list response
- */
+
 export function transformTasksListResponse(data: string): { tasks: Tasks[]; pages: Pagination } | ErrorResponse {
 	const response = JSON.parse(data)
 
 	if (isAccountingErrorResponse(response)) {
 		return transformErrorResponse(response)
 	}
-	const {
-		response: { result },
-	} = response
-	const { tasks, per_page, total, page, pages } = result
+
+	const { tasks, per_page, total, page, pages } = response.response.result
+
 	return {
-		pages: {
-			page,
-			pages,
-			size: per_page,
-			total,
-		},
 		tasks: tasks.map((task: Tasks) => transformTasksData(task)),
+		pages: {
+			total,
+			size: per_page,
+			pages,
+			page,
+		},
 	}
 }
 
