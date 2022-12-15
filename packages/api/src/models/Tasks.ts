@@ -18,21 +18,6 @@ export default interface Tasks {
 	updated?: Date
 }
 
-export function transformTasksData(task: any): Tasks {
-	return {
-		id: task.id,
-		billable: task.billable,
-		description: task.description,
-		name: task.name,
-		rate: task.rate,
-		taskid: task.taskid,
-		tname: task.tname,
-		tdesc: task.tdesc,
-		visState: task.visState,
-		updated: task.updated,
-	}
-}
-
 export function transformTasksResponse(data: string): Tasks | ErrorResponse {
 	const response = JSON.parse(data)
 
@@ -42,7 +27,7 @@ export function transformTasksResponse(data: string): Tasks | ErrorResponse {
 
 	const { task } = response.response.result
 
-	return transformTasksData(task)
+	return transformTasksParsedResponse(task)
 }
 
 export function transformTasksListResponse(data: string): { tasks: Tasks[]; pages: Pagination } | ErrorResponse {
@@ -55,13 +40,28 @@ export function transformTasksListResponse(data: string): { tasks: Tasks[]; page
 	const { tasks, per_page, total, page, pages } = response.response.result
 
 	return {
-		tasks: tasks.map((task: Tasks) => transformTasksData(task)),
+		tasks: tasks.map((task: Tasks) => transformTasksParsedResponse(task)),
 		pages: {
 			total,
 			size: per_page,
 			pages,
 			page,
 		},
+	}
+}
+
+export function transformTasksParsedResponse(task: any): Tasks {
+	return {
+		id: task.id,
+		billable: task.billable,
+		description: task.description,
+		name: task.name,
+		rate: task.rate,
+		taskid: task.taskid,
+		tname: task.tname,
+		tdesc: task.tdesc,
+		visState: task.visState,
+		updated: task.updated,
 	}
 }
 
