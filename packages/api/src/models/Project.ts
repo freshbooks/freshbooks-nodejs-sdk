@@ -82,19 +82,15 @@ function transformProjectData(project: any): Project {
 	}
 }
 
-/**
- * Parses JSON response and converts to @Project model
- *
- * @param data representing JSON response
- * @returns @Project | @Error
- */
-export function transformProjectResponse(data: any): Project | ErrorResponse {
+export function transformProjectResponse(data: string): Project | ErrorResponse {
 	const response = JSON.parse(data)
 
 	if (isProjectErrorResponse(response)) {
 		return transformErrorResponse(response)
 	}
+
 	const { project } = response
+
 	return transformProjectData(project)
 }
 
