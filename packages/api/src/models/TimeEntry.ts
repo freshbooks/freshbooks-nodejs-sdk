@@ -53,18 +53,14 @@ function transformTimeEntryData(timeEntry: any): TimeEntry {
 	}
 }
 
-/**
- * Parses JSON response and converts to @TimeEntry model
- * @param data representing JSON response
- * @returns @TimeEntry | @Error
- */
-export function transformTimeEntryResponse(data: any): TimeEntry | ErrorResponse {
+export function transformTimeEntryResponse(data: string): TimeEntry | ErrorResponse {
 	const response = JSON.parse(data)
 
 	if (isProjectErrorResponse(response)) {
 		return transformErrorResponse(response)
 	}
 	const { time_entry } = response
+
 	return transformTimeEntryData(time_entry)
 }
 
