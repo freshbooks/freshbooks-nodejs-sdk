@@ -19,29 +19,15 @@ export interface RoleResponse {
 	links: { [key: string]: string }
 }
 
-/**
- * Format a Role response object
- * @param data Role object
- * eg: { "id": 682608, "role": "admin", "systemid": 1953394, "userid": 1, "created_at": "2016-01-26T16:00:44Z", "links": { "destroy": "/service/auth/api/v1/users/role/682608" }, "accountid": "zDmNq"}
- * @returns Role object
- */
-export function transformRoleResponse({
-	id,
-	role,
-	systemid,
-	userid,
-	accountid,
-	created_at,
-	links,
-}: RoleResponse): Role {
+export function transformRoleResponse(role: RoleResponse): Role {
 	return {
-		id: id,
-		role,
-		systemId: systemid,
-		userId: userid,
-		accountId: accountid.toString(),
-		createdAt: new Date(created_at),
-		links,
+		id: role.id,
+		role: role.role,
+		systemId: role.systemid,
+		userId: role.userid,
+		accountId: role.accountid.toString(),
+		createdAt: new Date(role.created_at),
+		links: role.links,
 	}
 }
 
