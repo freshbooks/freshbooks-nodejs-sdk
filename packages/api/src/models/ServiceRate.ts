@@ -6,13 +6,7 @@ export default interface ServiceRate {
 	businessId?: number
 	serviceId?: number
 }
-function transformServiceRateData({ rate: rate, business_id: businessId, service_id: serviceId }: any): ServiceRate {
-	return {
-		rate,
-		businessId,
-		serviceId,
-	}
-}
+
 export function transformServiceRateResponse(data: string): ServiceRate | ErrorResponse {
 	const response = JSON.parse(data)
 	if (isProjectErrorResponse(response)) {
@@ -21,6 +15,14 @@ export function transformServiceRateResponse(data: string): ServiceRate | ErrorR
 
 	const { service_rate } = response
 	return transformServiceRateData(service_rate)
+}
+
+function transformServiceRateData(serviceRate: any): ServiceRate {
+	return {
+		rate: serviceRate.rate,
+		businessId: serviceRate.business_id,
+		serviceId: serviceRate.service_id,
+	}
 }
 
 export function transformServiceRateRequest(service_rate: ServiceRate): string {
