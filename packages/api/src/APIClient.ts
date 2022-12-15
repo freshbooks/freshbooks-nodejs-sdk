@@ -38,7 +38,7 @@ import {
 	transformOtherIncomeResponse,
 	transformOtherIncomeRequest,
 } from './models/OtherIncome'
-import { transformListServicesResponse, transformServiceResponse, transformServiceRequest } from './models/Service'
+import { transformServiceListResponse, transformServiceResponse, transformServiceRequest } from './models/Service'
 import { transformServiceRateResponse, transformServiceRateRequest } from './models/ServiceRate'
 import { transformShareLinkResponse } from './models/ShareLink'
 import { transformItemResponse, transformItemListResponse, transformItemRequest } from './models/Item'
@@ -950,7 +950,7 @@ export default class APIClient {
 				'GET',
 				`/comments/business/${businessId}/services`,
 				{
-					transformResponse: transformListServicesResponse,
+					transformResponse: transformServiceListResponse,
 				},
 				null,
 				'List Services'

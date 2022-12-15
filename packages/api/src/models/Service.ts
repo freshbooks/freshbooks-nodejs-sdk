@@ -36,7 +36,7 @@ export function transformServiceResponse(data: string): Service | ErrorResponse 
 	return transformServiceData(service)
 }
 
-export function transformListServicesResponse(data: string): { services: Service[]; pages: Pagination } | ErrorResponse {
+export function transformServiceListResponse(data: string): { services: Service[]; pages: Pagination } | ErrorResponse {
 	const response = JSON.parse(data)
 
 	if (isProjectErrorResponse(response)) {
