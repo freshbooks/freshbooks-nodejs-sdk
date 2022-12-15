@@ -33,30 +33,30 @@ export function transformPaymentOptionsResponse(data: string): PaymentOptions | 
 	return transformPaymentOptionsParsedResponse(paymentOptions)
 }
 
-function transformPaymentOptionsParsedResponse(paymentOptions: any): PaymentOptions {
+function transformPaymentOptionsParsedResponse(options: any): PaymentOptions {
 	return {
-		gatewayName: paymentOptions.gateway_name,
-		hasCreditCard: paymentOptions.has_credit_card,
-		hasAchTransfer: paymentOptions.has_ach_transfer,
-		hasBacsDebit: paymentOptions.has_bacs_debit,
-		hasSepaDebit: paymentOptions.has_sepa_debit,
-		hasPayPalSmartCheckout: paymentOptions.has_paypal_smart_checkout,
-		allowPartialPayments: paymentOptions.allow_partial_payments,
-		entityId: paymentOptions.entity_id,
-		entityType: paymentOptions.entity_type,
+		gatewayName: options.gateway_name,
+		hasCreditCard: options.has_credit_card,
+		hasAchTransfer: options.has_ach_transfer,
+		hasBacsDebit: options.has_bacs_debit,
+		hasSepaDebit: options.has_sepa_debit,
+		hasPayPalSmartCheckout: options.has_paypal_smart_checkout,
+		allowPartialPayments: options.allow_partial_payments,
+		entityId: options.entity_id,
+		entityType: options.entity_type,
 	}
 }
 
-export function transformPaymentOptionsRequest(paymentOptions: PaymentOptions) {
+export function transformPaymentOptionsRequest(options: PaymentOptions) {
 	return JSON.stringify({
-		gateway_name: paymentOptions.gatewayName,
-		entity_type: paymentOptions.entityType,
-		entity_id: paymentOptions.entityId,
-		allow_partial_payments: paymentOptions.allowPartialPayments,
-		has_paypal_smart_checkout: paymentOptions.hasPayPalSmartCheckout,
-		has_sepa_debit: paymentOptions.hasSepaDebit,
-		has_bacs_debit: paymentOptions.hasBacsDebit,
-		has_ach_transfer: paymentOptions.hasAchTransfer,
-		has_credit_card: paymentOptions.hasCreditCard,
+		gateway_name: options.gatewayName,
+		entity_type: options.entityType,
+		entity_id: options.entityId,
+		allow_partial_payments: options.allowPartialPayments,
+		has_paypal_smart_checkout: options.hasPayPalSmartCheckout,
+		has_sepa_debit: options.hasSepaDebit,
+		has_bacs_debit: options.hasBacsDebit,
+		has_ach_transfer: options.hasAchTransfer,
+		has_credit_card: options.hasCreditCard,
 	})
 }
