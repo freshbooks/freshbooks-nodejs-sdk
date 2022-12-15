@@ -36,24 +36,24 @@ export function transformServiceResponse(data: string): Service | ErrorResponse 
 	return transformServiceData(service)
 }
 
-export function transformListServicesResponse(
-	data: string
-): { services: Service[]; pages: Pagination } | ErrorResponse {
+export function transformListServicesResponse(data: string): { services: Service[]; pages: Pagination } | ErrorResponse {
 	const response = JSON.parse(data)
 
 	if (isProjectErrorResponse(response)) {
 		return transformErrorResponse(response)
 	}
+
 	const { services, meta } = response
 	const { total, per_page, page, pages } = meta
+
 	return {
-		pages: {
-			page,
-			pages,
-			size: per_page,
-			total,
-		},
 		services: services.map((service: Service) => transformServiceData(service)),
+		pages: {
+			total,
+			size: per_page,
+			pages,
+			page,
+		},
 	}
 }
 
