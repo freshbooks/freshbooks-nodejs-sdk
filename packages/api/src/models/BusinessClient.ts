@@ -20,13 +20,13 @@ export interface BusinessClientResponse {
 	account_business: AccountBusinessResponse
 }
 
-export function transformBusinessClientParsedResponse(businessClient: BusinessClientResponse): BusinessClient {
+export function transformBusinessClientParsedResponse(client: BusinessClientResponse): BusinessClient {
 	return {
-		id: businessClient.id,
-		businessId: businessClient.business_id,
-		accountId: businessClient.account_id,
-		userId: businessClient.userid,
-		clientBusiness: businessClient.client_business && transformClientBusinessParsedResponse(businessClient.client_business),
-		accountBusiness: businessClient.account_business && transformAccountBusinessParsedResponse(businessClient.account_business),
+		id: client.id,
+		businessId: client.business_id,
+		accountId: client.account_id,
+		userId: client.userid,
+		clientBusiness: client.client_business && transformClientBusinessParsedResponse(client.client_business),
+		accountBusiness: client.account_business && transformAccountBusinessParsedResponse(client.account_business),
 	}
 }
