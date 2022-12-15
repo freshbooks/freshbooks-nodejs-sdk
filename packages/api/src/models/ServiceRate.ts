@@ -19,18 +19,18 @@ export function transformServiceRateResponse(data: string): ServiceRate | ErrorR
 	return transformServiceRateParsedResponse(service_rate)
 }
 
-function transformServiceRateParsedResponse(serviceRate: any): ServiceRate {
+function transformServiceRateParsedResponse(rate: any): ServiceRate {
 	return {
-		rate: serviceRate.rate,
-		businessId: serviceRate.business_id,
-		serviceId: serviceRate.service_id,
+		rate: rate.rate,
+		businessId: rate.business_id,
+		serviceId: rate.service_id,
 	}
 }
 
-export function transformServiceRateRequest(serviceRate: ServiceRate): string {
+export function transformServiceRateRequest(rate: ServiceRate): string {
 	return JSON.stringify({
 		service_rate: {
-			rate: serviceRate.rate,
+			rate: rate.rate,
 		},
 	})
 }
