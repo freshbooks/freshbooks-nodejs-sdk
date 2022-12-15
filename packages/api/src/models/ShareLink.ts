@@ -32,10 +32,7 @@ export function transformShareLinkResponse(data: string): ShareLink | ErrorRespo
 		return transformErrorResponse(response)
 	}
 
-	const {
-		response: { result },
-	} = response
-	const { share_link } = result
+	const { share_link } = response.response.result
+
 	return transformShareLinkData(share_link)
 }
-
