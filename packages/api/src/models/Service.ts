@@ -54,10 +54,9 @@ export function transformServiceParsedResponse(service: any): Service {
 }
 
 export function transformServiceRequest(service: Service): string {
-	const request = JSON.stringify({
+	return JSON.stringify({
 		service: {
 			name: service.name,
 		},
 	})
-	return request
 }
