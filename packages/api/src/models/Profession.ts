@@ -38,14 +38,3 @@ export function transformProfessionResponse({
 		businessId: business_id !== null ? business_id.toString() : null,
 	}
 }
-
-/**
- * Parse a JSON string to @Profession object
- * @param json JSON string
- * eg: '{"id": 17748, "title": "Accounting", "company": "BillSpring", "designation": null, "business_id": 2122866}'
- * @returns Profession object
- */
-export function transformProfessionJSON(json: string): Profession {
-	const response: ProfessionResponse = JSON.parse(json)
-	return transformProfessionResponse(response)
-}
