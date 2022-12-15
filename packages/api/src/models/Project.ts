@@ -116,14 +116,9 @@ function transformProjectParsedResponse(project: any): Project {
 	}
 }
 
-/**
- * Converts @Project object into JSON string
- *
- * @param project @Project object
- * @returns JSON string representing Project request
- */
+
 export function transformProjectRequest(project: Project): string {
-	const model = {
+	return JSON.stringify({
 		project: {
 			id: project.id,
 			title: project.title,
@@ -146,6 +141,5 @@ export function transformProjectRequest(project: Project): string {
 			retainer_id: project.retainerId,
 			expense_markup: project.expenseMarkup,
 		},
-	}
-	return JSON.stringify(model)
+	})
 }
