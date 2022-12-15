@@ -72,7 +72,7 @@ export function transformExpenseListResponse(data: string): { expenses: Expense[
 	const { expenses, per_page, total, page, pages } = response.response.result
 
 	return {
-		expenses: expenses.map((expense: any): Expense => transformExpenseParsedResponse(expense)),
+		expenses: expenses.map((expense: any) => transformExpenseParsedResponse(expense)),
 		pages: {
 			total,
 			size: per_page,
