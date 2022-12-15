@@ -50,7 +50,7 @@ export function transformTimeEntryListResponse(data: string): { timeEntries: Tim
 	const { total, per_page, page, pages } = meta
 
 	return {
-		timeEntries: time_entries.map((time_entry: TimeEntry) => transformTimeEntryParsedResponse(time_entry)),
+		timeEntries: time_entries.map((entry: TimeEntry) => transformTimeEntryParsedResponse(entry)),
 		pages: {
 			total,
 			size: per_page,
@@ -60,52 +60,52 @@ export function transformTimeEntryListResponse(data: string): { timeEntries: Tim
 	}
 }
 
-function transformTimeEntryParsedResponse(timeEntry: any): TimeEntry {
+function transformTimeEntryParsedResponse(entry: any): TimeEntry {
 	return {
-		id: timeEntry.id,
-		identityId: timeEntry.identity_id,
-		isLogged: timeEntry.is_logged,
-		startedAt: transformDateResponse(timeEntry.started_at, DateFormat['YYYY-MM-DDThh:mm:ss']),
-		createdAt: transformDateResponse(timeEntry.created_at, DateFormat['YYYY-MM-DDThh:mm:ss']),
-		clientId: timeEntry.client_id,
-		projectId: timeEntry.project_id,
-		pendingClient: timeEntry.pending_client,
-		pendingProject: timeEntry.pending_project,
-		pendingTask: timeEntry.pending_task,
-		taskId: timeEntry.task_id,
-		serviceId: timeEntry.service_id,
-		note: timeEntry.note,
-		active: timeEntry.active,
-		billable: timeEntry.billable,
-		billed: timeEntry.billed,
-		internal: timeEntry.internal,
-		retainerId: timeEntry.retainer_id,
-		duration: timeEntry.duration,
-		timer: timeEntry.timer && transformTimerParsedResponse(timeEntry.timer),
+		id: entry.id,
+		identityId: entry.identity_id,
+		isLogged: entry.is_logged,
+		startedAt: transformDateResponse(entry.started_at, DateFormat['YYYY-MM-DDThh:mm:ss']),
+		createdAt: transformDateResponse(entry.created_at, DateFormat['YYYY-MM-DDThh:mm:ss']),
+		clientId: entry.client_id,
+		projectId: entry.project_id,
+		pendingClient: entry.pending_client,
+		pendingProject: entry.pending_project,
+		pendingTask: entry.pending_task,
+		taskId: entry.task_id,
+		serviceId: entry.service_id,
+		note: entry.note,
+		active: entry.active,
+		billable: entry.billable,
+		billed: entry.billed,
+		internal: entry.internal,
+		retainerId: entry.retainer_id,
+		duration: entry.duration,
+		timer: entry.timer && transformTimerParsedResponse(entry.timer),
 	}
 }
 
-export function transformTimeEntryRequest(timeEntry: TimeEntry): string {
+export function transformTimeEntryRequest(entry: TimeEntry): string {
 	return JSON.stringify({
 		time_entry: {
-			id: timeEntry.id,
-			identity_id: timeEntry.identityId,
-			is_logged: timeEntry.isLogged,
-			started_at: timeEntry.startedAt ? timeEntry.startedAt.toISOString() : null,
-			client_id: timeEntry.clientId,
-			project_id: timeEntry.projectId,
-			pending_client: timeEntry.pendingClient,
-			pending_project: timeEntry.pendingProject,
-			pending_task: timeEntry.pendingTask,
-			task_id: timeEntry.taskId,
-			service_id: timeEntry.serviceId,
-			note: timeEntry.note,
-			active: timeEntry.active,
-			billable: timeEntry.billable,
-			billed: timeEntry.billed,
-			internal: timeEntry.internal,
-			retainer_id: timeEntry.retainerId,
-			duration: timeEntry.duration,
+			id: entry.id,
+			identity_id: entry.identityId,
+			is_logged: entry.isLogged,
+			started_at: entry.startedAt ? entry.startedAt.toISOString() : null,
+			client_id: entry.clientId,
+			project_id: entry.projectId,
+			pending_client: entry.pendingClient,
+			pending_project: entry.pendingProject,
+			pending_task: entry.pendingTask,
+			task_id: entry.taskId,
+			service_id: entry.serviceId,
+			note: entry.note,
+			active: entry.active,
+			billable: entry.billable,
+			billed: entry.billed,
+			internal: entry.internal,
+			retainer_id: entry.retainerId,
+			duration: entry.duration,
 		},
 	})
 }
