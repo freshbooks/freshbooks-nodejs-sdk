@@ -14,11 +14,13 @@ export default interface Service {
 
 export function transformServiceResponse(data: string): Service | ErrorResponse {
 	const response = JSON.parse(data)
+
 	if (isProjectErrorResponse(response)) {
 		return transformErrorResponse(response)
 	}
 
 	const { service } = response
+	
 	return transformServiceParsedResponse(service)
 }
 
