@@ -94,28 +94,25 @@ export function transformProjectResponse(data: string): Project | ErrorResponse 
 	return transformProjectData(project)
 }
 
-/**
- * Parses JSON list response and converts to internal project list response
- *
- * @param data representing JSON response
- * @returns project list response
- */
+
 export function transformProjectListResponse(data: string): { projects: Project[]; pages: Pagination } | ErrorResponse {
 	const response = JSON.parse(data)
 
 	if (isProjectErrorResponse(response)) {
 		return transformErrorResponse(response)
 	}
+
 	const { projects, meta } = response
 	const { total, per_page, page, pages } = meta
+
 	return {
-		pages: {
-			page,
-			pages,
-			size: per_page,
-			total,
-		},
 		projects: projects.map((project: Project) => transformProjectData(project)),
+		pages: {
+			total,
+			size: per_page,
+			pages,
+			page,
+		},
 	}
 }
 
