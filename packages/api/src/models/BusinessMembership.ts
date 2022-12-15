@@ -12,10 +12,10 @@ export interface BusinessMembershipResponse {
 	business: BusinessResponse
 }
 
-export function transformBusinessMembershipParsedResponse(businessMembership: BusinessMembershipResponse): BusinessMembership {
+export function transformBusinessMembershipParsedResponse(membership: BusinessMembershipResponse): BusinessMembership {
 	return {
-		id: businessMembership.id,
-		role: businessMembership.role,
-		business: businessMembership.business && transformBusinessParsedResponse(businessMembership.business),
+		id: membership.id,
+		role: membership.role,
+		business: membership.business && transformBusinessParsedResponse(membership.business),
 	}
 }
