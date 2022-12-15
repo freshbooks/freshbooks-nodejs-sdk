@@ -24,7 +24,7 @@ export function transformShareLinkResponse(data: string): ShareLink | ErrorRespo
 function transformShareLinkParsedResponse(link: any): ShareLink {
 	return {
 		resourceId: link.resourceid,
-		clientId: link.client_id,
+		clientId: link.clientid,
 		resourceType: link.resource_type,
 		shareLink: link.share_link,
 		shareMethod: link.share_method,
