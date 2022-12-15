@@ -17,7 +17,7 @@ interface ProfessionResponse {
 	designation: Nullable<string>
 }
 
-export function transformProfessionResponse(profession: ProfessionResponse): Profession {
+export function transformProfessionParsedResponse(profession: ProfessionResponse): Profession {
 	return {
 		id: profession.id.toString(),
 		title: profession.title,

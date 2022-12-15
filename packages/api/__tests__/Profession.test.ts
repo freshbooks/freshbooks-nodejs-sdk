@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import Profession, { transformProfessionResponse } from '../src/models/Profession'
+import Profession, { transformProfessionParsedResponse } from '../src/models/Profession'
 
 describe('@freshbooks/api', () => {
 	describe('Profession', () => {
@@ -11,7 +11,7 @@ describe('@freshbooks/api', () => {
 				designation: null,
 				business_id: 2122866,
 			}
-			const model = transformProfessionResponse(data)
+			const model = transformProfessionParsedResponse(data)
 			const expected = {
 				id: '17748',
 				title: 'Accounting',

@@ -4,7 +4,7 @@ import PhoneNumber, { transformPhoneNumberParsedResponse } from './PhoneNumber'
 import Address, { transformAddressParsedResponse, AddressResponse } from './Address'
 import BusinessMembership, { transformBusinessMembershipParsedResponse } from './BusinessMembership'
 import Role, { transformRoleResponse } from './Role'
-import Profession, { transformProfessionResponse } from './Profession'
+import Profession, { transformProfessionParsedResponse } from './Profession'
 import Group, { transformGroupParsedResponse } from './Group'
 import Permission from './Permission'
 import { Nullable } from './helpers'
@@ -58,7 +58,7 @@ export function transformUserResponse(data: string): User | ErrorResponse {
 		businessMemberships: businessMemberships.map(transformBusinessMembershipParsedResponse),
 		roles: roles.map(transformRoleResponse),
 		addresses: addresses.filter((address: Nullable<AddressResponse>) => address !== null).map(transformAddressParsedResponse),
-		profession: profession && transformProfessionResponse(profession),
+		profession: profession && transformProfessionParsedResponse(profession),
 		groups: groups.map(transformGroupParsedResponse),
 		links,
 	}
