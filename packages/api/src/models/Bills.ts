@@ -63,7 +63,7 @@ export function transformBillsListResponse(data: string): { bills: Bills[]; page
 	const { bills, per_page, total, page, pages } = response.response.result
 
 	return {
-		bills: bills.map((bill: any) => transformBillsParsedResponse(bill)),
+		bills: bills.map((bill: any): Bills => transformBillsParsedResponse(bill)),
 		pages: {
 			total,
 			size: per_page,
@@ -81,7 +81,7 @@ export function transformBillsParsedResponse(bill: any): Bills {
 		billNumber: bill.bill_number,
 		billPayments:
 			bill.bill_payments &&
-			bill.bill_payments.map((billPayment: any): BillPayments => transformBillPaymentsParsedResponse(billPayment)),
+			bill.bill_payments.map((payment: any): BillPayments => transformBillPaymentsParsedResponse(payment)),
 		createdAt: bill.created_at && transformDateResponse(bill.created_at, DateFormat['YYYY-MM-DD hh:mm:ss'], 'UTC'),
 		currencyCode: bill.currency_code,
 		dueDate: bill.due_date && transformDateResponse(bill.due_date, DateFormat['YYYY-MM-DD']),
@@ -111,13 +111,13 @@ export function transformBillsRequest(bill: Bills): string {
 			bill_number: bill.billNumber,
 			bill_payments:
 				bill.billPayments && 
-				bill.billPayments.map((billPayment) => transformBillPaymentsParsedResponse(billPayment)),
+				bill.billPayments.map((payment: any): BillPayments => transformBillPaymentsParsedResponse(payment)),
 			currency_code: bill.currencyCode,
 			due_date: bill.dueDate && transformDateRequest(bill.dueDate),
 			due_offset_days: bill.dueOffsetDays,
 			issue_date: bill.issueDate && transformDateRequest(bill.issueDate),
 			language: bill.language,
-			lines: bill.lines && bill.lines.map((line) => transformBillLinesRequest(line)),
+			lines: bill.lines && bill.lines.map((line: any): BillLines => transformBillLinesRequest(line)),
 			vendorid: bill.vendorId,
 			vis_state: bill.visState,
 		},

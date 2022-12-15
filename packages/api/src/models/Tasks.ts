@@ -40,7 +40,7 @@ export function transformTasksListResponse(data: string): { tasks: Tasks[]; page
 	const { tasks, per_page, total, page, pages } = response.response.result
 
 	return {
-		tasks: tasks.map((task: any) => transformTasksParsedResponse(task)),
+		tasks: tasks.map((task: any): Tasks => transformTasksParsedResponse(task)),
 		pages: {
 			total,
 			size: per_page,

@@ -34,7 +34,7 @@ export function transformJournalEntryDetailListResponse(data: string): { journal
 	const { journal_entry_details, page, pages, per_page, total } = response.response.result
 
 	return {
-		journalEntryDetails: journal_entry_details.map((detail: any) => transformJournalEntryDetailParsedResponse(detail)),
+		journalEntryDetails: journal_entry_details.map((detail: any): JournalEntryDetail => transformJournalEntryDetailParsedResponse(detail)),
 		pages: {
 			total,
             size: per_page,

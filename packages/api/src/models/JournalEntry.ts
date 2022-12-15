@@ -42,7 +42,7 @@ export function transformJournalEntryRequest(entry: JournalEntry): string {
         journal_entry: {
             currency_code: entry.currencyCode,
             description: entry.description,
-            details: entry.details && entry.details.map((detail) => transformDetailRequest(detail)),
+            details: entry.details && entry.details.map((detail: Detail): any => transformDetailRequest(detail)),
             name: entry.name,
             user_entered_date: entry.userEnteredDate && transformDateRequest(entry.userEnteredDate),
         }

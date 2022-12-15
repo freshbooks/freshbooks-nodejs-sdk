@@ -75,7 +75,7 @@ export function transformProjectListResponse(data: string): { projects: Project[
 	const { total, per_page, page, pages } = meta
 
 	return {
-		projects: projects.map((project: any) => transformProjectParsedResponse(project)),
+		projects: projects.map((project: any): Project => transformProjectParsedResponse(project)),
 		pages: {
 			total,
 			size: per_page,
@@ -105,7 +105,7 @@ function transformProjectParsedResponse(project: any): Project {
 		createdAt: transformDateResponse(project.created_at, DateFormat['YYYY-MM-DDThh:mm:ss']),
 		updatedAt: transformDateResponse(project.updated_at, DateFormat['YYYY-MM-DDThh:mm:ss']),
 		loggedDuration: project.logged_duration,
-		services: project.services && project.services.map(transformServiceParsedResponse),
+		services: project.services && project.services.map((service: any): Service => transformServiceParsedResponse(service)),
 		billedAmount: project.billed_amount,
 		billedStatus: project.billed_status,
 		retainerId: project.retainer_id,

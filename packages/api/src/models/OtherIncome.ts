@@ -54,7 +54,7 @@ export function transformOtherIncomeListResponse(data: string): { otherIncomes: 
 	const { other_income, per_page, total, page, pages } = response.response.result
 
 	return {
-		otherIncomes: other_income.map((income: any) => transformOtherIncomeParsedResponse(income)),
+		otherIncomes: other_income.map((income: any): OtherIncome => transformOtherIncomeParsedResponse(income)),
 		pages: {
 			total,
 			size: per_page,
@@ -89,7 +89,7 @@ export function transformOtherIncomeRequest(income: OtherIncome): string {
 			note: income.note,
 			payment_type: income.paymentType,
 			source: income.source,
-			taxes: income.taxes && income.taxes.map((tax) => transformTaxRequest(tax)),
+			taxes: income.taxes && income.taxes.map((tax: Tax): any => transformTaxRequest(tax)),
 		},
 	})
 	return request

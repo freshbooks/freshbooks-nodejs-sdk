@@ -29,6 +29,6 @@ export function transformBusinessParsedResponse(business: BusinessResponse): Bus
 		accountId: business.account_id !== null ? business.account_id.toString() : '',
 		address: business.address !== null ? transformAddressParsedResponse(business.address) : null,
 		phoneNumber: business.phone_number !== null ? transformPhoneNumberParsedResponse(business.phone_number) : null,
-		businessClients: business.business_clients.map(transformBusinessClientParsedResponse),
+		businessClients: business.business_clients.map((client: any): BusinessClient => transformBusinessClientParsedResponse(client)),
 	}
 }

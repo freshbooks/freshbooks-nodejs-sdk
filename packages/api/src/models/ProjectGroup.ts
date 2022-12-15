@@ -20,7 +20,7 @@ export interface ProjectGroupMember {
 export function transformProjectGroupParsedResponse(group: any): ProjectGroup {
 	return {
 		id: group.id,
-		members: group.members && group.members.map(transformProjectGroupMemberParsedResponse),
+		members: group.members && group.members.map((member: any): ProjectGroupMember => transformProjectGroupMemberParsedResponse(member)),
 	}
 }
 

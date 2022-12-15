@@ -154,7 +154,7 @@ export function transformInvoiceListResponse(data: string): { invoices: Invoice[
 	const { invoices, per_page, total, page, pages } = response.response.result
 
 	return {
-		invoices: invoices.map((invoice: any) => transformInvoiceParsedResponse(invoice)),
+		invoices: invoices.map((invoice: any): Invoice => transformInvoiceParsedResponse(invoice)),
 		pages: {
 			total,
 			size: per_page,
@@ -266,7 +266,7 @@ export function transformInvoiceRequest(invoice: Invoice): string {
 			invoice_number: invoice.invoiceNumber,
 			language: invoice.language,
 			last_order_status: invoice.lastOrderStatus,
-			lines: invoice.lines && invoice.lines.map((line) => transformLineRequest(line)),
+			lines: invoice.lines && invoice.lines.map((line: Line): any => transformLineRequest(line)),
 			lname: invoice.lName,
 			notes: invoice.notes,
 			organization: invoice.organization,

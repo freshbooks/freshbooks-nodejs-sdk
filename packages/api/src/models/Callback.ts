@@ -35,7 +35,7 @@ export function transformCallbackResponse(data: string): Callback | ErrorRespons
 	const { callbacks, per_page, total, page, pages } = response.response.result
 	
 	return {
-		callbacks: callbacks.map((callback: Callback) => transformCallbackParsedResponse(callback)),
+		callbacks: callbacks.map((callback: any): Callback => transformCallbackParsedResponse(callback)),
 		pages: {
 			total,
 			size: per_page,

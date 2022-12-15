@@ -55,7 +55,7 @@ export function transformBillVendorsListResponse(data: string): { bill_vendors: 
 	const { bill_vendors, per_page, total, page, pages } = response.response.result
 
 	return {
-		bill_vendors: bill_vendors.map((vendor: any) => transformBillVendorsParsedResponse(vendor)),
+		bill_vendors: bill_vendors.map((vendor: any): BillVendors => transformBillVendorsParsedResponse(vendor)),
 		pages: {
 			total,
 			size: per_page,
@@ -120,7 +120,7 @@ export function transformBillVendorsRequest(vendor: BillVendors): string {
 			street2: vendor.street2,
 			tax_defaults:
 				vendor.taxDefaults &&
-				vendor.taxDefaults.map((tax: any): BillVendorTax => transformBillVendorTaxRequest(tax)),
+				vendor.taxDefaults.map((tax: BillVendorTax): any => transformBillVendorTaxRequest(tax)),
 			vendorid: vendor.vendorId,
 			vis_state: vendor.visState,
 			website: vendor.website,

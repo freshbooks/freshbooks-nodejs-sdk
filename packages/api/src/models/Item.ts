@@ -47,7 +47,7 @@ export function transformItemListResponse(data: string): { items: Item[]; pages:
 	const { items, per_page, total, page, pages } = response.response.result
 
 	return {
-		items: items.map((item: any) => transformItemParsedResponse(item)),
+		items: items.map((item: any): Item => transformItemParsedResponse(item)),
 		pages: {
 			total,
 			size: per_page,
