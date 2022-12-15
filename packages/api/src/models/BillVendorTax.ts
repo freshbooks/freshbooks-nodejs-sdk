@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import { DateFormat, transformDateResponse } from './Date'
 
 export default interface BillVendorTax {
