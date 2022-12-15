@@ -52,7 +52,41 @@ export default interface Project {
 	group?: Nullable<ProjectGroup>
 }
 
-function transformProjectData(project: any): Project {
+export function transformProjectResponse(data: string): Project | ErrorResponse {
+	const response = JSON.parse(data)
+
+	if (isProjectErrorResponse(response)) {
+		return transformErrorResponse(response)
+	}
+
+	const { project } = response
+
+	return transformProjectParsedResponse(project)
+}
+
+
+export function transformProjectListResponse(data: string): { projects: Project[]; pages: Pagination } | ErrorResponse {
+	const response = JSON.parse(data)
+
+	if (isProjectErrorResponse(response)) {
+		return transformErrorResponse(response)
+	}
+
+	const { projects, meta } = response
+	const { total, per_page, page, pages } = meta
+
+	return {
+		projects: projects.map((project: Project) => transformProjectParsedResponse(project)),
+		pages: {
+			total,
+			size: per_page,
+			pages,
+			page,
+		},
+	}
+}
+
+function transformProjectParsedResponse(project: any): Project {
 	return {
 		id: project.id,
 		title: project.title,
@@ -79,40 +113,6 @@ function transformProjectData(project: any): Project {
 		expenseMarkup: project.expense_markup,
 		groupId: project.group_id,
 		group: project.group && transformProjectGroupResponse(project.group),
-	}
-}
-
-export function transformProjectResponse(data: string): Project | ErrorResponse {
-	const response = JSON.parse(data)
-
-	if (isProjectErrorResponse(response)) {
-		return transformErrorResponse(response)
-	}
-
-	const { project } = response
-
-	return transformProjectData(project)
-}
-
-
-export function transformProjectListResponse(data: string): { projects: Project[]; pages: Pagination } | ErrorResponse {
-	const response = JSON.parse(data)
-
-	if (isProjectErrorResponse(response)) {
-		return transformErrorResponse(response)
-	}
-
-	const { projects, meta } = response
-	const { total, per_page, page, pages } = meta
-
-	return {
-		projects: projects.map((project: Project) => transformProjectData(project)),
-		pages: {
-			total,
-			size: per_page,
-			pages,
-			page,
-		},
 	}
 }
 
