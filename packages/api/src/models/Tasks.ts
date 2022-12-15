@@ -33,16 +33,15 @@ export function transformTasksData(task: any): Tasks {
 	}
 }
 
-export function transformTasksResponse(data: any): Tasks | ErrorResponse {
+export function transformTasksResponse(data: string): Tasks | ErrorResponse {
 	const response = JSON.parse(data)
+
 	if (isAccountingErrorResponse(response)) {
 		return transformErrorResponse(response)
 	}
 
-	const {
-		response: { result },
-	} = response
-	const { task } = result
+	const { task } = response.response.result
+
 	return transformTasksData(task)
 }
 /**
