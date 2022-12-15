@@ -63,7 +63,7 @@ export function transformBillsListResponse(data: string): { bills: Bills[]; page
 	const { bills, per_page, total, page, pages } = response.response.result
 
 	return {
-		bills: bills.map((bills: Bills) => transformBillsParsedResponse(bills)),
+		bills: bills.map((bill: Bills) => transformBillsParsedResponse(bill)),
 		pages: {
 			total,
 			size: per_page,
