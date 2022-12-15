@@ -17,24 +17,12 @@ interface ProfessionResponse {
 	designation: Nullable<string>
 }
 
-/**
- * Format an Profession response object
- * @param data Profession object
- * eg: {"id": 17748, "title": "Accounting", "company": "BillSpring", "designation": null, "business_id": 2122866}
- * @returns Profession object
- */
-export function transformProfessionResponse({
-	id,
-	title,
-	company,
-	designation,
-	business_id,
-}: ProfessionResponse): Profession {
+export function transformProfessionResponse(profession: ProfessionResponse): Profession {
 	return {
-		id: id.toString(),
-		title,
-		company,
-		designation,
-		businessId: business_id !== null ? business_id.toString() : null,
+		id: profession.id.toString(),
+		title: profession.title,
+		company: profession.company,
+		designation: profession.designation,
+		businessId: profession.business_id !== null ? profession.business_id.toString() : null,
 	}
 }
