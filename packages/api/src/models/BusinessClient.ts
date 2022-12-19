@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import ClientBusiness, { transformClientBusinessResponse, ClientBusinessResponse } from './ClientBusiness'
-import AccountBusiness, { transformAccountBusinessResponse, AccountBusinessResponse } from './AccountBusiness'
+import AccountBusiness, { transformAccountBusinessParsedResponse, AccountBusinessResponse } from './AccountBusiness'
 
 export default interface BusinessClient {
 	id: number
@@ -20,60 +20,13 @@ export interface BusinessClientResponse {
 	account_business: AccountBusinessResponse
 }
 
-/**
- * Format a BusinessClient response object
- * @param data Business client object
- * eg: {
- *          "id": 22347,
- *          "business_id": 77128,
- *          "account_id": "Xr82w",
- *          "userid": 74353,
- *          "client_business": {
- *              "business_id": 77128
- *          },
- *          "account_business": {
- *              "account_business_id": 363103,
- *              "account_id": "Xr82w"
- *          }
- *      }
- * @returns Business client object
- */
-export function transformBusinessClientResponse({
-	id,
-	business_id,
-	account_id,
-	userid,
-	client_business,
-	account_business,
-}: BusinessClientResponse): BusinessClient {
+export function transformBusinessClientParsedResponse(businessClient: BusinessClientResponse): BusinessClient {
 	return {
-		id: id,
-		businessId: business_id,
-		accountId: account_id,
-		userId: userid,
-		clientBusiness: transformClientBusinessResponse(client_business),
-		accountBusiness: transformAccountBusinessResponse(account_business),
+		id: businessClient.id,
+		businessId: businessClient.business_id,
+		accountId: businessClient.account_id,
+		userId: businessClient.userid,
+		clientBusiness: businessClient.client_business && transformClientBusinessResponse(businessClient.client_business),
+		accountBusiness: businessClient.account_business && transformAccountBusinessParsedResponse(businessClient.account_business),
 	}
-}
-/**
- * Parse a JSON string to @BusinessClient object
- * @param json JSON string
- * eg: '{
- *          "id": 22347,
- *          "business_id": 77128,
- *          "account_id": "Xr82w",
- *          "userid": 74353,
- *          "client_business": {
- *              "business_id": 77128
- *          },
- *          "account_business": {
- *              "account_business_id": 363103,
- *              "account_id": "Xr82w"
- *          }
- *      }'
- * @returns BusinessClient object
- */
-export function transformBusinessClientJSON(json: string): BusinessClient {
-	const response: BusinessClientResponse = JSON.parse(json)
-	return transformBusinessClientResponse(response)
 }

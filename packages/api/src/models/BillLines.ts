@@ -20,7 +20,7 @@ export default interface BillLines {
 	taxAmount2?: Money
 }
 
-export function transformBillLinesResponse(billLine: any): BillLines {
+export function transformBillLinesParsedResponse(billLine: any): BillLines {
 	return {
 		categoryId: billLine.categoryid,
 		category: billLine.category,

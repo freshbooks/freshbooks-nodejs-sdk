@@ -63,7 +63,7 @@ import { transformTasksListResponse, transformTasksRequest, transformTasksRespon
 import {
 	transformBillVendorsRequest,
 	transformBillVendorsResponse,
-	transformListBillVendorsResponse,
+	transformBillVendorsListResponse,
 } from './models/BillVendors'
 import { transformBillsListResponse, transformBillsRequest, transformBillsResponse } from './models/Bills'
 import {
@@ -1081,7 +1081,7 @@ export default class APIClient {
 				'GET',
 				`/accounting/account/${accountId}/bill_vendors/bill_vendors${joinQueries(queryBuilders)}`,
 				{
-					transformResponse: transformListBillVendorsResponse,
+					transformResponse: transformBillVendorsListResponse,
 				},
 				null,
 				'List BillVendors'

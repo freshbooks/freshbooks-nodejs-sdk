@@ -34,63 +34,47 @@ export default interface BillPayments {
 	visState?: VisState
 }
 
-export function transformBillPaymentsData(billPayments: any): BillPayments {
-	return {
-		id: billPayments.id,
-		amount: billPayments.amount && transformMoneyResponse(billPayments.amount),
-		billId: billPayments.billid,
-		paidDate: billPayments.paid_date && transformDateResponse(billPayments.paid_date, DateFormat['YYYY-MM-DD']),
-		paymentType: billPayments.payment_type,
-		note: billPayments.note,
-		visState: billPayments.vis_state,
+export function transformBillPaymentsResponse(data: string): BillPayments | ErrorResponse {
+	const response = JSON.parse(data)
+	
+	if (isAccountingErrorResponse(response)) {
+		return transformErrorResponse(response)
 	}
+	
+	const { bill_payment } = response.response.result
+	
+	return transformBillPaymentsParsedResponse(bill_payment)
 }
 
-/**
- * Parses JSON Bill response and converts to @BillPayments model
- * @param data representing JSON response
- * @returns @BillPayments | @Error
- */
-export function transformBillPaymentsResponse(data: any): BillPayments | ErrorResponse {
+export function transformBillPaymentsListResponse(data: string): { billPayments: BillPayments[]; pages: Pagination } | ErrorResponse {
 	const response = JSON.parse(data)
+
 	if (isAccountingErrorResponse(response)) {
 		return transformErrorResponse(response)
 	}
 
-	const {
-		response: { result },
-	} = response
-
-	const { bill_payment } = result
-	return transformBillPaymentsData(bill_payment)
-}
-
-/**
- * Parses JSON list response and converts to internal bills list response
- * @param data representing JSON response
- * @returns bill_payments list response
- */
-export function transformBillPaymentsListResponse(
-	data: string
-): { billPayments: BillPayments[]; pages: Pagination } | ErrorResponse {
-	const response = JSON.parse(data)
-	if (isAccountingErrorResponse(response)) {
-		return transformErrorResponse(response)
-	}
-
-	const {
-		response: { result },
-	} = response
-
-	const { bill_payments, per_page, total, page, pages } = result
+	const { bill_payments, per_page, total, page, pages } = response.response.result
+	
 	return {
+		billPayments: bill_payments.map((billPayment: BillPayments) => transformBillPaymentsParsedResponse(billPayment)),
 		pages: {
-			page,
-			pages,
-			size: per_page,
 			total,
+			size: per_page,
+			pages,
+			page,
 		},
-		billPayments: bill_payments.map((billPayment: BillPayments) => transformBillPaymentsData(billPayment)),
+	}
+}
+
+export function transformBillPaymentsParsedResponse(billPayment: any): BillPayments {
+	return {
+		id: billPayment.id,
+		amount: billPayment.amount && transformMoneyResponse(billPayment.amount),
+		billId: billPayment.billid,
+		paidDate: billPayment.paid_date && transformDateResponse(billPayment.paid_date, DateFormat['YYYY-MM-DD']),
+		paymentType: billPayment.payment_type,
+		note: billPayment.note,
+		visState: billPayment.vis_state,
 	}
 }
 

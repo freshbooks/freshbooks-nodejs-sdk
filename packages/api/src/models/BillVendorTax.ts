@@ -15,7 +15,7 @@ export default interface BillVendorTax {
 	updatedAt?: Date
 }
 
-export function transformBillVendorTaxResponse(billVendorTax: any): BillVendorTax {
+export function transformBillVendorTaxParsedResponse(billVendorTax: any): BillVendorTax {
 	return {
 		vendorId: billVendorTax.vendorid,
 		taxId: billVendorTax.tax_id,
@@ -24,28 +24,17 @@ export function transformBillVendorTaxResponse(billVendorTax: any): BillVendorTa
 		name: billVendorTax.name,
 		amount: billVendorTax.amount,
 		taxAuthorityid: billVendorTax.tax_authorityid,
-		createdAt: transformDateResponse(billVendorTax.created_at, DateFormat['YYYY-MM-DD hh:mm:ss']),
-		updatedAt: transformDateResponse(billVendorTax.updated_at, DateFormat['YYYY-MM-DD hh:mm:ss']),
+		createdAt: billVendorTax.created_at && transformDateResponse(billVendorTax.created_at, DateFormat['YYYY-MM-DD hh:mm:ss']),
+		updatedAt: billVendorTax.updated_at && transformDateResponse(billVendorTax.updated_at, DateFormat['YYYY-MM-DD hh:mm:ss']),
 	}
 }
 
-export function transformBillVendorTaxRequest({
-	vendorId,
-	taxId,
-	systemTaxid,
-	enabled,
-	taxAuthorityid,
-}: BillVendorTax): any {
+export function transformBillVendorTaxRequest(billVendorTax: BillVendorTax): any {
 	return {
-		vendorid: vendorId,
-		tax_id: taxId,
-		system_taxid: systemTaxid,
-		enabled,
-		tax_authorityid: taxAuthorityid,
+		vendorid: billVendorTax.vendorId,
+		tax_id: billVendorTax.taxId,
+		system_taxid: billVendorTax.systemTaxid,
+		enabled: billVendorTax.enabled,
+		tax_authorityid: billVendorTax.taxAuthorityid,
 	}
-}
-
-export function transformBillVendorTaxJSON(json: string): BillVendorTax {
-	const response: BillVendorTax = JSON.parse(json)
-	return transformBillVendorTaxResponse(response)
 }

@@ -1,6 +1,6 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import { Nullable } from './helpers'
 
-/* eslint-disable @typescript-eslint/camelcase */
 export default interface Address {
 	id: number
 	street?: Nullable<string>
@@ -19,37 +19,13 @@ export interface AddressResponse {
 	postal_code: Nullable<string>
 }
 
-/**
- * Format an Address response object
- * @param data Address object
- * eg: { 'id': 1, 'street': 'King Street', 'city': 'Toronto', 'province': 'Ontario', 'postal_code': 'K3I6R9'}
- * @returns Address object
- */
-export function transformAddressResponse({
-	id,
-	street,
-	city,
-	province,
-	country,
-	postal_code,
-}: AddressResponse): Address {
+export function transformAddressParsedResponse(address: AddressResponse): Address {
 	return {
-		id: id,
-		street,
-		city,
-		province,
-		country,
-		postalCode: postal_code,
+		id: address.id,
+		street: address.street,
+		city: address.city,
+		province: address.province,
+		country: address.country,
+		postalCode: address.postal_code,
 	}
-}
-
-/**
- * Parse a JSON string to @Address object
- * @param json JSON string
- * eg: '{ 'id': 1, 'street': 'King Street', 'city': 'Toronto', 'province': 'Ontario', 'postal_code': 'K3I6R9'}'
- * @returns Address object
- */
-export function transformAddressJSON(json: string): Address {
-	const response: AddressResponse = JSON.parse(json)
-	return transformAddressResponse(response)
 }

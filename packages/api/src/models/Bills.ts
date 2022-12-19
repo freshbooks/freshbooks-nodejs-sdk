@@ -3,10 +3,10 @@ import Money, { transformMoneyResponse } from './Money'
 import { DateFormat, transformDateRequest, transformDateResponse } from './Date'
 import { ErrorResponse, isAccountingErrorResponse, transformErrorResponse } from './Error'
 import Pagination from './Pagination'
-import BillPayments, { transformBillPaymentsData } from './BillPayments'
+import BillPayments, { transformBillPaymentsParsedResponse } from './BillPayments'
 import VisState from './VisState'
-import BillLines, { transformBillLinesRequest, transformBillLinesResponse } from './BillLines'
-import BillVendors, { transformBillVendorsData } from './BillVendors'
+import BillLines, { transformBillLinesRequest, transformBillLinesParsedResponse } from './BillLines'
+import BillVendors, { transformBillVendorsParsedResponse } from './BillVendors'
 
 enum BillStatus {
 	unpaid = 'unpaid',
@@ -41,7 +41,39 @@ export default interface Bills {
 	vendor?: BillVendors
 }
 
-export function transformBillsData(bill: any): Bills {
+export function transformBillsResponse(data: string): Bills | ErrorResponse {
+	const response = JSON.parse(data)
+
+	if (isAccountingErrorResponse(response)) {
+		return transformErrorResponse(response)
+	}
+
+	const { bill } = response.response.result
+	
+	return transformBillsParsedResponse(bill)
+}
+
+export function transformBillsListResponse(data: string): { bills: Bills[]; pages: Pagination } | ErrorResponse {
+	const response = JSON.parse(data)
+
+	if (isAccountingErrorResponse(response)) {
+		return transformErrorResponse(response)
+	}
+
+	const { bills, per_page, total, page, pages } = response.response.result
+
+	return {
+		bills: bills.map((bills: Bills) => transformBillsParsedResponse(bills)),
+		pages: {
+			total,
+			size: per_page,
+			pages,
+			page,
+		},	
+	}
+}
+
+export function transformBillsParsedResponse(bill: any): Bills {
 	return {
 		id: bill.id,
 		amount: bill.amount && transformMoneyResponse(bill.amount),
@@ -49,14 +81,14 @@ export function transformBillsData(bill: any): Bills {
 		billNumber: bill.bill_number,
 		billPayments:
 			bill.bill_payments &&
-			bill.bill_payments.map((billPayment: any): BillPayments => transformBillPaymentsData(billPayment)),
+			bill.bill_payments.map((billPayment: any): BillPayments => transformBillPaymentsParsedResponse(billPayment)),
 		createdAt: bill.created_at && transformDateResponse(bill.created_at, DateFormat['YYYY-MM-DD hh:mm:ss'], 'UTC'),
 		currencyCode: bill.currency_code,
 		dueDate: bill.due_date && transformDateResponse(bill.due_date, DateFormat['YYYY-MM-DD']),
 		dueOffsetDays: bill.due_offset_days,
 		issueDate: bill.issue_date && transformDateResponse(bill.issue_date, DateFormat['YYYY-MM-DD']),
 		language: bill.language,
-		lines: bill.lines && bill.lines.map((line: any): BillLines => transformBillLinesResponse(line)),
+		lines: bill.lines && bill.lines.map((line: any): BillLines => transformBillLinesParsedResponse(line)),
 		outstanding: bill.outstanding && transformMoneyResponse(bill.outstanding),
 		overallCategory: bill.overall_category,
 		overallDescription: bill.overall_description,
@@ -67,53 +99,7 @@ export function transformBillsData(bill: any): Bills {
 		updatedAt: bill.updated_at && transformDateResponse(bill.updated_at, DateFormat['YYYY-MM-DD hh:mm:ss'], 'UTC'),
 		vendorId: bill.vendorid,
 		visState: bill.vis_state,
-		vendor: bill.vendor && transformBillVendorsData(bill.vendor),
-	}
-}
-
-/**
- * Parses JSON Bill response and converts to @Bills model
- * @param data representing JSON response
- * @returns @Bills | @Error
- */
-export function transformBillsResponse(data: any): Bills | ErrorResponse {
-	const response = JSON.parse(data)
-	if (isAccountingErrorResponse(response)) {
-		return transformErrorResponse(response)
-	}
-
-	const {
-		response: { result },
-	} = response
-
-	const { bill } = result
-	return transformBillsData(bill)
-}
-
-/**
- * Parses JSON list response and converts to internal bills list response
- * @param data representing JSON response
- * @returns bills list response
- */
-export function transformBillsListResponse(data: string): { bills: Bills[]; pages: Pagination } | ErrorResponse {
-	const response = JSON.parse(data)
-	if (isAccountingErrorResponse(response)) {
-		return transformErrorResponse(response)
-	}
-
-	const {
-		response: { result },
-	} = response
-
-	const { bills, per_page, total, page, pages } = result
-	return {
-		pages: {
-			page,
-			pages,
-			size: per_page,
-			total,
-		},
-		bills: bills.map((bills: Bills) => transformBillsData(bills)),
+		vendor: bill.vendor && transformBillVendorsParsedResponse(bill.vendor),
 	}
 }
 
@@ -124,7 +110,7 @@ export function transformBillsRequest(bill: Bills): string {
 			attachment: bill.attachment,
 			bill_number: bill.billNumber,
 			bill_payments:
-				bill.billPayments && bill.billPayments.map((billPayment) => transformBillPaymentsData(billPayment)),
+				bill.billPayments && bill.billPayments.map((billPayment) => transformBillPaymentsParsedResponse(billPayment)),
 			currency_code: bill.currencyCode,
 			due_date: bill.dueDate && transformDateRequest(bill.dueDate),
 			due_offset_days: bill.dueOffsetDays,
