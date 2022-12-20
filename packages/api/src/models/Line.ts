@@ -32,45 +32,7 @@ export default interface Line {
 	updated?: Date
 }
 
-/**
- * Format a Line response object
- * @param line Account business object
- * eg:             
- * 	{
- * 		amount: 
- *		 	{
-				amount: "3000.00",
-				code: "USD"
-			},
-		compounded_tax: false,
-		date: null,
-		description: "",
-		expenseid: 0,
-		invoiceid: 225500,
-		lineid: 2,
-		modern_project_id: null,
-		modern_time_entries: [],
-		name: "TV Ads",
-		qty: "1",
-		retainer_id: null,
-		retainer_period_id: null,
-		taskno: 2,
-		taxAmount1: "0",
-		taxAmount2: "0",
-		taxName1: "",
-		taxName2: "",
-		taxNumber1: null,
-		taxNumber2: null,
-		type: 0,
-		unit_cost: {
-			amount: "3000.00",
-			code: "USD"
-		},
-		updated: "2019-11-25 15:43:26"
-	}
- * @returns Money object
- */
-export function transformLineResponse(line: any): Line {
+export function transformLineParsedResponse(line: any): Line {
 	return {
 		amount: line.amount,
 		compoundedTax: line.compounded_tax,
@@ -96,38 +58,19 @@ export function transformLineResponse(line: any): Line {
 	}
 }
 
-/**
- * Format a Line request object
- * @param data Account business object
- * eg: { "amount": "1234.00", "code": "USD" }
- * @returns Money object
- */
-export function transformLineRequest({
-	compoundedTax,
-	description,
-	expenseId,
-	invoiceId,
-	name,
-	qty,
-	taxName1,
-	taxAmount1,
-	taxName2,
-	taxAmount2,
-	type,
-	unitCost,
-}: Line): any {
+export function transformLineRequest(line: Line): any {
 	return {
-		compounded_tax: compoundedTax,
-		type,
-		description,
-		expenseid: expenseId,
-		invoiceid: invoiceId,
-		name,
-		qty,
-		taxName1,
-		taxAmount1,
-		taxName2,
-		taxAmount2,
-		unit_cost: unitCost,
+		compounded_tax: line.compoundedTax,
+		type: line.type,
+		description: line.description,
+		expenseid: line.expenseId,
+		invoiceid: line.invoiceId,
+		name: line.name,
+		qty: line.qty,
+		taxName1: line.taxName1,
+		taxAmount1: line.taxAmount1,
+		taxName2: line.taxName2,
+		taxAmount2: line.taxAmount2,
+		unit_cost: line.unitCost,
 	}
 }

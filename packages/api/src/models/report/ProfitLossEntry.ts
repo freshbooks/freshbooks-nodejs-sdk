@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import Money, { MoneyResponse, transformMoneyResponse } from '../Money'
+import Money, { MoneyResponse, transformMoneyParsedResponse } from '../Money'
 
 enum ProfitLossEntryType {
 	debit = 'debit',
@@ -30,14 +30,14 @@ export function transformProfitLossEntryResponse(response: ProfitLossEntryRespon
 			: []
 	const dataEntries =
 		response.data && response.data.length > 0
-			? response.data.map((dataEntry: MoneyResponse) => transformMoneyResponse(dataEntry))
+			? response.data.map((dataEntry: MoneyResponse) => transformMoneyParsedResponse(dataEntry))
 			: []
 	return {
 		children: childEntries,
 		data: dataEntries,
 		description: response.description,
 		entryType: response.entry_type,
-		total: response.total && transformMoneyResponse(response.total),
+		total: response.total && transformMoneyParsedResponse(response.total),
 	}
 }
 

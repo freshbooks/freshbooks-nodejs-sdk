@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { isAccountingErrorResponse, transformErrorResponse, ErrorResponse } from './Error'
-import Money, { MoneyResponse, transformMoneyResponse } from './Money'
+import Money, { MoneyResponse, transformMoneyParsedResponse } from './Money'
 import { transformDateResponse, DateFormat } from './Date'
 import VisState from './VisState'
 import Pagination from './Pagination'
@@ -76,10 +76,10 @@ export function transformBillVendorsParsedResponse(billVendor: any): BillVendors
 		note: billVendor.note,
 		outstandingBalance: 
 			billVendor.outstanding_balance && 
-			billVendor.outstanding_balance.map((balance: any): Money => transformMoneyResponse(balance)),
+			billVendor.outstanding_balance.map((balance: any): Money => transformMoneyParsedResponse(balance)),
 		overdueBalance: 
 			billVendor.overdue_balance && 
-			billVendor.overdue_balance.map((balance: any): Money => transformMoneyResponse(balance)),
+			billVendor.overdue_balance.map((balance: any): Money => transformMoneyParsedResponse(balance)),
 		phone: billVendor.phone,
 		postalCode: billVendor.postal_code,
 		primaryContactEmail: billVendor.primary_contact_email,

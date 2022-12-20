@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import Money, { transformMoneyResponse } from './Money'
+import Money, { transformMoneyParsedResponse } from './Money'
 import { DateFormat, transformDateRequest, transformDateResponse } from './Date'
 import { ErrorResponse, isAccountingErrorResponse, transformErrorResponse } from './Error'
 import Pagination from './Pagination'
@@ -76,7 +76,7 @@ export function transformBillsListResponse(data: string): { bills: Bills[]; page
 export function transformBillsParsedResponse(bill: any): Bills {
 	return {
 		id: bill.id,
-		amount: bill.amount && transformMoneyResponse(bill.amount),
+		amount: bill.amount && transformMoneyParsedResponse(bill.amount),
 		attachment: bill.attachment,
 		billNumber: bill.bill_number,
 		billPayments:
@@ -89,13 +89,13 @@ export function transformBillsParsedResponse(bill: any): Bills {
 		issueDate: bill.issue_date && transformDateResponse(bill.issue_date, DateFormat['YYYY-MM-DD']),
 		language: bill.language,
 		lines: bill.lines && bill.lines.map((line: any): BillLines => transformBillLinesParsedResponse(line)),
-		outstanding: bill.outstanding && transformMoneyResponse(bill.outstanding),
+		outstanding: bill.outstanding && transformMoneyParsedResponse(bill.outstanding),
 		overallCategory: bill.overall_category,
 		overallDescription: bill.overall_description,
-		paid: bill.paid && transformMoneyResponse(bill.paid),
+		paid: bill.paid && transformMoneyParsedResponse(bill.paid),
 		status: bill.status,
-		taxAmount: bill.tax_amount && transformMoneyResponse(bill.tax_amount),
-		totalAmount: bill.total_amount && transformMoneyResponse(bill.total_amount),
+		taxAmount: bill.tax_amount && transformMoneyParsedResponse(bill.tax_amount),
+		totalAmount: bill.total_amount && transformMoneyParsedResponse(bill.total_amount),
 		updatedAt: bill.updated_at && transformDateResponse(bill.updated_at, DateFormat['YYYY-MM-DD hh:mm:ss'], 'UTC'),
 		vendorId: bill.vendorid,
 		visState: bill.vis_state,

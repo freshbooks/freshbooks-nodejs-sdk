@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import Money, { transformMoneyResponse, transformMoneyRequest } from './Money'
+import Money, { transformMoneyParsedResponse, transformMoneyRequest } from './Money'
 import { ErrorResponse, isAccountingErrorResponse, transformErrorResponse } from './Error'
 import { Nullable } from './helpers'
 import Pagination from './Pagination'
+import { isTemplateExpression } from 'typescript'
 
 enum VisState {
 	active,
@@ -24,49 +25,16 @@ export default interface Item {
 	visState: VisState
 }
 
-function transformItemData({
-	id,
-	accounting_systemid: accountingSystemId,
-	updated,
-	name,
-	description,
-	qty,
-	sku,
-	inventory,
-	unit_cost: unitCost,
-	tax1,
-	tax2,
-	vis_state: visState,
-}: any): Item {
-	return {
-		id: id.toString(),
-		accountingSystemId,
-		updated: new Date(updated),
-		name,
-		description,
-		qty,
-		sku,
-		inventory,
-		unitCost: transformMoneyResponse(unitCost),
-		tax1: tax1.toString(),
-		tax2: tax2.toString(),
-		visState,
-	}
-}
-
 export function transformItemResponse(data: string): Item | ErrorResponse {
 	const response = JSON.parse(data)
 
 	if (isAccountingErrorResponse(response)) {
 		return transformErrorResponse(response)
 	}
-	const {
-		response: {
-			result: { item },
-		},
-	} = response
 
-	return transformItemData(item)
+	const { item } = response.response.result
+
+	return transformItemParsedResponse(item)
 }
 
 export function transformItemListResponse(data: string): { items: Item[]; pages: Pagination } | ErrorResponse {
@@ -76,46 +44,48 @@ export function transformItemListResponse(data: string): { items: Item[]; pages:
 		return transformErrorResponse(response)
 	}
 
-	const {
-		response: {
-			result: { items, per_page, total, page, pages },
-		},
-	} = response
+	const { items, per_page, total, page, pages } = response.response.result
 
 	return {
-		items: items.map((item: any) => transformItemData(item)),
+		items: items.map((item: any) => transformItemParsedResponse(item)),
 		pages: {
-			size: per_page,
 			total,
-			page,
+			size: per_page,
 			pages,
+			page,
 		},
 	}
 }
 
-export function transformItemRequest({
-	name,
-	description,
-	qty,
-	sku,
-	inventory,
-	unitCost,
-	tax1,
-	tax2,
-	visState,
-}: Item): string {
-	const result = JSON.stringify({
+function transformItemParsedResponse(item: any): Item {
+	return {
+		id: item.id.toString(),
+		accountingSystemId: item.accounting_systemid,
+		updated: new Date(item.updated),
+		name: item.name,
+		description: item.description,
+		qty: item.qty,
+		sku: item.sku,
+		inventory: item.inventory,
+		unitCost: transformMoneyParsedResponse(item.unit_cost),
+		tax1: item.tax1.toString(),
+		tax2: item.tax2.toString(),
+		visState: item.vis_state,
+	}
+}
+
+export function transformItemRequest(item: Item): string {
+	return JSON.stringify({
 		item: {
-			name,
-			description,
-			qty,
-			sku,
-			inventory,
-			unit_cost: unitCost && transformMoneyRequest(unitCost),
-			tax1,
-			tax2,
-			vis_state: visState,
+			name: item.name,
+			description: item.description,
+			qty: item.qty,
+			sku: item.sku,
+			inventory: item.inventory,
+			unit_cost: item.unitCost && transformMoneyRequest(item.unitCost),
+			tax1: item.tax1,
+			tax2: item.tax2,
+			vis_state: item.visState,
 		},
 	})
-	return result
 }

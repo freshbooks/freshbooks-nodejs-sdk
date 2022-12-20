@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { ErrorResponse, isAccountingErrorResponse, transformErrorResponse } from '../Error'
-import Money, { MoneyResponse, transformMoneyResponse } from '../Money'
+import Money, { MoneyResponse, transformMoneyParsedResponse } from '../Money'
 import TaxSummaryEntry, { TaxSummaryEntryResponse, transformTaxSummaryEntryResponeList } from './TaxSummaryEntry'
 
 export default interface TaxSummaryReport {
@@ -38,7 +38,7 @@ export function transformTaxSummaryReportData({
 		startDate: start_date,
 		endDate: end_date,
 		downloadToken: download_token,
-		totalInvoiced: total_invoiced && transformMoneyResponse(total_invoiced),
+		totalInvoiced: total_invoiced && transformMoneyParsedResponse(total_invoiced),
 		taxes: transformTaxSummaryEntryResponeList(taxes),
 	}
 }
