@@ -58,7 +58,39 @@ export default interface Client {
 	role?: Nullable<string>
 }
 
-function transformClientData(client: any): Client {
+export function transformClientResponse(data: string): Client | ErrorResponse {
+	const response = JSON.parse(data)
+
+	if (isAccountingErrorResponse(response)) {
+		return transformErrorResponse(response)
+	}
+
+	const { client } = response.response.result
+
+	return transformClientParsedResponse(client)
+}
+
+export function transformClientListResponse(data: string): { clients: Client[]; pages: Pagination } | ErrorResponse {
+	const response = JSON.parse(data)
+
+	if (isAccountingErrorResponse(response)) {
+		return transformErrorResponse(response)
+	}
+
+	const { clients, per_page, total, page, pages } = response.response.result
+
+	return {
+		clients: clients.map((client: Client) => transformClientParsedResponse(client)),
+		pages: {
+			total,
+			size: per_page,
+			pages,
+			page,
+		},
+	}
+}
+
+function transformClientParsedResponse(client: any): Client {
 	return {
 		id: client.id,
 		allowLateNotifications: client.allow_late_notifications,
@@ -112,56 +144,8 @@ function transformClientData(client: any): Client {
 	}
 }
 
-/**
- * Parses JSON client response and converts to @Client model
- * @param data representing JSON response
- * @returns @Client | @Error
- */
-export function transformClientResponse(data: any): Client | ErrorResponse {
-	const response = JSON.parse(data)
-	if (isAccountingErrorResponse(response)) {
-		return transformErrorResponse(response)
-	}
-	const {
-		response: { result },
-	} = response
-	const { client } = result
-	return transformClientData(client)
-}
-
-/**
- * Parses JSON list response and converts to internal client list response
- * @param data representing JSON response
- * @returns client list response
- */
-export function transformClientListResponse(data: string): { clients: Client[]; pages: Pagination } | ErrorResponse {
-	const response = JSON.parse(data)
-
-	if (isAccountingErrorResponse(response)) {
-		return transformErrorResponse(response)
-	}
-	const {
-		response: { result },
-	} = response
-	const { clients, per_page, total, page, pages } = result
-	return {
-		pages: {
-			page,
-			pages,
-			size: per_page,
-			total,
-		},
-		clients: clients.map((client: Client) => transformClientData(client)),
-	}
-}
-
-/**
- * Converts @Client object into JSON string
- * @param client @Client object
- * @returns JSON string representing client request
- */
 export function transformClientRequest(client: Client): string {
-	const model = {
+	return JSON.stringify({
 		client: {
 			id: client.id,
 			allow_late_notifications: client.allowLateNotifications,
@@ -211,6 +195,5 @@ export function transformClientRequest(client: Client): string {
 			retainer_id: client.retainerId,
 			role: client.role,
 		},
-	}
-	return JSON.stringify(model)
+	})
 }

@@ -17,7 +17,39 @@ export default interface ExpenseCategory {
 	visState: VisState
 }
 
-export function transformExpenseCategoryData(category: any): ExpenseCategory {
+export function transformExpenseCategoryResponse(data: string): ExpenseCategory | ErrorResponse {
+	const response = JSON.parse(data)
+
+	if (isAccountingErrorResponse(response)) {
+		return transformErrorResponse(response)
+	}
+
+	const { category } = response.response.result
+
+	return transformExpenseCategoryParsedResponse(category)
+}
+
+export function transformExpenseCategoryListResponse(data: string): { categories: ExpenseCategory[]; pages: Pagination } | ErrorResponse {
+	const response = JSON.parse(data)
+
+	if (isAccountingErrorResponse(response)) {
+		return transformErrorResponse(response)
+	}
+
+	const { categories, page, pages, per_page, total } = response.response.result
+
+	return {
+		categories: categories.map((category: any) => transformExpenseCategoryParsedResponse(category)),
+		pages: {
+			total,
+			size: per_page,
+			pages,
+			page,
+		},
+	}
+}
+
+export function transformExpenseCategoryParsedResponse(category: any): ExpenseCategory {
 	return {
 		category: category.category,
 		categoryId: category.categoryid,
@@ -29,45 +61,5 @@ export function transformExpenseCategoryData(category: any): ExpenseCategory {
 		transactionPosted: category.transaction_posted,
 		updatedAt: category.updated_at && transformDateResponse(category.updated_at, DateFormat['YYYY-MM-DD hh:mm:ss']),
 		visState: category.vis_state,
-	}
-}
-
-export function transformExpenseCategoryResponse(data: string): ExpenseCategory | ErrorResponse {
-	const response = JSON.parse(data)
-
-	if (isAccountingErrorResponse(response)) {
-		return transformErrorResponse(response)
-	}
-
-	const {
-		response: {
-			result: { category },
-		},
-	} = response
-
-	return transformExpenseCategoryData(category)
-}
-
-export function transformExpenseCategoryListResponse(data: string): { categories: ExpenseCategory[]; pages: Pagination } | ErrorResponse {
-	const response = JSON.parse(data)
-
-	if (isAccountingErrorResponse(response)) {
-		return transformErrorResponse(response)
-	}
-
-	const {
-		response: {
-			result: { categories, page, pages, per_page, total },
-		},
-	} = response
-
-	return {
-		categories: categories.map((category: any) => transformExpenseCategoryData(category)),
-		pages: {
-			page,
-			pages,
-			size: per_page,
-			total,
-		},
 	}
 }

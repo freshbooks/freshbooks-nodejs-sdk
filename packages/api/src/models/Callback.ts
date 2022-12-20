@@ -12,58 +12,46 @@ export default interface Callback {
 	updatedAt?: Nullable<Date>
 
 }
-export function transformCallbackData({
-	callbackid: callbackId,
-	uri,
-	event,
-	verified,
-	updated_at: updatedAt,
-}: any): Callback {
-	return {
-		callbackId,
-		uri,
-		event,
-		verified,
-		updatedAt: transformDateResponse(updatedAt, DateFormat['YYYY-MM-DD hh:mm:ss']),
-	}
-}
 
 export function transformCallbackResponse(data: string): Callback | ErrorResponse {
 	const response = JSON.parse(data)
+	
 	if (isEventErrorResponse(response)) {
 		return transformErrorResponse(response)
 	}
 
-	const {
-		response: { result },
-	} = response
-	const { callback } = result
-	return transformCallbackData(callback)
+	const { callback } = response.response.result
+	
+	return transformCallbackParsedResponse(callback)
 }
 
-/**
- * Parses JSON list response and converts to internal callback list response
- * @param data representing JSON response
- * @returns callback list response
- */
  export function transformCallbackListResponse(data: string): { callbacks: Callback[]; pages: Pagination } | ErrorResponse {
 	const response = JSON.parse(data)
 
 	if (isEventErrorResponse(response)) {
 		return transformErrorResponse(response)
 	}
-	const {
-		response: { result },
-	} = response
-	const { callbacks, per_page, total, page, pages } = result
+
+	const { callbacks, per_page, total, page, pages } = response.response.result
+	
 	return {
+		callbacks: callbacks.map((callback: Callback) => transformCallbackParsedResponse(callback)),
 		pages: {
-			page,
-			pages,
-			size: per_page,
 			total,
-		},
-		callbacks: callbacks.map((callback: Callback) => transformCallbackData(callback)),
+			size: per_page,
+			pages,
+			page,
+		},	
+	}
+}
+
+export function transformCallbackParsedResponse(callback: any): Callback {
+	return {
+		callbackId: callback.callbackid,
+		uri: callback.uri,
+		event: callback.event,
+		verified: callback.verified,
+		updatedAt: callback.updated_at && transformDateResponse(callback.updated_at, DateFormat['YYYY-MM-DD hh:mm:ss']),
 	}
 }
 

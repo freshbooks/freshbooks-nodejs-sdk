@@ -12,7 +12,7 @@ export default interface Entry {
     paymentId: number
 }
 
-export function transformEntryResponse(entry: any): Entry {
+export function transformEntryParsedResponse(entry: any): Entry {
     return {
         accountingSystemId: entry.accounting_systemid,
         categoryId: entry.categoryid,

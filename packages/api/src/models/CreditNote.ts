@@ -76,107 +76,6 @@ export default interface CreditNote {
     visState?: VisState
 }
 
-function transformCreditNoteData({
-    id,
-    "creditid": creditId,
-    "accounting_systemid": accountingSystemId,
-    "clientid": clientId,
-    "sentid": sentId,
-    amount,
-    code,
-    city,
-    country,
-    "create_date": createDate,
-    "credit_number": creditNumber,
-    "credit_type": creditType,
-    "currency_code": currencyCode,
-    "current_organization": currentOrganization,
-    description,
-    "display_status": displayStatus,
-    "dispute_status": disputeStatus,
-    "ext_archive": extArchive,
-    "fname": fName,
-    language,
-    "last_order_status": lastOrderStatus,
-    lines,
-    "lname": lName,
-    notes,
-    organization,
-    paid,
-    "payment_status": paymentStatus,
-    "payment_type": paymentType,
-    province,
-    status,
-    street,
-    street2,
-    template,
-    terms,
-    "vat_name": vatName,
-    "vat_number": vatNumber,
-    "vis_state": visState
-}: any): CreditNote {
-    return {
-        id,
-        creditId,
-        accountingSystemId,
-        clientId,
-        code,
-        sentId,
-        amount: amount && transformMoneyResponse(amount),
-        city,
-        country,
-        createDate: createDate && transformDateResponse(createDate, DateFormat['YYYY-MM-DD']),
-        creditNumber,
-        creditType,
-        currencyCode,
-        currentOrganization,
-        description,
-        displayStatus,
-        disputeStatus,
-        extArchive,
-        fName,
-        language,
-        lastOrderStatus,
-        lines: lines && lines.map(transformLineResponse),
-        lName,
-        notes,
-        organization,
-        paid: paid && transformMoneyResponse(paid),
-        paymentStatus,
-        paymentType,
-        province,
-        status,
-        street,
-        street2,
-        template,
-        terms,
-        vatName,
-        vatNumber,
-        visState,
-    }
-}
-
-export function transformCreditNoteListResponse(
-    data: string
-): { creditNotes: CreditNote[]; pages: Pagination } | ErrorResponse {
-    const response = JSON.parse(data)
-
-    if (isAccountingErrorResponse(response)) {
-        return transformErrorResponse(response)
-    }
-
-    const { credit_notes, per_page, total, page, pages } = response.response.result
-    return {
-        creditNotes: credit_notes.map(transformCreditNoteData),
-        pages: {
-            page,
-            pages,
-            size: per_page,
-            total,
-        }
-    }
-}
-
 export function transformCreditNoteResponse(data: string): CreditNote | ErrorResponse {
     const response = JSON.parse(data)
 
@@ -184,54 +83,113 @@ export function transformCreditNoteResponse(data: string): CreditNote | ErrorRes
         return transformErrorResponse(response)
     }
 
-    const {
-        response: { result },
-    } = response
-    const { credit_notes } = result
-    return transformCreditNoteData(credit_notes)
+    const { credit_notes } = response.response.result
+
+    return transformCreditNoteParsedResponse(credit_notes)
 }
 
-export function transformCreditNoteRequest(credit_note: CreditNote): string {
-    const request = JSON.stringify({
+export function transformCreditNoteListResponse(data: string): { creditNotes: CreditNote[]; pages: Pagination } | ErrorResponse {
+    const response = JSON.parse(data)
+
+    if (isAccountingErrorResponse(response)) {
+        return transformErrorResponse(response)
+    }
+
+    const { credit_notes, per_page, total, page, pages } = response.response.result
+
+    return {
+        creditNotes: credit_notes.map(transformCreditNoteParsedResponse),
+        pages: {
+            total,
+            size: per_page,
+            pages,
+            page,
+        }
+    }
+}
+
+function transformCreditNoteParsedResponse(creditNote: any): CreditNote {
+    return {
+        id: creditNote.id,
+        creditId: creditNote.creditid,
+        accountingSystemId: creditNote.accounting_systemid,
+        clientId: creditNote.clientid,
+        code: creditNote.code,
+        sentId: creditNote.sentid,
+        amount: creditNote.amount && transformMoneyResponse(creditNote.amount),
+        city: creditNote.city,
+        country: creditNote.country,
+        createDate: creditNote.create_date && transformDateResponse(creditNote.create_date, DateFormat['YYYY-MM-DD']),
+        creditNumber: creditNote.credit_number,
+        creditType: creditNote.credit_type,
+        currencyCode: creditNote.currency_code,
+        currentOrganization: creditNote.current_organization,
+        description: creditNote.description,
+        displayStatus: creditNote.display_status,
+        disputeStatus: creditNote.dispute_status,
+        extArchive: creditNote.ext_archive,
+        fName: creditNote.fname,
+        language: creditNote.language,
+        lastOrderStatus: creditNote.last_order_status,
+        lines: creditNote.lines && creditNote.lines.map(transformLineResponse),
+        lName: creditNote.lname,
+        notes: creditNote.notes,
+        organization: creditNote.organization,
+        paid: creditNote.paid && transformMoneyResponse(creditNote.paid),
+        paymentStatus: creditNote.payment_status,
+        paymentType: creditNote.payment_type,
+        province: creditNote.province,
+        status: creditNote.status,
+        street: creditNote.street,
+        street2: creditNote.street2,
+        template: creditNote.template,
+        terms: creditNote.terms,
+        vatName: creditNote.vat_name,
+        vatNumber: creditNote.vat_number,
+        visState: creditNote.vis_state,
+    }
+}
+
+export function transformCreditNoteRequest(creditNote: CreditNote): string {
+    return JSON.stringify({
         credit_notes: {
-            accounting_systemid: credit_note.accountingSystemId,
-            amount: credit_note.amount && transformMoneyRequest(credit_note.amount),
-            city: credit_note.city,
-            clientid: credit_note.clientId,
-            country: credit_note.country,
-            code: credit_note.code,
-            create_date: credit_note.createDate && transformDateRequest(credit_note.createDate),
-            credit_number: credit_note.creditNumber,
-            credit_type: credit_note.creditType,
-            creditid: credit_note.creditId,
-            current_organization: credit_note.currentOrganization,
-            currency_code: credit_note.currencyCode,
-            description: credit_note.description,
-            display_status: credit_note.displayStatus,
-            dispute_status: credit_note.disputeStatus,
-            ext_archive: credit_note.extArchive,
-            fname: credit_note.fName,
-            id: credit_note.id,
-            language: credit_note.language,
-            last_order_status: credit_note.lastOrderStatus,
-            lname: credit_note.lName,
-            lines: credit_note.lines && credit_note.lines.map(transformLineRequest),
-            notes: credit_note.notes,
-            organization: credit_note.organization,
-            paid: credit_note.paid && transformMoneyRequest(credit_note.paid),
-            payment_status: credit_note.paymentStatus,
-            payment_type: credit_note.paymentType,
-            province: credit_note.province,
-            sentid: credit_note.sentId,
-            status: credit_note.status,
-            street: credit_note.street,
-            street2: credit_note.street2,
-            template: credit_note.template,
-            terms: credit_note.terms,
-            vat_name: credit_note.vatName,
-            vat_number: credit_note.vatNumber,
-            vis_state: credit_note.visState,
+            accounting_systemid: creditNote.accountingSystemId,
+            amount: creditNote.amount && transformMoneyRequest(creditNote.amount),
+            city: creditNote.city,
+            clientid: creditNote.clientId,
+            country: creditNote.country,
+            code: creditNote.code,
+            create_date: creditNote.createDate && transformDateRequest(creditNote.createDate),
+            credit_number: creditNote.creditNumber,
+            credit_type: creditNote.creditType,
+            creditid: creditNote.creditId,
+            current_organization: creditNote.currentOrganization,
+            currency_code: creditNote.currencyCode,
+            description: creditNote.description,
+            display_status: creditNote.displayStatus,
+            dispute_status: creditNote.disputeStatus,
+            ext_archive: creditNote.extArchive,
+            fname: creditNote.fName,
+            id: creditNote.id,
+            language: creditNote.language,
+            last_order_status: creditNote.lastOrderStatus,
+            lname: creditNote.lName,
+            lines: creditNote.lines && creditNote.lines.map(transformLineRequest),
+            notes: creditNote.notes,
+            organization: creditNote.organization,
+            paid: creditNote.paid && transformMoneyRequest(creditNote.paid),
+            payment_status: creditNote.paymentStatus,
+            payment_type: creditNote.paymentType,
+            province: creditNote.province,
+            sentid: creditNote.sentId,
+            status: creditNote.status,
+            street: creditNote.street,
+            street2: creditNote.street2,
+            template: creditNote.template,
+            terms: creditNote.terms,
+            vat_name: creditNote.vatName,
+            vat_number: creditNote.vatNumber,
+            vis_state: creditNote.visState,
         },
     })
-    return request
 }

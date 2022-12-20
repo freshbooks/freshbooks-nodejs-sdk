@@ -5,7 +5,7 @@ import { Nullable, transformIdResponse } from './helpers'
 import Pagination from './Pagination'
 import VisState from './VisState'
 import { transformDateResponse, DateFormat, transformDateRequest } from './Date'
-import ExpenseCategory, { transformExpenseCategoryData } from './ExpenseCategory'
+import ExpenseCategory, { transformExpenseCategoryParsedResponse } from './ExpenseCategory'
 
 export enum ExpenseStatus {
 	internal,
@@ -50,91 +50,16 @@ export default interface Expense {
 	category?: ExpenseCategory
 }
 
-function transformExpenseData({
-	categoryid: categoryId,
-	markup_percent: markupPercent,
-	projectid: projectId,
-	clientid: clientId,
-	taxPercent1,
-	taxName2,
-	taxName1,
-	isduplicate: isDuplicate,
-	profileid: profileId,
-	taxPercent2,
-	account_name: accountName,
-	transactionid: transactionId,
-	invoiceid: invoiceId,
-	id,
-	taxAmount2,
-	taxAmount1,
-	vis_state: visState,
-	status,
-	bank_name: bankName,
-	updated,
-	vendor,
-	ext_systemid: extSystemId,
-	staffid: staffId,
-	date,
-	has_receipt: hasReceipt,
-	accounting_systemid: accountingSystemId,
-	notes,
-	ext_invoiceid: extInvoiceId,
-	amount,
-	expenseid: expenseId,
-	compounded_tax: compoundedTax,
-	accountid: accountId,
-	category,
-}: any): Expense {
-	return {
-		categoryId: transformIdResponse(categoryId),
-		markupPercent: Number(markupPercent),
-		projectId: transformIdResponse(projectId),
-		clientId: transformIdResponse(clientId),
-		taxPercent1: taxPercent1,
-		taxName2,
-		taxName1,
-		isDuplicate,
-		profileId: transformIdResponse(profileId),
-		taxPercent2: taxPercent2,
-		accountName,
-		transactionId: transformIdResponse(transactionId),
-		invoiceId: transformIdResponse(invoiceId),
-		id: transformIdResponse(id),
-		taxAmount2: taxAmount2 && transformMoneyResponse(taxAmount2),
-		taxAmount1: taxAmount1 && transformMoneyResponse(taxAmount1),
-		visState,
-		status,
-		bankName,
-		updated: transformDateResponse(updated, DateFormat['YYYY-MM-DD hh:mm:ss']),
-		vendor,
-		extSystemId: transformIdResponse(extSystemId),
-		staffId: transformIdResponse(staffId),
-		date: transformDateResponse(date, DateFormat['YYYY-MM-DD']),
-		hasReceipt,
-		accountingSystemId: transformIdResponse(accountingSystemId),
-		notes,
-		extInvoiceId: transformIdResponse(extInvoiceId),
-		amount: transformMoneyResponse(amount),
-		expenseId: transformIdResponse(expenseId),
-		compoundedTax,
-		accountId: transformIdResponse(accountId),
-		category: category && transformExpenseCategoryData(category),
-	}
-}
-
 export function transformExpenseResponse(data: string): Expense | ErrorResponse {
 	const response = JSON.parse(data)
 
 	if (isAccountingErrorResponse(response)) {
 		return transformErrorResponse(response)
 	}
-	const {
-		response: {
-			result: { expense },
-		},
-	} = response
 
-	return transformExpenseData(expense)
+	const { expense } = response.response.result
+
+	return transformExpenseParsedResponse(expense)
 }
 
 export function transformExpenseListResponse(data: string): { expenses: Expense[]; pages: Pagination } | ErrorResponse {
@@ -144,20 +69,54 @@ export function transformExpenseListResponse(data: string): { expenses: Expense[
 		return transformErrorResponse(response)
 	}
 
-	const {
-		response: {
-			result: { expenses, per_page, total, page, pages },
-		},
-	} = response
+	const { expenses, per_page, total, page, pages } = response.response.result
 
 	return {
-		expenses: expenses.map((expense: any): Expense => transformExpenseData(expense)),
+		expenses: expenses.map((expense: any): Expense => transformExpenseParsedResponse(expense)),
 		pages: {
-			size: per_page,
 			total,
-			page,
+			size: per_page,
 			pages,
+			page,
 		},
+	}
+}
+
+function transformExpenseParsedResponse(expense: any): Expense {
+	return {
+		categoryId: transformIdResponse(expense.categoryid),
+		markupPercent: Number(expense.markup_percent),
+		projectId: transformIdResponse(expense.projectid),
+		clientId: transformIdResponse(expense.clientid),
+		taxPercent1: expense.taxPercent1,
+		taxName2: expense.taxName2,
+		taxName1: expense.taxName1,
+		isDuplicate: expense.isduplicate,
+		profileId: transformIdResponse(expense.profileid),
+		taxPercent2: expense.taxPercent2,
+		accountName: expense.account_name,
+		transactionId: transformIdResponse(expense.transactionid),
+		invoiceId: transformIdResponse(expense.invoiceid),
+		id: transformIdResponse(expense.id),
+		taxAmount2: expense.taxAmount2 && transformMoneyResponse(expense.taxAmount2),
+		taxAmount1: expense.taxAmount1 && transformMoneyResponse(expense.taxAmount1),
+		visState: expense.vis_state,
+		status: expense.status,
+		bankName: expense.bank_name,
+		updated: transformDateResponse(expense.updated, DateFormat['YYYY-MM-DD hh:mm:ss']),
+		vendor: expense.vendor,
+		extSystemId: transformIdResponse(expense.ext_systemid),
+		staffId: transformIdResponse(expense.staffid),
+		date: transformDateResponse(expense.date, DateFormat['YYYY-MM-DD']),
+		hasReceipt: expense.has_receipt,
+		accountingSystemId: transformIdResponse(expense.accounting_systemid),
+		notes: expense.notes,
+		extInvoiceId: transformIdResponse(expense.ext_invoiceid),
+		amount: transformMoneyResponse(expense.amount),
+		expenseId: transformIdResponse(expense.expenseid),
+		compoundedTax: expense.compounded_tax,
+		accountId: transformIdResponse(expense.accountid),
+		category: expense.category && transformExpenseCategoryParsedResponse(expense.category),
 	}
 }
 
