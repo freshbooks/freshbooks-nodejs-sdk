@@ -2,7 +2,7 @@
 import Pagination from './Pagination'
 import { DateFormat, transformDateRequest, transformDateResponse } from './Date'
 import { ErrorResponse, isAccountingErrorResponse, transformErrorResponse } from './Error'
-import Money, { transformMoneyRequest, transformMoneyParsedResponse } from './Money'
+import Money, { transformMoneyParsedRequest, transformMoneyParsedResponse } from './Money'
 import VisState from './VisState'
 
 enum PaymentType {
@@ -82,7 +82,7 @@ export function transformBillPaymentsRequest(payment: BillPayments): string {
 	return JSON.stringify({
 		bill_payment: {
 			id: payment.id,
-			amount: payment.amount && transformMoneyRequest(payment.amount),
+			amount: payment.amount && transformMoneyParsedRequest(payment.amount),
 			billid: payment.billId,
 			paid_date: payment.paidDate && transformDateRequest(payment.paidDate),
 			payment_type: payment.paymentType,

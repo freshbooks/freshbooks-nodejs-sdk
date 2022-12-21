@@ -2,7 +2,7 @@
 import Pagination from './Pagination'
 import { transformErrorResponse, isAccountingErrorResponse, ErrorResponse } from './Error'
 import Money, { transformMoneyParsedResponse } from './Money'
-import Tax, { transformTaxParsedResponse, transformTaxRequest } from './Tax'
+import Tax, { transformTaxParsedRequest, transformTaxParsedResponse } from './Tax'
 import { transformDateResponse, DateFormat, transformDateRequest } from './Date'
 
 enum CategoryName {
@@ -81,7 +81,7 @@ function transformOtherIncomeParsedResponse(income: any): OtherIncome {
 }
 
 export function transformOtherIncomeRequest(income: OtherIncome): string {
-	const request = JSON.stringify({
+	return JSON.stringify({
 		other_income: {
 			amount: income.amount,
 			category_name: income.categoryName,
@@ -89,8 +89,7 @@ export function transformOtherIncomeRequest(income: OtherIncome): string {
 			note: income.note,
 			payment_type: income.paymentType,
 			source: income.source,
-			taxes: income.taxes && income.taxes.map((tax: Tax): any => transformTaxRequest(tax)),
+			taxes: income.taxes && income.taxes.map((tax: Tax): any => transformTaxParsedRequest(tax)),
 		},
 	})
-	return request
 }

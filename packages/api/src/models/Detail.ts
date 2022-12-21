@@ -30,7 +30,7 @@ export function transformDetailParsedResponse(detail: any): Detail {
 
 }
 
-export function transformDetailRequest(detail: Detail): any {
+export function transformDetailParsedRequest(detail: Detail): any {
     return {
         credit: detail.credit,
         debit: detail.debit,

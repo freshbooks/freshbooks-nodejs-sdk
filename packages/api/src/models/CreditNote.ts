@@ -1,9 +1,9 @@
 import Pagination from './Pagination'
 import { transformErrorResponse, isAccountingErrorResponse, ErrorResponse } from './Error'
-import Money, { transformMoneyRequest, transformMoneyParsedResponse } from './Money'
+import Money, { transformMoneyParsedRequest, transformMoneyParsedResponse } from './Money'
 import { Nullable } from './helpers'
 import VisState from './VisState'
-import Line, { transformLineRequest, transformLineParsedResponse } from './Line'
+import Line, { transformLineParsedRequest, transformLineParsedResponse } from './Line'
 import { transformDateResponse, DateFormat, transformDateRequest } from './Date'
 
 enum CreditType {
@@ -154,7 +154,7 @@ export function transformCreditNoteRequest(creditNote: CreditNote): string {
     return JSON.stringify({
         credit_notes: {
             accounting_systemid: creditNote.accountingSystemId,
-            amount: creditNote.amount && transformMoneyRequest(creditNote.amount),
+            amount: creditNote.amount && transformMoneyParsedRequest(creditNote.amount),
             city: creditNote.city,
             clientid: creditNote.clientId,
             country: creditNote.country,
@@ -174,10 +174,10 @@ export function transformCreditNoteRequest(creditNote: CreditNote): string {
             language: creditNote.language,
             last_order_status: creditNote.lastOrderStatus,
             lname: creditNote.lName,
-            lines: creditNote.lines && creditNote.lines.map((line: Line): any => transformLineRequest(line)),
+            lines: creditNote.lines && creditNote.lines.map((line: Line): any => transformLineParsedRequest(line)),
             notes: creditNote.notes,
             organization: creditNote.organization,
-            paid: creditNote.paid && transformMoneyRequest(creditNote.paid),
+            paid: creditNote.paid && transformMoneyParsedRequest(creditNote.paid),
             payment_status: creditNote.paymentStatus,
             payment_type: creditNote.paymentType,
             province: creditNote.province,

@@ -58,7 +58,7 @@ export function transformLineParsedResponse(line: any): Line {
 	}
 }
 
-export function transformLineRequest(line: Line): any {
+export function transformLineParsedRequest(line: Line): any {
 	return {
 		compounded_tax: line.compoundedTax,
 		type: line.type,
