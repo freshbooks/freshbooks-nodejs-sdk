@@ -41,7 +41,7 @@ export function transformBillLinesParsedResponse(line: any): BillLines {
 	}
 }
 
-export function transformBillLinesRequest(line: BillLines): any {
+export function transformBillLinesParsedRequest(line: BillLines): any {
 	return {
 		categoryid: line.categoryId,
 		description: line.description,

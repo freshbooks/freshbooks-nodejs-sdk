@@ -5,7 +5,7 @@ import { ErrorResponse, isAccountingErrorResponse, transformErrorResponse } from
 import Pagination from './Pagination'
 import BillPayments, { transformBillPaymentsParsedResponse } from './BillPayments'
 import VisState from './VisState'
-import BillLines, { transformBillLinesRequest, transformBillLinesParsedResponse } from './BillLines'
+import BillLines, { transformBillLinesParsedRequest, transformBillLinesParsedResponse } from './BillLines'
 import BillVendors, { transformBillVendorsParsedResponse } from './BillVendors'
 
 enum BillStatus {
@@ -117,7 +117,7 @@ export function transformBillsRequest(bill: Bills): string {
 			due_offset_days: bill.dueOffsetDays,
 			issue_date: bill.issueDate && transformDateRequest(bill.issueDate),
 			language: bill.language,
-			lines: bill.lines && bill.lines.map((line: any): BillLines => transformBillLinesRequest(line)),
+			lines: bill.lines && bill.lines.map((line: any): BillLines => transformBillLinesParsedRequest(line)),
 			vendorid: bill.vendorId,
 			vis_state: bill.visState,
 		},
