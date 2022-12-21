@@ -27,7 +27,7 @@ export function transformBillVendorTaxParsedResponse(tax: any): BillVendorTax {
 	}
 }
 
-export function transformBillVendorTaxRequest(tax: BillVendorTax): any {
+export function transformBillVendorTaxParsedRequest(tax: BillVendorTax): any {
 	return {
 		vendorid: tax.vendorId,
 		tax_id: tax.taxId,
