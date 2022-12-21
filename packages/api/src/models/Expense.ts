@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import Money, { transformMoneyParsedResponse, transformMoneyRequest } from './Money'
+import Money, { transformMoneyParsedRequest, transformMoneyParsedResponse } from './Money'
 import { ErrorResponse, isAccountingErrorResponse, transformErrorResponse } from './Error'
 import { Nullable, transformIdResponse } from './helpers'
 import Pagination from './Pagination'
@@ -137,8 +137,8 @@ export function transformExpenseRequest(expense: Expense): string {
 			transactionid: expense.transactionId,
 			invoiceid: expense.invoiceId,
 			id: expense.id,
-			taxAmount2: expense.taxAmount2 && transformMoneyRequest(expense.taxAmount2),
-			taxAmount1: expense.taxAmount1 && transformMoneyRequest(expense.taxAmount1),
+			taxAmount2: expense.taxAmount2 && transformMoneyParsedRequest(expense.taxAmount2),
+			taxAmount1: expense.taxAmount1 && transformMoneyParsedRequest(expense.taxAmount1),
 			vis_state: expense.visState,
 			status: expense.status,
 			bank_name: expense.bankName,
@@ -149,7 +149,7 @@ export function transformExpenseRequest(expense: Expense): string {
 			has_receipt: expense.hasReceipt,
 			notes: expense.notes,
 			ext_invoiceid: expense.extInvoiceId,
-			amount: expense.amount && transformMoneyRequest(expense.amount),
+			amount: expense.amount && transformMoneyParsedRequest(expense.amount),
 			expenseid: expense.expenseId,
 			compounded_tax: expense.compoundedTax,
 			accountid: expense.accountId,

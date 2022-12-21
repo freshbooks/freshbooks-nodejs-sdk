@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import Money, { transformMoneyRequest, transformMoneyParsedResponse } from './Money'
+import Money, { transformMoneyParsedRequest, transformMoneyParsedResponse } from './Money'
 import VisState from './VisState'
 import { ErrorResponse, isAccountingErrorResponse, transformErrorResponse } from './Error'
 import Pagination from './Pagination'
@@ -102,7 +102,7 @@ function transformPaymentParsedResponse(payment: any): Payment {
 export function transformPaymentRequest(payment: Payment): string {
 	return JSON.stringify({
 		payment: {
-			amount: payment.amount && transformMoneyRequest(payment.amount),
+			amount: payment.amount && transformMoneyParsedRequest(payment.amount),
 			date: transformDateRequest(payment.date),
 			invoiceid: payment.invoiceId,
 			note: payment.note,
@@ -117,7 +117,7 @@ export function transformPaymentRequest(payment: Payment): string {
 export function transformPaymentUpdateRequest(payment: Payment): string {
 	return JSON.stringify({
 		payment: {
-			amount: payment.amount && transformMoneyRequest(payment.amount),
+			amount: payment.amount && transformMoneyParsedRequest(payment.amount),
 			date: payment.date && transformDateRequest(payment.date),
 			note: payment.note,
 			orderid: payment.orderId,

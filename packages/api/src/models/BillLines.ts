@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import Money, { transformMoneyRequest, transformMoneyParsedResponse } from './Money'
+import Money, { transformMoneyParsedRequest, transformMoneyParsedResponse } from './Money'
 
 export default interface BillLines {
 	categoryId?: number
@@ -46,7 +46,7 @@ export function transformBillLinesParsedRequest(line: BillLines): any {
 		categoryid: line.categoryId,
 		description: line.description,
 		quantity: line.quantity,
-		unit_cost: line.unitCost && transformMoneyRequest(line.unitCost),
+		unit_cost: line.unitCost && transformMoneyParsedRequest(line.unitCost),
 		tax_name1: line.taxName1,
 		tax_name2: line.taxName2,
 		tax_percent1: line.taxPercent1,

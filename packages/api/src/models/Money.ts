@@ -15,7 +15,7 @@ export function transformMoneyParsedResponse(money: MoneyResponse): Money {
 	}
 }
 
-export function transformMoneyRequest(money: Money = {}): any {
+export function transformMoneyParsedRequest(money: Money = {}): any {
 	return {
 		amount: money.amount,
 		code: money.code,

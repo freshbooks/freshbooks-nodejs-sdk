@@ -3,7 +3,7 @@ import { isAccountingErrorResponse, transformErrorResponse, ErrorResponse } from
 import VisState from './VisState'
 import Pagination from './Pagination'
 import { Nullable } from './helpers'
-import Money, { transformMoneyRequest } from './Money'
+import Money, { transformMoneyParsedRequest } from './Money'
 
 export default interface Tasks {
 	id?: number
@@ -72,7 +72,7 @@ export function transformTasksRequest(task: Tasks): string {
 			billable: task.billable,
 			description: task.description,
 			name: task.name,
-			rate: task.rate && transformMoneyRequest(task.rate),
+			rate: task.rate && transformMoneyParsedRequest(task.rate),
 			taskid: task.taskid,
 			tname: task.tname,
 			tdesc: task.tdesc,
