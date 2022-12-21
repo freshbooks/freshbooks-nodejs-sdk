@@ -81,7 +81,7 @@ function transformOtherIncomeParsedResponse(income: any): OtherIncome {
 }
 
 export function transformOtherIncomeRequest(income: OtherIncome): string {
-	const request = JSON.stringify({
+	return JSON.stringify({
 		other_income: {
 			amount: income.amount,
 			category_name: income.categoryName,
@@ -92,5 +92,4 @@ export function transformOtherIncomeRequest(income: OtherIncome): string {
 			taxes: income.taxes && income.taxes.map((tax: Tax): any => transformTaxRequest(tax)),
 		},
 	})
-	return request
 }
