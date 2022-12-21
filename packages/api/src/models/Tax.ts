@@ -10,7 +10,7 @@ export function transformTaxParsedResponse(tax: any): Tax {
 	}
 }
 
-export function transformTaxRequest(tax: Tax): any {
+export function transformTaxParsedRequest(tax: Tax): any {
 	return {
 		amount: tax.amount,
 		name: tax.name,
