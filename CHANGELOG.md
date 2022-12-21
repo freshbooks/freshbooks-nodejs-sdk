@@ -4,6 +4,9 @@
 
 ### Unreleased
 
+### 3.2.2
+- Internal refactor of model transform methods
+
 ### 3.2.1
 
 - Update error detection for Projects (See #450)
