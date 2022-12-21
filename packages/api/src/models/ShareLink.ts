@@ -9,22 +9,6 @@ export default interface ShareLink {
 	shareMethod: string
 }
 
-function transformShareLinkData({
-	resourceid: resourceId,
-	clientid: clientId,
-	resource_type: resourceType,
-	share_link: shareLink,
-	share_method: shareMethod,
-}: any): ShareLink {
-	return {
-		resourceId,
-		clientId,
-		resourceType,
-		shareLink,
-		shareMethod,
-	}
-}
-
 export function transformShareLinkResponse(data: string): ShareLink | ErrorResponse {
 	const response = JSON.parse(data)
 
@@ -32,10 +16,17 @@ export function transformShareLinkResponse(data: string): ShareLink | ErrorRespo
 		return transformErrorResponse(response)
 	}
 
-	const {
-		response: { result },
-	} = response
-	const { share_link } = result
-	return transformShareLinkData(share_link)
+	const { share_link } = response.response.result
+
+	return transformShareLinkParsedResponse(share_link)
 }
 
+function transformShareLinkParsedResponse(link: any): ShareLink {
+	return {
+		resourceId: link.resourceid,
+		clientId: link.clientid,
+		resourceType: link.resource_type,
+		shareLink: link.share_link,
+		shareMethod: link.share_method,
+	}
+}

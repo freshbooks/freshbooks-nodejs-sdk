@@ -3,7 +3,7 @@ import { isAccountingErrorResponse, transformErrorResponse, ErrorResponse } from
 import PhoneNumber, { transformPhoneNumberParsedResponse } from './PhoneNumber'
 import Address, { transformAddressParsedResponse, AddressResponse } from './Address'
 import BusinessMembership, { transformBusinessMembershipParsedResponse } from './BusinessMembership'
-import Role, { transformRoleResponse } from './Role'
+import Role, { transformRoleParsedResponse } from './Role'
 import Profession, { transformProfessionParsedResponse } from './Profession'
 import Group, { transformGroupParsedResponse } from './Group'
 import Permission from './Permission'
@@ -32,34 +32,25 @@ export function transformUserResponse(data: string): User | ErrorResponse {
 		return transformErrorResponse(response)
 	}
 
-	const {
-		id,
-		first_name,
-		last_name,
-		email,
-		phone_numbers: phoneNumbers = [],
-		addresses = [],
-		permissions = {},
-		subscription_statuses: subscriptionStatuses,
-		business_memberships: businessMemberships = [],
-		roles = [],
-		profession,
-		groups = [],
-		links = {},
-	} = response.response
+	const user = response.response
+
+	return transformUserParsedResponse(user)
+}
+
+export function transformUserParsedResponse(user: any): User {
 	return {
-		id: id.toString(), // store ids as string
-		firstName: first_name,
-		lastName: last_name,
-		email,
-		phoneNumbers: phoneNumbers.map(transformPhoneNumberParsedResponse),
-		permissions,
-		subscriptionStatuses,
-		businessMemberships: businessMemberships.map(transformBusinessMembershipParsedResponse),
-		roles: roles.map(transformRoleResponse),
-		addresses: addresses.filter((address: Nullable<AddressResponse>) => address !== null).map(transformAddressParsedResponse),
-		profession: profession && transformProfessionParsedResponse(profession),
-		groups: groups.map(transformGroupParsedResponse),
-		links,
+		id: user.id.toString(),
+		firstName: user.first_name,
+		lastName: user.last_name,
+		email: user.email,
+		phoneNumbers: user.phone_numbers && user.phone_numbers.map(transformPhoneNumberParsedResponse),
+		permissions: user.permissions,
+		subscriptionStatuses: user.subscription_statuses,
+		businessMemberships: user.business_memberships && user.business_memberships.map(transformBusinessMembershipParsedResponse),
+		roles: user.roles && user.roles.map(transformRoleParsedResponse),
+		addresses: user.addresses && user.addresses.filter((address: Nullable<AddressResponse>) => address !== null).map(transformAddressParsedResponse),
+		profession: user.profession && transformProfessionParsedResponse(user.profession),
+		groups: user.groups && user.groups.map(transformGroupParsedResponse),
+		links: user.links,
 	}
 }

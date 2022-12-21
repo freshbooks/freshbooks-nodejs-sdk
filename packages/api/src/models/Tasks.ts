@@ -18,7 +18,39 @@ export default interface Tasks {
 	updated?: Date
 }
 
-export function transformTasksData(task: any): Tasks {
+export function transformTasksResponse(data: string): Tasks | ErrorResponse {
+	const response = JSON.parse(data)
+
+	if (isAccountingErrorResponse(response)) {
+		return transformErrorResponse(response)
+	}
+
+	const { task } = response.response.result
+
+	return transformTasksParsedResponse(task)
+}
+
+export function transformTasksListResponse(data: string): { tasks: Tasks[]; pages: Pagination } | ErrorResponse {
+	const response = JSON.parse(data)
+
+	if (isAccountingErrorResponse(response)) {
+		return transformErrorResponse(response)
+	}
+
+	const { tasks, per_page, total, page, pages } = response.response.result
+
+	return {
+		tasks: tasks.map((task: Tasks) => transformTasksParsedResponse(task)),
+		pages: {
+			total,
+			size: per_page,
+			pages,
+			page,
+		},
+	}
+}
+
+export function transformTasksParsedResponse(task: any): Tasks {
 	return {
 		id: task.id,
 		billable: task.billable,
@@ -30,44 +62,6 @@ export function transformTasksData(task: any): Tasks {
 		tdesc: task.tdesc,
 		visState: task.visState,
 		updated: task.updated,
-	}
-}
-
-export function transformTasksResponse(data: any): Tasks | ErrorResponse {
-	const response = JSON.parse(data)
-	if (isAccountingErrorResponse(response)) {
-		return transformErrorResponse(response)
-	}
-
-	const {
-		response: { result },
-	} = response
-	const { task } = result
-	return transformTasksData(task)
-}
-/**
- * Parses JSON list response and converts to internal tasks list response
- * @param data representing JSON response
- * @returns tasks list response
- */
-export function transformTasksListResponse(data: string): { tasks: Tasks[]; pages: Pagination } | ErrorResponse {
-	const response = JSON.parse(data)
-
-	if (isAccountingErrorResponse(response)) {
-		return transformErrorResponse(response)
-	}
-	const {
-		response: { result },
-	} = response
-	const { tasks, per_page, total, page, pages } = result
-	return {
-		pages: {
-			page,
-			pages,
-			size: per_page,
-			total,
-		},
-		tasks: tasks.map((task: Tasks) => transformTasksData(task)),
 	}
 }
 

@@ -11,57 +11,54 @@ export default interface Service {
 	billable?: boolean
 	visState?: VisState
 }
-export function transformServiceData({
-	business_id: businessId,
-	id: id,
-	name: name,
-	billable: billable,
-	vis_state: visState,
-}: any): Service {
-	return {
-		businessId,
-		id,
-		name,
-		billable,
-		visState,
-	}
-}
+
 export function transformServiceResponse(data: string): Service | ErrorResponse {
 	const response = JSON.parse(data)
+
 	if (isProjectErrorResponse(response)) {
 		return transformErrorResponse(response)
 	}
 
 	const { service } = response
-	return transformServiceData(service)
+	
+	return transformServiceParsedResponse(service)
 }
 
-export function transformListServicesResponse(
-	data: string
-): { services: Service[]; pages: Pagination } | ErrorResponse {
+export function transformServiceListResponse(data: string): { services: Service[]; pages: Pagination } | ErrorResponse {
 	const response = JSON.parse(data)
 
 	if (isProjectErrorResponse(response)) {
 		return transformErrorResponse(response)
 	}
+
 	const { services, meta } = response
 	const { total, per_page, page, pages } = meta
+
 	return {
+		services: services.map((service: Service) => transformServiceParsedResponse(service)),
 		pages: {
-			page,
-			pages,
-			size: per_page,
 			total,
+			size: per_page,
+			pages,
+			page,
 		},
-		services: services.map((service: Service) => transformServiceData(service)),
+	}
+}
+
+export function transformServiceParsedResponse(service: any): Service {
+	return {
+		businessId: service.business_id,
+		id: service.id,
+		name: service.name,
+		billable: service.billable,
+		visState: service.vis_state,
 	}
 }
 
 export function transformServiceRequest(service: Service): string {
-	const request = JSON.stringify({
+	return JSON.stringify({
 		service: {
 			name: service.name,
 		},
 	})
-	return request
 }

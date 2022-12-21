@@ -16,7 +16,7 @@ export default interface SubAccount {
     transactionPosted?: boolean
 }
 
-export function transformSubAccountResponse(account: any): SubAccount {
+export function transformSubAccountParsedResponse(account: any): SubAccount {
     return {
         accountSubName: account.account_sub_name,
         accountSubNumber: account.account_sub_number,

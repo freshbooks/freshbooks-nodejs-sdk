@@ -2,7 +2,7 @@
 import Pagination from './Pagination'
 import { transformErrorResponse, isAccountingErrorResponse, ErrorResponse } from './Error'
 import Money, { transformMoneyParsedResponse } from './Money'
-import Tax, { transformTaxResponse, transformTaxRequest } from './Tax'
+import Tax, { transformTaxParsedResponse, transformTaxRequest } from './Tax'
 import { transformDateResponse, DateFormat, transformDateRequest } from './Date'
 
 enum CategoryName {
@@ -74,7 +74,7 @@ function transformOtherIncomeParsedResponse(otherIncome: any): OtherIncome {
 		note: otherIncome.note,
 		paymentType: otherIncome.payment_type,
 		source: otherIncome.source,
-		taxes: otherIncome.taxes && otherIncome.taxes.map((tax: any): Tax => transformTaxResponse(tax)),
+		taxes: otherIncome.taxes && otherIncome.taxes.map((tax: any): Tax => transformTaxParsedResponse(tax)),
 		updatedAt: otherIncome.updated_at && transformDateResponse(otherIncome.updated_at, DateFormat['YYYY-MM-DD hh:mm:ss']),
 		visState: otherIncome.vis_state,
 	}

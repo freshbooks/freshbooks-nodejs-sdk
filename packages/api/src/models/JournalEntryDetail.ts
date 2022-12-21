@@ -6,7 +6,7 @@ import JournalEntryAccount, { transformJournalEntryAccountParsedResponse } from 
 import Money, { transformMoneyParsedResponse } from './Money'
 import { Nullable } from './helpers'
 import Pagination from './Pagination'
-import SubAccount, { transformSubAccountResponse } from './SubAccount'
+import SubAccount, { transformSubAccountParsedResponse } from './SubAccount'
 
 export default interface JournalEntryDetail {
     account: JournalEntryAccount
@@ -57,7 +57,7 @@ export function transformJournalEntryDetailParsedResponse(detail: any): JournalE
         entry: detail.entry && transformEntryParsedResponse(detail.entry),
         id: detail.id,
         name: detail.name,
-        subAccount: detail.sub_account && transformSubAccountResponse(detail.sub_account),
+        subAccount: detail.sub_account && transformSubAccountParsedResponse(detail.sub_account),
         userEnteredDate: detail.user_entered_date && transformDateResponse(detail.user_entered_date, DateFormat['YYYY-MM-DD']),
 	}
 }

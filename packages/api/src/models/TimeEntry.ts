@@ -3,7 +3,7 @@ import { ErrorResponse, isProjectErrorResponse, transformErrorResponse } from '.
 import Pagination from './Pagination'
 import { Nullable } from './helpers'
 import { transformDateResponse, DateFormat } from './Date'
-import Timer, { transformTimerResponse } from './Timer'
+import Timer, { transformTimerParsedResponse } from './Timer'
 
 export default interface TimeEntry {
 	id?: number
@@ -28,7 +28,39 @@ export default interface TimeEntry {
 	timer?: Nullable<Timer>
 }
 
-function transformTimeEntryData(timeEntry: any): TimeEntry {
+export function transformTimeEntryResponse(data: string): TimeEntry | ErrorResponse {
+	const response = JSON.parse(data)
+
+	if (isProjectErrorResponse(response)) {
+		return transformErrorResponse(response)
+	}
+	const { time_entry } = response
+
+	return transformTimeEntryParsedResponse(time_entry)
+}
+
+export function transformTimeEntryListResponse(data: string): { timeEntries: TimeEntry[]; pages: Pagination } | ErrorResponse {
+	const response = JSON.parse(data)
+
+	if (isProjectErrorResponse(response)) {
+		return transformErrorResponse(response)
+	}
+
+	const { time_entries, meta } = response
+	const { total, per_page, page, pages } = meta
+
+	return {
+		timeEntries: time_entries.map((time_entry: TimeEntry) => transformTimeEntryParsedResponse(time_entry)),
+		pages: {
+			total,
+			size: per_page,
+			pages,
+			page,
+		},	
+	}
+}
+
+function transformTimeEntryParsedResponse(timeEntry: any): TimeEntry {
 	return {
 		id: timeEntry.id,
 		identityId: timeEntry.identity_id,
@@ -49,58 +81,12 @@ function transformTimeEntryData(timeEntry: any): TimeEntry {
 		internal: timeEntry.internal,
 		retainerId: timeEntry.retainer_id,
 		duration: timeEntry.duration,
-		timer: timeEntry.timer && transformTimerResponse(timeEntry.timer),
+		timer: timeEntry.timer && transformTimerParsedResponse(timeEntry.timer),
 	}
 }
 
-/**
- * Parses JSON response and converts to @TimeEntry model
- * @param data representing JSON response
- * @returns @TimeEntry | @Error
- */
-export function transformTimeEntryResponse(data: any): TimeEntry | ErrorResponse {
-	const response = JSON.parse(data)
-
-	if (isProjectErrorResponse(response)) {
-		return transformErrorResponse(response)
-	}
-	const { time_entry } = response
-	return transformTimeEntryData(time_entry)
-}
-
-/**
- * Parses JSON list response and converts to internal time_entry list response
- * @param data representing JSON response
- * @returns time_entry list response
- */
-export function transformTimeEntryListResponse(
-	data: string
-): { timeEntries: TimeEntry[]; pages: Pagination } | ErrorResponse {
-	const response = JSON.parse(data)
-
-	if (isProjectErrorResponse(response)) {
-		return transformErrorResponse(response)
-	}
-	const { time_entries, meta } = response
-	const { total, per_page, page, pages } = meta
-	return {
-		pages: {
-			page,
-			pages,
-			size: per_page,
-			total,
-		},
-		timeEntries: time_entries.map((time_entry: TimeEntry) => transformTimeEntryData(time_entry)),
-	}
-}
-
-/**
- * Converts @TimeEntry object into JSON string
- * @param timeEntry @TimeEntry object
- * @returns JSON string representing timeEntry request
- */
 export function transformTimeEntryRequest(timeEntry: TimeEntry): string {
-	const model = {
+	return JSON.stringify({
 		time_entry: {
 			id: timeEntry.id,
 			identity_id: timeEntry.identityId,
@@ -121,6 +107,5 @@ export function transformTimeEntryRequest(timeEntry: TimeEntry): string {
 			retainer_id: timeEntry.retainerId,
 			duration: timeEntry.duration,
 		},
-	}
-	return JSON.stringify(model)
+	})
 }
