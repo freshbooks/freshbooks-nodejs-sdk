@@ -35,7 +35,7 @@ export function transformServiceListResponse(data: string): { services: Service[
 	const { total, per_page, page, pages } = meta
 
 	return {
-		services: services.map((service: Service) => transformServiceParsedResponse(service)),
+		services: services.map((service: any): Service => transformServiceParsedResponse(service)),
 		pages: {
 			total,
 			size: per_page,

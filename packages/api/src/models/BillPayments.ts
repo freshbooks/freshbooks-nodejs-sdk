@@ -56,7 +56,7 @@ export function transformBillPaymentsListResponse(data: string): { billPayments:
 	const { bill_payments, per_page, total, page, pages } = response.response.result
 	
 	return {
-		billPayments: bill_payments.map((billPayment: BillPayments) => transformBillPaymentsParsedResponse(billPayment)),
+		billPayments: bill_payments.map((payment: any): BillPayments => transformBillPaymentsParsedResponse(payment)),
 		pages: {
 			total,
 			size: per_page,
@@ -66,28 +66,28 @@ export function transformBillPaymentsListResponse(data: string): { billPayments:
 	}
 }
 
-export function transformBillPaymentsParsedResponse(billPayment: any): BillPayments {
+export function transformBillPaymentsParsedResponse(payment: any): BillPayments {
 	return {
-		id: billPayment.id,
-		amount: billPayment.amount && transformMoneyParsedResponse(billPayment.amount),
-		billId: billPayment.billid,
-		paidDate: billPayment.paid_date && transformDateResponse(billPayment.paid_date, DateFormat['YYYY-MM-DD']),
-		paymentType: billPayment.payment_type,
-		note: billPayment.note,
-		visState: billPayment.vis_state,
+		id: payment.id,
+		amount: payment.amount && transformMoneyParsedResponse(payment.amount),
+		billId: payment.billid,
+		paidDate: payment.paid_date && transformDateResponse(payment.paid_date, DateFormat['YYYY-MM-DD']),
+		paymentType: payment.payment_type,
+		note: payment.note,
+		visState: payment.vis_state,
 	}
 }
 
-export function transformBillPaymentsRequest(billPayment: BillPayments): string {
+export function transformBillPaymentsRequest(payment: BillPayments): string {
 	return JSON.stringify({
 		bill_payment: {
-			id: billPayment.id,
-			amount: billPayment.amount && transformMoneyRequest(billPayment.amount),
-			billid: billPayment.billId,
-			paid_date: billPayment.paidDate && transformDateRequest(billPayment.paidDate),
-			payment_type: billPayment.paymentType,
-			note: billPayment.note,
-			vis_state: billPayment.visState,
+			id: payment.id,
+			amount: payment.amount && transformMoneyRequest(payment.amount),
+			billid: payment.billId,
+			paid_date: payment.paidDate && transformDateRequest(payment.paidDate),
+			payment_type: payment.paymentType,
+			note: payment.note,
+			vis_state: payment.visState,
 		},
 	})
 }

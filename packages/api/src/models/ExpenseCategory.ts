@@ -39,7 +39,7 @@ export function transformExpenseCategoryListResponse(data: string): { categories
 	const { categories, page, pages, per_page, total } = response.response.result
 
 	return {
-		categories: categories.map((category: any) => transformExpenseCategoryParsedResponse(category)),
+		categories: categories.map((category: any): ExpenseCategory => transformExpenseCategoryParsedResponse(category)),
 		pages: {
 			total,
 			size: per_page,

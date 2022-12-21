@@ -27,7 +27,7 @@ export function transformJournalEntryAccountListResponse(data: string): { journa
 	const { journal_entry_accounts, per_page, total, page, pages } = response.response.result
 
 	return {
-		journalEntryAccounts: journal_entry_accounts.map((account: any) => transformJournalEntryAccountParsedResponse(account)),
+		journalEntryAccounts: journal_entry_accounts.map((account: any): JournalEntryAccount => transformJournalEntryAccountParsedResponse(account)),
 		pages: {
 			total,
             size: per_page,

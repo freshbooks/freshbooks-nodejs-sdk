@@ -8,16 +8,16 @@ export interface MoneyResponse {
 	code: string
 }
 
-export function transformMoneyParsedResponse({ amount, code }: MoneyResponse): Money {
+export function transformMoneyParsedResponse(money: MoneyResponse): Money {
 	return {
-		amount: Number(amount),
-		code,
+		amount: Number(money.amount),
+		code: money.code,
 	}
 }
 
-export function transformMoneyRequest({ amount, code }: Money = {}): any {
+export function transformMoneyRequest(money: Money = {}): any {
 	return {
-		amount,
-		code,
+		amount: money.amount,
+		code: money.code,
 	}
 }

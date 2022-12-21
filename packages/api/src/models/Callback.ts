@@ -35,7 +35,7 @@ export function transformCallbackResponse(data: string): Callback | ErrorRespons
 	const { callbacks, per_page, total, page, pages } = response.response.result
 	
 	return {
-		callbacks: callbacks.map((callback: Callback) => transformCallbackParsedResponse(callback)),
+		callbacks: callbacks.map((callback: any): Callback => transformCallbackParsedResponse(callback)),
 		pages: {
 			total,
 			size: per_page,
@@ -62,8 +62,7 @@ export function transformCallbackRequest(callback: Callback): string {
 			event: callback.event,
 		}
 	}
-	const request = JSON.stringify(payload)
-	return request
+	return JSON.stringify(payload)
 }
 
 export function transformCallbackVerifierRequest(verifier: string): string {
@@ -72,8 +71,7 @@ export function transformCallbackVerifierRequest(verifier: string): string {
 			verifier: verifier
 		}
 	}
-	const request = JSON.stringify(payload)
-	return request
+	return JSON.stringify(payload)
 }
 
 export function transformCallbackResendRequest(): string {
@@ -82,6 +80,5 @@ export function transformCallbackResendRequest(): string {
 			resend: true
 		}
 	}
-	const request = JSON.stringify(payload)
-	return request
+	return JSON.stringify(payload)
 }
