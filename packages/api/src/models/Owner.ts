@@ -7,47 +7,12 @@ export default interface Owner {
 	userId: string
 }
 
-/**
- * Format an Owner response object
- * @param data Owner object
- * eg: {
- *         email: "bhaskar@secretmission.io",
- *         fname: "Johnny",
- *         lname: "Appleseed",
- *         organization: "",
- *         userid: 1
- *       }
- * @returns Owner object
- */
-export function transformOwnerResponse({
-	userid: userId,
-	email,
-	fname: fName,
-	lname: lName,
-	organization,
-}: any): Owner {
+export function transformOwnerParsedResponse(owner: any): Owner {
 	return {
-		userId,
-		email,
-		fName,
-		lName,
-		organization,
+		userId: owner.userid,
+		email: owner.email,
+		fName: owner.fname,
+		lName: owner.lname,
+		organization: owner.organization,
 	}
-}
-
-/**
- * Parse a JSON string to @Owner object
- * @param json JSON string
- * eg: `{
- *         "email": "bhaskar@secretmission.io",
- *         "fname": "Johnny",
- *         "lname": "Appleseed",
- *         "organization": "",
- *         "userid": 1
- *      }`
- * @returns Owner object
- */
-export function transformOwnerJSON(json: string): Owner {
-	const response = JSON.parse(json)
-	return transformOwnerResponse(response)
 }

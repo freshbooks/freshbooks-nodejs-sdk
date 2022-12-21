@@ -3,7 +3,7 @@ import { ErrorResponse, isProjectErrorResponse, transformErrorResponse } from '.
 import Pagination from './Pagination'
 import { Nullable } from './helpers'
 import { transformDateResponse, DateFormat } from './Date'
-import ProjectGroup, { transformProjectGroupResponse } from './ProjectGroup'
+import ProjectGroup, { transformProjectGroupParsedResponse } from './ProjectGroup'
 import Service, { transformServiceData } from './Service'
 
 export enum ProjectType {
@@ -52,7 +52,41 @@ export default interface Project {
 	group?: Nullable<ProjectGroup>
 }
 
-function transformProjectData(project: any): Project {
+export function transformProjectResponse(data: string): Project | ErrorResponse {
+	const response = JSON.parse(data)
+
+	if (isProjectErrorResponse(response)) {
+		return transformErrorResponse(response)
+	}
+
+	const { project } = response
+
+	return transformProjectParsedResponse(project)
+}
+
+
+export function transformProjectListResponse(data: string): { projects: Project[]; pages: Pagination } | ErrorResponse {
+	const response = JSON.parse(data)
+
+	if (isProjectErrorResponse(response)) {
+		return transformErrorResponse(response)
+	}
+
+	const { projects, meta } = response
+	const { total, per_page, page, pages } = meta
+
+	return {
+		projects: projects.map((project: Project) => transformProjectParsedResponse(project)),
+		pages: {
+			total,
+			size: per_page,
+			pages,
+			page,
+		},
+	}
+}
+
+function transformProjectParsedResponse(project: any): Project {
 	return {
 		id: project.id,
 		title: project.title,
@@ -78,59 +112,13 @@ function transformProjectData(project: any): Project {
 		retainerId: project.retainer_id,
 		expenseMarkup: project.expense_markup,
 		groupId: project.group_id,
-		group: project.group && transformProjectGroupResponse(project.group),
+		group: project.group && transformProjectGroupParsedResponse(project.group),
 	}
 }
 
-/**
- * Parses JSON response and converts to @Project model
- *
- * @param data representing JSON response
- * @returns @Project | @Error
- */
-export function transformProjectResponse(data: any): Project | ErrorResponse {
-	const response = JSON.parse(data)
 
-	if (isProjectErrorResponse(response)) {
-		return transformErrorResponse(response)
-	}
-	const { project } = response
-	return transformProjectData(project)
-}
-
-/**
- * Parses JSON list response and converts to internal project list response
- *
- * @param data representing JSON response
- * @returns project list response
- */
-export function transformProjectListResponse(data: string): { projects: Project[]; pages: Pagination } | ErrorResponse {
-	const response = JSON.parse(data)
-
-	if (isProjectErrorResponse(response)) {
-		return transformErrorResponse(response)
-	}
-	const { projects, meta } = response
-	const { total, per_page, page, pages } = meta
-	return {
-		pages: {
-			page,
-			pages,
-			size: per_page,
-			total,
-		},
-		projects: projects.map((project: Project) => transformProjectData(project)),
-	}
-}
-
-/**
- * Converts @Project object into JSON string
- *
- * @param project @Project object
- * @returns JSON string representing Project request
- */
 export function transformProjectRequest(project: Project): string {
-	const model = {
+	return JSON.stringify({
 		project: {
 			id: project.id,
 			title: project.title,
@@ -153,6 +141,5 @@ export function transformProjectRequest(project: Project): string {
 			retainer_id: project.retainerId,
 			expense_markup: project.expenseMarkup,
 		},
-	}
-	return JSON.stringify(model)
+	})
 }

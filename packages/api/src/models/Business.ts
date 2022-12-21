@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import Address, { transformAddressParsedResponse, AddressResponse } from './Address'
-import PhoneNumber, { transformPhoneNumberResponse, PhoneNumberResponse } from './PhoneNumber'
+import PhoneNumber, { transformPhoneNumberParsedResponse, PhoneNumberResponse } from './PhoneNumber'
 import BusinessClient, { transformBusinessClientParsedResponse, BusinessClientResponse } from './BusinessClient'
 import { Nullable } from './helpers'
 
@@ -28,7 +28,7 @@ export function transformBusinessParsedResponse(business: BusinessResponse): Bus
 		name: business.name,
 		accountId: business.account_id !== null ? business.account_id.toString() : '',
 		address: business.address !== null ? transformAddressParsedResponse(business.address) : null,
-		phoneNumber: business.phone_number !== null ? transformPhoneNumberResponse(business.phone_number) : null,
+		phoneNumber: business.phone_number !== null ? transformPhoneNumberParsedResponse(business.phone_number) : null,
 		businessClients: business.business_clients.map(transformBusinessClientParsedResponse),
 	}
 }

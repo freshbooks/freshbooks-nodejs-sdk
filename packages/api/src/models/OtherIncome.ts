@@ -32,37 +32,19 @@ export default interface OtherIncome {
 	visState?: VisState
 }
 
-function transformOtherIncomeData({
-	incomeid: incomeId,
-	amount,
-	category_name: categoryName,
-	created_at: createdAt,
-	date,
-	note,
-	payment_type: paymentType,
-	source,
-	taxes,
-	updated_at: updatedAt,
-	vis_state: visState,
-}: any): OtherIncome {
-	return {
-		incomeId,
-		amount: amount && transformMoneyParsedResponse(amount),
-		categoryName,
-		createdAt: createdAt && transformDateResponse(createdAt, DateFormat['YYYY-MM-DD hh:mm:ss']),
-		date: date && transformDateResponse(date, DateFormat['YYYY-MM-DD']),
-		note,
-		paymentType,
-		source,
-		taxes: taxes && taxes.map((tax: any): Tax => transformTaxResponse(tax)),
-		updatedAt: updatedAt && transformDateResponse(updatedAt, DateFormat['YYYY-MM-DD hh:mm:ss']),
-		visState,
+export function transformOtherIncomeResponse(data: string): OtherIncome | ErrorResponse {
+	const response = JSON.parse(data)
+	
+	if (isAccountingErrorResponse(response)) {
+		return transformErrorResponse(response)
 	}
+
+	const { other_income } = response.response.result
+
+	return transformOtherIncomeParsedResponse(other_income)
 }
 
-export function transformListOtherIncomesResponse(
-	data: string
-): { otherIncomes: OtherIncome[]; pages: Pagination } | ErrorResponse {
+export function transformOtherIncomeListResponse(data: string): { otherIncomes: OtherIncome[]; pages: Pagination } | ErrorResponse {
 	const response = JSON.parse(data)
 
 	if (isAccountingErrorResponse(response)) {
@@ -70,28 +52,32 @@ export function transformListOtherIncomesResponse(
 	}
 
 	const { other_income, per_page, total, page, pages } = response.response.result
+
 	return {
-		otherIncomes: other_income.map((otherIncome: any) => transformOtherIncomeData(otherIncome)),
+		otherIncomes: other_income.map((otherIncome: any) => transformOtherIncomeParsedResponse(otherIncome)),
 		pages: {
-			page,
-			pages,
-			size: per_page,
 			total,
+			size: per_page,
+			pages,
+			page,
 		},
 	}
 }
 
-export function transformOtherIncomeResponse(data: string): OtherIncome | ErrorResponse {
-	const response = JSON.parse(data)
-	if (isAccountingErrorResponse(response)) {
-		return transformErrorResponse(response)
+function transformOtherIncomeParsedResponse(otherIncome: any): OtherIncome {
+	return {
+		incomeId: otherIncome.incomeid,
+		amount: otherIncome.amount && transformMoneyParsedResponse(otherIncome.amount),
+		categoryName: otherIncome.category_name,
+		createdAt: otherIncome.created_at && transformDateResponse(otherIncome.created_at, DateFormat['YYYY-MM-DD hh:mm:ss']),
+		date: otherIncome.date && transformDateResponse(otherIncome.date, DateFormat['YYYY-MM-DD']),
+		note: otherIncome.note,
+		paymentType: otherIncome.payment_type,
+		source: otherIncome.source,
+		taxes: otherIncome.taxes && otherIncome.taxes.map((tax: any): Tax => transformTaxResponse(tax)),
+		updatedAt: otherIncome.updated_at && transformDateResponse(otherIncome.updated_at, DateFormat['YYYY-MM-DD hh:mm:ss']),
+		visState: otherIncome.vis_state,
 	}
-
-	const {
-		response: { result },
-	} = response
-	const { other_income } = result
-	return transformOtherIncomeData(other_income)
 }
 
 export function transformOtherIncomeRequest(otherIncome: OtherIncome): string {

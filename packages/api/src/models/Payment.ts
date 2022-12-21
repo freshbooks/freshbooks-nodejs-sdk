@@ -1,11 +1,10 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import Money, { transformMoneyRequest, transformMoneyParsedResponse } from './Money'
 import VisState from './VisState'
 import { ErrorResponse, isAccountingErrorResponse, transformErrorResponse } from './Error'
 import Pagination from './Pagination'
 import { transformDateRequest, DateFormat, transformDateResponse } from './Date'
 import { Nullable } from './helpers'
-
-/* eslint-disable @typescript-eslint/camelcase */
 
 export enum PaymentType {
 	Check = 'Check',
@@ -46,83 +45,16 @@ export default interface Payment {
 	id?: string
 }
 
-function transformPaymentData({
-	orderid: orderId,
-	accounting_systemid: accountingSystemId,
-	updated,
-	invoiceid: invoiceId,
-	creditid: creditId,
-	amount,
-	clientid: clientId,
-	vis_state: visState,
-	logid: logId,
-	note,
-	overpaymentid: overpaymentId,
-	gateway,
-	date,
-	transactionid: transactionId,
-	from_credit: fromCredit,
-	type,
-	id,
-}: any): Payment {
-	return {
-		orderId,
-		accountingSystemId,
-		updated: transformDateResponse(updated, DateFormat['YYYY-MM-DD hh:mm:ss']),
-		invoiceId,
-		creditId,
-		amount: transformMoneyParsedResponse(amount),
-		clientId,
-		visState,
-		logId,
-		note,
-		overpaymentId,
-		gateway,
-		date: transformDateResponse(date, DateFormat['YYYY-MM-DD']),
-		transactionId,
-		fromCredit,
-		type,
-		id,
-	}
-}
-/**
- * Format an Payment response object
- * @param data Payment object
- *  eg. {
- *        "accounting_systemid": "xZNQ1X",
- *        "amount": {
- *          "amount": "100.00",
- *          "code": "USD"
- *        },
- *        "clientid": 212566,
- *        "creditid": null,
- *        "date": "2019-10-22",
- *        "from_credit": false,
- *        "gateway": null,
- *        "id": 115804,
- *        "invoiceid": 197902,
- *        "logid": 115804,
- *        "note": "",
- *        "orderid": null,
- *        "overpaymentid": null,
- *        "transactionid": null,
- *        "type": "Cash",
- *        "updated": "2019-10-22 12:18:29",
- *        "vis_state": 0
- *      }
- * @returns Payment object
- */
-export function transformPaymentResponse(data: any): Payment | ErrorResponse {
+export function transformPaymentResponse(data: string): Payment | ErrorResponse {
 	const response = JSON.parse(data)
 
 	if (isAccountingErrorResponse(response)) {
 		return transformErrorResponse(response)
 	}
-	const {
-		response: { result },
-	} = response
-	const { payment } = result
-	return transformPaymentData(payment)
+
+	const { payment } = response.response.result
+
+	return transformPaymentParsedResponse(payment)
 }
 
 export function transformPaymentListResponse(data: string): { payments: Payment[]; pages: Pagination } | ErrorResponse {
@@ -132,82 +64,65 @@ export function transformPaymentListResponse(data: string): { payments: Payment[
 		return transformErrorResponse(response)
 	}
 
-	const {
-		response: {
-			result: { payments, per_page, total, page, pages },
-		},
-	} = response
+	const { payments, per_page, total, page, pages } = response.response.result
 
 	return {
-		payments: payments.map((payment: any) => transformPaymentData(payment)),
+		payments: payments.map((payment: any) => transformPaymentParsedResponse(payment)),
 		pages: {
-			page,
-			pages,
-			size: per_page,
 			total,
+			size: per_page,
+			pages,
+			page,	
 		},
 	}
 }
 
-/**
- * Parse a JSON string to @Payment object
- * @param json JSON string
- * eg: `{
- *         "email": "bhaskar@secretmission.io",
- *         "fname": "Johnny",
- *         "lname": "Appleseed",
- *         "organization": "",
- *         "userid": 1
- *      }`
- * @returns Payment object
- */
-export function transformPaymentJSON(json: string): Payment | ErrorResponse {
-	const response = JSON.parse(json)
-	return transformPaymentResponse(response)
+function transformPaymentParsedResponse(payment: any): Payment {
+	return {
+		orderId: payment.orderid,
+		accountingSystemId: payment.accounting_systemid,
+		updated: transformDateResponse(payment.updated, DateFormat['YYYY-MM-DD hh:mm:ss']),
+		invoiceId: payment.invoiceid,
+		creditId: payment.creditid,
+		amount: transformMoneyParsedResponse(payment.amount),
+		clientId: payment.clientid,
+		visState: payment.vis_state,
+		logId: payment.logid,
+		note: payment.note,
+		overpaymentId: payment.overpaymentid,
+		gateway: payment.gateway,
+		date: transformDateResponse(payment.date, DateFormat['YYYY-MM-DD']),
+		transactionId: payment.transactionid,
+		fromCredit: payment.from_credit,
+		type: payment.type,
+		id: payment.id,
+	}
 }
 
-export function transformPaymentRequest({
-	orderId: orderid,
-	invoiceId: invoiceid,
-	amount,
-	visState: vis_state,
-	note,
-	date,
-	transactionId: transactionid,
-	type,
-}: Payment): string {
-	const result = JSON.stringify({
+export function transformPaymentRequest(payment: Payment): string {
+	return JSON.stringify({
 		payment: {
-			amount: amount && transformMoneyRequest(amount),
-			date: transformDateRequest(date),
-			invoiceid,
-			note,
-			orderid,
-			transactionid,
-			type,
-			vis_state,
+			amount: payment.amount && transformMoneyRequest(payment.amount),
+			date: transformDateRequest(payment.date),
+			invoiceid: payment.invoiceId,
+			note: payment.note,
+			orderid: payment.orderId,
+			transactionid: payment.transactionId,
+			type: payment.type,
+			vis_state: payment.visState,
 		},
 	})
-	return result
 }
 
-export function transformPaymentUpdateRequest({
-	orderId: orderid,
-	amount,
-	note,
-	date,
-	transactionId: transactionid,
-	type,
-}: Payment): string {
-	const result = JSON.stringify({
+export function transformPaymentUpdateRequest(payment: Payment): string {
+	return JSON.stringify({
 		payment: {
-			amount: amount && transformMoneyRequest(amount),
-			date: date && transformDateRequest(date),
-			note,
-			orderid,
-			transactionid,
-			type,
+			amount: payment.amount && transformMoneyRequest(payment.amount),
+			date: payment.date && transformDateRequest(payment.date),
+			note: payment.note,
+			orderid: payment.orderId,
+			transactionid: payment.transactionId,
+			type: payment.type,
 		},
 	})
-	return result
 }

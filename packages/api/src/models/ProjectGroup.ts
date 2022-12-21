@@ -3,10 +3,10 @@ import { Nullable } from './helpers'
 
 export default interface ProjectGroup {
 	id: string
-	members?: Nullable<ProjectGroupMembers[]>
+	members?: Nullable<ProjectGroupMember[]>
 }
 
-export interface ProjectGroupMembers {
+export interface ProjectGroupMember {
 	firstName: string
 	lastName: string
 	role: 'owner'
@@ -17,22 +17,22 @@ export interface ProjectGroupMembers {
 	email: string
 }
 
-export function transformProjectGroupMemberResponse(data: any): ProjectGroupMembers {
+export function transformProjectGroupParsedResponse(group: any): ProjectGroup {
 	return {
-		firstName: data.first_name,
-		lastName: data.last_name,
-		role: data.role,
-		identityId: data.identity_id,
-		active: data.active,
-		company: data.company,
-		id: data.id,
-		email: data.email,
+		id: group.id,
+		members: group.members && group.members.map(transformProjectGroupMemberParsedResponse),
 	}
 }
 
-export function transformProjectGroupResponse(data: any): ProjectGroup {
+export function transformProjectGroupMemberParsedResponse(member: any): ProjectGroupMember {
 	return {
-		id: data.id,
-		members: data.members && data.members.map(transformProjectGroupMemberResponse),
+		firstName: member.first_name,
+		lastName: member.last_name,
+		role: member.role,
+		identityId: member.identity_id,
+		active: member.active,
+		company: member.company,
+		id: member.id,
+		email: member.email,
 	}
 }

@@ -34,7 +34,7 @@ import {
 import { transformClientResponse, transformClientListResponse, transformClientRequest } from './models/Client'
 import { transformInvoiceListResponse, transformInvoiceResponse, transformInvoiceRequest } from './models/Invoices'
 import {
-	transformListOtherIncomesResponse,
+	transformOtherIncomeListResponse,
 	transformOtherIncomeResponse,
 	transformOtherIncomeRequest,
 } from './models/OtherIncome'
@@ -541,7 +541,7 @@ export default class APIClient {
 				'GET',
 				`/accounting/account/${accountId}/other_incomes/other_incomes${joinQueries(queryBuilders)}`,
 				{
-					transformResponse: transformListOtherIncomesResponse,
+					transformResponse: transformOtherIncomeListResponse,
 				},
 				null,
 				'List OtherIncomes'

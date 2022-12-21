@@ -1,6 +1,5 @@
-import { ErrorResponse, isProjectErrorResponse, transformErrorResponse } from './Error'
-
 /* eslint-disable @typescript-eslint/camelcase */
+import { ErrorResponse, isProjectErrorResponse, transformErrorResponse } from './Error'
 
 export enum PaymentGatewayName {
 	WePay = 'fbpay',
@@ -22,59 +21,42 @@ export default interface PaymentOptions {
 
 type PaymentOptionsResponse = Required<PaymentOptions>
 
-function transformPaymentOptionsData({
-	gateway_name: gatewayName,
-	has_credit_card: hasCreditCard,
-	has_ach_transfer: hasAchTransfer,
-	has_bacs_debit: hasBacsDebit,
-	has_sepa_debit: hasSepaDebit,
-	has_paypal_smart_checkout: hasPayPalSmartCheckout,
-	allow_partial_payments: allowPartialPayments,
-	entity_id: entityId,
-	entity_type: entityType,
-}: any): PaymentOptions {
+export function transformPaymentOptionsResponse(data: string): PaymentOptions | ErrorResponse {
+	const response = JSON.parse(data)
+
+	if (isProjectErrorResponse(response)) {
+		return transformErrorResponse(response)
+	}
+
+	const paymentOptions: PaymentOptionsResponse = response['payment_options']
+
+	return transformPaymentOptionsParsedResponse(paymentOptions)
+}
+
+function transformPaymentOptionsParsedResponse(paymentOptions: any): PaymentOptions {
 	return {
-		gatewayName,
-		hasCreditCard,
-		hasAchTransfer,
-		hasBacsDebit,
-		hasSepaDebit,
-		hasPayPalSmartCheckout,
-		allowPartialPayments,
-		entityId,
-		entityType,
+		gatewayName: paymentOptions.gateway_name,
+		hasCreditCard: paymentOptions.has_credit_card,
+		hasAchTransfer: paymentOptions.has_ach_transfer,
+		hasBacsDebit: paymentOptions.has_bacs_debit,
+		hasSepaDebit: paymentOptions.has_sepa_debit,
+		hasPayPalSmartCheckout: paymentOptions.has_paypal_smart_checkout,
+		allowPartialPayments: paymentOptions.allow_partial_payments,
+		entityId: paymentOptions.entity_id,
+		entityType: paymentOptions.entity_type,
 	}
 }
 
-export function transformPaymentOptionsRequest({
-	gatewayName: gateway_name,
-	hasCreditCard: has_credit_card,
-	hasAchTransfer: has_ach_transfer,
-	hasBacsDebit: has_bacs_debit,
-	hasSepaDebit: has_sepa_debit,
-	hasPayPalSmartCheckout: has_paypal_smart_checkout,
-	allowPartialPayments: allow_partial_payments,
-	entityId: entity_id,
-	entityType: entity_type,
-}: PaymentOptions) {
+export function transformPaymentOptionsRequest(paymentOptions: PaymentOptions) {
 	return JSON.stringify({
-		gateway_name,
-		entity_type,
-		entity_id,
-		allow_partial_payments,
-		has_paypal_smart_checkout,
-		has_sepa_debit,
-		has_bacs_debit,
-		has_ach_transfer,
-		has_credit_card,
+		gateway_name: paymentOptions.gatewayName,
+		entity_type: paymentOptions.entityType,
+		entity_id: paymentOptions.entityId,
+		allow_partial_payments: paymentOptions.allowPartialPayments,
+		has_paypal_smart_checkout: paymentOptions.hasPayPalSmartCheckout,
+		has_sepa_debit: paymentOptions.hasSepaDebit,
+		has_bacs_debit: paymentOptions.hasBacsDebit,
+		has_ach_transfer: paymentOptions.hasAchTransfer,
+		has_credit_card: paymentOptions.hasCreditCard,
 	})
-}
-
-export function transformPaymentOptionsResponse(data: any): PaymentOptions | ErrorResponse {
-	const res = JSON.parse(data)
-	if (isProjectErrorResponse(res)) {
-		return transformErrorResponse(res)
-	}
-	const paymentOptions: PaymentOptionsResponse = res['payment_options']
-	return transformPaymentOptionsData(paymentOptions)
 }

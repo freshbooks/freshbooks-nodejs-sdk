@@ -6,7 +6,7 @@ import { Nullable } from './helpers'
 import VisState from './VisState'
 import Line, { transformLineRequest, transformLineParsedResponse } from './Line'
 import { transformDateResponse, DateFormat, transformDateRequest } from './Date'
-import Owner, { transformOwnerResponse } from './Owner'
+import Owner, { transformOwnerParsedResponse } from './Owner'
 
 enum AutoBillStatus {
 	retry = 'retry',
@@ -209,7 +209,7 @@ function transformInvoiceParsedResponse(invoice: any): Invoice {
 		notes: invoice.notes,
 		organization: invoice.organization,
 		outstanding: invoice.outstanding && transformMoneyParsedResponse(invoice.outstanding),
-		owner: invoice.owner && transformOwnerResponse(invoice.owner),
+		owner: invoice.owner && transformOwnerParsedResponse(invoice.owner),
 		ownerId: invoice.ownerid,
 		paid: invoice.paid && transformMoneyParsedResponse(invoice.paid),
 		parent: invoice.parent,
