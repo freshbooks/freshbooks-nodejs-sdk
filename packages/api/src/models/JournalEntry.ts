@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { DateFormat, transformDateRequest, transformDateResponse } from './Date'
-import Detail, { transformDetailRequest, transformDetailParsedResponse } from './Detail'
+import Detail, { transformDetailParsedRequest, transformDetailParsedResponse } from './Detail'
 import { ErrorResponse, isAccountingErrorResponse, transformErrorResponse } from './Error'
 
 export default interface JournalEntry {
@@ -42,7 +42,7 @@ export function transformJournalEntryRequest(entry: JournalEntry): string {
         journal_entry: {
             currency_code: entry.currencyCode,
             description: entry.description,
-            details: entry.details && entry.details.map((detail: Detail): any => transformDetailRequest(detail)),
+            details: entry.details && entry.details.map((detail: Detail): any => transformDetailParsedRequest(detail)),
             name: entry.name,
             user_entered_date: entry.userEnteredDate && transformDateRequest(entry.userEnteredDate),
         }
