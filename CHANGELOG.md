@@ -2,7 +2,7 @@
 
 ## @freshbooks/api
 
-### Unreleased
+### 3.3.0
 
 - Add support for invoice send by email
 - Fix search queries for project-like and accounting report resources
