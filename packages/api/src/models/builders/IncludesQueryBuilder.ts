@@ -24,7 +24,7 @@ export class IncludesQueryBuilder {
 		return this
 	}
 
-	build(): string {
+	build(resourceType?: string): string {
 		return buildQueryString(this.queryParams)
 	}
 }

@@ -478,7 +478,11 @@ export default class APIClient {
 	}
 
 	public readonly journalEntries = {
-		create: (journalEntry: JournalEntry, accountId: string, queryBuilders?: QueryBuilderType[]): Promise<Result<JournalEntry>> =>
+		create: (
+			journalEntry: JournalEntry,
+			accountId: string,
+			queryBuilders?: QueryBuilderType[]
+		): Promise<Result<JournalEntry>> =>
 			this.call(
 				'POST',
 				`/accounting/account/${accountId}/journal_entries/journal_entries${joinQueries(queryBuilders)}`,
@@ -666,7 +670,11 @@ export default class APIClient {
 	}
 
 	public readonly expenseCategories = {
-		single: (accountId: string, expenseCategoryId: string, queryBuilders?: QueryBuilderType[]): Promise<Result<ExpenseCategory>> =>
+		single: (
+			accountId: string,
+			expenseCategoryId: string,
+			queryBuilders?: QueryBuilderType[]
+		): Promise<Result<ExpenseCategory>> =>
 			this.call(
 				'GET',
 				`/accounting/account/${accountId}/expenses/categories/${expenseCategoryId}${joinQueries(queryBuilders)}`,
@@ -846,7 +854,7 @@ export default class APIClient {
 		): Promise<Result<{ projects: Project[]; pages: Pagination }>> =>
 			this.call(
 				'GET',
-				`/projects/business/${businessId}/projects${joinQueries(queryBuilders)}`,
+				`/projects/business/${businessId}/projects${joinQueries(queryBuilders, 'ProjectResource')}`,
 				{
 					transformResponse: transformProjectListResponse,
 				},
@@ -896,7 +904,7 @@ export default class APIClient {
 		): Promise<Result<{ timeEntries: TimeEntry[]; pages: Pagination }>> =>
 			this.call(
 				'GET',
-				`/timetracking/business/${businessId}/time_entries${joinQueries(queryBuilders)}`,
+				`/timetracking/business/${businessId}/time_entries${joinQueries(queryBuilders, 'ProjectResource')}`,
 				{
 					transformResponse: transformTimeEntryListResponse,
 				},
@@ -1373,7 +1381,10 @@ export default class APIClient {
 		): Promise<Result<{ callbacks: Callback[]; pages: Pagination }>> =>
 			this.call(
 				'GET',
-				`/accounting/account/${accountId}/reports/accounting/profitloss_entity${joinQueries(queryBuilders)}`,
+				`/accounting/account/${accountId}/reports/accounting/profitloss_entity${joinQueries(
+					queryBuilders,
+					'AccountingReportsResource'
+				)}`,
 				{
 					transformResponse: transformProfitLossReportResponse,
 				},
@@ -1386,7 +1397,10 @@ export default class APIClient {
 		): Promise<Result<{ callbacks: Callback[]; pages: Pagination }>> =>
 			this.call(
 				'GET',
-				`/accounting/account/${accountId}/reports/accounting/taxsummary${joinQueries(queryBuilders)}`,
+				`/accounting/account/${accountId}/reports/accounting/taxsummary${joinQueries(
+					queryBuilders,
+					'AccountingReportsResource'
+				)}`,
 				{
 					transformResponse: transformTaxSummaryReportResponse,
 				},
@@ -1399,7 +1413,10 @@ export default class APIClient {
 		): Promise<Result<{ callbacks: Callback[]; pages: Pagination }>> =>
 			this.call(
 				'GET',
-				`/accounting/account/${accountId}/reports/accounting/payments_collected${joinQueries(queryBuilders)}`,
+				`/accounting/account/${accountId}/reports/accounting/payments_collected${joinQueries(
+					queryBuilders,
+					'AccountingReportsResource'
+				)}`,
 				{
 					transformResponse: transformPaymentsCollectedReportResponse,
 				},

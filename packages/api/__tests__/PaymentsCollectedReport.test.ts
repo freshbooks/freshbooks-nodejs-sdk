@@ -213,7 +213,11 @@ describe('@freshbooks/api', () => {
 				}`
 				const builder = new SearchQueryBuilder().equals('currency_code', 'CAD')
 				mock
-					.onGet(`/accounting/account/${ACCOUNT_ID}/reports/accounting/payments_collected?${builder.build()}`)
+					.onGet(
+						`/accounting/account/${ACCOUNT_ID}/reports/accounting/payments_collected?${builder.build(
+							'AccountingReportsResource'
+						)}`
+					)
 					.replyOnce(200, mockResponse)
 				const { data } = await client.reports.paymentsCollected(ACCOUNT_ID, [builder])
 				expect(data).toEqual(EXPECTED)

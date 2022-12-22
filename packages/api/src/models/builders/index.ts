@@ -8,5 +8,5 @@ export { IncludesQueryBuilder }
 export { SearchQueryBuilder }
 export { PaginationQueryBuilder }
 
-export const joinQueries = (queryBuilders?: QueryBuilderType[]): string =>
-	queryBuilders ? `?${queryBuilders.map((builder) => builder.build()).join('&')}` : ''
+export const joinQueries = (queryBuilders?: QueryBuilderType[], resourceType?: string): string =>
+	queryBuilders ? `?${queryBuilders.map((builder) => builder.build(resourceType)).join('&')}` : ''
