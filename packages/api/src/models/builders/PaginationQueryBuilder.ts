@@ -30,7 +30,7 @@ export class PaginationQueryBuilder {
 		return this
 	}
 
-	build(): string {
+	build(resourceType?: string): string {
 		return buildQueryString(this.queryParams)
 	}
 }

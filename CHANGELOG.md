@@ -5,6 +5,7 @@
 ### Unreleased
 
 - Add support for invoice send by email
+- Fix search queries for project-like and accounting report resources
 
 ### 3.2.2
 
