@@ -468,5 +468,23 @@ describe('@freshbooks/api', () => {
 			const expected = '{"invoice":{"action_mark_as_sent":true}}'
 			expect(transformInvoiceRequest(invoice)).toEqual(expected)
 		})
+		test('Send Invoice - Action and email details only payload items', async () => {
+			const invoice = buildInvoice()
+			invoice.actionEmail = true
+			invoice.emailRecipients = ['therockjohnson@freshbooks.com']
+			invoice.emailIncludePdf = false
+			invoice.invoiceCustomizedEmail = {
+				subject: 'Thanks for being a customer',
+				body: 'This can be any personal message',
+			}
+
+			const expected =
+				'{"invoice":{"action_email":true,' +
+				'"email_recipients":["therockjohnson@freshbooks.com"]' +
+				',"email_include_pdf":false,"invoice_customized_email":' +
+				'{"body":"This can be any personal message","subject":' +
+				'"Thanks for being a customer"}}}'
+			expect(transformInvoiceRequest(invoice)).toEqual(expected)
+		})
 	})
 })

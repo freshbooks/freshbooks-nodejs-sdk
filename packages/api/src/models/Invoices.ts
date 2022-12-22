@@ -5,6 +5,7 @@ import Money, { transformMoneyParsedResponse } from './Money'
 import { Nullable } from './helpers'
 import VisState from './VisState'
 import Line, { transformLineParsedRequest, transformLineParsedResponse } from './Line'
+import InvoiceCustomizedEmail, { transformInvoiceCustomizedEmailRequest } from './InvoiceCustomizedEmail'
 import { transformDateResponse, DateFormat, transformDateRequest } from './Date'
 import Owner, { transformOwnerParsedResponse } from './Owner'
 
@@ -68,6 +69,7 @@ export default interface Invoice {
 	id?: number
 	accountId?: string
 	accountingSystemId?: string
+	actionEmail?: Nullable<boolean>
 	actionMarkAsSent?: Nullable<boolean>
 	address?: string
 	amount?: Money
@@ -94,12 +96,15 @@ export default interface Invoice {
 	dueDate?: Date
 	dueOffsetDays?: number
 	email?: string
+	emailIncludePdf?: boolean
+	emailRecipients?: string[]
 	estimateId?: number
 	extArchive?: number
 	fName?: string
 	fulfillmentDate?: Nullable<Date>
 	generationDate?: Nullable<Date>
 	gmail?: boolean
+	invoiceCustomizedEmail?: InvoiceCustomizedEmail
 	invoiceNumber?: string
 	invoiceId?: number
 	language?: string
@@ -140,7 +145,7 @@ export function transformInvoiceResponse(data: string): Invoice | ErrorResponse 
 	}
 
 	const { invoice } = response.response.result
-	
+
 	return transformInvoiceParsedResponse(invoice)
 }
 
@@ -234,6 +239,18 @@ function transformInvoiceParsedResponse(invoice: any): Invoice {
 }
 
 export function transformInvoiceRequest(invoice: Invoice): string {
+	if (invoice.actionEmail === true) {
+		const payload = JSON.stringify({
+			invoice: {
+				action_email: true,
+				email_recipients: invoice.emailRecipients,
+				email_include_pdf: invoice.emailIncludePdf,
+				invoice_customized_email:
+					invoice.invoiceCustomizedEmail && transformInvoiceCustomizedEmailRequest(invoice.invoiceCustomizedEmail),
+			},
+		})
+		return payload
+	}
 	if (invoice.actionMarkAsSent === true) {
 		return JSON.stringify({
 			invoice: {
@@ -241,7 +258,7 @@ export function transformInvoiceRequest(invoice: Invoice): string {
 			},
 		})
 	}
-	
+
 	return JSON.stringify({
 		invoice: {
 			address: invoice.address,

@@ -4,7 +4,10 @@
 
 ### Unreleased
 
+- Add support for invoice send by email
+
 ### 3.2.2
+
 - Internal refactor of model transform methods
 
 ### 3.2.1
