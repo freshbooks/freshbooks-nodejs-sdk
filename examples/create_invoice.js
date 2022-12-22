@@ -56,7 +56,7 @@ async function createInvoice(clientId) {
 	}
 }
 
-async function sendInvoice(invoice) {
+async function markInvoiceSent(invoice) {
 	console.log('Marking invoice as sent...')
 	invoice.actionMarkAsSent = true
 
@@ -71,7 +71,7 @@ async function main() {
 	const clientId = await createClient()
 	let invoice = await createInvoice(clientId)
 	// Invoices are created in draft status, so we need to mark it as sent
-	invoice = await sendInvoice(invoice)
+	invoice = await markInvoiceSent(invoice)
 }
 
 main()
