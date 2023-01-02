@@ -342,22 +342,6 @@ export default class APIClient {
 	}
 
 	public readonly bills = {
-		list: (accountId: string, queryBuilders?: QueryBuilderType[]): Promise<Result<{ bills: Bills[] }>> =>
-			this.call(
-				'GET',
-				`accounting/account/${accountId}/bills/bills${joinQueries(queryBuilders)}`,
-				{ transformResponse: transformBillsListResponse },
-				null,
-				'List Bills'
-			),
-		single: (accountId: string, billId: number): Promise<Result<{ bill: Bills }>> =>
-			this.call(
-				'GET',
-				`accounting/account/${accountId}/bills/bills/${billId}`,
-				{ transformResponse: transformBillsResponse },
-				null,
-				'Get Bill'
-			),
 		create: (bill: Bills, accountId: string): Promise<Result<Bills>> =>
 			this.call(
 				'POST',
@@ -368,6 +352,22 @@ export default class APIClient {
 				},
 				bill,
 				'Create Bill'
+			),
+		single: (accountId: string, billId: number): Promise<Result<{ bill: Bills }>> =>
+			this.call(
+				'GET',
+				`accounting/account/${accountId}/bills/bills/${billId}`,
+				{ transformResponse: transformBillsResponse },
+				null,
+				'Get Bill'
+			),
+		list: (accountId: string, queryBuilders?: QueryBuilderType[]): Promise<Result<{ bills: Bills[] }>> =>
+			this.call(
+				'GET',
+				`accounting/account/${accountId}/bills/bills${joinQueries(queryBuilders)}`,
+				{ transformResponse: transformBillsListResponse },
+				null,
+				'List Bills'
 			),
 		delete: (accountId: string, billId: number): Promise<Result<Bills>> =>
 			this.call(
@@ -394,22 +394,6 @@ export default class APIClient {
 	}
 
 	public readonly billPayments = {
-		list: (accountId: string, queryBuilders?: QueryBuilderType[]): Promise<Result<{ billPayments: BillPayments[] }>> =>
-			this.call(
-				'GET',
-				`accounting/account/${accountId}/bill_payments/bill_payments${joinQueries(queryBuilders)}`,
-				{ transformResponse: transformBillPaymentsListResponse },
-				null,
-				'List Bill Payments Payments'
-			),
-		single: (accountId: string, billPaymentId: number): Promise<Result<{ billPayment: BillPayments }>> =>
-			this.call(
-				'GET',
-				`accounting/account/${accountId}/bill_payments/bill_payments/${billPaymentId}`,
-				{ transformResponse: transformBillPaymentsResponse },
-				null,
-				'Get Bill Payment'
-			),
 		create: (billPayment: BillPayments, accountId: string): Promise<Result<BillPayments>> =>
 			this.call(
 				'POST',
@@ -420,6 +404,22 @@ export default class APIClient {
 				},
 				billPayment,
 				'Create Bill Payment'
+			),
+		single: (accountId: string, billPaymentId: number): Promise<Result<{ billPayment: BillPayments }>> =>
+			this.call(
+				'GET',
+				`accounting/account/${accountId}/bill_payments/bill_payments/${billPaymentId}`,
+				{ transformResponse: transformBillPaymentsResponse },
+				null,
+				'Get Bill Payment'
+			),
+		list: (accountId: string, queryBuilders?: QueryBuilderType[]): Promise<Result<{ billPayments: BillPayments[] }>> =>
+			this.call(
+				'GET',
+				`accounting/account/${accountId}/bill_payments/bill_payments${joinQueries(queryBuilders)}`,
+				{ transformResponse: transformBillPaymentsListResponse },
+				null,
+				'List Bill Payments Payments'
 			),
 		update: (billPayment: BillPayments, accountId: string, billPaymentId: number): Promise<Result<BillPayments>> =>
 			this.call(
@@ -446,18 +446,16 @@ export default class APIClient {
 	}
 
 	public readonly billVendors = {
-		list: (
-			accountId: string,
-			queryBuilders?: QueryBuilderType[]
-		): Promise<Result<{ vendors: BillVendors[]; pages: Pagination }>> =>
+		create: (vendor: BillVendors, accountId: string): Promise<Result<BillVendors>> =>
 			this.call(
-				'GET',
-				`/accounting/account/${accountId}/bill_vendors/bill_vendors${joinQueries(queryBuilders)}`,
+				'POST',
+				`/accounting/account/${accountId}/bill_vendors/bill_vendors`,
 				{
-					transformResponse: transformBillVendorsListResponse,
+					transformResponse: transformBillVendorsResponse,
+					transformRequest: transformBillVendorsRequest,
 				},
-				null,
-				'List BillVendors'
+				vendor,
+				'Create BillVendors Entry'
 			),
 		single: (accountId: string, vendorId: number): Promise<Result<BillVendors>> =>
 			this.call(
@@ -469,16 +467,18 @@ export default class APIClient {
 				null,
 				'Get BillVendors Entry'
 			),
-		create: (vendor: BillVendors, accountId: string): Promise<Result<BillVendors>> =>
+		list: (
+			accountId: string, 
+			queryBuilders?: QueryBuilderType[]
+		): Promise<Result<{ vendors: BillVendors[]; pages: Pagination }>> =>
 			this.call(
-				'POST',
-				`/accounting/account/${accountId}/bill_vendors/bill_vendors`,
+				'GET',
+				`/accounting/account/${accountId}/bill_vendors/bill_vendors${joinQueries(queryBuilders)}`,
 				{
-					transformResponse: transformBillVendorsResponse,
-					transformRequest: transformBillVendorsRequest,
+					transformResponse: transformBillVendorsListResponse,
 				},
-				vendor,
-				'Create BillVendors Entry'
+				null,
+				'List BillVendors'
 			),
 		update: (vendor: BillVendors, accountId: string, vendorId: number): Promise<Result<BillVendors>> =>
 			this.call(
@@ -507,6 +507,27 @@ export default class APIClient {
 	}
 
 	public readonly callbacks = {
+		create: (callback: Callback, accountId: string): Promise<Result<Callback>> =>
+			this.call(
+				'POST',
+				`/events/account/${accountId}/events/callbacks`,
+				{
+					transformResponse: transformCallbackResponse,
+					transformRequest: transformCallbackRequest,
+				},
+				callback,
+				'Create Callback'
+			),
+		single: (accountId: string, callbackId: string): Promise<Result<Callback>> =>
+			this.call(
+				'GET',
+				`/events/account/${accountId}/events/callbacks/${callbackId}`,
+				{
+					transformResponse: transformCallbackResponse,
+				},
+				null,
+				'Get Callback'
+			),
 		list: (
 			accountId: string,
 			queryBuilders?: QueryBuilderType[]
@@ -519,27 +540,6 @@ export default class APIClient {
 				},
 				null,
 				'List Callback'
-			),
-		single: (accountId: string, callbackId: string): Promise<Result<Callback>> =>
-			this.call(
-				'GET',
-				`/events/account/${accountId}/events/callbacks/${callbackId}`,
-				{
-					transformResponse: transformCallbackResponse,
-				},
-				null,
-				'Get Callback'
-			),
-		create: (callback: Callback, accountId: string): Promise<Result<Callback>> =>
-			this.call(
-				'POST',
-				`/events/account/${accountId}/events/callbacks`,
-				{
-					transformResponse: transformCallbackResponse,
-					transformRequest: transformCallbackRequest,
-				},
-				callback,
-				'Create Callback'
 			),
 		update: (callback: Callback, accountId: string, callbackId: string): Promise<Result<Callback>> =>
 			this.call(
@@ -554,17 +554,6 @@ export default class APIClient {
 			),
 		delete: (accountId: string, callbackId: string): Promise<Result<Callback>> =>
 			this.call('DELETE', `/events/account/${accountId}/events/callbacks/${callbackId}`, {}, null, 'Delete Callback'),
-		verify: (accountId: string, callbackId: string, verifier: string): Promise<Result<Callback>> =>
-			this.call(
-				'PUT',
-				`/events/account/${accountId}/events/callbacks/${callbackId}`,
-				{
-					transformResponse: transformCallbackResponse,
-					transformRequest: transformCallbackVerifierRequest,
-				},
-				verifier,
-				'Verify Callback'
-			),
 		resendVerification: (accountId: string, callbackId: string): Promise<Result<Callback>> =>
 			this.call(
 				'PUT',
@@ -576,9 +565,41 @@ export default class APIClient {
 				null,
 				'Verify Callback'
 			),
+		verify: (accountId: string, callbackId: string, verifier: string): Promise<Result<Callback>> =>
+			this.call(
+				'PUT',
+				`/events/account/${accountId}/events/callbacks/${callbackId}`,
+				{
+					transformResponse: transformCallbackResponse,
+					transformRequest: transformCallbackVerifierRequest,
+				},
+				verifier,
+				'Verify Callback'
+			),
 	}
 
 	public readonly clients = {
+		create: (client: Client, accountId: string): Promise<Result<Client>> =>
+			this.call(
+				'POST',
+				`/accounting/account/${accountId}/users/clients`,
+				{
+					transformResponse: transformClientResponse,
+					transformRequest: transformClientRequest,
+				},
+				client,
+				'Create Client'
+			),
+		single: (accountId: string, clientId: string): Promise<Result<Client>> =>
+			this.call(
+				'GET',
+				`/accounting/account/${accountId}/users/clients/${clientId}`,
+				{
+					transformResponse: transformClientResponse,
+				},
+				null,
+				'Get Client'
+			),
 		list: (
 			accountId: string,
 			queryBuilders?: QueryBuilderType[]
@@ -591,27 +612,6 @@ export default class APIClient {
 				},
 				null,
 				'List Clients'
-			),
-		single: (accountId: string, clientId: string): Promise<Result<Client>> =>
-			this.call(
-				'GET',
-				`/accounting/account/${accountId}/users/clients/${clientId}`,
-				{
-					transformResponse: transformClientResponse,
-				},
-				null,
-				'Get Client'
-			),
-		create: (client: Client, accountId: string): Promise<Result<Client>> =>
-			this.call(
-				'POST',
-				`/accounting/account/${accountId}/users/clients`,
-				{
-					transformResponse: transformClientResponse,
-					transformRequest: transformClientRequest,
-				},
-				client,
-				'Create Client'
 			),
 		update: (client: Client, accountId: string, clientId: string): Promise<Result<Client>> =>
 			this.call(
@@ -640,6 +640,27 @@ export default class APIClient {
 	}
 
 	public readonly creditNotes = {
+		create: (creditNote: CreditNote, accountId: string): Promise<Result<CreditNote>> =>
+			this.call(
+				'POST',
+				`/accounting/account/${accountId}/credit_notes/credit_notes`,
+				{
+					transformResponse: transformCreditNoteResponse,
+					transformRequest: transformCreditNoteRequest,
+				},
+				creditNote,
+				'Create Credit Note'
+			),
+		single: (accountId: string, creditId: string): Promise<Result<CreditNote>> =>
+			this.call(
+				'GET',
+				`/accounting/account/${accountId}/credit_notes/credit_notes/${creditId}`,
+				{
+					transformResponse: transformCreditNoteResponse,
+				},
+				null,
+				'Get Credit Note'
+			),
 		list: (
 			accountId: string,
 			queryBuilders?: QueryBuilderType[]
@@ -652,27 +673,6 @@ export default class APIClient {
 				},
 				null,
 				'List Credit Notes'
-			),
-		single: (accountId: string, creditId: string): Promise<Result<CreditNote>> =>
-			this.call(
-				'GET',
-				`/accounting/account/${accountId}/credit_notes/credit_notes/${creditId}`,
-				{
-					transformResponse: transformCreditNoteResponse,
-				},
-				null,
-				'Get Credit Note'
-			),
-		create: (creditNote: CreditNote, accountId: string): Promise<Result<CreditNote>> =>
-			this.call(
-				'POST',
-				`/accounting/account/${accountId}/credit_notes/credit_notes`,
-				{
-					transformResponse: transformCreditNoteResponse,
-					transformRequest: transformCreditNoteRequest,
-				},
-				creditNote,
-				'Create Credit Note'
 			),
 		update: (creditNote: CreditNote, accountId: string, creditId: string): Promise<Result<CreditNote>> =>
 			this.call(
@@ -701,6 +701,17 @@ export default class APIClient {
 	}
 
 	public readonly expenses = {
+		create: (expense: Expense, accountId: string, queryBuilders?: QueryBuilderType[]): Promise<Result<Expense>> =>
+			this.call(
+				'POST',
+				`/accounting/account/${accountId}/expenses/expenses${joinQueries(queryBuilders)}`,
+				{
+					transformResponse: transformExpenseResponse,
+					transformRequest: transformExpenseRequest,
+				},
+				expense,
+				'Create Expense'
+			),
 		single: (accountId: string, expenseId: string, queryBuilders?: QueryBuilderType[]): Promise<Result<Expense>> =>
 			this.call(
 				'GET',
@@ -724,19 +735,6 @@ export default class APIClient {
 				null,
 				'List Expenses'
 			),
-
-		create: (expense: Expense, accountId: string, queryBuilders?: QueryBuilderType[]): Promise<Result<Expense>> =>
-			this.call(
-				'POST',
-				`/accounting/account/${accountId}/expenses/expenses${joinQueries(queryBuilders)}`,
-				{
-					transformResponse: transformExpenseResponse,
-					transformRequest: transformExpenseRequest,
-				},
-				expense,
-				'Create Expense'
-			),
-
 		update: (
 			expense: Expense,
 			accountId: string,
@@ -753,7 +751,6 @@ export default class APIClient {
 				expense,
 				'Update Expense'
 			),
-
 		delete: (accountId: string, expenseId: string): Promise<Result<Expense>> =>
 			this.call(
 				'PUT',
@@ -797,9 +794,27 @@ export default class APIClient {
 	}
 
 	public readonly invoices = {
-		/**
-		 * Get list of invoices
-		 */
+		create: (invoice: Invoice, accountId: string, queryBuilders?: QueryBuilderType[]): Promise<Result<Invoice>> =>
+			this.call(
+				'POST',
+				`/accounting/account/${accountId}/invoices/invoices${joinQueries(queryBuilders)}`,
+				{
+					transformResponse: transformInvoiceResponse,
+					transformRequest: transformInvoiceRequest,
+				},
+				invoice,
+				'Create Invoice'
+			),
+		single: (accountId: string, invoiceId: string, queryBuilders?: QueryBuilderType[]): Promise<Result<Invoice>> =>
+			this.call(
+				'GET',
+				`/accounting/account/${accountId}/invoices/invoices/${invoiceId}${joinQueries(queryBuilders)}`,
+				{
+					transformResponse: transformInvoiceResponse,
+				},
+				null,
+				'Get Invoice'
+			),
 		list: (
 			accountId: string,
 			queryBuilders?: QueryBuilderType[]
@@ -812,33 +827,6 @@ export default class APIClient {
 				},
 				null,
 				'List Invoices'
-			),
-		/**
-		 * Get single invoice
-		 */
-		single: (accountId: string, invoiceId: string, queryBuilders?: QueryBuilderType[]): Promise<Result<Invoice>> =>
-			this.call(
-				'GET',
-				`/accounting/account/${accountId}/invoices/invoices/${invoiceId}${joinQueries(queryBuilders)}`,
-				{
-					transformResponse: transformInvoiceResponse,
-				},
-				null,
-				'Get Invoice'
-			),
-		/**
-		 * Post invoice
-		 */
-		create: (invoice: Invoice, accountId: string, queryBuilders?: QueryBuilderType[]): Promise<Result<Invoice>> =>
-			this.call(
-				'POST',
-				`/accounting/account/${accountId}/invoices/invoices${joinQueries(queryBuilders)}`,
-				{
-					transformResponse: transformInvoiceResponse,
-					transformRequest: transformInvoiceRequest,
-				},
-				invoice,
-				'Create Invoice'
 			),
 		update: (
 			accountId: string,
@@ -879,9 +867,17 @@ export default class APIClient {
 	}
 
 	public readonly items = {
-		/**
-		 * Get single item
-		 */
+		create: (accountId: string, data: any): Promise<Result<Item>> =>
+			this.call(
+				'POST',
+				`/accounting/account/${accountId}/items/items`,
+				{
+					transformResponse: transformItemResponse,
+					transformRequest: transformItemRequest,
+				},
+				data,
+				'Create Item'
+			),
 		single: (accountId: string, itemId: string): Promise<Result<Item>> =>
 			this.call(
 				'GET',
@@ -892,7 +888,6 @@ export default class APIClient {
 				null,
 				'Get Item'
 			),
-
 		list: (
 			accountId: string,
 			queryBuilders?: QueryBuilderType[]
@@ -917,17 +912,6 @@ export default class APIClient {
 				data,
 				'Update Item'
 			),
-		create: (accountId: string, data: any): Promise<Result<Item>> =>
-			this.call(
-				'POST',
-				`/accounting/account/${accountId}/items/items`,
-				{
-					transformResponse: transformItemResponse,
-					transformRequest: transformItemRequest,
-				},
-				data,
-				'Create Item'
-			),
 	}
 
 	public readonly journalEntries = {
@@ -949,9 +933,6 @@ export default class APIClient {
 	}
 
 	public readonly journalEntryAccounts = {
-		/**
-		 * Get list of journal entry accounts
-		 */
 		list: (
 			accountId: string,
 			queryBuilders?: QueryBuilderType[]
@@ -968,9 +949,6 @@ export default class APIClient {
 	}
 
 	public readonly journalEntryDetails = {
-		/**
-		 * Get list of journal entry details
-		 */
 		list: (
 			accountId: string,
 			queryBuilders?: QueryBuilderType[]
@@ -987,25 +965,18 @@ export default class APIClient {
 	}
 
 	public readonly otherIncomes = {
-		/**
-		 * Get list of other incomes
-		 */
-		list: (
-			accountId: string,
-			queryBuilders?: QueryBuilderType[]
-		): Promise<Result<{ otherIncomes: OtherIncome[]; pages: Pagination }>> =>
-			this.call(
-				'GET',
-				`/accounting/account/${accountId}/other_incomes/other_incomes${joinQueries(queryBuilders)}`,
+		create: (otherIncome: OtherIncome, accountId: string): Promise<Result<OtherIncome>> => {
+			return this.call(
+				'POST',
+				`/accounting/account/${accountId}/other_incomes/other_incomes`,
 				{
-					transformResponse: transformOtherIncomeListResponse,
+					transformResponse: transformOtherIncomeResponse,
+					transformRequest: transformOtherIncomeRequest,
 				},
-				null,
-				'List OtherIncomes'
-			),
-		/**
-		 * Get single other income
-		 */
+				otherIncome,
+				'Create OtherIncome'
+			)
+		},
 		single: (
 			accountId: string,
 			otherIncomeId: string,
@@ -1020,21 +991,19 @@ export default class APIClient {
 				null,
 				'Get OtherIncome'
 			),
-		/**
-		 * Post other income
-		 */
-		create: (otherIncome: OtherIncome, accountId: string): Promise<Result<OtherIncome>> => {
-			return this.call(
-				'POST',
-				`/accounting/account/${accountId}/other_incomes/other_incomes`,
+		list: (
+			accountId: string,
+			queryBuilders?: QueryBuilderType[]
+		): Promise<Result<{ otherIncomes: OtherIncome[]; pages: Pagination }>> =>
+			this.call(
+				'GET',
+				`/accounting/account/${accountId}/other_incomes/other_incomes${joinQueries(queryBuilders)}`,
 				{
-					transformResponse: transformOtherIncomeResponse,
-					transformRequest: transformOtherIncomeRequest,
+					transformResponse: transformOtherIncomeListResponse,
 				},
-				otherIncome,
-				'Create OtherIncome'
-			)
-		},
+				null,
+				'List OtherIncomes'
+			),
 		update: (accountId: string, otherIncomeId: string, data: any): Promise<Result<OtherIncome>> =>
 			this.call(
 				'PUT',
@@ -1057,6 +1026,17 @@ export default class APIClient {
 	}
 
 	public readonly payments = {
+		create: (accountId: string, data: any): Promise<Result<Payment>> =>
+			this.call(
+				'POST',
+				`/accounting/account/${accountId}/payments/payments`,
+				{
+					transformResponse: transformPaymentResponse,
+					transformRequest: transformPaymentRequest,
+				},
+				data,
+				'Create Payment'
+			),
 		single: (accountId: string, paymentId: string): Promise<Result<Payment>> =>
 			this.call(
 				'GET',
@@ -1079,17 +1059,6 @@ export default class APIClient {
 				},
 				null,
 				'List Payments'
-			),
-		create: (accountId: string, data: any): Promise<Result<Payment>> =>
-			this.call(
-				'POST',
-				`/accounting/account/${accountId}/payments/payments`,
-				{
-					transformResponse: transformPaymentResponse,
-					transformRequest: transformPaymentRequest,
-				},
-				data,
-				'Create Payment'
 			),
 		update: (accountId: string, paymentId: string, data: any): Promise<Result<Payment>> =>
 			this.call(
@@ -1153,6 +1122,27 @@ export default class APIClient {
 	}
 
 	public readonly projects = {
+		create: (project: Project, businessId: number): Promise<Result<Project>> =>
+			this.call(
+				'POST',
+				`/projects/business/${businessId}/project`,
+				{
+					transformResponse: transformProjectResponse,
+					transformRequest: transformProjectRequest,
+				},
+				project,
+				'Create Project'
+			),
+		single: (businessId: number, projectId: number): Promise<Result<Project>> =>
+			this.call(
+				'GET',
+				`/projects/business/${businessId}/project/${projectId}`,
+				{
+					transformResponse: transformProjectResponse,
+				},
+				null,
+				'Get Project'
+			),
 		list: (
 			businessId: number,
 			queryBuilders?: QueryBuilderType[]
@@ -1165,27 +1155,6 @@ export default class APIClient {
 				},
 				null,
 				'List Projects'
-			),
-		single: (businessId: number, projectId: number): Promise<Result<Project>> =>
-			this.call(
-				'GET',
-				`/projects/business/${businessId}/project/${projectId}`,
-				{
-					transformResponse: transformProjectResponse,
-				},
-				null,
-				'Get Project'
-			),
-		create: (project: Project, businessId: number): Promise<Result<Project>> =>
-			this.call(
-				'POST',
-				`/projects/business/${businessId}/project`,
-				{
-					transformResponse: transformProjectResponse,
-					transformRequest: transformProjectRequest,
-				},
-				project,
-				'Create Project'
 			),
 		update: (project: Project, businessId: number, projectId: number): Promise<Result<Project>> =>
 			this.call(
@@ -1203,6 +1172,22 @@ export default class APIClient {
 	}
 
 	public readonly reports = {
+		paymentsCollected: (
+			accountId: string,
+			queryBuilders?: QueryBuilderType[]
+		): Promise<Result<{ callbacks: Callback[]; pages: Pagination }>> =>
+			this.call(
+				'GET',
+				`/accounting/account/${accountId}/reports/accounting/payments_collected${joinQueries(
+					queryBuilders,
+					'AccountingReportsResource'
+				)}`,
+				{
+					transformResponse: transformPaymentsCollectedReportResponse,
+				},
+				null,
+				'Payments Collected Report'
+			),
 		profitLoss: (
 			accountId: string,
 			queryBuilders?: QueryBuilderType[]
@@ -1235,45 +1220,9 @@ export default class APIClient {
 				null,
 				'Tax Summary Report'
 			),
-		paymentsCollected: (
-			accountId: string,
-			queryBuilders?: QueryBuilderType[]
-		): Promise<Result<{ callbacks: Callback[]; pages: Pagination }>> =>
-			this.call(
-				'GET',
-				`/accounting/account/${accountId}/reports/accounting/payments_collected${joinQueries(
-					queryBuilders,
-					'AccountingReportsResource'
-				)}`,
-				{
-					transformResponse: transformPaymentsCollectedReportResponse,
-				},
-				null,
-				'Payments Collected Report'
-			),
 	}
 
 	public readonly services = {
-		list: (businessId: number): Promise<Result<{ timeEntries: Service[]; pages: Pagination }>> =>
-			this.call(
-				'GET',
-				`/comments/business/${businessId}/services`,
-				{
-					transformResponse: transformServiceListResponse,
-				},
-				null,
-				'List Services'
-			),
-		single: (businessId: number, serviceId: number): Promise<Result<Service>> =>
-			this.call(
-				'GET',
-				`/comments/business/${businessId}/service/${serviceId}`,
-				{
-					transformResponse: transformServiceResponse,
-				},
-				null,
-				'Get Service'
-			),
 		create: (service: Service, businessId: number): Promise<Result<Service>> =>
 			this.call(
 				'POST',
@@ -1285,18 +1234,27 @@ export default class APIClient {
 				service,
 				'Create Service'
 			),
+		single: (businessId: number, serviceId: number): Promise<Result<Service>> =>
+			this.call(
+				'GET',
+				`/comments/business/${businessId}/service/${serviceId}`,
+				{
+					transformResponse: transformServiceResponse,
+				},
+				null,
+				'Get Service'
+			),
+		list: (businessId: number): Promise<Result<{ timeEntries: Service[]; pages: Pagination }>> =>
+			this.call(
+				'GET',
+				`/comments/business/${businessId}/services`,
+				{
+					transformResponse: transformServiceListResponse,
+				},
+				null,
+				'List Services'
+			),
 		rate: {
-			single: (businessId: number, serviceId: number): Promise<Result<ServiceRate>> => {
-				return this.call(
-					'GET',
-					`/comments/business/${businessId}/service/${serviceId}/rate`,
-					{
-						transformResponse: transformServiceRateResponse,
-					},
-					null,
-					'Get Service Rate'
-				)
-			},
 			create: (service: ServiceRate, businessId: number, serviceId: number): Promise<Result<ServiceRate>> =>
 				this.call(
 					'POST',
@@ -1308,6 +1266,17 @@ export default class APIClient {
 					service,
 					'Add Service Rate'
 				),
+			single: (businessId: number, serviceId: number): Promise<Result<ServiceRate>> => {
+				return this.call(
+					'GET',
+					`/comments/business/${businessId}/service/${serviceId}/rate`,
+					{
+						transformResponse: transformServiceRateResponse,
+					},
+					null,
+					'Get Service Rate'
+				)
+			},
 			update: (service: ServiceRate, businessId: number, serviceId: number): Promise<Result<ServiceRate>> =>
 				this.call(
 					'PUT',
@@ -1323,6 +1292,27 @@ export default class APIClient {
 	}
 
 	public readonly tasks = {
+		create: (task: Tasks, accountId: string): Promise<Result<Tasks>> =>
+			this.call(
+				'POST',
+				`/accounting/account/${accountId}/projects/tasks`,
+				{
+					transformResponse: transformTasksResponse,
+					transformRequest: transformTasksRequest,
+				},
+				task,
+				'Create Tasks Entry'
+			),
+		single: (accountId: string, taskId: number): Promise<Result<Tasks>> =>
+			this.call(
+				'GET',
+				`/accounting/account/${accountId}/projects/tasks/${taskId}`,
+				{
+					transformResponse: transformTasksResponse,
+				},
+				null,
+				'Get Tasks Entry'
+			),
 		list: (
 			accountId: string,
 			queryBuilders?: QueryBuilderType[]
@@ -1335,27 +1325,6 @@ export default class APIClient {
 				},
 				null,
 				'List Tasks'
-			),
-		single: (accountId: string, taskId: number): Promise<Result<Tasks>> =>
-			this.call(
-				'GET',
-				`/accounting/account/${accountId}/projects/tasks/${taskId}`,
-				{
-					transformResponse: transformTasksResponse,
-				},
-				null,
-				'Get Tasks Entry'
-			),
-		create: (task: Tasks, accountId: string): Promise<Result<Tasks>> =>
-			this.call(
-				'POST',
-				`/accounting/account/${accountId}/projects/tasks`,
-				{
-					transformResponse: transformTasksResponse,
-					transformRequest: transformTasksRequest,
-				},
-				task,
-				'Create Tasks Entry'
 			),
 		update: (task: Tasks, accountId: string, taskId: number): Promise<Result<Tasks>> =>
 			this.call(
@@ -1384,6 +1353,27 @@ export default class APIClient {
 	}
 
 	public readonly timeEntries = {
+		create: (timeEntry: TimeEntry, businessId: number): Promise<Result<TimeEntry>> =>
+			this.call(
+				'POST',
+				`/timetracking/business/${businessId}/time_entries`,
+				{
+					transformResponse: transformTimeEntryResponse,
+					transformRequest: transformTimeEntryRequest,
+				},
+				timeEntry,
+				'Create Time Entry'
+			),
+		single: (businessId: number, timeEntryId: number): Promise<Result<TimeEntry>> =>
+			this.call(
+				'GET',
+				`/timetracking/business/${businessId}/time_entries/${timeEntryId}`,
+				{
+					transformResponse: transformTimeEntryResponse,
+				},
+				null,
+				'Get Time Entry'
+			),
 		list: (
 			businessId: number,
 			queryBuilders?: QueryBuilderType[]
@@ -1396,27 +1386,6 @@ export default class APIClient {
 				},
 				null,
 				'List Time Entries'
-			),
-		single: (businessId: number, timeEntryId: number): Promise<Result<TimeEntry>> =>
-			this.call(
-				'GET',
-				`/timetracking/business/${businessId}/time_entries/${timeEntryId}`,
-				{
-					transformResponse: transformTimeEntryResponse,
-				},
-				null,
-				'Get Time Entry'
-			),
-		create: (timeEntry: TimeEntry, businessId: number): Promise<Result<TimeEntry>> =>
-			this.call(
-				'POST',
-				`/timetracking/business/${businessId}/time_entries`,
-				{
-					transformResponse: transformTimeEntryResponse,
-					transformRequest: transformTimeEntryRequest,
-				},
-				timeEntry,
-				'Create Time Entry'
 			),
 		update: (timeEntry: TimeEntry, businessId: number, timeEntryId: number): Promise<Result<TimeEntry>> =>
 			this.call(
@@ -1440,9 +1409,6 @@ export default class APIClient {
 	}
 
 	public readonly users = {
-		/**
-		 * Get own identity user
-		 */
 		me: (): Promise<Result<User>> =>
 			this.call(
 				'GET',
