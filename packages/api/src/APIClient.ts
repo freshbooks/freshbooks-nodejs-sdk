@@ -150,9 +150,9 @@ import {
 // defaults
 const API_BASE_URL = 'https://api.freshbooks.com'
 const API_TOKEN_ENDPOINT = '/auth/oauth/token'
+const API_VERSION = require('../package.json').version
 const AUTH_BASE_URL = 'https://auth.freshbooks.com'
 const AUTH_ENDPOINT = '/oauth/authorize'
-const API_VERSION = require('../package.json').version
 
 /**
  * Client for FreshBooks API
