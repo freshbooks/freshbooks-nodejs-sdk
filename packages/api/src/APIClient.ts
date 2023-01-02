@@ -347,8 +347,8 @@ export default class APIClient {
 				'POST',
 				`accounting/account/${accountId}/bills/bills`,
 				{
-					transformResponse: transformBillsResponse,
 					transformRequest: transformBillsRequest,
+					transformResponse: transformBillsResponse,
 				},
 				bill,
 				'Create Bill'
@@ -374,8 +374,8 @@ export default class APIClient {
 				'PUT',
 				`accounting/account/${accountId}/bills/bills/${billId}`,
 				{
-					transformResponse: transformBillsResponse,
 					transformRequest: transformBillsRequest,
+					transformResponse: transformBillsResponse,
 				},
 				{ visState: 1 },
 				'Delete Bill'
@@ -385,8 +385,8 @@ export default class APIClient {
 				'PUT',
 				`accounting/account/${accountId}/bills/bills/${billId}`,
 				{
-					transformResponse: transformBillsResponse,
 					transformRequest: transformBillsRequest,
+					transformResponse: transformBillsResponse,
 				},
 				{ visState: 2 },
 				'Archive Bill'
@@ -399,8 +399,8 @@ export default class APIClient {
 				'POST',
 				`accounting/account/${accountId}/bill_payments/bill_payments`,
 				{
-					transformResponse: transformBillPaymentsResponse,
 					transformRequest: transformBillPaymentsRequest,
+					transformResponse: transformBillPaymentsResponse,
 				},
 				billPayment,
 				'Create Bill Payment'
@@ -426,8 +426,8 @@ export default class APIClient {
 				'PUT',
 				`accounting/account/${accountId}/bill_payments/bill_payments/${billPaymentId}`,
 				{
-					transformResponse: transformBillPaymentsResponse,
 					transformRequest: transformBillPaymentsRequest,
+					transformResponse: transformBillPaymentsResponse,
 				},
 				billPayment,
 				'Update Bill Payment'
@@ -437,8 +437,8 @@ export default class APIClient {
 				'PUT',
 				`accounting/account/${accountId}/bill_payments/bill_payments/${billPaymentId}`,
 				{
-					transformResponse: transformBillPaymentsResponse,
 					transformRequest: transformBillPaymentsRequest,
+					transformResponse: transformBillPaymentsResponse,
 				},
 				{ visState: 1 },
 				'Delete Bill Payment'
@@ -451,8 +451,8 @@ export default class APIClient {
 				'POST',
 				`/accounting/account/${accountId}/bill_vendors/bill_vendors`,
 				{
-					transformResponse: transformBillVendorsResponse,
 					transformRequest: transformBillVendorsRequest,
+					transformResponse: transformBillVendorsResponse,
 				},
 				vendor,
 				'Create BillVendors Entry'
@@ -468,7 +468,7 @@ export default class APIClient {
 				'Get BillVendors Entry'
 			),
 		list: (
-			accountId: string, 
+			accountId: string,
 			queryBuilders?: QueryBuilderType[]
 		): Promise<Result<{ vendors: BillVendors[]; pages: Pagination }>> =>
 			this.call(
@@ -485,8 +485,8 @@ export default class APIClient {
 				'PUT',
 				`/accounting/account/${accountId}/bill_vendors/bill_vendors/${vendorId}`,
 				{
-					transformResponse: transformBillVendorsResponse,
 					transformRequest: transformBillVendorsRequest,
+					transformResponse: transformBillVendorsResponse,
 				},
 				vendor,
 				'Update BillVendors Entry'
@@ -496,8 +496,8 @@ export default class APIClient {
 				'PUT',
 				`/accounting/account/${accountId}/bill_vendors/bill_vendors/${vendorId}`,
 				{
-					transformResponse: transformBillVendorsResponse,
 					transformRequest: transformBillVendorsRequest,
+					transformResponse: transformBillVendorsResponse,
 				},
 				{
 					visState: 1,
@@ -512,8 +512,8 @@ export default class APIClient {
 				'POST',
 				`/events/account/${accountId}/events/callbacks`,
 				{
-					transformResponse: transformCallbackResponse,
 					transformRequest: transformCallbackRequest,
+					transformResponse: transformCallbackResponse,
 				},
 				callback,
 				'Create Callback'
@@ -546,8 +546,8 @@ export default class APIClient {
 				'PUT',
 				`/events/account/${accountId}/events/callbacks/${callbackId}`,
 				{
-					transformResponse: transformCallbackResponse,
 					transformRequest: transformCallbackRequest,
+					transformResponse: transformCallbackResponse,
 				},
 				callback,
 				'Update Callback'
@@ -559,8 +559,8 @@ export default class APIClient {
 				'PUT',
 				`/events/account/${accountId}/events/callbacks/${callbackId}`,
 				{
-					transformResponse: transformCallbackResponse,
 					transformRequest: transformCallbackResendRequest,
+					transformResponse: transformCallbackResponse,
 				},
 				null,
 				'Verify Callback'
@@ -570,8 +570,8 @@ export default class APIClient {
 				'PUT',
 				`/events/account/${accountId}/events/callbacks/${callbackId}`,
 				{
-					transformResponse: transformCallbackResponse,
 					transformRequest: transformCallbackVerifierRequest,
+					transformResponse: transformCallbackResponse,
 				},
 				verifier,
 				'Verify Callback'
@@ -584,8 +584,8 @@ export default class APIClient {
 				'POST',
 				`/accounting/account/${accountId}/users/clients`,
 				{
-					transformResponse: transformClientResponse,
 					transformRequest: transformClientRequest,
+					transformResponse: transformClientResponse,
 				},
 				client,
 				'Create Client'
@@ -618,8 +618,8 @@ export default class APIClient {
 				'PUT',
 				`/accounting/account/${accountId}/users/clients/${clientId}`,
 				{
-					transformResponse: transformClientResponse,
 					transformRequest: transformClientRequest,
+					transformResponse: transformClientResponse,
 				},
 				client,
 				'Update Client'
@@ -629,8 +629,8 @@ export default class APIClient {
 				'PUT',
 				`/accounting/account/${accountId}/users/clients/${clientId}`,
 				{
-					transformResponse: transformClientResponse,
 					transformRequest: transformClientRequest,
+					transformResponse: transformClientResponse,
 				},
 				{
 					visState: 1,
@@ -645,8 +645,8 @@ export default class APIClient {
 				'POST',
 				`/accounting/account/${accountId}/credit_notes/credit_notes`,
 				{
-					transformResponse: transformCreditNoteResponse,
 					transformRequest: transformCreditNoteRequest,
+					transformResponse: transformCreditNoteResponse,
 				},
 				creditNote,
 				'Create Credit Note'
@@ -679,8 +679,8 @@ export default class APIClient {
 				'PUT',
 				`/accounting/account/${accountId}/credit_notes/credit_notes/${creditId}`,
 				{
-					transformResponse: transformCreditNoteResponse,
 					transformRequest: transformCreditNoteRequest,
+					transformResponse: transformCreditNoteResponse,
 				},
 				creditNote,
 				'Update Credit Note'
@@ -690,8 +690,8 @@ export default class APIClient {
 				'PUT',
 				`/accounting/account/${accountId}/credit_notes/credit_notes/${creditId}`,
 				{
-					transformResponse: transformCreditNoteResponse,
 					transformRequest: transformCreditNoteRequest,
+					transformResponse: transformCreditNoteResponse,
 				},
 				{
 					visState: 1,
@@ -706,8 +706,8 @@ export default class APIClient {
 				'POST',
 				`/accounting/account/${accountId}/expenses/expenses${joinQueries(queryBuilders)}`,
 				{
-					transformResponse: transformExpenseResponse,
 					transformRequest: transformExpenseRequest,
+					transformResponse: transformExpenseResponse,
 				},
 				expense,
 				'Create Expense'
@@ -745,8 +745,8 @@ export default class APIClient {
 				'PUT',
 				`/accounting/account/${accountId}/expenses/expenses/${expenseId}${joinQueries(queryBuilders)}`,
 				{
-					transformResponse: transformExpenseResponse,
 					transformRequest: transformExpenseRequest,
+					transformResponse: transformExpenseResponse,
 				},
 				expense,
 				'Update Expense'
@@ -799,8 +799,8 @@ export default class APIClient {
 				'POST',
 				`/accounting/account/${accountId}/invoices/invoices${joinQueries(queryBuilders)}`,
 				{
-					transformResponse: transformInvoiceResponse,
 					transformRequest: transformInvoiceRequest,
+					transformResponse: transformInvoiceResponse,
 				},
 				invoice,
 				'Create Invoice'
@@ -838,8 +838,8 @@ export default class APIClient {
 				'PUT',
 				`/accounting/account/${accountId}/invoices/invoices/${invoiceId}${joinQueries(queryBuilders)}`,
 				{
-					transformResponse: transformInvoiceResponse,
 					transformRequest: transformInvoiceRequest,
+					transformResponse: transformInvoiceResponse,
 				},
 				data,
 				'Update Invoice'
@@ -872,8 +872,8 @@ export default class APIClient {
 				'POST',
 				`/accounting/account/${accountId}/items/items`,
 				{
-					transformResponse: transformItemResponse,
 					transformRequest: transformItemRequest,
+					transformResponse: transformItemResponse,
 				},
 				data,
 				'Create Item'
@@ -906,8 +906,8 @@ export default class APIClient {
 				'PUT',
 				`/accounting/account/${accountId}/items/items/${itemId}`,
 				{
-					transformResponse: transformItemResponse,
 					transformRequest: transformItemRequest,
+					transformResponse: transformItemResponse,
 				},
 				data,
 				'Update Item'
@@ -924,8 +924,8 @@ export default class APIClient {
 				'POST',
 				`/accounting/account/${accountId}/journal_entries/journal_entries${joinQueries(queryBuilders)}`,
 				{
-					transformResponse: transformJournalEntryResponse,
 					transformRequest: transformJournalEntryRequest,
+					transformResponse: transformJournalEntryResponse,
 				},
 				journalEntry,
 				'Create Journal Entry'
@@ -970,8 +970,8 @@ export default class APIClient {
 				'POST',
 				`/accounting/account/${accountId}/other_incomes/other_incomes`,
 				{
-					transformResponse: transformOtherIncomeResponse,
 					transformRequest: transformOtherIncomeRequest,
+					transformResponse: transformOtherIncomeResponse,
 				},
 				otherIncome,
 				'Create OtherIncome'
@@ -1009,8 +1009,8 @@ export default class APIClient {
 				'PUT',
 				`/accounting/account/${accountId}/other_incomes/other_incomes/${otherIncomeId}`,
 				{
-					transformResponse: transformOtherIncomeResponse,
 					transformRequest: transformOtherIncomeRequest,
+					transformResponse: transformOtherIncomeResponse,
 				},
 				data,
 				'Update OtherIncome'
@@ -1031,8 +1031,8 @@ export default class APIClient {
 				'POST',
 				`/accounting/account/${accountId}/payments/payments`,
 				{
-					transformResponse: transformPaymentResponse,
 					transformRequest: transformPaymentRequest,
+					transformResponse: transformPaymentResponse,
 				},
 				data,
 				'Create Payment'
@@ -1065,8 +1065,8 @@ export default class APIClient {
 				'PUT',
 				`/accounting/account/${accountId}/payments/payments/${paymentId}`,
 				{
-					transformResponse: transformPaymentResponse,
 					transformRequest: transformPaymentUpdateRequest,
+					transformResponse: transformPaymentResponse,
 				},
 				data,
 				'Update Payment'
@@ -1127,8 +1127,8 @@ export default class APIClient {
 				'POST',
 				`/projects/business/${businessId}/project`,
 				{
-					transformResponse: transformProjectResponse,
 					transformRequest: transformProjectRequest,
+					transformResponse: transformProjectResponse,
 				},
 				project,
 				'Create Project'
@@ -1161,8 +1161,8 @@ export default class APIClient {
 				'PUT',
 				`/projects/business/${businessId}/project/${projectId}`,
 				{
-					transformResponse: transformProjectResponse,
 					transformRequest: transformProjectRequest,
+					transformResponse: transformProjectResponse,
 				},
 				project,
 				'Update Project'
@@ -1228,8 +1228,8 @@ export default class APIClient {
 				'POST',
 				`/comments/business/${businessId}/service`,
 				{
-					transformResponse: transformServiceResponse,
 					transformRequest: transformServiceRequest,
+					transformResponse: transformServiceResponse,
 				},
 				service,
 				'Create Service'
@@ -1260,8 +1260,8 @@ export default class APIClient {
 					'POST',
 					`/comments/business/${businessId}/service/${serviceId}/rate`,
 					{
-						transformResponse: transformServiceRateResponse,
 						transformRequest: transformServiceRateRequest,
+						transformResponse: transformServiceRateResponse,
 					},
 					service,
 					'Add Service Rate'
@@ -1282,8 +1282,8 @@ export default class APIClient {
 					'PUT',
 					`/comments/business/${businessId}/service/${serviceId}/rate`,
 					{
-						transformResponse: transformServiceRateResponse,
 						transformRequest: transformServiceRateRequest,
+						transformResponse: transformServiceRateResponse,
 					},
 					service,
 					'Update Service Rate'
@@ -1297,8 +1297,8 @@ export default class APIClient {
 				'POST',
 				`/accounting/account/${accountId}/projects/tasks`,
 				{
-					transformResponse: transformTasksResponse,
 					transformRequest: transformTasksRequest,
+					transformResponse: transformTasksResponse,
 				},
 				task,
 				'Create Tasks Entry'
@@ -1331,8 +1331,8 @@ export default class APIClient {
 				'PUT',
 				`/accounting/account/${accountId}/projects/tasks/${taskId}`,
 				{
-					transformResponse: transformTasksResponse,
 					transformRequest: transformTasksRequest,
+					transformResponse: transformTasksResponse,
 				},
 				task,
 				'Update Tasks Entry'
@@ -1342,8 +1342,8 @@ export default class APIClient {
 				'PUT',
 				`/accounting/account/${accountId}/projects/tasks/${taskId}`,
 				{
-					transformResponse: transformTasksResponse,
 					transformRequest: transformTasksRequest,
+					transformResponse: transformTasksResponse,
 				},
 				{
 					visState: 1,
@@ -1358,8 +1358,8 @@ export default class APIClient {
 				'POST',
 				`/timetracking/business/${businessId}/time_entries`,
 				{
-					transformResponse: transformTimeEntryResponse,
 					transformRequest: transformTimeEntryRequest,
+					transformResponse: transformTimeEntryResponse,
 				},
 				timeEntry,
 				'Create Time Entry'
@@ -1392,8 +1392,8 @@ export default class APIClient {
 				'PUT',
 				`/timetracking/business/${businessId}/time_entries/${timeEntryId}`,
 				{
-					transformResponse: transformTimeEntryResponse,
 					transformRequest: transformTimeEntryRequest,
+					transformResponse: transformTimeEntryResponse,
 				},
 				timeEntry,
 				'Update Time Entry'
