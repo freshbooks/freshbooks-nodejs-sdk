@@ -154,6 +154,31 @@ const API_VERSION = require('../package.json').version
 const AUTH_BASE_URL = 'https://auth.freshbooks.com'
 const AUTH_ENDPOINT = '/oauth/authorize'
 
+interface TokenResponse {
+	access_token: string
+	token_type: string
+	expires_in: number
+	refresh_token: string
+	scope: string
+	created_at: number
+}
+
+export interface Options {
+	clientSecret?: string
+	redirectUri?: string
+	accessToken?: string
+	refreshToken?: string
+	apiUrl?: string
+	retryOptions?: IAxiosRetryConfig
+	userAgent?: string
+}
+
+export interface Result<T> {
+	ok: boolean
+	data?: T
+	error?: Error
+}
+
 /**
  * Client for FreshBooks API
  */
@@ -1480,29 +1505,4 @@ export default class APIClient {
 				'Payments Collected Report'
 			),
 	}
-}
-
-interface TokenResponse {
-	access_token: string
-	token_type: string
-	expires_in: number
-	refresh_token: string
-	scope: string
-	created_at: number
-}
-
-export interface Options {
-	clientSecret?: string
-	redirectUri?: string
-	accessToken?: string
-	refreshToken?: string
-	apiUrl?: string
-	retryOptions?: IAxiosRetryConfig
-	userAgent?: string
-}
-
-export interface Result<T> {
-	ok: boolean
-	data?: T
-	error?: Error
 }
