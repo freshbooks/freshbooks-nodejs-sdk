@@ -31,121 +31,63 @@ import {
 	TimeEntry,
 	User,
 } from './models'
-import { 
-	transformBillsRequest, 
-	transformBillsResponse, 
-	transformBillsListResponse, 
-} from './models/Bills'
-import { 
-	transformBillPaymentsRequest, 
-	transformBillPaymentsResponse, 
-	transformBillPaymentsListResponse, 
+import { transformBillsRequest, transformBillsResponse, transformBillsListResponse } from './models/Bills'
+import {
+	transformBillPaymentsRequest,
+	transformBillPaymentsResponse,
+	transformBillPaymentsListResponse,
 } from './models/BillPayments'
-import { 
-	transformBillVendorsRequest, 
-	transformBillVendorsResponse, 
-	transformBillVendorsListResponse, 
+import {
+	transformBillVendorsRequest,
+	transformBillVendorsResponse,
+	transformBillVendorsListResponse,
 } from './models/BillVendors'
-import { 
-	transformCallbackRequest, 
-	transformCallbackResponse, 
-	transformCallbackListResponse, 
-	transformCallbackResendRequest, 
-	transformCallbackVerifierRequest, 
+import {
+	transformCallbackRequest,
+	transformCallbackResponse,
+	transformCallbackListResponse,
+	transformCallbackResendRequest,
+	transformCallbackVerifierRequest,
 } from './models/Callback'
-import { 
-	transformClientRequest, 
-	transformClientResponse, 
-	transformClientListResponse, 
-} from './models/Client'
-import { 
-	transformCreditNoteRequest, 
-	transformCreditNoteListResponse, 
-	transformCreditNoteResponse, 
+import { transformClientRequest, transformClientResponse, transformClientListResponse } from './models/Client'
+import {
+	transformCreditNoteRequest,
+	transformCreditNoteListResponse,
+	transformCreditNoteResponse,
 } from './models/CreditNote'
-import { 
-	transformExpenseRequest, 
-	transformExpenseResponse, 
-	transformExpenseListResponse, 
-} from './models/Expense'
-import { 
-	transformExpenseCategoryResponse, 
-	transformExpenseCategoryListResponse, 
-} from './models/ExpenseCategory'
-import { 
-	transformInvoiceRequest, 
-	transformInvoiceResponse, 
-	transformInvoiceListResponse, 
-} from './models/Invoices'
-import { 
-	transformItemRequest, 
-	transformItemResponse, 
-	transformItemListResponse, 
-} from './models/Item'
-import { 
-	transformJournalEntryRequest, 
-	transformJournalEntryResponse, 
-} from './models/JournalEntry'
-import { 
-	transformJournalEntryAccountListResponse, 
-} from './models/JournalEntryAccount'
-import { 
-	transformJournalEntryDetailListResponse, 
-} from './models/JournalEntryDetail'
-import { 
-	transformOtherIncomeRequest, 
-	transformOtherIncomeResponse, 
-	transformOtherIncomeListResponse, 
+import { transformExpenseRequest, transformExpenseResponse, transformExpenseListResponse } from './models/Expense'
+import { transformExpenseCategoryResponse, transformExpenseCategoryListResponse } from './models/ExpenseCategory'
+import { transformInvoiceRequest, transformInvoiceResponse, transformInvoiceListResponse } from './models/Invoices'
+import { transformItemRequest, transformItemResponse, transformItemListResponse } from './models/Item'
+import { transformJournalEntryRequest, transformJournalEntryResponse } from './models/JournalEntry'
+import { transformJournalEntryAccountListResponse } from './models/JournalEntryAccount'
+import { transformJournalEntryDetailListResponse } from './models/JournalEntryDetail'
+import {
+	transformOtherIncomeRequest,
+	transformOtherIncomeResponse,
+	transformOtherIncomeListResponse,
 } from './models/OtherIncome'
-import { 
-	transformPaymentRequest, 
-	transformPaymentResponse, 
-	transformPaymentListResponse, 
-	transformPaymentUpdateRequest, 
+import {
+	transformPaymentRequest,
+	transformPaymentResponse,
+	transformPaymentListResponse,
+	transformPaymentUpdateRequest,
 } from './models/Payment'
-import { 
-	transformPaymentOptionsRequest, 
-	transformPaymentOptionsResponse, 
-} from './models/PaymentOptions'
-import { 
-	transformProjectRequest, 
-	transformProjectResponse, 
-	transformProjectListResponse, 
-} from './models/Project'
-import { 
-	transformPaymentsCollectedReportResponse, 
-} from './models/report/PaymentsCollectedReport'
-import { 
-	transformProfitLossReportResponse, 
-} from './models/report/ProfitLossReport'
-import { 
-	transformTaxSummaryReportResponse, 
-} from './models/report/TaxSummaryReport'
-import { 
-	transformServiceRequest, 
-	transformServiceResponse, 
-	transformServiceListResponse, 
-} from './models/Service'
-import { 
-	transformServiceRateRequest, 
-	transformServiceRateResponse, 
-} from './models/ServiceRate'
-import { 
-	transformShareLinkResponse, 
-} from './models/ShareLink'
-import { 
-	transformTasksRequest, 
-	transformTasksResponse, 
-	transformTasksListResponse, 
-} from './models/Tasks'
-import { 
-	transformTimeEntryRequest, 
-	transformTimeEntryResponse, 
-	transformTimeEntryListResponse, 
+import { transformPaymentOptionsRequest, transformPaymentOptionsResponse } from './models/PaymentOptions'
+import { transformProjectRequest, transformProjectResponse, transformProjectListResponse } from './models/Project'
+import { transformPaymentsCollectedReportResponse } from './models/report/PaymentsCollectedReport'
+import { transformProfitLossReportResponse } from './models/report/ProfitLossReport'
+import { transformTaxSummaryReportResponse } from './models/report/TaxSummaryReport'
+import { transformServiceRequest, transformServiceResponse, transformServiceListResponse } from './models/Service'
+import { transformServiceRateRequest, transformServiceRateResponse } from './models/ServiceRate'
+import { transformShareLinkResponse } from './models/ShareLink'
+import { transformTasksRequest, transformTasksResponse, transformTasksListResponse } from './models/Tasks'
+import {
+	transformTimeEntryRequest,
+	transformTimeEntryResponse,
+	transformTimeEntryListResponse,
 } from './models/TimeEntry'
-import { 
-	transformUserResponse, 
-} from './models/User'
+import { transformUserResponse } from './models/User'
 
 // defaults
 const API_BASE_URL = 'https://api.freshbooks.com'
