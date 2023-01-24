@@ -1,8 +1,10 @@
 // This is an example where we run through the OAuth flow,
 // select a business, and display a client from that business.
+import pkg from '@freshbooks/api';
+const { Client } = pkg;
 
-const { Client } = require('@freshbooks/api')
-const readline = require('readline').createInterface({
+import * as readline from 'node:readline';
+const rl = readline.createInterface({
 	input: process.stdin,
 	output: process.stdout,
 })
@@ -24,7 +26,7 @@ async function authorizeFbClient() {
 	// Once authorized, FreshBooks will redirect the user to your `redirect_uri` with the authorization
 	// code will be a parameter in the URL.
 	const authCode = await new Promise((resolve) => {
-		readline.question('Enter the code you get after authorization: ', resolve)
+		rl.question('Enter the code you get after authorization: ', resolve)
 	})
 
 	// This will exchange the authorization code for an access token
@@ -50,9 +52,9 @@ async function getAccountAndBusinessIds() {
 		})
 
 		const businessIndex = await new Promise((resolve) => {
-			readline.question('Which business do you want to use? ', resolve)
+			rl.question('Which business do you want to use? ', resolve)
 		})
-		readline.close()
+		rl.close()
 
 		return businesses[businessIndex - 1]
 	}

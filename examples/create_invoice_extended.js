@@ -1,4 +1,5 @@
-const { Client } = require('@freshbooks/api')
+import pkg from '@freshbooks/api';
+const { Client } = pkg;
 
 const CLIENT_ID = '<your client id>'
 const ACCESS_TOKEN = '<your access token>'
@@ -26,7 +27,7 @@ async function createClient() {
 
 async function createInvoice(clientId) {
 	// Taxed line items
-	line1 = {
+	const line1 = {
 		name: 'A Taxed Item',
 		description: 'These things are taxed',
 		qty: 2,
@@ -38,7 +39,7 @@ async function createInvoice(clientId) {
 		},
 	}
 
-	line2 = {
+	const line2 = {
 		name: 'Another Taxed ItemRegular Glasses',
 		description: 'With a different tax',
 		qty: 4,
@@ -50,12 +51,12 @@ async function createInvoice(clientId) {
 		},
 	}
 
-	invoiceData = {
+	const invoiceData = {
 		customerId: clientId,
 		createDate: new Date(),
 		lines: [line1, line2],
 	}
-
+	console.log(invoiceData)
 	try {
 		const invoice = await fbClient.invoices.create(invoiceData, ACCOUNT_ID)
 

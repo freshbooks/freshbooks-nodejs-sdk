@@ -1,0 +1,14 @@
+{
+  "name": "sdk-examples",
+  "version": "0.0.1",
+  "description": "Testing the sdk",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@freshbooks/api": "^3.0"
+  }
+}

@@ -1,4 +1,5 @@
-const { Client } = require('@freshbooks/api')
+import pkg from '@freshbooks/api';
+const { Client } = pkg;
 
 const CLIENT_ID = '<your client id>'
 const ACCESS_TOKEN = '<your access token>'
@@ -21,7 +22,7 @@ async function createClient() {
 }
 
 async function createInvoice(clientId) {
-	line1 = {
+	const line1 = {
 		name: 'Fancy Dishes',
 		description: "They're pretty swanky",
 		qty: 6,
@@ -30,7 +31,7 @@ async function createInvoice(clientId) {
 			code: 'CAD',
 		},
 	}
-	line2 = {
+	const line2 = {
 		name: 'Regular Glasses',
 		description: 'They look "just ok"',
 		qty: 8,
@@ -39,7 +40,7 @@ async function createInvoice(clientId) {
 			code: 'CAD',
 		},
 	}
-	invoiceData = {
+	const invoiceData = {
 		customerId: clientId,
 		createDate: new Date(),
 		lines: [line1, line2],
