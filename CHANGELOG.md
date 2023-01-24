@@ -2,6 +2,11 @@
 
 ## @freshbooks/api
 
+### Unreleased
+
+- Drop support for node 12.x
+- Upgrade axios
+
 ### 3.3.0
 
 - Add support for invoice send by email
@@ -93,10 +98,6 @@
 - Added default retries with backoff on failed API calls
 
 ## @freshbooks/app
-
-### Unreleased
-
-- Move default branch from master to main
 
 ### 2.0.0
 

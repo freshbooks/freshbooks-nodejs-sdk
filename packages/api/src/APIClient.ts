@@ -295,13 +295,7 @@ export default class APIClient {
 		throw new APIClientConfigError('refreshToken must be configured or provided')
 	}
 
-	private async call<S, T>(
-		method: Method,
-		url: string,
-		config?: AxiosRequestConfig,
-		data?: S,
-		name?: string
-	): Promise<Result<T>> {
+	private async call<S, T>(method: Method, url: string, config?: any, data?: S, name?: string): Promise<Result<T>> {
 		try {
 			if (this.axios.defaults.headers) {
 				if (method === 'GET') {
@@ -318,7 +312,8 @@ export default class APIClient {
 				method,
 				url,
 				data,
-				...config,
+				transformRequest: config?.transformRequest,
+				transformResponse: config?.transformResponse,
 			})
 			return {
 				ok: true,
