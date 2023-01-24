@@ -4,6 +4,7 @@
 
 ### Unreleased
 
+- Drop support for node 12.x
 - Upgrade axios
 
 ### 3.3.0
