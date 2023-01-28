@@ -8,10 +8,11 @@ The FreshBooks NodeJS SDK allows you to more easily utilize the FreshBooks API.
 
 This repository contains multiple packages:
 
-| Package                                                                  | What it's for                                                                                                                 |
-| ------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------- |
-| [`@freshbooks/api`](https://www.npmjs.com/package/@freshbooks/api)       | Get/set data from FreshBooks using the REST API.                                                                              |
-| [`@freshbooks/app`](https://www.npmjs.com/package/@freshbooks/api)       | Pre-configured [ExpressJS](https://expressjs.com/) app. Includes authentication via [PassportJS](http://www.passportjs.org/). |
+| Package | What it's for |
+| ------- | ------------- |
+| [`@freshbooks/api`](https://www.npmjs.com/package/@freshbooks/api) | Get/set data from FreshBooks using the REST API.                                                                              |
+| [`@freshbooks/app`](https://www.npmjs.com/package/@freshbooks/api) | Pre-configured [ExpressJS](https://expressjs.com/) app. Includes authentication via [PassportJS](http://www.passportjs.org/). |
+| [sdk-examples](packages/sdk-examples/README.md) | SDK code examples |
 
 ## Installation
 
@@ -29,7 +30,7 @@ $ yarn add @freshbooks/api @freshbooks/app
 ### `@freshbooks/api`
 
 See [the full documentation](https://freshbooks.github.io/freshbooks-nodejs-sdk/) and check out some of our
-[examples](https://github.com/freshbooks/freshbooks-nodejs-sdk/tree/main/examples).
+[examples](https://github.com/freshbooks/freshbooks-nodejs-sdk/tree/main/packages/sdk-examples).
 
 Your app will interact with the REST API using the `Client` object, available from the `@freshbooks/api` package.
 The client may be instantiated with a valid OAuth token or provided with a client secret and redirect URI which may
