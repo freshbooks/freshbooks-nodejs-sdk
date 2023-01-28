@@ -45,6 +45,10 @@
           {
             "title": "Create Invoice",
             "source": "examples/create_invoice.md"
+          },
+          {
+            "title": "Create Invoice - Extended",
+            "source": "examples/create_invoice_extended.md"
           }
         ]
       }
