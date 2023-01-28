@@ -5,10 +5,10 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"No tests\" && exit 0"
   },
   "license": "MIT",
   "dependencies": {
-    "@freshbooks/api": "^3.0"
+    "@freshbooks/api": "^3.3.0"
   }
 }

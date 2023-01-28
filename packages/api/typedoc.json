@@ -4,7 +4,7 @@
     "src/models",
     "src/models/builders"
   ],
-  "includes": "../../examples",
+  "includes": "../sdk-examples",
   "out": "../../docs",
   "includeVersion": true,
   "intentionallyNotExported": ["QueryParamType"],

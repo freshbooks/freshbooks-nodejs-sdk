@@ -5,7 +5,7 @@ This directory contains examples and sample code for using FreshBooks with the S
 If you checkout the project, these files should be runnable locally after installing.
 
 ```shell
-cd ./examples
+cd ./packages/sdk-examples
 npm install
 node ./create_invoice.js
 ```
