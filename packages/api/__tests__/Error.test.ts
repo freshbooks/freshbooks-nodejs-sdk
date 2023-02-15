@@ -2,6 +2,7 @@
 import {
 	isAccountingErrorResponse,
 	isAuthErrorResponse,
+	isOnlinePaymentsErrorResponse,
 	isProjectErrorResponse,
 	transformErrorResponse,
 } from '../src/models/Error'
@@ -79,6 +80,37 @@ describe('@freshbooks/api', () => {
 			})
 
 			expect(isAuthErrorResponse('401', { some: 'content' })).toBeTruthy()
+		})
+
+		test('isAuthErrorResponse false', () => {
+			expect(isAuthErrorResponse('200', { some: 'content' })).toBeFalsy()
+		})
+
+		test('isOnlinePaymentsErrorResponse true', () => {
+			const errorResponses = [
+				{
+					error_type: 'unauthorized',
+					message: 'Authentication is required to complete this request.',
+				},
+				{
+					error_type: 'not_found',
+					message: 'Resource not found',
+				},
+				{
+					error_type: 'forbidden',
+					message: 'Forbidden.',
+				},
+			]
+
+			errorResponses.forEach((error) => {
+				expect(isOnlinePaymentsErrorResponse('200', error)).toBeTruthy()
+			})
+
+			expect(isOnlinePaymentsErrorResponse('401', { some: 'content' })).toBeTruthy()
+		})
+
+		test('isOnlinePaymentsErrorResponse false', () => {
+			expect(isOnlinePaymentsErrorResponse('200', { some: 'content' })).toBeFalsy()
 		})
 
 		test('isProjectErrorResponse', () => {

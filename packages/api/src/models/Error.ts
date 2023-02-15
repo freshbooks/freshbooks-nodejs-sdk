@@ -41,8 +41,13 @@ export function isAuthErrorResponse(status: string, response: any): boolean {
 	}
 	return false
 }
-export const isPaymentsErrorResponse = ({ error, error_type: errorType, message }: any): any =>
-	error || errorType || message
+
+export function isOnlinePaymentsErrorResponse(status: string, response: any): boolean {
+	if (parseInt(status) >= 400 || response.error_type) {
+		return true
+	}
+	return false
+}
 
 export const isProjectErrorResponse = ({ error, error_type: errorType, message }: any): any =>
 	error || errorType || message

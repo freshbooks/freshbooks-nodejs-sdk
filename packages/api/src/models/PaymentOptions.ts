@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { ErrorResponse, isPaymentsErrorResponse, transformErrorResponse } from './Error'
+import { ErrorResponse, isOnlinePaymentsErrorResponse, transformErrorResponse } from './Error'
 
 export enum PaymentGatewayName {
 	WePay = 'fbpay',
@@ -21,10 +21,14 @@ export default interface PaymentOptions {
 
 type PaymentOptionsResponse = Required<PaymentOptions>
 
-export function transformPaymentOptionsResponse(data: string): PaymentOptions | ErrorResponse {
+export function transformPaymentOptionsResponse(
+	data: string,
+	headers: Array<string>,
+	status: string
+): PaymentOptions | ErrorResponse {
 	const response = JSON.parse(data)
 
-	if (isPaymentsErrorResponse(response)) {
+	if (isOnlinePaymentsErrorResponse(status, response)) {
 		return transformErrorResponse(response)
 	}
 
