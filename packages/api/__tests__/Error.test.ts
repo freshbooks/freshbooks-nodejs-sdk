@@ -10,7 +10,7 @@ import {
 
 describe('@freshbooks/api', () => {
 	describe('Error', () => {
-		test('isAccountingErrorResponse true', () => {
+		test('isAccountingErrorResponse', () => {
 			const errorResponses = [
 				{
 					errorStatus: '200',
@@ -43,20 +43,18 @@ describe('@freshbooks/api', () => {
 			errorResponses.forEach((error) => {
 				expect(isAccountingErrorResponse(error.errorStatus, error.errorResponse)).toBeTruthy()
 			})
-		})
 
-		test('isAccountingErrorResponse false', () => {
-			const errorResponse = {
+			const goodResponse = {
 				response: {
 					result: {
 						some: 'content',
 					},
 				},
 			}
-			expect(isAccountingErrorResponse('200', errorResponse)).toBeFalsy()
+			expect(isAccountingErrorResponse('200', goodResponse)).toBeFalsy()
 		})
 
-		test('isAuthErrorResponse true', () => {
+		test('isAuthErrorResponse', () => {
 			const errorResponses = [
 				{
 					// Token_info endpoint response
@@ -81,13 +79,10 @@ describe('@freshbooks/api', () => {
 			})
 
 			expect(isAuthErrorResponse('401', { some: 'content' })).toBeTruthy()
-		})
-
-		test('isAuthErrorResponse false', () => {
 			expect(isAuthErrorResponse('200', { some: 'content' })).toBeFalsy()
 		})
 
-		test('isOnlinePaymentsErrorResponse true', () => {
+		test('isOnlinePaymentsErrorResponse', () => {
 			const errorResponses = [
 				{
 					error_type: 'unauthorized',
@@ -108,9 +103,6 @@ describe('@freshbooks/api', () => {
 			})
 
 			expect(isOnlinePaymentsErrorResponse('401', { some: 'content' })).toBeTruthy()
-		})
-
-		test('isOnlinePaymentsErrorResponse false', () => {
 			expect(isOnlinePaymentsErrorResponse('200', { some: 'content' })).toBeFalsy()
 		})
 
@@ -121,8 +113,17 @@ describe('@freshbooks/api', () => {
 
 		test('isProjectErrorResponse', () => {
 			const errorResponses = [
+				//{
+				//	message: 'invalid_token: The request token failed to authenticate or validate.',
+				//},
 				{
 					error: 'Requested resource could not be found.',
+				},
+				{
+					errno: 2001,
+					error: {
+						started_at: 'field required',
+					},
 				},
 				{
 					errno: 2001,
@@ -132,18 +133,19 @@ describe('@freshbooks/api', () => {
 					},
 				},
 				{
-					error: 'unauthenticated',
-					error_description: 'This action requires authentication to continue.',
-				},
-				{
-					error_type: 'not_found',
-					message: 'The requested resource was not found.',
+					errno: 2001,
+					error: {
+						started_at: 'field required',
+						__root__: 'Logged entries must have a duration',
+					},
 				},
 			]
 
 			errorResponses.forEach((response) => {
-				expect(isProjectErrorResponse(response)).toBeTruthy()
+				expect(isProjectErrorResponse('200', response)).toBeTruthy()
 			})
+			expect(isProjectErrorResponse('400', { some: 'content' })).toBeTruthy()
+			expect(isProjectErrorResponse('200', { some: 'content' })).toBeFalsy()
 		})
 
 		test('transformErrorResponse', () => {

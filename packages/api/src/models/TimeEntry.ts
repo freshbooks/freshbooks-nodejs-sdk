@@ -28,10 +28,14 @@ export default interface TimeEntry {
 	timer?: Nullable<Timer>
 }
 
-export function transformTimeEntryResponse(data: string): TimeEntry | ErrorResponse {
+export function transformTimeEntryResponse(
+	data: string,
+	headers: Array<string>,
+	status: string
+): TimeEntry | ErrorResponse {
 	const response = JSON.parse(data)
 
-	if (isProjectErrorResponse(response)) {
+	if (isProjectErrorResponse(status, response)) {
 		return transformErrorResponse(response)
 	}
 	const { time_entry } = response
@@ -39,10 +43,14 @@ export function transformTimeEntryResponse(data: string): TimeEntry | ErrorRespo
 	return transformTimeEntryParsedResponse(time_entry)
 }
 
-export function transformTimeEntryListResponse(data: string): { timeEntries: TimeEntry[]; pages: Pagination } | ErrorResponse {
+export function transformTimeEntryListResponse(
+	data: string,
+	headers: Array<string>,
+	status: string
+): { timeEntries: TimeEntry[]; pages: Pagination } | ErrorResponse {
 	const response = JSON.parse(data)
 
-	if (isProjectErrorResponse(response)) {
+	if (isProjectErrorResponse(status, response)) {
 		return transformErrorResponse(response)
 	}
 
@@ -56,7 +64,7 @@ export function transformTimeEntryListResponse(data: string): { timeEntries: Tim
 			size: per_page,
 			pages,
 			page,
-		},	
+		},
 	}
 }
 

@@ -7,10 +7,14 @@ export default interface ServiceRate {
 	serviceId?: number
 }
 
-export function transformServiceRateResponse(data: string): ServiceRate | ErrorResponse {
+export function transformServiceRateResponse(
+	data: string,
+	headers: Array<string>,
+	status: string
+): ServiceRate | ErrorResponse {
 	const response = JSON.parse(data)
 
-	if (isProjectErrorResponse(response)) {
+	if (isProjectErrorResponse(status, response)) {
 		return transformErrorResponse(response)
 	}
 

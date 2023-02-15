@@ -12,22 +12,30 @@ export default interface Service {
 	visState?: VisState
 }
 
-export function transformServiceResponse(data: string): Service | ErrorResponse {
+export function transformServiceResponse(
+	data: string,
+	headers: Array<string>,
+	status: string
+): Service | ErrorResponse {
 	const response = JSON.parse(data)
 
-	if (isProjectErrorResponse(response)) {
+	if (isProjectErrorResponse(status, response)) {
 		return transformErrorResponse(response)
 	}
 
 	const { service } = response
-	
+
 	return transformServiceParsedResponse(service)
 }
 
-export function transformServiceListResponse(data: string): { services: Service[]; pages: Pagination } | ErrorResponse {
+export function transformServiceListResponse(
+	data: string,
+	headers: Array<string>,
+	status: string
+): { services: Service[]; pages: Pagination } | ErrorResponse {
 	const response = JSON.parse(data)
 
-	if (isProjectErrorResponse(response)) {
+	if (isProjectErrorResponse(status, response)) {
 		return transformErrorResponse(response)
 	}
 

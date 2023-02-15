@@ -52,10 +52,14 @@ export default interface Project {
 	group?: Nullable<ProjectGroup>
 }
 
-export function transformProjectResponse(data: string): Project | ErrorResponse {
+export function transformProjectResponse(
+	data: string,
+	headers: Array<string>,
+	status: string
+): Project | ErrorResponse {
 	const response = JSON.parse(data)
 
-	if (isProjectErrorResponse(response)) {
+	if (isProjectErrorResponse(status, response)) {
 		return transformErrorResponse(response)
 	}
 
@@ -64,10 +68,14 @@ export function transformProjectResponse(data: string): Project | ErrorResponse 
 	return transformProjectParsedResponse(project)
 }
 
-export function transformProjectListResponse(data: string): { projects: Project[]; pages: Pagination } | ErrorResponse {
+export function transformProjectListResponse(
+	data: string,
+	headers: Array<string>,
+	status: string
+): { projects: Project[]; pages: Pagination } | ErrorResponse {
 	const response = JSON.parse(data)
 
-	if (isProjectErrorResponse(response)) {
+	if (isProjectErrorResponse(status, response)) {
 		return transformErrorResponse(response)
 	}
 
@@ -105,7 +113,8 @@ function transformProjectParsedResponse(project: any): Project {
 		createdAt: transformDateResponse(project.created_at, DateFormat['YYYY-MM-DDThh:mm:ss']),
 		updatedAt: transformDateResponse(project.updated_at, DateFormat['YYYY-MM-DDThh:mm:ss']),
 		loggedDuration: project.logged_duration,
-		services: project.services && project.services.map((service: any): Service => transformServiceParsedResponse(service)),
+		services:
+			project.services && project.services.map((service: any): Service => transformServiceParsedResponse(service)),
 		billedAmount: project.billed_amount,
 		billedStatus: project.billed_status,
 		retainerId: project.retainer_id,
