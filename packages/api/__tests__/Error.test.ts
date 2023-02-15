@@ -3,7 +3,7 @@ import {
 	isAccountingErrorResponse,
 	isAuthErrorResponse,
 	isEventErrorResponse,
-	isOnlinePaymentsErrorResponse,
+	isOnlinePaymentErrorResponse,
 	isProjectErrorResponse,
 	transformErrorResponse,
 } from '../src/models/Error'
@@ -82,7 +82,7 @@ describe('@freshbooks/api', () => {
 			expect(isAuthErrorResponse('200', { some: 'content' })).toBeFalsy()
 		})
 
-		test('isOnlinePaymentsErrorResponse', () => {
+		test('isOnlinePaymentErrorResponse', () => {
 			const errorResponses = [
 				{
 					error_type: 'unauthorized',
@@ -99,11 +99,11 @@ describe('@freshbooks/api', () => {
 			]
 
 			errorResponses.forEach((error) => {
-				expect(isOnlinePaymentsErrorResponse('200', error)).toBeTruthy()
+				expect(isOnlinePaymentErrorResponse('200', error)).toBeTruthy()
 			})
 
-			expect(isOnlinePaymentsErrorResponse('401', { some: 'content' })).toBeTruthy()
-			expect(isOnlinePaymentsErrorResponse('200', { some: 'content' })).toBeFalsy()
+			expect(isOnlinePaymentErrorResponse('401', { some: 'content' })).toBeTruthy()
+			expect(isOnlinePaymentErrorResponse('200', { some: 'content' })).toBeFalsy()
 		})
 
 		test('isEventErrorResponse', () => {

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { DateFormat, transformDateResponse } from './Date'
-import { ErrorResponse, isAccountingErrorResponse, transformErrorResponse } from './Error'
+import { ErrorResponse, isAccountingErrorResponse, transformAccountingErrorResponse } from './Error'
 import Pagination from './Pagination'
 import SubAccount, { transformSubAccountParsedResponse } from './SubAccount'
 
@@ -25,7 +25,7 @@ export function transformJournalEntryAccountListResponse(
 	const response = JSON.parse(data)
 
 	if (isAccountingErrorResponse(status, response)) {
-		return transformErrorResponse(response)
+		return transformAccountingErrorResponse(status, response)
 	}
 
 	const { journal_entry_accounts, per_page, total, page, pages } = response.response.result

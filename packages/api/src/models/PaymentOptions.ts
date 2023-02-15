@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { ErrorResponse, isOnlinePaymentsErrorResponse, transformErrorResponse } from './Error'
+import { ErrorResponse, isOnlinePaymentErrorResponse, transformOnlinePaymentsErrorResponse } from './Error'
 
 export enum PaymentGatewayName {
 	WePay = 'fbpay',
@@ -28,8 +28,8 @@ export function transformPaymentOptionsResponse(
 ): PaymentOptions | ErrorResponse {
 	const response = JSON.parse(data)
 
-	if (isOnlinePaymentsErrorResponse(status, response)) {
-		return transformErrorResponse(response)
+	if (isOnlinePaymentErrorResponse(status, response)) {
+		return transformOnlinePaymentsErrorResponse(status, response)
 	}
 
 	const paymentOptions: PaymentOptionsResponse = response['payment_options']

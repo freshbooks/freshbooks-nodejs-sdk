@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { transformErrorResponse, isEventErrorResponse, ErrorResponse } from './Error'
+import { transformEventErrorResponse, isEventErrorResponse, ErrorResponse } from './Error'
 import { Nullable } from './helpers'
 import Pagination from './Pagination'
 import { transformDateResponse, DateFormat } from './Date'
@@ -20,7 +20,7 @@ export function transformCallbackResponse(
 	const response = JSON.parse(data)
 
 	if (isEventErrorResponse(status)) {
-		return transformErrorResponse(response)
+		return transformEventErrorResponse(status, response)
 	}
 
 	const { callback } = response.response.result
@@ -36,7 +36,7 @@ export function transformCallbackListResponse(
 	const response = JSON.parse(data)
 
 	if (isEventErrorResponse(status)) {
-		return transformErrorResponse(response)
+		return transformEventErrorResponse(status, response)
 	}
 
 	const { callbacks, per_page, total, page, pages } = response.response.result

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { transformErrorResponse, isAccountingErrorResponse, ErrorResponse } from './Error'
+import { transformAccountingErrorResponse, isAccountingErrorResponse, ErrorResponse } from './Error'
 
 export default interface ShareLink {
 	resourceId: number
@@ -17,7 +17,7 @@ export function transformShareLinkResponse(
 	const response = JSON.parse(data)
 
 	if (isAccountingErrorResponse(status, response)) {
-		return transformErrorResponse(response)
+		return transformAccountingErrorResponse(status, response)
 	}
 
 	const { share_link } = response.response.result

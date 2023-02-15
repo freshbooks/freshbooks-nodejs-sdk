@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import Pagination from './Pagination'
-import { transformErrorResponse, isAccountingErrorResponse, ErrorResponse } from './Error'
+import { transformAccountingErrorResponse, isAccountingErrorResponse, ErrorResponse } from './Error'
 import Money, { transformMoneyParsedResponse } from './Money'
 import { Nullable } from './helpers'
 import VisState from './VisState'
@@ -145,7 +145,7 @@ export function transformInvoiceResponse(
 	const response = JSON.parse(data)
 
 	if (isAccountingErrorResponse(status, response)) {
-		return transformErrorResponse(response)
+		return transformAccountingErrorResponse(status, response)
 	}
 
 	const { invoice } = response.response.result
@@ -161,7 +161,7 @@ export function transformInvoiceListResponse(
 	const response = JSON.parse(data)
 
 	if (isAccountingErrorResponse(status, response)) {
-		return transformErrorResponse(response)
+		return transformAccountingErrorResponse(status, response)
 	}
 
 	const { invoices, per_page, total, page, pages } = response.response.result

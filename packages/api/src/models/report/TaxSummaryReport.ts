@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { ErrorResponse, isAccountingErrorResponse, transformErrorResponse } from '../Error'
+import { ErrorResponse, isAccountingErrorResponse, transformAccountingErrorResponse } from '../Error'
 import Money, { MoneyResponse, transformMoneyParsedResponse } from '../Money'
 import TaxSummaryEntry, { TaxSummaryEntryResponse, transformTaxSummaryEntryResponeList } from './TaxSummaryEntry'
 
@@ -55,7 +55,7 @@ export function transformTaxSummaryReportResponse(
 ): TaxSummaryReport | ErrorResponse {
 	const response = JSON.parse(data)
 	if (isAccountingErrorResponse(status, response)) {
-		return transformErrorResponse(response)
+		return transformAccountingErrorResponse(status, response)
 	}
 	const {
 		response: { result },

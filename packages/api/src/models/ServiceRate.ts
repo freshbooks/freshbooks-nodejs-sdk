@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { transformErrorResponse, isProjectErrorResponse, ErrorResponse } from './Error'
+import { transformProjectErrorResponse, isProjectErrorResponse, ErrorResponse } from './Error'
 
 export default interface ServiceRate {
 	rate?: string
@@ -15,7 +15,7 @@ export function transformServiceRateResponse(
 	const response = JSON.parse(data)
 
 	if (isProjectErrorResponse(status, response)) {
-		return transformErrorResponse(response)
+		return transformProjectErrorResponse(status, response)
 	}
 
 	const { service_rate } = response

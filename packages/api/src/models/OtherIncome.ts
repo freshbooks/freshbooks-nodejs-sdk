@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import Pagination from './Pagination'
-import { transformErrorResponse, isAccountingErrorResponse, ErrorResponse } from './Error'
+import { transformAccountingErrorResponse, isAccountingErrorResponse, ErrorResponse } from './Error'
 import Money, { transformMoneyParsedResponse } from './Money'
 import Tax, { transformTaxParsedRequest, transformTaxParsedResponse } from './Tax'
 import { transformDateResponse, DateFormat, transformDateRequest } from './Date'
@@ -40,7 +40,7 @@ export function transformOtherIncomeResponse(
 	const response = JSON.parse(data)
 
 	if (isAccountingErrorResponse(status, response)) {
-		return transformErrorResponse(response)
+		return transformAccountingErrorResponse(status, response)
 	}
 
 	const { other_income } = response.response.result
@@ -56,7 +56,7 @@ export function transformOtherIncomeListResponse(
 	const response = JSON.parse(data)
 
 	if (isAccountingErrorResponse(status, response)) {
-		return transformErrorResponse(response)
+		return transformAccountingErrorResponse(status, response)
 	}
 
 	const { other_income, per_page, total, page, pages } = response.response.result

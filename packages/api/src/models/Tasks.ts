@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { isAccountingErrorResponse, transformErrorResponse, ErrorResponse } from './Error'
+import { isAccountingErrorResponse, transformAccountingErrorResponse, ErrorResponse } from './Error'
 import VisState from './VisState'
 import Pagination from './Pagination'
 import { Nullable } from './helpers'
@@ -22,7 +22,7 @@ export function transformTasksResponse(data: string, headers: Array<string>, sta
 	const response = JSON.parse(data)
 
 	if (isAccountingErrorResponse(status, response)) {
-		return transformErrorResponse(response)
+		return transformAccountingErrorResponse(status, response)
 	}
 
 	const { task } = response.response.result
@@ -38,7 +38,7 @@ export function transformTasksListResponse(
 	const response = JSON.parse(data)
 
 	if (isAccountingErrorResponse(status, response)) {
-		return transformErrorResponse(response)
+		return transformAccountingErrorResponse(status, response)
 	}
 
 	const { tasks, per_page, total, page, pages } = response.response.result

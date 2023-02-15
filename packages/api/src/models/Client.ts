@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { DateTime } from 'luxon'
 import { transformDateResponse, DateFormat, transformDateRequest } from './Date'
-import { ErrorResponse, isAccountingErrorResponse, transformErrorResponse } from './Error'
+import { ErrorResponse, isAccountingErrorResponse, transformAccountingErrorResponse } from './Error'
 import { Nullable } from './helpers'
 import Pagination from './Pagination'
 import VisState from './VisState'
@@ -62,7 +62,7 @@ export function transformClientResponse(data: string, headers: Array<string>, st
 	const response = JSON.parse(data)
 
 	if (isAccountingErrorResponse(status, response)) {
-		return transformErrorResponse(response)
+		return transformAccountingErrorResponse(status, response)
 	}
 
 	const { client } = response.response.result
@@ -78,7 +78,7 @@ export function transformClientListResponse(
 	const response = JSON.parse(data)
 
 	if (isAccountingErrorResponse(status, response)) {
-		return transformErrorResponse(response)
+		return transformAccountingErrorResponse(status, response)
 	}
 
 	const { clients, per_page, total, page, pages } = response.response.result

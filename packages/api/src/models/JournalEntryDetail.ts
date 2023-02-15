@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { DateFormat, transformDateResponse } from './Date'
 import Entry, { transformEntryParsedResponse } from './Entry'
-import { ErrorResponse, isAccountingErrorResponse, transformErrorResponse } from './Error'
+import { ErrorResponse, isAccountingErrorResponse, transformAccountingErrorResponse } from './Error'
 import JournalEntryAccount, { transformJournalEntryAccountParsedResponse } from './JournalEntryAccount'
 import Money, { transformMoneyParsedResponse } from './Money'
 import { Nullable } from './helpers'
@@ -32,7 +32,7 @@ export function transformJournalEntryDetailListResponse(
 	const response = JSON.parse(data)
 
 	if (isAccountingErrorResponse(status, response)) {
-		return transformErrorResponse(response)
+		return transformAccountingErrorResponse(status, response)
 	}
 
 	const { journal_entry_details, page, pages, per_page, total } = response.response.result
