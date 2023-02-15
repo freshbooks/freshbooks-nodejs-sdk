@@ -1,5 +1,12 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { isAccountingErrorResponse, isProjectErrorResponse, transformErrorResponse } from '../src/models/Error'
+import {
+	isAccountingErrorResponse,
+	isAuthErrorResponse,
+	isEventErrorResponse,
+	isOnlinePaymentsErrorResponse,
+	isProjectErrorResponse,
+	transformErrorResponse,
+} from '../src/models/Error'
 
 describe('@freshbooks/api', () => {
 	describe('Error', () => {
@@ -47,6 +54,69 @@ describe('@freshbooks/api', () => {
 				},
 			}
 			expect(isAccountingErrorResponse('200', errorResponse)).toBeFalsy()
+		})
+
+		test('isAuthErrorResponse true', () => {
+			const errorResponses = [
+				{
+					// Token_info endpoint response
+					error: 'invalid_token',
+					error_description: 'The access token is invalid',
+					state: 'unauthorized',
+				},
+				{
+					// Unauthenticated /me response
+					error: 'unauthenticated',
+					error_description: 'This action requires authentication to continue.',
+				},
+				{
+					// POST Validation error
+					error: 'invalid_resource',
+					error_description: 'Validation failed: Name has already been taken',
+				},
+			]
+
+			errorResponses.forEach((error) => {
+				expect(isAuthErrorResponse('200', error)).toBeTruthy()
+			})
+
+			expect(isAuthErrorResponse('401', { some: 'content' })).toBeTruthy()
+		})
+
+		test('isAuthErrorResponse false', () => {
+			expect(isAuthErrorResponse('200', { some: 'content' })).toBeFalsy()
+		})
+
+		test('isOnlinePaymentsErrorResponse true', () => {
+			const errorResponses = [
+				{
+					error_type: 'unauthorized',
+					message: 'Authentication is required to complete this request.',
+				},
+				{
+					error_type: 'not_found',
+					message: 'Resource not found',
+				},
+				{
+					error_type: 'forbidden',
+					message: 'Forbidden.',
+				},
+			]
+
+			errorResponses.forEach((error) => {
+				expect(isOnlinePaymentsErrorResponse('200', error)).toBeTruthy()
+			})
+
+			expect(isOnlinePaymentsErrorResponse('401', { some: 'content' })).toBeTruthy()
+		})
+
+		test('isOnlinePaymentsErrorResponse false', () => {
+			expect(isOnlinePaymentsErrorResponse('200', { some: 'content' })).toBeFalsy()
+		})
+
+		test('isEventErrorResponse', () => {
+			expect(isEventErrorResponse('200')).toBeFalsy()
+			expect(isEventErrorResponse('400')).toBeTruthy()
 		})
 
 		test('isProjectErrorResponse', () => {

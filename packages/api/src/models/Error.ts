@@ -35,16 +35,26 @@ export function isAccountingErrorResponse(status: string, response: any): boolea
 	return false
 }
 
-export const isAuthErrorResponse = ({ error, error_type: errorType, message }: any): any =>
-	error || errorType || message
+export function isAuthErrorResponse(status: string, response: any): boolean {
+	if (parseInt(status) >= 400 || response.error || response.error_description) {
+		return true
+	}
+	return false
+}
 
-export const isPaymentsErrorResponse = ({ error, error_type: errorType, message }: any): any =>
-	error || errorType || message
+export function isEventErrorResponse(status: string): boolean {
+	return parseInt(status) >= 400
+}
+
+export function isOnlinePaymentsErrorResponse(status: string, response: any): boolean {
+	if (parseInt(status) >= 400 || response.error_type) {
+		return true
+	}
+	return false
+}
 
 export const isProjectErrorResponse = ({ error, error_type: errorType, message }: any): any =>
 	error || errorType || message
-
-export const isEventErrorResponse = ({ errno, message }: any): any => errno || message
 
 export const transformErrorResponse = (errorResponse: any): ErrorResponse => {
 	const { response, error, errno, error_description: errorDescription, error_type: errorType, message } = errorResponse
