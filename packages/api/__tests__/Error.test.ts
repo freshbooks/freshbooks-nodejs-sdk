@@ -1,5 +1,10 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { isAccountingErrorResponse, isProjectErrorResponse, transformErrorResponse } from '../src/models/Error'
+import {
+	isAccountingErrorResponse,
+	isAuthErrorResponse,
+	isProjectErrorResponse,
+	transformErrorResponse,
+} from '../src/models/Error'
 
 describe('@freshbooks/api', () => {
 	describe('Error', () => {
@@ -47,6 +52,33 @@ describe('@freshbooks/api', () => {
 				},
 			}
 			expect(isAccountingErrorResponse('200', errorResponse)).toBeFalsy()
+		})
+
+		test('isAuthErrorResponse true', () => {
+			const errorResponses = [
+				{
+					// Token_info endpoint response
+					error: 'invalid_token',
+					error_description: 'The access token is invalid',
+					state: 'unauthorized',
+				},
+				{
+					// Unauthenticated /me response
+					error: 'unauthenticated',
+					error_description: 'This action requires authentication to continue.',
+				},
+				{
+					// POST Validation error
+					error: 'invalid_resource',
+					error_description: 'Validation failed: Name has already been taken',
+				},
+			]
+
+			errorResponses.forEach((error) => {
+				expect(isAuthErrorResponse('200', error)).toBeTruthy()
+			})
+
+			expect(isAuthErrorResponse('401', { some: 'content' })).toBeTruthy()
 		})
 
 		test('isProjectErrorResponse', () => {

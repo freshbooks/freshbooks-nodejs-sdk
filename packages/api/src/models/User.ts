@@ -25,10 +25,10 @@ export default interface User {
 	links?: Nullable<Map<string, string>>
 }
 
-export function transformUserResponse(data: string): User | ErrorResponse {
+export function transformUserResponse(data: string, headers: Array<string>, status: string): User | ErrorResponse {
 	const response = JSON.parse(data)
 
-	if (isAuthErrorResponse(response)) {
+	if (isAuthErrorResponse(status, response)) {
 		return transformErrorResponse(response)
 	}
 

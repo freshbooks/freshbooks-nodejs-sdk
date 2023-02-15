@@ -35,9 +35,12 @@ export function isAccountingErrorResponse(status: string, response: any): boolea
 	return false
 }
 
-export const isAuthErrorResponse = ({ error, error_type: errorType, message }: any): any =>
-	error || errorType || message
-
+export function isAuthErrorResponse(status: string, response: any): boolean {
+	if (parseInt(status) >= 400 || response.error || response.error_description) {
+		return true
+	}
+	return false
+}
 export const isPaymentsErrorResponse = ({ error, error_type: errorType, message }: any): any =>
 	error || errorType || message
 
