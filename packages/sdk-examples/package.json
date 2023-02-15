@@ -2,13 +2,13 @@
 	"name": "sdk-examples",
 	"version": "0.0.2-alpha.0",
 	"description": "Testing the sdk",
-	"type": "module",
+	"type": "commonjs",
 	"private": true,
 	"scripts": {
 		"test": "echo \"No tests\" && exit 0"
 	},
 	"license": "MIT",
 	"dependencies": {
-		"@freshbooks/api": "^4.0.0-alpha.0"
+		"@freshbooks/api": "^3.3.0"
 	}
 }
