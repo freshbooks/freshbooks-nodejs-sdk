@@ -2,6 +2,7 @@
 import {
 	isAccountingErrorResponse,
 	isAuthErrorResponse,
+	isEventErrorResponse,
 	isOnlinePaymentsErrorResponse,
 	isProjectErrorResponse,
 	transformErrorResponse,
@@ -111,6 +112,11 @@ describe('@freshbooks/api', () => {
 
 		test('isOnlinePaymentsErrorResponse false', () => {
 			expect(isOnlinePaymentsErrorResponse('200', { some: 'content' })).toBeFalsy()
+		})
+
+		test('isEventErrorResponse', () => {
+			expect(isEventErrorResponse('200')).toBeFalsy()
+			expect(isEventErrorResponse('400')).toBeTruthy()
 		})
 
 		test('isProjectErrorResponse', () => {

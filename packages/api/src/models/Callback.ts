@@ -10,30 +10,37 @@ export default interface Callback {
 	uri: string
 	verified?: boolean
 	updatedAt?: Nullable<Date>
-
 }
 
-export function transformCallbackResponse(data: string): Callback | ErrorResponse {
+export function transformCallbackResponse(
+	data: string,
+	headers: Array<string>,
+	status: string
+): Callback | ErrorResponse {
 	const response = JSON.parse(data)
-	
-	if (isEventErrorResponse(response)) {
+
+	if (isEventErrorResponse(status)) {
 		return transformErrorResponse(response)
 	}
 
 	const { callback } = response.response.result
-	
+
 	return transformCallbackParsedResponse(callback)
 }
 
- export function transformCallbackListResponse(data: string): { callbacks: Callback[]; pages: Pagination } | ErrorResponse {
+export function transformCallbackListResponse(
+	data: string,
+	headers: Array<string>,
+	status: string
+): { callbacks: Callback[]; pages: Pagination } | ErrorResponse {
 	const response = JSON.parse(data)
 
-	if (isEventErrorResponse(response)) {
+	if (isEventErrorResponse(status)) {
 		return transformErrorResponse(response)
 	}
 
 	const { callbacks, per_page, total, page, pages } = response.response.result
-	
+
 	return {
 		callbacks: callbacks.map((callback: any): Callback => transformCallbackParsedResponse(callback)),
 		pages: {
@@ -41,7 +48,7 @@ export function transformCallbackResponse(data: string): Callback | ErrorRespons
 			size: per_page,
 			pages,
 			page,
-		},	
+		},
 	}
 }
 
@@ -56,29 +63,29 @@ export function transformCallbackParsedResponse(callback: any): Callback {
 }
 
 export function transformCallbackRequest(callback: Callback): string {
-	let payload = {
+	const payload = {
 		callback: {
 			uri: callback.uri,
 			event: callback.event,
-		}
+		},
 	}
 	return JSON.stringify(payload)
 }
 
 export function transformCallbackVerifierRequest(verifier: string): string {
-	let payload = {
+	const payload = {
 		callback: {
-			verifier: verifier
-		}
+			verifier: verifier,
+		},
 	}
 	return JSON.stringify(payload)
 }
 
 export function transformCallbackResendRequest(): string {
-	let payload = {
+	const payload = {
 		callback: {
-			resend: true
-		}
+			resend: true,
+		},
 	}
 	return JSON.stringify(payload)
 }
