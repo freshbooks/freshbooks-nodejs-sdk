@@ -53,8 +53,12 @@ export function isOnlinePaymentsErrorResponse(status: string, response: any): bo
 	return false
 }
 
-export const isProjectErrorResponse = ({ error, error_type: errorType, message }: any): any =>
-	error || errorType || message
+export function isProjectErrorResponse(status: string, response: any): boolean {
+	if (parseInt(status) >= 400 || response.error || response.errno) {
+		return true
+	}
+	return false
+}
 
 export const transformErrorResponse = (errorResponse: any): ErrorResponse => {
 	const { response, error, errno, error_description: errorDescription, error_type: errorType, message } = errorResponse
