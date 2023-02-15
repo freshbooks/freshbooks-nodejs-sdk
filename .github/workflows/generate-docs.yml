@@ -33,7 +33,7 @@ jobs:
         git add docs
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git commit -m "CI: automated Generate Documentation" -a | exit 0
+        git commit -m "CI: automated Generate Documentation" | exit 0
     - name: Push changes
       if: github.ref == 'refs/heads/main'
       uses: ad-m/github-push-action@master
