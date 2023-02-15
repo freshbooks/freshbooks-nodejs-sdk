@@ -137,10 +137,14 @@ export default interface Invoice {
 	visState?: VisState
 }
 
-export function transformInvoiceResponse(data: string): Invoice | ErrorResponse {
+export function transformInvoiceResponse(
+	data: string,
+	headers: Array<string>,
+	status: string
+): Invoice | ErrorResponse {
 	const response = JSON.parse(data)
 
-	if (isAccountingErrorResponse(response)) {
+	if (isAccountingErrorResponse(status, response)) {
 		return transformErrorResponse(response)
 	}
 
@@ -149,10 +153,14 @@ export function transformInvoiceResponse(data: string): Invoice | ErrorResponse 
 	return transformInvoiceParsedResponse(invoice)
 }
 
-export function transformInvoiceListResponse(data: string): { invoices: Invoice[]; pages: Pagination } | ErrorResponse {
+export function transformInvoiceListResponse(
+	data: string,
+	headers: Array<string>,
+	status: string
+): { invoices: Invoice[]; pages: Pagination } | ErrorResponse {
 	const response = JSON.parse(data)
 
-	if (isAccountingErrorResponse(response)) {
+	if (isAccountingErrorResponse(status, response)) {
 		return transformErrorResponse(response)
 	}
 

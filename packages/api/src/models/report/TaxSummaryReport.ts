@@ -48,9 +48,13 @@ export function transformTaxSummaryReportData({
  * @param data representing JSON response
  * @returns @TaxSummaryReport | @Error
  */
-export function transformTaxSummaryReportResponse(data: string): TaxSummaryReport | ErrorResponse {
+export function transformTaxSummaryReportResponse(
+	data: string,
+	headers: Array<string>,
+	status: string
+): TaxSummaryReport | ErrorResponse {
 	const response = JSON.parse(data)
-	if (isAccountingErrorResponse(response)) {
+	if (isAccountingErrorResponse(status, response)) {
 		return transformErrorResponse(response)
 	}
 	const {

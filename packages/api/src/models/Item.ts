@@ -25,10 +25,10 @@ export default interface Item {
 	visState: VisState
 }
 
-export function transformItemResponse(data: string): Item | ErrorResponse {
+export function transformItemResponse(data: string, headers: Array<string>, status: string): Item | ErrorResponse {
 	const response = JSON.parse(data)
 
-	if (isAccountingErrorResponse(response)) {
+	if (isAccountingErrorResponse(status, response)) {
 		return transformErrorResponse(response)
 	}
 
@@ -37,10 +37,14 @@ export function transformItemResponse(data: string): Item | ErrorResponse {
 	return transformItemParsedResponse(item)
 }
 
-export function transformItemListResponse(data: string): { items: Item[]; pages: Pagination } | ErrorResponse {
+export function transformItemListResponse(
+	data: string,
+	headers: Array<string>,
+	status: string
+): { items: Item[]; pages: Pagination } | ErrorResponse {
 	const response = JSON.parse(data)
 
-	if (isAccountingErrorResponse(response)) {
+	if (isAccountingErrorResponse(status, response)) {
 		return transformErrorResponse(response)
 	}
 

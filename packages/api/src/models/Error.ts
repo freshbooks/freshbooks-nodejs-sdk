@@ -28,8 +28,15 @@ export default class APIClientError extends Error {
 	}
 }
 
-export const isAccountingErrorResponse = ({ error, error_type: errorType, response }: any): any =>
-	error || errorType || response.errors
+export function isAccountingErrorResponse(status: string, response: any): boolean {
+	if (parseInt(status) >= 400 || response.response.error || response.response.errors) {
+		return true
+	}
+	return false
+}
+
+export const isAuthErrorResponse = ({ error, error_type: errorType, message }: any): any =>
+	error || errorType || message
 
 export const isPaymentsErrorResponse = ({ error, error_type: errorType, message }: any): any =>
 	error || errorType || message

@@ -58,10 +58,10 @@ export default interface Client {
 	role?: Nullable<string>
 }
 
-export function transformClientResponse(data: string): Client | ErrorResponse {
+export function transformClientResponse(data: string, headers: Array<string>, status: string): Client | ErrorResponse {
 	const response = JSON.parse(data)
 
-	if (isAccountingErrorResponse(response)) {
+	if (isAccountingErrorResponse(status, response)) {
 		return transformErrorResponse(response)
 	}
 
@@ -70,10 +70,14 @@ export function transformClientResponse(data: string): Client | ErrorResponse {
 	return transformClientParsedResponse(client)
 }
 
-export function transformClientListResponse(data: string): { clients: Client[]; pages: Pagination } | ErrorResponse {
+export function transformClientListResponse(
+	data: string,
+	headers: Array<string>,
+	status: string
+): { clients: Client[]; pages: Pagination } | ErrorResponse {
 	const response = JSON.parse(data)
 
-	if (isAccountingErrorResponse(response)) {
+	if (isAccountingErrorResponse(status, response)) {
 		return transformErrorResponse(response)
 	}
 

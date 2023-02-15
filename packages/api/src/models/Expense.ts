@@ -50,10 +50,14 @@ export default interface Expense {
 	category?: ExpenseCategory
 }
 
-export function transformExpenseResponse(data: string): Expense | ErrorResponse {
+export function transformExpenseResponse(
+	data: string,
+	headers: Array<string>,
+	status: string
+): Expense | ErrorResponse {
 	const response = JSON.parse(data)
 
-	if (isAccountingErrorResponse(response)) {
+	if (isAccountingErrorResponse(status, response)) {
 		return transformErrorResponse(response)
 	}
 
@@ -62,10 +66,14 @@ export function transformExpenseResponse(data: string): Expense | ErrorResponse 
 	return transformExpenseParsedResponse(expense)
 }
 
-export function transformExpenseListResponse(data: string): { expenses: Expense[]; pages: Pagination } | ErrorResponse {
+export function transformExpenseListResponse(
+	data: string,
+	headers: Array<string>,
+	status: string
+): { expenses: Expense[]; pages: Pagination } | ErrorResponse {
 	const response = JSON.parse(data)
 
-	if (isAccountingErrorResponse(response)) {
+	if (isAccountingErrorResponse(status, response)) {
 		return transformErrorResponse(response)
 	}
 

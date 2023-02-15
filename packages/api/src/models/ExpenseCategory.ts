@@ -17,10 +17,14 @@ export default interface ExpenseCategory {
 	visState: VisState
 }
 
-export function transformExpenseCategoryResponse(data: string): ExpenseCategory | ErrorResponse {
+export function transformExpenseCategoryResponse(
+	data: string,
+	headers: Array<string>,
+	status: string
+): ExpenseCategory | ErrorResponse {
 	const response = JSON.parse(data)
 
-	if (isAccountingErrorResponse(response)) {
+	if (isAccountingErrorResponse(status, response)) {
 		return transformErrorResponse(response)
 	}
 
@@ -29,10 +33,14 @@ export function transformExpenseCategoryResponse(data: string): ExpenseCategory 
 	return transformExpenseCategoryParsedResponse(category)
 }
 
-export function transformExpenseCategoryListResponse(data: string): { categories: ExpenseCategory[]; pages: Pagination } | ErrorResponse {
+export function transformExpenseCategoryListResponse(
+	data: string,
+	headers: Array<string>,
+	status: string
+): { categories: ExpenseCategory[]; pages: Pagination } | ErrorResponse {
 	const response = JSON.parse(data)
 
-	if (isAccountingErrorResponse(response)) {
+	if (isAccountingErrorResponse(status, response)) {
 		return transformErrorResponse(response)
 	}
 

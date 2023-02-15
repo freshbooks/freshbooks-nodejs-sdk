@@ -18,10 +18,10 @@ export default interface Tasks {
 	updated?: Date
 }
 
-export function transformTasksResponse(data: string): Tasks | ErrorResponse {
+export function transformTasksResponse(data: string, headers: Array<string>, status: string): Tasks | ErrorResponse {
 	const response = JSON.parse(data)
 
-	if (isAccountingErrorResponse(response)) {
+	if (isAccountingErrorResponse(status, response)) {
 		return transformErrorResponse(response)
 	}
 
@@ -30,10 +30,14 @@ export function transformTasksResponse(data: string): Tasks | ErrorResponse {
 	return transformTasksParsedResponse(task)
 }
 
-export function transformTasksListResponse(data: string): { tasks: Tasks[]; pages: Pagination } | ErrorResponse {
+export function transformTasksListResponse(
+	data: string,
+	headers: Array<string>,
+	status: string
+): { tasks: Tasks[]; pages: Pagination } | ErrorResponse {
 	const response = JSON.parse(data)
 
-	if (isAccountingErrorResponse(response)) {
+	if (isAccountingErrorResponse(status, response)) {
 		return transformErrorResponse(response)
 	}
 
