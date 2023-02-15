@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { isAccountingErrorResponse, transformErrorResponse, ErrorResponse } from './Error'
+import { isAuthErrorResponse, transformErrorResponse, ErrorResponse } from './Error'
 import PhoneNumber, { transformPhoneNumberParsedResponse } from './PhoneNumber'
 import Address, { transformAddressParsedResponse, AddressResponse } from './Address'
 import BusinessMembership, { transformBusinessMembershipParsedResponse } from './BusinessMembership'
@@ -28,7 +28,7 @@ export default interface User {
 export function transformUserResponse(data: string): User | ErrorResponse {
 	const response = JSON.parse(data)
 
-	if (isAccountingErrorResponse(response)) {
+	if (isAuthErrorResponse(response)) {
 		return transformErrorResponse(response)
 	}
 
@@ -43,12 +43,22 @@ export function transformUserParsedResponse(user: any): User {
 		firstName: user.first_name,
 		lastName: user.last_name,
 		email: user.email,
-		phoneNumbers: user.phone_numbers && user.phone_numbers.map((phoneNumber: any): PhoneNumber => transformPhoneNumberParsedResponse(phoneNumber)),
+		phoneNumbers:
+			user.phone_numbers &&
+			user.phone_numbers.map((phoneNumber: any): PhoneNumber => transformPhoneNumberParsedResponse(phoneNumber)),
 		permissions: user.permissions,
 		subscriptionStatuses: user.subscription_statuses,
-		businessMemberships: user.business_memberships && user.business_memberships.map((membership: any): BusinessMembership => transformBusinessMembershipParsedResponse(membership)),
+		businessMemberships:
+			user.business_memberships &&
+			user.business_memberships.map(
+				(membership: any): BusinessMembership => transformBusinessMembershipParsedResponse(membership)
+			),
 		roles: user.roles && user.roles.map((role: any): Role => transformRoleParsedResponse(role)),
-		addresses: user.addresses && user.addresses.filter((address: Nullable<AddressResponse>) => address !== null).map((address: any): Address => transformAddressParsedResponse(address)),
+		addresses:
+			user.addresses &&
+			user.addresses
+				.filter((address: Nullable<AddressResponse>) => address !== null)
+				.map((address: any): Address => transformAddressParsedResponse(address)),
 		profession: user.profession && transformProfessionParsedResponse(user.profession),
 		groups: user.groups && user.groups.map((group: any): Group => transformGroupParsedResponse(group)),
 		links: user.links,

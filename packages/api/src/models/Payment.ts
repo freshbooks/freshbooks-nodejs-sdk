@@ -22,7 +22,7 @@ export enum PaymentType {
 	Diners = 'DINERS',
 	Jcb = 'JCB',
 	Ach = 'ACH',
-	Other = "Other"
+	Other = 'Other',
 }
 
 export default interface Payment {
@@ -45,10 +45,14 @@ export default interface Payment {
 	id?: string
 }
 
-export function transformPaymentResponse(data: string): Payment | ErrorResponse {
+export function transformPaymentResponse(
+	data: string,
+	headers: Array<string>,
+	status: string
+): Payment | ErrorResponse {
 	const response = JSON.parse(data)
 
-	if (isAccountingErrorResponse(response)) {
+	if (isAccountingErrorResponse(status, response)) {
 		return transformErrorResponse(response)
 	}
 
@@ -57,10 +61,14 @@ export function transformPaymentResponse(data: string): Payment | ErrorResponse 
 	return transformPaymentParsedResponse(payment)
 }
 
-export function transformPaymentListResponse(data: string): { payments: Payment[]; pages: Pagination } | ErrorResponse {
+export function transformPaymentListResponse(
+	data: string,
+	headers: Array<string>,
+	status: string
+): { payments: Payment[]; pages: Pagination } | ErrorResponse {
 	const response = JSON.parse(data)
 
-	if (isAccountingErrorResponse(response)) {
+	if (isAccountingErrorResponse(status, response)) {
 		return transformErrorResponse(response)
 	}
 
@@ -72,7 +80,7 @@ export function transformPaymentListResponse(data: string): { payments: Payment[
 			total,
 			size: per_page,
 			pages,
-			page,	
+			page,
 		},
 	}
 }

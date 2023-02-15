@@ -9,10 +9,14 @@ export default interface ShareLink {
 	shareMethod: string
 }
 
-export function transformShareLinkResponse(data: string): ShareLink | ErrorResponse {
+export function transformShareLinkResponse(
+	data: string,
+	headers: Array<string>,
+	status: string
+): ShareLink | ErrorResponse {
 	const response = JSON.parse(data)
 
-	if (isAccountingErrorResponse(response)) {
+	if (isAccountingErrorResponse(status, response)) {
 		return transformErrorResponse(response)
 	}
 

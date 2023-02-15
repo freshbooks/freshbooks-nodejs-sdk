@@ -21,7 +21,7 @@ enum PaymentType {
 	diners = 'DINERS',
 	jcb = 'JCB',
 	ach = 'ACH',
-	other = "Other"
+	other = 'Other',
 }
 
 export default interface BillPayments {
@@ -34,27 +34,35 @@ export default interface BillPayments {
 	visState?: VisState
 }
 
-export function transformBillPaymentsResponse(data: string): BillPayments | ErrorResponse {
+export function transformBillPaymentsResponse(
+	data: string,
+	headers: Array<string>,
+	status: string
+): BillPayments | ErrorResponse {
 	const response = JSON.parse(data)
-	
-	if (isAccountingErrorResponse(response)) {
+
+	if (isAccountingErrorResponse(status, response)) {
 		return transformErrorResponse(response)
 	}
-	
+
 	const { bill_payment } = response.response.result
-	
+
 	return transformBillPaymentsParsedResponse(bill_payment)
 }
 
-export function transformBillPaymentsListResponse(data: string): { billPayments: BillPayments[]; pages: Pagination } | ErrorResponse {
+export function transformBillPaymentsListResponse(
+	data: string,
+	headers: Array<string>,
+	status: string
+): { billPayments: BillPayments[]; pages: Pagination } | ErrorResponse {
 	const response = JSON.parse(data)
 
-	if (isAccountingErrorResponse(response)) {
+	if (isAccountingErrorResponse(status, response)) {
 		return transformErrorResponse(response)
 	}
 
 	const { bill_payments, per_page, total, page, pages } = response.response.result
-	
+
 	return {
 		billPayments: bill_payments.map((payment: any): BillPayments => transformBillPaymentsParsedResponse(payment)),
 		pages: {

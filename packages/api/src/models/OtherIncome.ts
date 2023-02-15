@@ -32,10 +32,14 @@ export default interface OtherIncome {
 	visState?: VisState
 }
 
-export function transformOtherIncomeResponse(data: string): OtherIncome | ErrorResponse {
+export function transformOtherIncomeResponse(
+	data: string,
+	headers: Array<string>,
+	status: string
+): OtherIncome | ErrorResponse {
 	const response = JSON.parse(data)
-	
-	if (isAccountingErrorResponse(response)) {
+
+	if (isAccountingErrorResponse(status, response)) {
 		return transformErrorResponse(response)
 	}
 
@@ -44,10 +48,14 @@ export function transformOtherIncomeResponse(data: string): OtherIncome | ErrorR
 	return transformOtherIncomeParsedResponse(other_income)
 }
 
-export function transformOtherIncomeListResponse(data: string): { otherIncomes: OtherIncome[]; pages: Pagination } | ErrorResponse {
+export function transformOtherIncomeListResponse(
+	data: string,
+	headers: Array<string>,
+	status: string
+): { otherIncomes: OtherIncome[]; pages: Pagination } | ErrorResponse {
 	const response = JSON.parse(data)
 
-	if (isAccountingErrorResponse(response)) {
+	if (isAccountingErrorResponse(status, response)) {
 		return transformErrorResponse(response)
 	}
 

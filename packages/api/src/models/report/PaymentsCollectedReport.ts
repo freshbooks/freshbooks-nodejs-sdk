@@ -56,9 +56,13 @@ export function transformPaymentsCollectedReportData({
  * @param data representing JSON response
  * @returns @PaymentsCollectedReport | @Error
  */
-export function transformPaymentsCollectedReportResponse(data: string): PaymentsCollectedReport | ErrorResponse {
+export function transformPaymentsCollectedReportResponse(
+	data: string,
+	headers: Array<string>,
+	status: string
+): PaymentsCollectedReport | ErrorResponse {
 	const response = JSON.parse(data)
-	if (isAccountingErrorResponse(response)) {
+	if (isAccountingErrorResponse(status, response)) {
 		return transformErrorResponse(response)
 	}
 	const {

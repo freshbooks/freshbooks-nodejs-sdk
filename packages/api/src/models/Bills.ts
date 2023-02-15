@@ -41,22 +41,26 @@ export default interface Bills {
 	vendor?: BillVendors
 }
 
-export function transformBillsResponse(data: string): Bills | ErrorResponse {
+export function transformBillsResponse(data: string, headers: Array<string>, status: string): Bills | ErrorResponse {
 	const response = JSON.parse(data)
 
-	if (isAccountingErrorResponse(response)) {
+	if (isAccountingErrorResponse(status, response)) {
 		return transformErrorResponse(response)
 	}
 
 	const { bill } = response.response.result
-	
+
 	return transformBillsParsedResponse(bill)
 }
 
-export function transformBillsListResponse(data: string): { bills: Bills[]; pages: Pagination } | ErrorResponse {
+export function transformBillsListResponse(
+	data: string,
+	headers: Array<string>,
+	status: string
+): { bills: Bills[]; pages: Pagination } | ErrorResponse {
 	const response = JSON.parse(data)
 
-	if (isAccountingErrorResponse(response)) {
+	if (isAccountingErrorResponse(status, response)) {
 		return transformErrorResponse(response)
 	}
 
@@ -69,7 +73,7 @@ export function transformBillsListResponse(data: string): { bills: Bills[]; page
 			size: per_page,
 			pages,
 			page,
-		},	
+		},
 	}
 }
 
@@ -110,7 +114,7 @@ export function transformBillsRequest(bill: Bills): string {
 			attachment: bill.attachment,
 			bill_number: bill.billNumber,
 			bill_payments:
-				bill.billPayments && 
+				bill.billPayments &&
 				bill.billPayments.map((payment: any): BillPayments => transformBillPaymentsParsedResponse(payment)),
 			currency_code: bill.currencyCode,
 			due_date: bill.dueDate && transformDateRequest(bill.dueDate),

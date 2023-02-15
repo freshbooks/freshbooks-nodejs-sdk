@@ -4,7 +4,10 @@ import Money, { MoneyResponse, transformMoneyParsedResponse } from './Money'
 import { transformDateResponse, DateFormat } from './Date'
 import VisState from './VisState'
 import Pagination from './Pagination'
-import BillVendorTax, { transformBillVendorTaxParsedRequest, transformBillVendorTaxParsedResponse } from './BillVendorTax'
+import BillVendorTax, {
+	transformBillVendorTaxParsedRequest,
+	transformBillVendorTaxParsedResponse,
+} from './BillVendorTax'
 
 export default interface BillVendors {
 	accountNumber?: string
@@ -33,22 +36,30 @@ export default interface BillVendors {
 	updatedAt?: Date
 }
 
-export function transformBillVendorsResponse(data: string): BillVendors | ErrorResponse {
+export function transformBillVendorsResponse(
+	data: string,
+	headers: Array<string>,
+	status: string
+): BillVendors | ErrorResponse {
 	const response = JSON.parse(data)
 
-	if (isAccountingErrorResponse(response)) {
+	if (isAccountingErrorResponse(status, response)) {
 		return transformErrorResponse(response)
 	}
 
 	const { bill_vendor } = response.response.result
-	
+
 	return transformBillVendorsParsedResponse(bill_vendor)
 }
 
-export function transformBillVendorsListResponse(data: string): { bill_vendors: BillVendors[]; pages: Pagination } | ErrorResponse {
+export function transformBillVendorsListResponse(
+	data: string,
+	headers: Array<string>,
+	status: string
+): { bill_vendors: BillVendors[]; pages: Pagination } | ErrorResponse {
 	const response = JSON.parse(data)
 
-	if (isAccountingErrorResponse(response)) {
+	if (isAccountingErrorResponse(status, response)) {
 		return transformErrorResponse(response)
 	}
 
@@ -74,11 +85,11 @@ export function transformBillVendorsParsedResponse(vendor: any): BillVendors {
 		is1099: vendor.is_1099,
 		language: vendor.language,
 		note: vendor.note,
-		outstandingBalance: 
-			vendor.outstanding_balance && 
+		outstandingBalance:
+			vendor.outstanding_balance &&
 			vendor.outstanding_balance.map((balance: any): Money => transformMoneyParsedResponse(balance)),
-		overdueBalance: 
-			vendor.overdue_balance && 
+		overdueBalance:
+			vendor.overdue_balance &&
 			vendor.overdue_balance.map((balance: any): Money => transformMoneyParsedResponse(balance)),
 		phone: vendor.phone,
 		postalCode: vendor.postal_code,
@@ -88,8 +99,8 @@ export function transformBillVendorsParsedResponse(vendor: any): BillVendors {
 		province: vendor.province,
 		street: vendor.street,
 		street2: vendor.street2,
-		taxDefaults: 
-			vendor.tax_defaults && 
+		taxDefaults:
+			vendor.tax_defaults &&
 			vendor.tax_defaults.map((tax: any): BillVendorTax => transformBillVendorTaxParsedResponse(tax)),
 		vendorId: vendor.vendorid,
 		visState: vendor.vis_state,
