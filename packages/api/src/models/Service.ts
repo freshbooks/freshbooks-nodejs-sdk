@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import Pagination from './Pagination'
-import { transformErrorResponse, isProjectErrorResponse, ErrorResponse } from './Error'
+import { transformProjectErrorResponse, isProjectErrorResponse, ErrorResponse } from './Error'
 
 import VisState from './VisState'
 
@@ -20,7 +20,7 @@ export function transformServiceResponse(
 	const response = JSON.parse(data)
 
 	if (isProjectErrorResponse(status, response)) {
-		return transformErrorResponse(response)
+		return transformProjectErrorResponse(status, response)
 	}
 
 	const { service } = response
@@ -36,7 +36,7 @@ export function transformServiceListResponse(
 	const response = JSON.parse(data)
 
 	if (isProjectErrorResponse(status, response)) {
-		return transformErrorResponse(response)
+		return transformProjectErrorResponse(status, response)
 	}
 
 	const { services, meta } = response

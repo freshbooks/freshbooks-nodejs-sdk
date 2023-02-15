@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { ErrorResponse, isProjectErrorResponse, transformErrorResponse } from './Error'
+import { ErrorResponse, isProjectErrorResponse, transformProjectErrorResponse } from './Error'
 import Pagination from './Pagination'
 import { Nullable } from './helpers'
 import { transformDateResponse, DateFormat } from './Date'
@@ -36,7 +36,7 @@ export function transformTimeEntryResponse(
 	const response = JSON.parse(data)
 
 	if (isProjectErrorResponse(status, response)) {
-		return transformErrorResponse(response)
+		return transformProjectErrorResponse(status, response)
 	}
 	const { time_entry } = response
 
@@ -51,7 +51,7 @@ export function transformTimeEntryListResponse(
 	const response = JSON.parse(data)
 
 	if (isProjectErrorResponse(status, response)) {
-		return transformErrorResponse(response)
+		return transformProjectErrorResponse(status, response)
 	}
 
 	const { time_entries, meta } = response

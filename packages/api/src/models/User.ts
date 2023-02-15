@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { isAuthErrorResponse, transformErrorResponse, ErrorResponse } from './Error'
+import { isAuthErrorResponse, transformAuthErrorResponse, ErrorResponse } from './Error'
 import PhoneNumber, { transformPhoneNumberParsedResponse } from './PhoneNumber'
 import Address, { transformAddressParsedResponse, AddressResponse } from './Address'
 import BusinessMembership, { transformBusinessMembershipParsedResponse } from './BusinessMembership'
@@ -29,7 +29,7 @@ export function transformUserResponse(data: string, headers: Array<string>, stat
 	const response = JSON.parse(data)
 
 	if (isAuthErrorResponse(status, response)) {
-		return transformErrorResponse(response)
+		return transformAuthErrorResponse(status, response)
 	}
 
 	const user = response.response

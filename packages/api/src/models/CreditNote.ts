@@ -1,5 +1,5 @@
 import Pagination from './Pagination'
-import { transformErrorResponse, isAccountingErrorResponse, ErrorResponse } from './Error'
+import { transformAccountingErrorResponse, isAccountingErrorResponse, ErrorResponse } from './Error'
 import Money, { transformMoneyParsedRequest, transformMoneyParsedResponse } from './Money'
 import { Nullable } from './helpers'
 import VisState from './VisState'
@@ -84,7 +84,7 @@ export function transformCreditNoteResponse(
 	const response = JSON.parse(data)
 
 	if (isAccountingErrorResponse(status, response)) {
-		return transformErrorResponse(response)
+		return transformAccountingErrorResponse(status, response)
 	}
 
 	const { credit_notes } = response.response.result
@@ -100,7 +100,7 @@ export function transformCreditNoteListResponse(
 	const response = JSON.parse(data)
 
 	if (isAccountingErrorResponse(status, response)) {
-		return transformErrorResponse(response)
+		return transformAccountingErrorResponse(status, response)
 	}
 
 	const { credit_notes, per_page, total, page, pages } = response.response.result

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { transformDateResponse, DateFormat } from './Date'
-import { ErrorResponse, isAccountingErrorResponse, transformErrorResponse } from './Error'
+import { ErrorResponse, isAccountingErrorResponse, transformAccountingErrorResponse } from './Error'
 import Pagination from './Pagination'
 import VisState from './VisState'
 
@@ -25,7 +25,7 @@ export function transformExpenseCategoryResponse(
 	const response = JSON.parse(data)
 
 	if (isAccountingErrorResponse(status, response)) {
-		return transformErrorResponse(response)
+		return transformAccountingErrorResponse(status, response)
 	}
 
 	const { category } = response.response.result
@@ -41,7 +41,7 @@ export function transformExpenseCategoryListResponse(
 	const response = JSON.parse(data)
 
 	if (isAccountingErrorResponse(status, response)) {
-		return transformErrorResponse(response)
+		return transformAccountingErrorResponse(status, response)
 	}
 
 	const { categories, page, pages, per_page, total } = response.response.result

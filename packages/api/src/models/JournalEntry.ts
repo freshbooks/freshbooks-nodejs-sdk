@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { DateFormat, transformDateRequest, transformDateResponse } from './Date'
 import Detail, { transformDetailParsedRequest, transformDetailParsedResponse } from './Detail'
-import { ErrorResponse, isAccountingErrorResponse, transformErrorResponse } from './Error'
+import { ErrorResponse, isAccountingErrorResponse, transformAccountingErrorResponse } from './Error'
 
 export default interface JournalEntry {
 	currencyCode: string
@@ -21,7 +21,7 @@ export function transformJournalEntryResponse(
 	const response = JSON.parse(data)
 
 	if (isAccountingErrorResponse(status, response)) {
-		return transformErrorResponse(response)
+		return transformAccountingErrorResponse(status, response)
 	}
 
 	const { journal_entry } = response.response.result

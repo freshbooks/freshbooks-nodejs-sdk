@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import Money, { transformMoneyParsedRequest, transformMoneyParsedResponse } from './Money'
-import { ErrorResponse, isAccountingErrorResponse, transformErrorResponse } from './Error'
+import { ErrorResponse, isAccountingErrorResponse, transformAccountingErrorResponse } from './Error'
 import { Nullable } from './helpers'
 import Pagination from './Pagination'
 import { isTemplateExpression } from 'typescript'
@@ -29,7 +29,7 @@ export function transformItemResponse(data: string, headers: Array<string>, stat
 	const response = JSON.parse(data)
 
 	if (isAccountingErrorResponse(status, response)) {
-		return transformErrorResponse(response)
+		return transformAccountingErrorResponse(status, response)
 	}
 
 	const { item } = response.response.result
@@ -45,7 +45,7 @@ export function transformItemListResponse(
 	const response = JSON.parse(data)
 
 	if (isAccountingErrorResponse(status, response)) {
-		return transformErrorResponse(response)
+		return transformAccountingErrorResponse(status, response)
 	}
 
 	const { items, per_page, total, page, pages } = response.response.result

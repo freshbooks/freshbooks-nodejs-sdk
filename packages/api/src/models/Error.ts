@@ -46,7 +46,7 @@ export function isEventErrorResponse(status: string): boolean {
 	return parseInt(status) >= 400
 }
 
-export function isOnlinePaymentsErrorResponse(status: string, response: any): boolean {
+export function isOnlinePaymentErrorResponse(status: string, response: any): boolean {
 	if (parseInt(status) >= 400 || response.error_type) {
 		return true
 	}
@@ -119,4 +119,23 @@ export const transformErrorResponse = (errorResponse: any): ErrorResponse => {
 		code: errorType,
 		message: error,
 	}
+}
+
+export const transformAccountingErrorResponse = (status: string, errorResponse: any): ErrorResponse => {
+	return transformErrorResponse(errorResponse)
+}
+
+export const transformAuthErrorResponse = (status: string, errorResponse: any): ErrorResponse => {
+	return transformErrorResponse(errorResponse)
+}
+
+export const transformEventErrorResponse = (status: string, errorResponse: any): ErrorResponse => {
+	return transformErrorResponse(errorResponse)
+}
+
+export const transformOnlinePaymentsErrorResponse = (status: string, errorResponse: any): ErrorResponse => {
+	return transformErrorResponse(errorResponse)
+}
+export const transformProjectErrorResponse = (status: string, errorResponse: any): ErrorResponse => {
+	return transformErrorResponse(errorResponse)
 }

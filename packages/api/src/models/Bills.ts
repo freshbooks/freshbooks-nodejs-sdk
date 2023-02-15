@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import Money, { transformMoneyParsedResponse } from './Money'
 import { DateFormat, transformDateRequest, transformDateResponse } from './Date'
-import { ErrorResponse, isAccountingErrorResponse, transformErrorResponse } from './Error'
+import { ErrorResponse, isAccountingErrorResponse, transformAccountingErrorResponse } from './Error'
 import Pagination from './Pagination'
 import BillPayments, { transformBillPaymentsParsedResponse } from './BillPayments'
 import VisState from './VisState'
@@ -45,7 +45,7 @@ export function transformBillsResponse(data: string, headers: Array<string>, sta
 	const response = JSON.parse(data)
 
 	if (isAccountingErrorResponse(status, response)) {
-		return transformErrorResponse(response)
+		return transformAccountingErrorResponse(status, response)
 	}
 
 	const { bill } = response.response.result
@@ -61,7 +61,7 @@ export function transformBillsListResponse(
 	const response = JSON.parse(data)
 
 	if (isAccountingErrorResponse(status, response)) {
-		return transformErrorResponse(response)
+		return transformAccountingErrorResponse(status, response)
 	}
 
 	const { bills, per_page, total, page, pages } = response.response.result
