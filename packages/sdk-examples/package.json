@@ -9,6 +9,6 @@
 	},
 	"license": "MIT",
 	"dependencies": {
-		"@freshbooks/api": "^3.3.0"
+		"@freshbooks/api": "^4.0.0-alpha.1"
 	}
 }

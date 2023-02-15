@@ -1,5 +1,4 @@
-import pkg from '@freshbooks/api';
-const { Client } = pkg;
+const { Client } = require('@freshbooks/api')
 
 const CLIENT_ID = '<your client id>'
 const ACCESS_TOKEN = '<your access token>'
