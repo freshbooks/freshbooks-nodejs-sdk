@@ -15,7 +15,7 @@ export function transformServiceRateResponse(
 	const response = JSON.parse(data)
 
 	if (isProjectErrorResponse(status, response)) {
-		return transformProjectErrorResponse(status, response)
+		return transformProjectErrorResponse(response)
 	}
 
 	const { service_rate } = response

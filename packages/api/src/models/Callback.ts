@@ -20,7 +20,7 @@ export function transformCallbackResponse(
 	const response = JSON.parse(data)
 
 	if (isEventErrorResponse(status)) {
-		return transformEventErrorResponse(status, response)
+		return transformEventErrorResponse(response)
 	}
 
 	const { callback } = response.response.result
@@ -36,7 +36,7 @@ export function transformCallbackListResponse(
 	const response = JSON.parse(data)
 
 	if (isEventErrorResponse(status)) {
-		return transformEventErrorResponse(status, response)
+		return transformEventErrorResponse(response)
 	}
 
 	const { callbacks, per_page, total, page, pages } = response.response.result

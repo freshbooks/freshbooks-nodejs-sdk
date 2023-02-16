@@ -45,7 +45,7 @@ export function transformBillsResponse(data: string, headers: Array<string>, sta
 	const response = JSON.parse(data)
 
 	if (isAccountingErrorResponse(status, response)) {
-		return transformAccountingErrorResponse(status, response)
+		return transformAccountingErrorResponse(response)
 	}
 
 	const { bill } = response.response.result
@@ -61,7 +61,7 @@ export function transformBillsListResponse(
 	const response = JSON.parse(data)
 
 	if (isAccountingErrorResponse(status, response)) {
-		return transformAccountingErrorResponse(status, response)
+		return transformAccountingErrorResponse(response)
 	}
 
 	const { bills, per_page, total, page, pages } = response.response.result

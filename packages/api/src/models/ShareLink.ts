@@ -17,7 +17,7 @@ export function transformShareLinkResponse(
 	const response = JSON.parse(data)
 
 	if (isAccountingErrorResponse(status, response)) {
-		return transformAccountingErrorResponse(status, response)
+		return transformAccountingErrorResponse(response)
 	}
 
 	const { share_link } = response.response.result

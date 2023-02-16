@@ -58,7 +58,7 @@ export function transformExpenseResponse(
 	const response = JSON.parse(data)
 
 	if (isAccountingErrorResponse(status, response)) {
-		return transformAccountingErrorResponse(status, response)
+		return transformAccountingErrorResponse(response)
 	}
 
 	const { expense } = response.response.result
@@ -74,7 +74,7 @@ export function transformExpenseListResponse(
 	const response = JSON.parse(data)
 
 	if (isAccountingErrorResponse(status, response)) {
-		return transformAccountingErrorResponse(status, response)
+		return transformAccountingErrorResponse(response)
 	}
 
 	const { expenses, per_page, total, page, pages } = response.response.result

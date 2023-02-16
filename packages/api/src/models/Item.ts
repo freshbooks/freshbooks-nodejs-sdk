@@ -29,7 +29,7 @@ export function transformItemResponse(data: string, headers: Array<string>, stat
 	const response = JSON.parse(data)
 
 	if (isAccountingErrorResponse(status, response)) {
-		return transformAccountingErrorResponse(status, response)
+		return transformAccountingErrorResponse(response)
 	}
 
 	const { item } = response.response.result
@@ -45,7 +45,7 @@ export function transformItemListResponse(
 	const response = JSON.parse(data)
 
 	if (isAccountingErrorResponse(status, response)) {
-		return transformAccountingErrorResponse(status, response)
+		return transformAccountingErrorResponse(response)
 	}
 
 	const { items, per_page, total, page, pages } = response.response.result

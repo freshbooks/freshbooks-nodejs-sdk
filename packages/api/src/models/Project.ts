@@ -60,7 +60,7 @@ export function transformProjectResponse(
 	const response = JSON.parse(data)
 
 	if (isProjectErrorResponse(status, response)) {
-		return transformProjectErrorResponse(status, response)
+		return transformProjectErrorResponse(response)
 	}
 
 	const { project } = response
@@ -76,7 +76,7 @@ export function transformProjectListResponse(
 	const response = JSON.parse(data)
 
 	if (isProjectErrorResponse(status, response)) {
-		return transformProjectErrorResponse(status, response)
+		return transformProjectErrorResponse(response)
 	}
 
 	const { projects, meta } = response

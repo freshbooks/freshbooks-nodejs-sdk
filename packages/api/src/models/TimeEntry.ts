@@ -36,7 +36,7 @@ export function transformTimeEntryResponse(
 	const response = JSON.parse(data)
 
 	if (isProjectErrorResponse(status, response)) {
-		return transformProjectErrorResponse(status, response)
+		return transformProjectErrorResponse(response)
 	}
 	const { time_entry } = response
 
@@ -51,7 +51,7 @@ export function transformTimeEntryListResponse(
 	const response = JSON.parse(data)
 
 	if (isProjectErrorResponse(status, response)) {
-		return transformProjectErrorResponse(status, response)
+		return transformProjectErrorResponse(response)
 	}
 
 	const { time_entries, meta } = response

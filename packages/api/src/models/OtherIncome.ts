@@ -40,7 +40,7 @@ export function transformOtherIncomeResponse(
 	const response = JSON.parse(data)
 
 	if (isAccountingErrorResponse(status, response)) {
-		return transformAccountingErrorResponse(status, response)
+		return transformAccountingErrorResponse(response)
 	}
 
 	const { other_income } = response.response.result
@@ -56,7 +56,7 @@ export function transformOtherIncomeListResponse(
 	const response = JSON.parse(data)
 
 	if (isAccountingErrorResponse(status, response)) {
-		return transformAccountingErrorResponse(status, response)
+		return transformAccountingErrorResponse(response)
 	}
 
 	const { other_income, per_page, total, page, pages } = response.response.result

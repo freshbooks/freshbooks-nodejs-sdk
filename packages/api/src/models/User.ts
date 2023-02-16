@@ -29,7 +29,7 @@ export function transformUserResponse(data: string, headers: Array<string>, stat
 	const response = JSON.parse(data)
 
 	if (isAuthErrorResponse(status, response)) {
-		return transformAuthErrorResponse(status, response)
+		return transformAuthErrorResponse(response)
 	}
 
 	const user = response.response

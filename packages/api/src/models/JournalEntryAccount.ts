@@ -25,7 +25,7 @@ export function transformJournalEntryAccountListResponse(
 	const response = JSON.parse(data)
 
 	if (isAccountingErrorResponse(status, response)) {
-		return transformAccountingErrorResponse(status, response)
+		return transformAccountingErrorResponse(response)
 	}
 
 	const { journal_entry_accounts, per_page, total, page, pages } = response.response.result

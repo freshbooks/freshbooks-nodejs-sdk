@@ -145,7 +145,7 @@ export function transformInvoiceResponse(
 	const response = JSON.parse(data)
 
 	if (isAccountingErrorResponse(status, response)) {
-		return transformAccountingErrorResponse(status, response)
+		return transformAccountingErrorResponse(response)
 	}
 
 	const { invoice } = response.response.result
@@ -161,7 +161,7 @@ export function transformInvoiceListResponse(
 	const response = JSON.parse(data)
 
 	if (isAccountingErrorResponse(status, response)) {
-		return transformAccountingErrorResponse(status, response)
+		return transformAccountingErrorResponse(response)
 	}
 
 	const { invoices, per_page, total, page, pages } = response.response.result

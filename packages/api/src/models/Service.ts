@@ -20,7 +20,7 @@ export function transformServiceResponse(
 	const response = JSON.parse(data)
 
 	if (isProjectErrorResponse(status, response)) {
-		return transformProjectErrorResponse(status, response)
+		return transformProjectErrorResponse(response)
 	}
 
 	const { service } = response
@@ -36,7 +36,7 @@ export function transformServiceListResponse(
 	const response = JSON.parse(data)
 
 	if (isProjectErrorResponse(status, response)) {
-		return transformProjectErrorResponse(status, response)
+		return transformProjectErrorResponse(response)
 	}
 
 	const { services, meta } = response

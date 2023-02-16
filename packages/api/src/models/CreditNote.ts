@@ -84,7 +84,7 @@ export function transformCreditNoteResponse(
 	const response = JSON.parse(data)
 
 	if (isAccountingErrorResponse(status, response)) {
-		return transformAccountingErrorResponse(status, response)
+		return transformAccountingErrorResponse(response)
 	}
 
 	const { credit_notes } = response.response.result
@@ -100,7 +100,7 @@ export function transformCreditNoteListResponse(
 	const response = JSON.parse(data)
 
 	if (isAccountingErrorResponse(status, response)) {
-		return transformAccountingErrorResponse(status, response)
+		return transformAccountingErrorResponse(response)
 	}
 
 	const { credit_notes, per_page, total, page, pages } = response.response.result

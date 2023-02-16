@@ -86,7 +86,7 @@ export function transformProfitLossReportResponse(
 ): ProfitLossReport | ErrorResponse {
 	const response = JSON.parse(data)
 	if (isAccountingErrorResponse(status, response)) {
-		return transformAccountingErrorResponse(status, response)
+		return transformAccountingErrorResponse(response)
 	}
 	const {
 		response: { result },

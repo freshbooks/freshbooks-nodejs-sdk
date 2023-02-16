@@ -25,7 +25,7 @@ export function transformExpenseCategoryResponse(
 	const response = JSON.parse(data)
 
 	if (isAccountingErrorResponse(status, response)) {
-		return transformAccountingErrorResponse(status, response)
+		return transformAccountingErrorResponse(response)
 	}
 
 	const { category } = response.response.result
@@ -41,7 +41,7 @@ export function transformExpenseCategoryListResponse(
 	const response = JSON.parse(data)
 
 	if (isAccountingErrorResponse(status, response)) {
-		return transformAccountingErrorResponse(status, response)
+		return transformAccountingErrorResponse(response)
 	}
 
 	const { categories, page, pages, per_page, total } = response.response.result

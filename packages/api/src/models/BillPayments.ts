@@ -42,7 +42,7 @@ export function transformBillPaymentsResponse(
 	const response = JSON.parse(data)
 
 	if (isAccountingErrorResponse(status, response)) {
-		return transformAccountingErrorResponse(status, response)
+		return transformAccountingErrorResponse(response)
 	}
 
 	const { bill_payment } = response.response.result
@@ -58,7 +58,7 @@ export function transformBillPaymentsListResponse(
 	const response = JSON.parse(data)
 
 	if (isAccountingErrorResponse(status, response)) {
-		return transformAccountingErrorResponse(status, response)
+		return transformAccountingErrorResponse(response)
 	}
 
 	const { bill_payments, per_page, total, page, pages } = response.response.result

@@ -22,7 +22,7 @@ export function transformTasksResponse(data: string, headers: Array<string>, sta
 	const response = JSON.parse(data)
 
 	if (isAccountingErrorResponse(status, response)) {
-		return transformAccountingErrorResponse(status, response)
+		return transformAccountingErrorResponse(response)
 	}
 
 	const { task } = response.response.result
@@ -38,7 +38,7 @@ export function transformTasksListResponse(
 	const response = JSON.parse(data)
 
 	if (isAccountingErrorResponse(status, response)) {
-		return transformAccountingErrorResponse(status, response)
+		return transformAccountingErrorResponse(response)
 	}
 
 	const { tasks, per_page, total, page, pages } = response.response.result

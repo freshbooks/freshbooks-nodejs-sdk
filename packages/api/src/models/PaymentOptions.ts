@@ -29,7 +29,7 @@ export function transformPaymentOptionsResponse(
 	const response = JSON.parse(data)
 
 	if (isOnlinePaymentErrorResponse(status, response)) {
-		return transformOnlinePaymentsErrorResponse(status, response)
+		return transformOnlinePaymentsErrorResponse(response)
 	}
 
 	const paymentOptions: PaymentOptionsResponse = response['payment_options']

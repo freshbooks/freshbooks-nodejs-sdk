@@ -62,7 +62,7 @@ export function transformClientResponse(data: string, headers: Array<string>, st
 	const response = JSON.parse(data)
 
 	if (isAccountingErrorResponse(status, response)) {
-		return transformAccountingErrorResponse(status, response)
+		return transformAccountingErrorResponse(response)
 	}
 
 	const { client } = response.response.result
@@ -78,7 +78,7 @@ export function transformClientListResponse(
 	const response = JSON.parse(data)
 
 	if (isAccountingErrorResponse(status, response)) {
-		return transformAccountingErrorResponse(status, response)
+		return transformAccountingErrorResponse(response)
 	}
 
 	const { clients, per_page, total, page, pages } = response.response.result

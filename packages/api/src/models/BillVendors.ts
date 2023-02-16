@@ -44,7 +44,7 @@ export function transformBillVendorsResponse(
 	const response = JSON.parse(data)
 
 	if (isAccountingErrorResponse(status, response)) {
-		return transformAccountingErrorResponse(status, response)
+		return transformAccountingErrorResponse(response)
 	}
 
 	const { bill_vendor } = response.response.result
@@ -60,7 +60,7 @@ export function transformBillVendorsListResponse(
 	const response = JSON.parse(data)
 
 	if (isAccountingErrorResponse(status, response)) {
-		return transformAccountingErrorResponse(status, response)
+		return transformAccountingErrorResponse(response)
 	}
 
 	const { bill_vendors, per_page, total, page, pages } = response.response.result

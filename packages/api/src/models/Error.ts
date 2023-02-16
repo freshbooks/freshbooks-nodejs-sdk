@@ -121,21 +121,21 @@ export const transformErrorResponse = (errorResponse: any): ErrorResponse => {
 	}
 }
 
-export const transformAccountingErrorResponse = (status: string, errorResponse: any): ErrorResponse => {
+export const transformAccountingErrorResponse = (errorResponse: any): ErrorResponse => {
 	return transformErrorResponse(errorResponse)
 }
 
-export const transformAuthErrorResponse = (status: string, errorResponse: any): ErrorResponse => {
+export const transformAuthErrorResponse = (errorResponse: any): ErrorResponse => {
 	return transformErrorResponse(errorResponse)
 }
 
-export const transformEventErrorResponse = (status: string, errorResponse: any): ErrorResponse => {
+export const transformEventErrorResponse = (errorResponse: any): ErrorResponse => {
 	return transformErrorResponse(errorResponse)
 }
 
-export const transformOnlinePaymentsErrorResponse = (status: string, errorResponse: any): ErrorResponse => {
+export const transformOnlinePaymentsErrorResponse = (errorResponse: any): ErrorResponse => {
 	return transformErrorResponse(errorResponse)
 }
-export const transformProjectErrorResponse = (status: string, errorResponse: any): ErrorResponse => {
+export const transformProjectErrorResponse = (errorResponse: any): ErrorResponse => {
 	return transformErrorResponse(errorResponse)
 }

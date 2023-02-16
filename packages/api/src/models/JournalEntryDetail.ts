@@ -32,7 +32,7 @@ export function transformJournalEntryDetailListResponse(
 	const response = JSON.parse(data)
 
 	if (isAccountingErrorResponse(status, response)) {
-		return transformAccountingErrorResponse(status, response)
+		return transformAccountingErrorResponse(response)
 	}
 
 	const { journal_entry_details, page, pages, per_page, total } = response.response.result
