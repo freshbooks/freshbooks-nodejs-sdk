@@ -100,9 +100,9 @@ try {
     const { data } = await client.users.me()
 
     console.log(`Hello, ${data.id}`)
-} catch ({ code, message }) {
+} catch ({ statusCode, message }) {
     // Handle error if API call failed
-    console.error(`Error fetching user: ${code} - ${message}`)
+    console.error(`Error fetching user: ${statusCode} - ${message}`)
 }
 ```
 
@@ -143,9 +143,9 @@ try {
     const { data } = await client.invoices.list('xZNQ1X', [searchQueryBuilder])
 
     console.log('Invoices: ', data)
-} catch ({ code, message }) {
+} catch ({ statusCode, message }) {
     // Handle error if API call failed
-    console.error(`Error fetching user: ${code} - ${message}`)
+    console.error(`Error fetching user: ${statusCode} - ${message}`)
 }
 ```
 
@@ -164,9 +164,9 @@ try {
     const { data } = await client.invoices.list('xZNQ1X', [includesQueryBuilder])
 
     console.log('Invoices: ', data)
-} catch ({ code, message }) {
+} catch ({ statusCode, message }) {
     // Handle error if API call failed
-    console.error(`Error fetching user: ${code} - ${message}`)
+    console.error(`Error fetching user: ${statusCode} - ${message}`)
 }
 ```
 
@@ -201,10 +201,23 @@ If an API error occurs, the response object contains an `error` object, with the
 
 ```typescript
 {
-    code: string
-    message?: string
+    name: string        // Name of the method called
+    message: string     // Error message
+    statusCode?: string // HTTP Status Code
+    errors?: APIError[] // More detailed message if available
 }
 ```
+
+Not all API calls return a list of specific errors, but if they do, they will be in the form of:
+
+```typescript
+{
+    message: string    // Specific error message eg. 'Item not found.'
+    errorCode?: number // A error code, if available. Eg. '1012'
+    field?: string     // The field that caused the error, if available. Eg. `itemid`
+    object?: string    // The resource, if available. Eg. `item`
+    value?: string     // The value of the field, if available. Eg. `123432`
+}
 
 ##### Pagination
 
@@ -276,8 +289,8 @@ app.get('/settings', passport.authorize('freshbooks'), async (req, res) => {
     try {
         const { data } = await client.users.me()
         res.send(data.id)
-    } catch ({ code, message }) {
-        res.status(500, `Error - ${code}: ${message}`)
+    } catch ({ statusCode, message }) {
+        res.status(500, `Error - ${statusCode}: ${message}`)
     }
 })
 ```

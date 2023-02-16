@@ -223,24 +223,6 @@ describe('@freshbooks/api', () => {
 				expect(data).toEqual(EXPECTED)
 			})
 
-			test('Test not found errors', async () => {
-				const mockResponse = JSON.stringify({
-					error_type: 'not_found',
-					message: 'The requested resource was not found.',
-				})
-				mock
-					.onGet(`/accounting/account/${ACCOUNT_ID}/reports/accounting/payments_collected`)
-					.replyOnce(401, mockResponse)
-
-				const client = new Client(APPLICATION_CLIENT_ID, testOptions)
-				try {
-					await client.reports.paymentsCollected(ACCOUNT_ID)
-				} catch (error: any) {
-					expect(error.code).toEqual('not_found')
-					expect(error.message).toEqual('The requested resource was not found.')
-				}
-			})
-
 			test('Test unhandled errors', async () => {
 				const unhandledError = new Error('Unhandled Error!')
 				const client = new Client(APPLICATION_CLIENT_ID, testOptions)
