@@ -83,9 +83,22 @@ Calls made to the FreshBooks API with a non-2xx response result in errors in the
 
 ```typescript
 {
-    code: string
-    message?: string
-    errors?: []
+    name: string        // Name of the method called
+    message: string     // Error message
+    statusCode?: string // HTTP Status Code
+    errors?: APIError[] // More detailed message if available
+}
+```
+
+Not all API calls return a list of specific errors, but if they do, they will be in the form of:
+
+```typescript
+{
+    message: string    // Specific error message eg. 'Item not found.'
+    errorCode?: number // A error code, if available. Eg. '1012'
+    field?: string     // The field that caused the error, if available. Eg. `itemid`
+    object?: string    // The resource, if available. Eg. `item`
+    value?: string     // The value of the field, if available. Eg. `123432`
 }
 ```
 
@@ -94,24 +107,26 @@ Examples:
 ```typescript
 clientData = {}
 try {
-  const client = await fbClient.clients.single(accountId, 00000)
-  console.log('Not called')
+    const client = await fbClient.clients.single(accountId, 00000)
+    console.log('Not called')
 } catch (err) {
-  console.log(err.message)
-  console.log(err.code)
-  console.log(err.errors)
+    console.log(err.name)
+    console.log(err.message)
+    console.log(err.statusCode)
+    console.log(err.errors)
 }
 /*
 Output:
-NOT FOUND
+Get Client
+Client not found.
 404
 [
   {
-    number: 1012,
-    field: 'userid',
     message: 'Client not found.',
+    errorCode: 1012,
+    field: 'userid',
     object: 'client',
-    value: '64080700'
+    value: '00000'
   }
 ]
 */
@@ -123,19 +138,21 @@ try {
   const client = await fbClient.clients.create(clientData, accountId)
   console.log('Not called')
 } catch (err) {
+  console.log(err.name)
   console.log(err.message)
-  console.log(err.code)
+  console.log(err.statusCode)
   console.log(err.errors)
 }
 /*
 Output:
-UNPROCESSABLE ENTITY
+Create Client
+At least one field among fname, lname, email and organization is required.
 422
 [
   {
-    number: 7012,
-    field: null,
     message: 'At least one field among fname, lname, email and organization is required.',
+    errorCode: 7012,
+    field: null,
     object: 'client',
     value: ''
   }

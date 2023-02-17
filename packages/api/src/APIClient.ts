@@ -327,8 +327,8 @@ export default class APIClient {
 
 				throw new APIClientError(
 					name || '',
-					(errData && errData.message) || statusText,
-					(errData && errData.code && errData.code.toString()) || (status && status.toString()),
+					(errData.errors && errData.errors[0].message) || errData.message || statusText,
+					status && status.toString(),
 					errData && errData.errors
 				)
 			}

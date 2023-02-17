@@ -72,18 +72,19 @@ describe('@freshbooks/api', () => {
 		})
 
 		test('Test unauthorized request', async () => {
-			mock
-				.onGet('/auth/api/v1/users/me')
-				.replyOnce(
-					401,
-					'{"error":"unauthenticated","error_description":"This action requires authentication to continue."}'
-				)
+			const mockResponse = JSON.stringify({
+				error: 'unauthenticated',
+				// eslint-disable-next-line @typescript-eslint/camelcase
+				error_description: 'This action requires authentication to continue.',
+			})
+
+			mock.onGet('/auth/api/v1/users/me').replyOnce(401, mockResponse)
 
 			const client = new APIClient(clientId, testOptions)
 			try {
 				await client.users.me()
 			} catch (err: any) {
-				expect(err.code).toEqual('unauthenticated')
+				expect(err.statusCode).toEqual('401')
 				expect(err.message).toEqual('This action requires authentication to continue.')
 			}
 		})
@@ -106,11 +107,14 @@ describe('@freshbooks/api', () => {
 				await client.invoices.list('zDmNq')
 			} catch (error: any) {
 				expect(error.name).toEqual('List Invoices')
-				expect(error.code).toEqual('401')
+				expect(error.statusCode).toEqual('401')
 				expect(error.errors).toEqual([
 					{
-						number: 1003,
+						errorCode: 1003,
 						message: 'The server could not verify that you are authorized to access the URL requested.',
+						field: undefined,
+						object: undefined,
+						value: undefined,
 					},
 				])
 			}
@@ -119,17 +123,27 @@ describe('@freshbooks/api', () => {
 		test('Test not found errors', async () => {
 			const mockResponse = JSON.stringify({
 				// eslint-disable-next-line @typescript-eslint/camelcase
-				error_type: 'not_found',
-				message: 'The requested resource was not found.',
+				response: {
+					errors: [
+						{
+							errno: 1012,
+							field: 'userid',
+							message: 'Client not found.',
+							object: 'client',
+							value: '4',
+						},
+					],
+				},
 			})
-			mock.onGet('/accounting/account/zDmNq/invoices/invoices/1').replyOnce(401, mockResponse)
+			mock.onGet('/accounting/account/zDmNq/invoices/invoices/1').replyOnce(404, mockResponse)
 
 			const client = new APIClient(clientId, testOptions)
 			try {
 				await client.invoices.single('zDmNq', '1')
 			} catch (error: any) {
-				expect(error.code).toEqual('not_found')
-				expect(error.message).toEqual('The requested resource was not found.')
+				expect(error.statusCode).toEqual('404')
+				expect(error.message).toEqual('Client not found.')
+				expect(error.errors[0].message).toEqual('Client not found.')
 			}
 		})
 

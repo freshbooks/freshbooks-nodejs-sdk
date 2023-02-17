@@ -1,12 +1,12 @@
 interface APIError {
-	number: number
+	message: string
+	errorCode?: number
 	field?: string
-	message?: string
 	object?: string
 	value?: string
 }
 
-export type ErrorResponse = { errors: APIError[] } | { code: string; message: string }
+export type ErrorResponse = { errors: APIError[] } | { message: string }
 
 export class APIClientConfigError extends Error {}
 
@@ -15,15 +15,15 @@ export default class APIClientError extends Error {
 
 	message: string
 
-	code?: string
+	statusCode?: string
 
 	errors?: APIError[]
 
-	constructor(name: string, message: string, code?: string, errors?: APIError[]) {
+	constructor(name: string, message: string, statusCode?: string, errors?: APIError[]) {
 		super()
 		this.name = name
 		this.message = message
-		this.code = code
+		this.statusCode = statusCode
 		this.errors = errors
 	}
 }
@@ -60,82 +60,94 @@ export function isProjectErrorResponse(status: string, response: any): boolean {
 	return false
 }
 
-export const transformErrorResponse = (errorResponse: any): ErrorResponse => {
-	const { response, error, errno, error_description: errorDescription, error_type: errorType, message } = errorResponse
-
-	// singular error e.g., as returned by APIClient.users.me()
-	if (error && errorDescription) {
-		return {
-			code: error,
-			message: errorDescription,
-		}
-	}
-
-	// not_found error
-	if (errorType && message) {
-		return {
-			code: errorType,
-			message,
-		}
-	}
-
-	// general error supplied by valid endpoint
-	if (response) {
+export const transformAccountingErrorResponse = (errorResponse: any): ErrorResponse => {
+	const { response } = errorResponse
+	if (response && response.errors) {
 		return {
 			errors: response.errors.map(
-				({ errno: number, field, message: msg, object, value }: any): APIError => ({
-					number,
-					field,
+				({ message: msg, errno: errorCode, field, object, value }: any): APIError => ({
 					message: msg,
+					errorCode,
+					field,
 					object,
 					value,
 				})
 			),
 		}
 	}
+	return {
+		message: 'Returned an unexpected response',
+	}
+}
 
-	// Project-style payload error
+export const transformAuthErrorResponse = (errorResponse: any): ErrorResponse => {
+	if (errorResponse.error && errorResponse.error_description) {
+		return {
+			message: errorResponse.error_description,
+		}
+	}
+	return {
+		message: 'Returned an unexpected response',
+	}
+}
+
+export const transformEventErrorResponse = (errorResponse: any): ErrorResponse => {
+	const { message, details } = errorResponse
+	if (message && details) {
+		const errors: APIError[] = []
+		const badRequest = details.find((detail: { fieldViolations: any }) => detail.fieldViolations)
+		if (badRequest) {
+			badRequest.fieldViolations.forEach((error: { field: any; description: any }) => {
+				errors.push({
+					field: error.field,
+					message: error.description,
+				})
+			})
+			return { errors }
+		}
+	}
+	if (message) return { message }
+	return {
+		message: 'Returned an unexpected response',
+	}
+}
+
+export const transformOnlinePaymentsErrorResponse = (errorResponse: any): ErrorResponse => {
+	const { error_type: errorType, message } = errorResponse
+	if (errorType && message) {
+		return {
+			message,
+		}
+	}
+	return {
+		message: 'Returned an unexpected response',
+	}
+}
+
+export const transformProjectErrorResponse = (errorResponse: any): ErrorResponse => {
+	const { error, errno, message } = errorResponse
 	if (error && errno) {
 		return {
-			code: errno,
-			// eslint-disable-next-line no-underscore-dangle
 			errors: Object.keys(error).map(
 				(key): APIError => ({
-					number: errno,
+					errorCode: errno,
 					field: key,
 					message: error[key],
 				})
 			),
 		}
 	}
-	if (errno && message) {
+	if (error) {
 		return {
-			code: errno,
+			message: error,
+		}
+	}
+	if (message) {
+		return {
 			message: message,
 		}
 	}
-
 	return {
-		code: errorType,
-		message: error,
+		message: 'Returned an unexpected response',
 	}
-}
-
-export const transformAccountingErrorResponse = (errorResponse: any): ErrorResponse => {
-	return transformErrorResponse(errorResponse)
-}
-
-export const transformAuthErrorResponse = (errorResponse: any): ErrorResponse => {
-	return transformErrorResponse(errorResponse)
-}
-
-export const transformEventErrorResponse = (errorResponse: any): ErrorResponse => {
-	return transformErrorResponse(errorResponse)
-}
-
-export const transformOnlinePaymentsErrorResponse = (errorResponse: any): ErrorResponse => {
-	return transformErrorResponse(errorResponse)
-}
-export const transformProjectErrorResponse = (errorResponse: any): ErrorResponse => {
-	return transformErrorResponse(errorResponse)
 }
