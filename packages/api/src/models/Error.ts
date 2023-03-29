@@ -29,7 +29,12 @@ export default class APIClientError extends Error {
 }
 
 export function isAccountingErrorResponse(status: string, response: any): boolean {
-	if (parseInt(status) >= 400 || response.response.error || response.response.errors) {
+	if (
+		parseInt(status) >= 400 ||
+		(response.response && response.response.error) ||
+		(response.response && response.response.errors) ||
+		(response.code && response.message && response.details)
+	) {
 		return true
 	}
 	return false
@@ -74,6 +79,22 @@ export const transformAccountingErrorResponse = (errorResponse: any): ErrorRespo
 				})
 			),
 		}
+	}
+	if (errorResponse.code && errorResponse.message && errorResponse.details) {
+		// New style accounting errors
+		const errors: APIError[] = []
+		errorResponse.details.forEach((detail: any) => {
+			if (detail['@type'] == 'type.googleapis.com/google.rpc.ErrorInfo') {
+				errors.push({
+					message: detail.metadata.message,
+					errorCode: parseInt(detail.reason),
+					field: detail.metadata.field,
+					object: detail.metadata.object,
+					value: detail.metadata.value,
+				})
+			}
+		})
+		if (errors.length) return { errors }
 	}
 	return {
 		message: 'Returned an unexpected response',
