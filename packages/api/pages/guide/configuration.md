@@ -1,4 +1,3 @@
-
 # Configuring The API Client
 
 You can create an instance of the API client in one of two ways:

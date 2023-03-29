@@ -26,7 +26,7 @@ describe('@freshbooks/api', () => {
 					description: '',
 					entryType: 'none',
 					total: {
-						amount: -61.95,
+						amount: '-61.95',
 						code: '%',
 					},
 				}
@@ -55,18 +55,18 @@ describe('@freshbooks/api', () => {
 					children: [],
 					data: [
 						{
-							amount: 8.85,
+							amount: '8.85',
 							code: 'CAD',
 						},
 						{
-							amount: 8.85,
+							amount: '8.85',
 							code: 'CAD',
 						},
 					],
 					description: 'Expenses',
 					entryType: 'debit',
 					total: {
-						amount: 61.95,
+						amount: '61.95',
 						code: 'CAD',
 					},
 				}
@@ -105,14 +105,14 @@ describe('@freshbooks/api', () => {
 						children: [],
 						data: [
 							{
-								amount: 8.85,
+								amount: '8.85',
 								code: 'CAD',
 							},
 						],
 						description: 'Expenses',
 						entryType: 'debit',
 						total: {
-							amount: 61.95,
+							amount: '61.95',
 							code: 'CAD',
 						},
 					},
@@ -156,14 +156,14 @@ describe('@freshbooks/api', () => {
 						children: [],
 						data: [
 							{
-								amount: 8.85,
+								amount: '8.85',
 								code: 'CAD',
 							},
 						],
 						description: 'Expenses',
 						entryType: 'debit',
 						total: {
-							amount: 61.95,
+							amount: '61.95',
 							code: 'CAD',
 						},
 					},
@@ -171,14 +171,14 @@ describe('@freshbooks/api', () => {
 						children: [],
 						data: [
 							{
-								amount: 8.85,
+								amount: '8.85',
 								code: 'CAD',
 							},
 						],
 						description: 'Personal',
 						entryType: 'credit',
 						total: {
-							amount: 61.95,
+							amount: '61.95',
 							code: 'CAD',
 						},
 					},
@@ -211,7 +211,7 @@ describe('@freshbooks/api', () => {
 					"amount": "61.95",
 					"code": "CAD"
 				}
-			
+
 			}]`
 				const response = JSON.parse(json)
 				const model = transformProfitLossEntryResponseList(response)
@@ -222,28 +222,28 @@ describe('@freshbooks/api', () => {
 								children: [],
 								data: [
 									{
-										amount: 8.85,
+										amount: '8.85',
 										code: 'CAD',
 									},
 								],
 								description: 'Expenses',
 								entryType: 'debit',
 								total: {
-									amount: 61.95,
+									amount: '61.95',
 									code: 'CAD',
 								},
 							},
 						],
 						data: [
 							{
-								amount: 8.85,
+								amount: '8.85',
 								code: 'CAD',
 							},
 						],
 						description: 'Expenses',
 						entryType: 'debit',
 						total: {
-							amount: 61.95,
+							amount: '61.95',
 							code: 'CAD',
 						},
 					},

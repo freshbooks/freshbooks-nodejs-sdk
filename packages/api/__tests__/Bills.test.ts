@@ -139,7 +139,7 @@ const buildBillsRequest = (billProperties: any = {}): any => {
 					description: 'Raw material',
 					quantity: 10,
 					unit_cost: {
-						amount: 15,
+						amount: '15.00',
 						code: 'CAD',
 					},
 				},
@@ -151,7 +151,7 @@ const buildBillsRequest = (billProperties: any = {}): any => {
 
 const buildBills = (billProperties: any = {}): Bills => ({
 	amount: {
-		amount: 1500,
+		amount: '1500.00',
 		code: 'CAD',
 	},
 	attachment: null,
@@ -160,7 +160,7 @@ const buildBills = (billProperties: any = {}): Bills => ({
 		{
 			id: 123445,
 			amount: {
-				amount: 1500,
+				amount: '1500.00',
 				code: 'CAD',
 			},
 			billId: BILL_ID,
@@ -185,15 +185,15 @@ const buildBills = (billProperties: any = {}): Bills => ({
 			description: 'Raw material',
 			quantity: 10,
 			unitCost: {
-				amount: 15,
+				amount: '15.00',
 				code: 'CAD',
 			},
 			amount: {
-				amount: 1500,
+				amount: '1500.00',
 				code: 'CAD',
 			},
 			totalAmount: {
-				amount: 1500,
+				amount: '1500.00',
 				code: 'CAD',
 			},
 			taxName1: null,
@@ -207,22 +207,22 @@ const buildBills = (billProperties: any = {}): Bills => ({
 		},
 	],
 	outstanding: {
-		amount: 2500,
+		amount: '2500.00',
 		code: 'CAD',
 	},
 	overallCategory: 'Equipment',
 	overallDescription: 'Raw material',
 	paid: {
-		amount: 0,
+		amount: '0.00',
 		code: 'CAD',
 	},
 	status: 'unpaid',
 	taxAmount: {
-		amount: 0,
+		amount: '0.00',
 		code: 'CAD',
 	},
 	totalAmount: {
-		amount: 1500,
+		amount: '1500.00',
 		code: 'CAD',
 	},
 	updatedAt: new Date('2021-09-01T15:30:29Z'),
@@ -332,7 +332,7 @@ describe('@freshbooks/api', () => {
 						description: 'Raw material',
 						quantity: 10,
 						unitCost: {
-							amount: 15,
+							amount: '15.00',
 							code: 'CAD',
 						},
 					},

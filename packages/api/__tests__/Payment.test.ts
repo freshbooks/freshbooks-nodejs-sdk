@@ -45,7 +45,7 @@ const buildMockRequest = (paymentProperties: any = {}, isPOSTRequest = true): an
 	}
 	const request = {
 		amount: {
-			amount: 100,
+			amount: '100.00',
 			code: 'USD',
 		},
 		date: '2019-10-22',
@@ -62,7 +62,7 @@ const buildMockRequest = (paymentProperties: any = {}, isPOSTRequest = true): an
 const buildPayment = (paymentProperties: any = {}): Payment => ({
 	accountingSystemId: 'xZNQ1X',
 	amount: {
-		amount: 100,
+		amount: '100.00',
 		code: 'USD',
 	},
 	clientId: 212566,

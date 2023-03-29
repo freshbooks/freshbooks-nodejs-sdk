@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 import Client, { Options } from '../src/APIClient'
@@ -17,7 +18,7 @@ const buildMockResponse = (creditNoteProperties: any = {}): string => {
 	return JSON.stringify({
 		accounting_systemid: ACCOUNT_ID,
 		amount: {
-			amount: 300.0,
+			amount: '300.00',
 			code: 'USD',
 		},
 		city: 'Toronto',
@@ -42,7 +43,7 @@ const buildMockResponse = (creditNoteProperties: any = {}): string => {
 		notes: '',
 		organization: 'Wayne Industries',
 		paid: {
-			amount: 100.0,
+			amount: '100.00',
 			code: 'USD',
 		},
 		payment_status: 'paid',
@@ -113,7 +114,7 @@ const buildCreditNote = (creditNoteProperties: any = {}): CreditNote => ({
 	clientId: CLIENT_ID,
 	sentId: SENT_ID,
 	amount: {
-		amount: 300.0,
+		amount: '300.00',
 		code: 'USD',
 	},
 	code: '',
@@ -135,7 +136,7 @@ const buildCreditNote = (creditNoteProperties: any = {}): CreditNote => ({
 	notes: '',
 	organization: 'Wayne Industries',
 	paid: {
-		amount: 100.0,
+		amount: '100.00',
 		code: 'USD',
 	},
 	paymentStatus: 'paid',
@@ -175,7 +176,7 @@ const buildMockRequest = (creditNoteProperties: any = {}): any => ({
 				taxName1: null,
 				taxName2: null,
 				unit_cost: {
-					amount: 80,
+					amount: '80.00',
 					code: 'USD',
 				},
 			},
@@ -218,7 +219,7 @@ describe('@freshbooks/api', () => {
 			const client = new Client(CLIENT_ID, testOptions)
 
 			const mockResponse = `
-                {"response": 
+                {"response":
                     {
                         "result": {
                             "credit_notes": [
@@ -251,7 +252,7 @@ describe('@freshbooks/api', () => {
 			const client = new Client(CLIENT_ID, testOptions)
 
 			const mockResponse = `
-                {"response": 
+                {"response":
                     {
                         "result": {
                             "credit_notes": [
@@ -331,7 +332,7 @@ describe('@freshbooks/api', () => {
 		test('POST /accounting/account/<accountId>/credit_notes/credit_notes', async () => {
 			const client = new Client(CLIENT_ID, testOptions)
 			const mockResponse = `
-            {"response": 
+            {"response":
                 {
                     "result": {
                         "credit_notes": {
@@ -356,7 +357,7 @@ describe('@freshbooks/api', () => {
                                     "taxName1": null,
                                     "taxName2": null,
                                     "unit_cost": {
-                                        "amount": 80,
+                                        "amount": "80.00",
                                         "code": "USD"
                                     }
                                 }
@@ -400,7 +401,7 @@ describe('@freshbooks/api', () => {
 						taxName1: null,
 						taxName2: null,
 						unitCost: {
-							amount: 80,
+							amount: '80.00',
 							code: 'USD',
 						},
 					} as Line,
@@ -420,7 +421,7 @@ describe('@freshbooks/api', () => {
 		test('PUT /accounting/account/<accountId>/credit_notes/credit_notes/<creditId>', async () => {
 			const client = new Client(CLIENT_ID, testOptions)
 			const mockResponse = `
-            {"response": 
+            {"response":
                 {
                     "result": {
                         "credit_notes": {
@@ -445,7 +446,7 @@ describe('@freshbooks/api', () => {
                                     "taxName1": null,
                                     "taxName2": null,
                                     "unit_cost": {
-                                        "amount": 80,
+                                        "amount": "80.00",
                                         "code": "USD"
                                     }
                                 }
@@ -489,7 +490,7 @@ describe('@freshbooks/api', () => {
 						taxName1: null,
 						taxName2: null,
 						unitCost: {
-							amount: 80,
+							amount: '80.00',
 							code: 'USD',
 						},
 					} as Line,
@@ -509,7 +510,7 @@ describe('@freshbooks/api', () => {
 		test('PUT /accounting/account/<accountId>/credit_notes/credit_notes/<creditId> (delete)', async () => {
 			const client = new Client(CLIENT_ID, testOptions)
 			const mockResponse = `
-            {"response": 
+            {"response":
                 {
                     "result": {
                         "credit_notes": {
@@ -534,7 +535,7 @@ describe('@freshbooks/api', () => {
                                     "taxName1": null,
                                     "taxName2": null,
                                     "unit_cost": {
-                                        "amount": 80,
+                                        "amount": "80.00",
                                         "code": "USD"
                                     }
                                 }
@@ -579,7 +580,7 @@ describe('@freshbooks/api', () => {
 						taxName1: null,
 						taxName2: null,
 						unitCost: {
-							amount: 80,
+							amount: '80.00',
 							code: 'USD',
 						},
 					} as Line,

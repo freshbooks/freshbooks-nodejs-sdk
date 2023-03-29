@@ -317,18 +317,18 @@ const EXPECTED = {
 		children: [],
 		data: [
 			{
-				amount: 0.0,
+				amount: '0.00',
 				code: '%',
 			},
 			{
-				amount: 100.0,
+				amount: '100.00',
 				code: '%',
 			},
 		],
 		description: 'Gross Margin',
 		entryType: 'none',
 		total: {
-			amount: 100.0,
+			amount: '100.00',
 			code: '%',
 		},
 	},
@@ -336,18 +336,18 @@ const EXPECTED = {
 		children: [],
 		data: [
 			{
-				amount: 0.0,
+				amount: '0.00',
 				code: 'CAD',
 			},
 			{
-				amount: 1118.58,
+				amount: '1118.58',
 				code: 'CAD',
 			},
 		],
 		description: 'Net Profit (CAD)',
 		entryType: 'credit',
 		total: {
-			amount: 1118.58,
+			amount: '1118.58',
 			code: 'CAD',
 		},
 	},
@@ -360,54 +360,54 @@ const EXPECTED = {
 							children: [],
 							data: [
 								{
-									amount: 0.0,
+									amount: '0.00',
 									code: 'CAD',
 								},
 								{
-									amount: 100.0,
+									amount: '100.00',
 									code: 'CAD',
 								},
 							],
 							description: 'Bills',
 							entryType: 'debit',
 							total: {
-								amount: 100.0,
+								amount: '100.00',
 								code: 'CAD',
 							},
 						},
 					],
 					data: [
 						{
-							amount: 0.0,
+							amount: '0.00',
 							code: 'CAD',
 						},
 						{
-							amount: 100.0,
+							amount: '100.00',
 							code: 'CAD',
 						},
 					],
 					description: 'Office Expenses & Postage (general)',
 					entryType: 'debit',
 					total: {
-						amount: 100.0,
+						amount: '100.00',
 						code: 'CAD',
 					},
 				},
 			],
 			data: [
 				{
-					amount: 0.0,
+					amount: '0.00',
 					code: 'CAD',
 				},
 				{
-					amount: 100.0,
+					amount: '100.00',
 					code: 'CAD',
 				},
 			],
 			description: 'Office Expenses & Postage',
 			entryType: 'debit',
 			total: {
-				amount: 100.0,
+				amount: '100.00',
 				code: 'CAD',
 			},
 		},
@@ -419,54 +419,54 @@ const EXPECTED = {
 							children: [],
 							data: [
 								{
-									amount: 0.0,
+									amount: '0.00',
 									code: 'CAD',
 								},
 								{
-									amount: 8.85,
+									amount: '8.85',
 									code: 'CAD',
 								},
 							],
 							description: 'Expenses',
 							entryType: 'debit',
 							total: {
-								amount: 8.85,
+								amount: '8.85',
 								code: 'CAD',
 							},
 						},
 					],
 					data: [
 						{
-							amount: 0.0,
+							amount: '0.00',
 							code: 'CAD',
 						},
 						{
-							amount: 8.85,
+							amount: '8.85',
 							code: 'CAD',
 						},
 					],
 					description: 'Testing',
 					entryType: 'debit',
 					total: {
-						amount: 8.85,
+						amount: '8.85',
 						code: 'CAD',
 					},
 				},
 			],
 			data: [
 				{
-					amount: 0.0,
+					amount: '0.00',
 					code: 'CAD',
 				},
 				{
-					amount: 8.85,
+					amount: '8.85',
 					code: 'CAD',
 				},
 			],
 			description: 'Professional Services',
 			entryType: 'debit',
 			total: {
-				amount: 8.85,
+				amount: '8.85',
 				code: 'CAD',
 			},
 		},
@@ -478,18 +478,18 @@ const EXPECTED = {
 					children: [],
 					data: [
 						{
-							amount: 0.0,
+							amount: '0.00',
 							code: 'CAD',
 						},
 						{
-							amount: -100.0,
+							amount: '-100.00',
 							code: 'CAD',
 						},
 					],
 					description: 'Credit',
 					entryType: 'credit',
 					total: {
-						amount: -100.0,
+						amount: '-100.00',
 						code: 'CAD',
 					},
 				},
@@ -497,36 +497,36 @@ const EXPECTED = {
 					children: [],
 					data: [
 						{
-							amount: 0.0,
+							amount: '0.00',
 							code: 'CAD',
 						},
 						{
-							amount: 1327.43,
+							amount: '1327.43',
 							code: 'CAD',
 						},
 					],
 					description: 'Other Income',
 					entryType: 'credit',
 					total: {
-						amount: 1327.43,
+						amount: '1327.43',
 						code: 'CAD',
 					},
 				},
 			],
 			data: [
 				{
-					amount: 0.0,
+					amount: '0.00',
 					code: 'CAD',
 				},
 				{
-					amount: 1227.43,
+					amount: '1227.43',
 					code: 'CAD',
 				},
 			],
 			description: 'Sales',
 			entryType: 'credit',
 			total: {
-				amount: 1227.43,
+				amount: '1227.43',
 				code: 'CAD',
 			},
 		},
@@ -534,18 +534,18 @@ const EXPECTED = {
 			children: [],
 			data: [
 				{
-					amount: 0.0,
+					amount: '0.00',
 					code: 'CAD',
 				},
 				{
-					amount: 0.0,
+					amount: '0.00',
 					code: 'CAD',
 				},
 			],
 			description: 'Cost of Goods Sold',
 			entryType: 'credit',
 			total: {
-				amount: 0.0,
+				amount: '0.00',
 				code: 'CAD',
 			},
 		},
@@ -554,18 +554,18 @@ const EXPECTED = {
 		children: [],
 		data: [
 			{
-				amount: 0.0,
+				amount: '0.00',
 				code: 'CAD',
 			},
 			{
-				amount: 108.85,
+				amount: '108.85',
 				code: 'CAD',
 			},
 		],
 		description: 'Total Expenses',
 		entryType: 'debit',
 		total: {
-			amount: 108.85,
+			amount: '108.85',
 			code: 'CAD',
 		},
 	},
@@ -573,18 +573,18 @@ const EXPECTED = {
 		children: [],
 		data: [
 			{
-				amount: 0.0,
+				amount: '0.00',
 				code: 'CAD',
 			},
 			{
-				amount: 1227.43,
+				amount: '1227.43',
 				code: 'CAD',
 			},
 		],
 		description: 'Gross Profit',
 		entryType: 'credit',
 		total: {
-			amount: 1227.43,
+			amount: '1227.43',
 			code: 'CAD',
 		},
 	},

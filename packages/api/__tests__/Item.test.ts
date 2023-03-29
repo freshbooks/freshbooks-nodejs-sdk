@@ -40,7 +40,7 @@ const buildMockRequest = (itemProperties: any = {}): any => {
 			sku: 'FB0192374221',
 			inventory: '',
 			unit_cost: {
-				amount: 1234.0,
+				amount: '1234.00',
 				code: 'USD',
 			},
 			tax1: '58730',
@@ -60,7 +60,7 @@ const buildItem = (itemProperties: any = {}): Item => ({
 	sku: 'FB0192374221',
 	inventory: '',
 	unitCost: {
-		amount: 1234.0,
+		amount: '1234.00',
 		code: 'USD',
 	},
 	tax1: '58730',

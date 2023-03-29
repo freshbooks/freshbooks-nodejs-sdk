@@ -1,5 +1,5 @@
 export default interface Money {
-	amount?: number
+	amount?: string
 	code?: string
 }
 
@@ -10,7 +10,7 @@ export interface MoneyResponse {
 
 export function transformMoneyParsedResponse(money: MoneyResponse): Money {
 	return {
-		amount: Number(money.amount),
+		amount: money.amount,
 		code: money.code,
 	}
 }

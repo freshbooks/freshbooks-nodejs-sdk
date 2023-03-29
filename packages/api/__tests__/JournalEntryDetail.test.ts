@@ -15,7 +15,7 @@ const ACCOUNT_NUMBER = '6000'
 const ACCOUNT_TYPE = 'expense'
 const ACCOUNT_ID = 1234567
 
-const AMOUNT = 47.60
+const AMOUNT = '47.60'
 const CURRENCY_CODE = 'CAD'
 
 const DESCRIPTION = 'Regular Glasses'

@@ -97,7 +97,7 @@ const buildInvoice = (invoiceProperties: any = {}): Invoice => ({
 	accountingSystemId: ACCOUNT_ID,
 	address: '',
 	amount: {
-		amount: 1222.0,
+		amount: '1222.00',
 		code: 'USD',
 	},
 	autoBill: false,
@@ -117,7 +117,7 @@ const buildInvoice = (invoiceProperties: any = {}): Invoice => ({
 	description: 'Consulting for apples.',
 	discountDescription: null,
 	discountTotal: {
-		amount: 0.0,
+		amount: '0.00',
 		code: 'USD',
 	},
 	discountValue: '0',
@@ -141,12 +141,12 @@ const buildInvoice = (invoiceProperties: any = {}): Invoice => ({
 	notes: '',
 	organization: 'Hooli',
 	outstanding: {
-		amount: 1222,
+		amount: '1222.00',
 		code: 'USD',
 	},
 	ownerId: 1,
 	paid: {
-		amount: 0.0,
+		amount: '0.00',
 		code: 'USD',
 	},
 	parent: 0,
