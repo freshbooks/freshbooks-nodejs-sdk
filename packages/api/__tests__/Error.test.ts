@@ -14,6 +14,7 @@ import {
 
 const accountingErrorResponses = [
 	{
+		// Old-style accounting error, regardless of status code
 		errorStatus: '200',
 		errorResponse: {
 			response: {
@@ -41,6 +42,39 @@ const accountingErrorResponses = [
 		},
 	},
 	{
+		// new-style accounting error
+		errorStatus: '200',
+		errorResponse: {
+			code: 5,
+			message: 'Request failed with status_code: 404',
+			details: [
+				{
+					'@type': 'type.googleapis.com/google.rpc.ErrorInfo',
+					reason: '1012',
+					domain: 'accounting.api.freshbooks.com',
+					metadata: {
+						object: 'item',
+						message: 'Item not found.',
+						value: '123432',
+						field: 'itemid',
+					},
+				},
+			],
+		},
+		expected: {
+			errors: [
+				{
+					message: 'Item not found.',
+					errorCode: 1012,
+					field: 'itemid',
+					object: 'item',
+					value: '123432',
+				},
+			],
+		},
+	},
+	{
+		// Error status code, but unexpected error payload
 		errorStatus: '401',
 		errorResponse: {
 			response: {
