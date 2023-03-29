@@ -4,6 +4,8 @@
 
 ### Unreleased
 
+### 4.0.0
+
 - (**Breaking Change**) The `amount` field in money objects is now a string, not a number. This is to be consistent
   with the FreshBooks API, which returns a string, and to prevent floating point precision errors.
 - (**Breaking Change**) Error handling has been reworked to be clearer and more consistent. This includes renaming the
