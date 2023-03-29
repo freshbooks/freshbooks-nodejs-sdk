@@ -37,7 +37,7 @@ const buildMockResponse = (otherIncomeProperties: any = {}): string => {
 
 const buildOtherIncome = (otherIncomeProperties: any = {}): OtherIncome => ({
 	amount: {
-		amount: 113.0,
+		amount: '113.00',
 		code: 'USD',
 	},
 	categoryName: 'online_sales',
@@ -61,7 +61,7 @@ const buildOtherIncome = (otherIncomeProperties: any = {}): OtherIncome => ({
 const buildMockRequest = (otherIncomeProperties: any = {}): any => ({
 	other_income: {
 		amount: {
-			amount: 113.0,
+			amount: '113.00',
 			code: 'USD',
 		},
 		category_name: 'online_sales',

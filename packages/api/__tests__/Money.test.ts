@@ -12,7 +12,7 @@ describe('@freshbooks/api', () => {
 
 			expect(model).toEqual(
 				expect.objectContaining({
-					amount: 1234.0,
+					amount: '1234.00',
 					code: 'USD',
 				})
 			)

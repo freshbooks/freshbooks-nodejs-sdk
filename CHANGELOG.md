@@ -4,6 +4,8 @@
 
 ### Unreleased
 
+- (**Breaking Change**) The `amount` field in money objects is now a string, not a number. This is to be consistent
+  with the FreshBooks API, which returns a string, and to prevent floating point precision errors.
 - (**Breaking Change**) Error handling has been reworked to be clearer and more consistent. This includes renaming the
   fields `code` and `number` to `statusCode` and `errorCode`. Error handling has been updated so that exception data is
   more consistent across API resources (see [issue 506](https://github.com/freshbooks/freshbooks-nodejs-sdk/issues/506)).

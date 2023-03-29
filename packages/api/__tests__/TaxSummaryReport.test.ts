@@ -85,61 +85,61 @@ const EXPECTED = {
 	taxes: [
 		{
 			netTax: {
-				amount: 3.13,
+				amount: '3.13',
 				code: 'CAD',
 			},
 			netTaxableAmount: {
-				amount: 50.0,
+				amount: '50.00',
 				code: 'CAD',
 			},
 			taxCollected: {
-				amount: 3.13,
+				amount: '3.13',
 				code: 'CAD',
 			},
 			taxName: 'GST',
 			taxPaid: {
-				amount: 0.0,
+				amount: '0.00',
 				code: 'CAD',
 			},
 			taxableAmountCollected: {
-				amount: 50.0,
+				amount: '50.00',
 				code: 'CAD',
 			},
 			taxableAmountPaid: {
-				amount: 0.0,
+				amount: '0.00',
 				code: 'CAD',
 			},
 		},
 		{
 			netTax: {
-				amount: 163.37,
+				amount: '163.37',
 				code: 'CAD',
 			},
 			netTaxableAmount: {
-				amount: 1256.63,
+				amount: '1256.63',
 				code: 'CAD',
 			},
 			taxCollected: {
-				amount: 172.57,
+				amount: '172.57',
 				code: 'CAD',
 			},
 			taxName: 'HST',
 			taxPaid: {
-				amount: 9.2,
+				amount: '9.20',
 				code: 'CAD',
 			},
 			taxableAmountCollected: {
-				amount: 1327.43,
+				amount: '1327.43',
 				code: 'CAD',
 			},
 			taxableAmountPaid: {
-				amount: 70.8,
+				amount: '70.80',
 				code: 'CAD',
 			},
 		},
 	],
 	totalInvoiced: {
-		amount: 1503.13,
+		amount: '1503.13',
 		code: 'CAD',
 	},
 }

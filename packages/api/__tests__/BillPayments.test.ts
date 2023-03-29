@@ -41,7 +41,7 @@ const buildBillPaymentRequest = (billPaymentProperties: any = {}): any => {
 		bill_payment: {
 			billid: BILL_ID,
 			amount: {
-				amount: 4000,
+				amount: '4000.00',
 				code: 'USD',
 			},
 			payment_type: 'Check',
@@ -55,7 +55,7 @@ const buildBillPaymentRequest = (billPaymentProperties: any = {}): any => {
 const buildBillPayments = (billPaymentProperties: any = {}): BillPayments => ({
 	id: BILL_PAYMENT_ID,
 	amount: {
-		amount: 4000,
+		amount: '4000.00',
 		code: 'USD',
 	},
 	billId: BILL_ID,
@@ -137,7 +137,7 @@ describe('@freshbooks/api', () => {
 			const modelBillPaymentRequest: BillPayments = {
 				billId: BILL_ID,
 				amount: {
-					amount: 4000,
+					amount: '4000.00',
 					code: 'USD',
 				},
 				paymentType: PaymentType.check,
@@ -167,7 +167,7 @@ describe('@freshbooks/api', () => {
 				id: BILL_PAYMENT_ID,
 				billId: BILL_ID,
 				amount: {
-					amount: 4000,
+					amount: '4000.00',
 					code: 'USD',
 				},
 				paymentType: PaymentType.check,

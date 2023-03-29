@@ -32,6 +32,10 @@
           {
             "title": "Pagination, Filters, and Includes",
             "source": "guide/custom_queries.md"
+          },
+          {
+            "title": "Data Field Notes",
+            "source": "guide/data_fields.md"
           }
         ]
       },

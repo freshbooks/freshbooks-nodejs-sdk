@@ -61,7 +61,7 @@ const buildExpense = (expenseProperties: any = {}): Expense => ({
 	accountId: null,
 	accountingSystemId: ACCOUNT_ID,
 	accountName: '',
-	amount: { amount: 2000.0, code: 'USD' },
+	amount: { amount: '2000.00', code: 'USD' },
 	bankName: '',
 	categoryId: '3012676',
 	clientId: '0',
@@ -97,7 +97,7 @@ const buildMockRequest = (expenseProperties: any = {}): any => ({
 	expense: {
 		account_name: '',
 		accountid: null,
-		amount: { amount: 2000, code: 'USD' },
+		amount: { amount: '2000.00', code: 'USD' },
 		bank_name: '',
 		categoryid: '3012676',
 		clientid: '0',

@@ -87,7 +87,7 @@ const EXPECTED = {
 	payments: [
 		{
 			amount: {
-				amount: 53.13,
+				amount: '53.13',
 				code: 'EUR',
 			},
 			client: 'French Press',
@@ -103,7 +103,7 @@ const EXPECTED = {
 		},
 		{
 			amount: {
-				amount: 100.0,
+				amount: '100.00',
 				code: 'CAD',
 			},
 			client: 'test',
@@ -119,7 +119,7 @@ const EXPECTED = {
 		},
 		{
 			amount: {
-				amount: 400.0,
+				amount: '400.00',
 				code: 'CAD',
 			},
 			client: 'test',
@@ -137,11 +137,11 @@ const EXPECTED = {
 	startDate: '2021-10-01',
 	totals: [
 		{
-			amount: 500.0,
+			amount: '500.00',
 			code: 'CAD',
 		},
 		{
-			amount: 53.13,
+			amount: '53.13',
 			code: 'EUR',
 		},
 	],
