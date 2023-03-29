@@ -43,7 +43,7 @@ const buildMockResponse = (journalEntryAccountProperties: any = {}): string =>
 				parentid: ID,
 				sub_accountid: ID_SUB,
 				transaction_posted: false,
-			}
+			},
 		],
 		...journalEntryAccountProperties,
 	})
@@ -70,10 +70,10 @@ const buildModelResponse = (journalEntryAccountProperties: any = {}): JournalEnt
 			parentId: ID,
 			subAccountId: ID_SUB,
 			transactionPosted: false,
-		}
+		},
 	],
 	...journalEntryAccountProperties,
-	})
+})
 
 describe('@freshbooks/api', () => {
 	describe('JournalEntryAccount', () => {
@@ -92,7 +92,9 @@ describe('@freshbooks/api', () => {
 					}
 				 }`
 
-			mock.onGet(`/accounting/account/${ACCOUNT_ID}/journal_entry_accounts/journal_entry_accounts`).replyOnce(200, mockResponse)
+			mock
+				.onGet(`/accounting/account/${ACCOUNT_ID}/journal_entry_accounts/journal_entry_accounts`)
+				.replyOnce(200, mockResponse)
 
 			const { data } = await client.journalEntryAccounts.list(ACCOUNT_ID)
 

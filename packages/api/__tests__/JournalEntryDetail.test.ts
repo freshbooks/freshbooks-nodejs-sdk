@@ -71,12 +71,12 @@ const buildMockResponse = (journalEntryDetailProperties: any = {}): string =>
 		id: DETAIL_ID,
 		name: NAME,
 		sub_account: {
-				account_sub_name: SUB_ACCOUNT_NAME,
-				account_sub_number: SUB_ACCOUNT_NUMBER,
-				accounting_systemid: SYSTEM_ID,
-				id: SUB_ACCOUNT_ID,
-				parentid: PARENT_ID,
-				sub_accountid: SUB_ACCOUNT_ID,
+			account_sub_name: SUB_ACCOUNT_NAME,
+			account_sub_number: SUB_ACCOUNT_NUMBER,
+			accounting_systemid: SYSTEM_ID,
+			id: SUB_ACCOUNT_ID,
+			parentid: PARENT_ID,
+			sub_accountid: SUB_ACCOUNT_ID,
 		},
 		user_entered_date: '2022-08-16',
 		...journalEntryDetailProperties,
@@ -123,22 +123,22 @@ const buildModelResponse = (journalEntryDetailProperties: any = {}): JournalEntr
 	id: DETAIL_ID,
 	name: NAME,
 	subAccount: {
-			accountSubName: SUB_ACCOUNT_NAME,
-			accountSubNumber: SUB_ACCOUNT_NUMBER,
-			accountingSystemId: SYSTEM_ID,
-			accountType: undefined,
-			balance: undefined,
-			createdAt: undefined,
-			currencyCode: undefined,
-			custom:	undefined,
-			id: SUB_ACCOUNT_ID,
-			parentId: PARENT_ID,
-			subAccountId: SUB_ACCOUNT_ID,
-			transactionPosted: undefined,
+		accountSubName: SUB_ACCOUNT_NAME,
+		accountSubNumber: SUB_ACCOUNT_NUMBER,
+		accountingSystemId: SYSTEM_ID,
+		accountType: undefined,
+		balance: undefined,
+		createdAt: undefined,
+		currencyCode: undefined,
+		custom: undefined,
+		id: SUB_ACCOUNT_ID,
+		parentId: PARENT_ID,
+		subAccountId: SUB_ACCOUNT_ID,
+		transactionPosted: undefined,
 	},
 	userEnteredDate: new Date('2022-08-16 00:00:00'),
 	...journalEntryDetailProperties,
-	})
+})
 
 describe('@freshbooks/api', () => {
 	describe('JournalEntryDetail', () => {
@@ -161,7 +161,7 @@ describe('@freshbooks/api', () => {
 
 			const { data } = await client.journalEntryDetails.list(SYSTEM_ID)
 
-			const modelResponse= {
+			const modelResponse = {
 				journalEntryDetails: [buildModelResponse()],
 				pages: {
 					page: 1,

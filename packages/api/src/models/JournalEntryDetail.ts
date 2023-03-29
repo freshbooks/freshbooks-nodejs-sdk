@@ -24,6 +24,25 @@ export default interface JournalEntryDetail {
 	userEnteredDate: Date
 }
 
+export function transformJournalEntryDetailParsedResponse(detail: any): JournalEntryDetail {
+	return {
+		account: detail.account && transformJournalEntryAccountParsedResponse(detail.account),
+		accountingSystemId: detail.accounting_systemid,
+		balance: detail.balance && transformMoneyParsedResponse(detail.balance),
+		credit: detail.credit && transformMoneyParsedResponse(detail.credit),
+		debit: detail.debit && transformMoneyParsedResponse(detail.debit),
+		description: detail.description,
+		detailType: detail.detail_type,
+		detailId: detail.detailid,
+		entry: detail.entry && transformEntryParsedResponse(detail.entry),
+		id: detail.id,
+		name: detail.name,
+		subAccount: detail.sub_account && transformSubAccountParsedResponse(detail.sub_account),
+		userEnteredDate:
+			detail.user_entered_date && transformDateResponse(detail.user_entered_date, DateFormat['YYYY-MM-DD']),
+	}
+}
+
 export function transformJournalEntryDetailListResponse(
 	data: string,
 	headers: Array<string>,
@@ -47,24 +66,5 @@ export function transformJournalEntryDetailListResponse(
 			pages,
 			page,
 		},
-	}
-}
-
-export function transformJournalEntryDetailParsedResponse(detail: any): JournalEntryDetail {
-	return {
-		account: detail.account && transformJournalEntryAccountParsedResponse(detail.account),
-		accountingSystemId: detail.accounting_systemid,
-		balance: detail.balance && transformMoneyParsedResponse(detail.balance),
-		credit: detail.credit && transformMoneyParsedResponse(detail.credit),
-		debit: detail.debit && transformMoneyParsedResponse(detail.debit),
-		description: detail.description,
-		detailType: detail.detail_type,
-		detailId: detail.detailid,
-		entry: detail.entry && transformEntryParsedResponse(detail.entry),
-		id: detail.id,
-		name: detail.name,
-		subAccount: detail.sub_account && transformSubAccountParsedResponse(detail.sub_account),
-		userEnteredDate:
-			detail.user_entered_date && transformDateResponse(detail.user_entered_date, DateFormat['YYYY-MM-DD']),
 	}
 }

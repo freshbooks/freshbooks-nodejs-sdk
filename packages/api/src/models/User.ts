@@ -25,18 +25,6 @@ export default interface User {
 	links?: Nullable<Map<string, string>>
 }
 
-export function transformUserResponse(data: string, headers: Array<string>, status: string): User | ErrorResponse {
-	const response = JSON.parse(data)
-
-	if (isAuthErrorResponse(status, response)) {
-		return transformAuthErrorResponse(response)
-	}
-
-	const user = response.response
-
-	return transformUserParsedResponse(user)
-}
-
 export function transformUserParsedResponse(user: any): User {
 	return {
 		id: user.id.toString(),
@@ -63,4 +51,16 @@ export function transformUserParsedResponse(user: any): User {
 		groups: user.groups && user.groups.map((group: any): Group => transformGroupParsedResponse(group)),
 		links: user.links,
 	}
+}
+
+export function transformUserResponse(data: string, headers: Array<string>, status: string): User | ErrorResponse {
+	const response = JSON.parse(data)
+
+	if (isAuthErrorResponse(status, response)) {
+		return transformAuthErrorResponse(response)
+	}
+
+	const user = response.response
+
+	return transformUserParsedResponse(user)
 }

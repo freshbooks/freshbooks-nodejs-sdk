@@ -18,6 +18,21 @@ export default interface Tasks {
 	updated?: Date
 }
 
+export function transformTasksParsedResponse(task: any): Tasks {
+	return {
+		id: task.id,
+		billable: task.billable,
+		description: task.description,
+		name: task.name,
+		rate: task.rate,
+		taskid: task.taskid,
+		tname: task.tname,
+		tdesc: task.tdesc,
+		visState: task.visState,
+		updated: task.updated,
+	}
+}
+
 export function transformTasksResponse(data: string, headers: Array<string>, status: string): Tasks | ErrorResponse {
 	const response = JSON.parse(data)
 
@@ -51,21 +66,6 @@ export function transformTasksListResponse(
 			pages,
 			page,
 		},
-	}
-}
-
-export function transformTasksParsedResponse(task: any): Tasks {
-	return {
-		id: task.id,
-		billable: task.billable,
-		description: task.description,
-		name: task.name,
-		rate: task.rate,
-		taskid: task.taskid,
-		tname: task.tname,
-		tdesc: task.tdesc,
-		visState: task.visState,
-		updated: task.updated,
 	}
 }
 

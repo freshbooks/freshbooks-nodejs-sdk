@@ -41,6 +41,36 @@ export default interface Bills {
 	vendor?: BillVendors
 }
 
+export function transformBillsParsedResponse(bill: any): Bills {
+	return {
+		id: bill.id,
+		amount: bill.amount && transformMoneyParsedResponse(bill.amount),
+		attachment: bill.attachment,
+		billNumber: bill.bill_number,
+		billPayments:
+			bill.bill_payments &&
+			bill.bill_payments.map((payment: any): BillPayments => transformBillPaymentsParsedResponse(payment)),
+		createdAt: bill.created_at && transformDateResponse(bill.created_at, DateFormat['YYYY-MM-DD hh:mm:ss'], 'UTC'),
+		currencyCode: bill.currency_code,
+		dueDate: bill.due_date && transformDateResponse(bill.due_date, DateFormat['YYYY-MM-DD']),
+		dueOffsetDays: bill.due_offset_days,
+		issueDate: bill.issue_date && transformDateResponse(bill.issue_date, DateFormat['YYYY-MM-DD']),
+		language: bill.language,
+		lines: bill.lines && bill.lines.map((line: any): BillLines => transformBillLinesParsedResponse(line)),
+		outstanding: bill.outstanding && transformMoneyParsedResponse(bill.outstanding),
+		overallCategory: bill.overall_category,
+		overallDescription: bill.overall_description,
+		paid: bill.paid && transformMoneyParsedResponse(bill.paid),
+		status: bill.status,
+		taxAmount: bill.tax_amount && transformMoneyParsedResponse(bill.tax_amount),
+		totalAmount: bill.total_amount && transformMoneyParsedResponse(bill.total_amount),
+		updatedAt: bill.updated_at && transformDateResponse(bill.updated_at, DateFormat['YYYY-MM-DD hh:mm:ss'], 'UTC'),
+		vendorId: bill.vendorid,
+		visState: bill.vis_state,
+		vendor: bill.vendor && transformBillVendorsParsedResponse(bill.vendor),
+	}
+}
+
 export function transformBillsResponse(data: string, headers: Array<string>, status: string): Bills | ErrorResponse {
 	const response = JSON.parse(data)
 
@@ -74,36 +104,6 @@ export function transformBillsListResponse(
 			pages,
 			page,
 		},
-	}
-}
-
-export function transformBillsParsedResponse(bill: any): Bills {
-	return {
-		id: bill.id,
-		amount: bill.amount && transformMoneyParsedResponse(bill.amount),
-		attachment: bill.attachment,
-		billNumber: bill.bill_number,
-		billPayments:
-			bill.bill_payments &&
-			bill.bill_payments.map((payment: any): BillPayments => transformBillPaymentsParsedResponse(payment)),
-		createdAt: bill.created_at && transformDateResponse(bill.created_at, DateFormat['YYYY-MM-DD hh:mm:ss'], 'UTC'),
-		currencyCode: bill.currency_code,
-		dueDate: bill.due_date && transformDateResponse(bill.due_date, DateFormat['YYYY-MM-DD']),
-		dueOffsetDays: bill.due_offset_days,
-		issueDate: bill.issue_date && transformDateResponse(bill.issue_date, DateFormat['YYYY-MM-DD']),
-		language: bill.language,
-		lines: bill.lines && bill.lines.map((line: any): BillLines => transformBillLinesParsedResponse(line)),
-		outstanding: bill.outstanding && transformMoneyParsedResponse(bill.outstanding),
-		overallCategory: bill.overall_category,
-		overallDescription: bill.overall_description,
-		paid: bill.paid && transformMoneyParsedResponse(bill.paid),
-		status: bill.status,
-		taxAmount: bill.tax_amount && transformMoneyParsedResponse(bill.tax_amount),
-		totalAmount: bill.total_amount && transformMoneyParsedResponse(bill.total_amount),
-		updatedAt: bill.updated_at && transformDateResponse(bill.updated_at, DateFormat['YYYY-MM-DD hh:mm:ss'], 'UTC'),
-		vendorId: bill.vendorid,
-		visState: bill.vis_state,
-		vendor: bill.vendor && transformBillVendorsParsedResponse(bill.vendor),
 	}
 }
 

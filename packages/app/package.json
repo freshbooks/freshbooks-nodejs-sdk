@@ -18,7 +18,7 @@
 		"build": "tsc --declaration",
 		"clean": "shx rm -rf ./dist ./coverage",
 		"test": "jest --coverage --verbose",
-		"lint": "tsc --noEmit && eslint \"**/*.{js,ts}\" --quiet --fix"
+		"lint": "tsc --noEmit && eslint \"{src,__tests__}/**/*.{js,ts}\" --quiet --fix"
 	},
 	"dependencies": {
 		"@freshbooks/api": "^4.0.0",

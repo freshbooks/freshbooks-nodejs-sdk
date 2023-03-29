@@ -21,6 +21,20 @@ export default interface PaymentOptions {
 
 type PaymentOptionsResponse = Required<PaymentOptions>
 
+function transformPaymentOptionsParsedResponse(options: any): PaymentOptions {
+	return {
+		gatewayName: options.gateway_name,
+		hasCreditCard: options.has_credit_card,
+		hasAchTransfer: options.has_ach_transfer,
+		hasBacsDebit: options.has_bacs_debit,
+		hasSepaDebit: options.has_sepa_debit,
+		hasPayPalSmartCheckout: options.has_paypal_smart_checkout,
+		allowPartialPayments: options.allow_partial_payments,
+		entityId: options.entity_id,
+		entityType: options.entity_type,
+	}
+}
+
 export function transformPaymentOptionsResponse(
 	data: string,
 	headers: Array<string>,
@@ -35,20 +49,6 @@ export function transformPaymentOptionsResponse(
 	const paymentOptions: PaymentOptionsResponse = response['payment_options']
 
 	return transformPaymentOptionsParsedResponse(paymentOptions)
-}
-
-function transformPaymentOptionsParsedResponse(options: any): PaymentOptions {
-	return {
-		gatewayName: options.gateway_name,
-		hasCreditCard: options.has_credit_card,
-		hasAchTransfer: options.has_ach_transfer,
-		hasBacsDebit: options.has_bacs_debit,
-		hasSepaDebit: options.has_sepa_debit,
-		hasPayPalSmartCheckout: options.has_paypal_smart_checkout,
-		allowPartialPayments: options.allow_partial_payments,
-		entityId: options.entity_id,
-		entityType: options.entity_type,
-	}
 }
 
 export function transformPaymentOptionsRequest(options: PaymentOptions) {

@@ -12,6 +12,16 @@ export default interface Callback {
 	updatedAt?: Nullable<Date>
 }
 
+export function transformCallbackParsedResponse(callback: any): Callback {
+	return {
+		callbackId: callback.callbackid,
+		uri: callback.uri,
+		event: callback.event,
+		verified: callback.verified,
+		updatedAt: callback.updated_at && transformDateResponse(callback.updated_at, DateFormat['YYYY-MM-DD hh:mm:ss']),
+	}
+}
+
 export function transformCallbackResponse(
 	data: string,
 	headers: Array<string>,
@@ -49,16 +59,6 @@ export function transformCallbackListResponse(
 			pages,
 			page,
 		},
-	}
-}
-
-export function transformCallbackParsedResponse(callback: any): Callback {
-	return {
-		callbackId: callback.callbackid,
-		uri: callback.uri,
-		event: callback.event,
-		verified: callback.verified,
-		updatedAt: callback.updated_at && transformDateResponse(callback.updated_at, DateFormat['YYYY-MM-DD hh:mm:ss']),
 	}
 }
 

@@ -31,18 +31,18 @@ const buildMockResponse = (expenseCategoryProperties: any = {}): string =>
 	})
 
 const buildExpenseCategory = (expenseCategoryProperties: any = {}): ExpenseCategory => ({
-		category: CATEGORY,
-		categoryId: CATEGORY_ID,
-		createdAt: new Date('2022-08-16T18:11:07Z'),
-		id: CATEGORY_ID,
-		isCogs: false,
-		isEditable: true,
-		parentId: PARENT_ID,
-		transactionPosted: true,
-		updatedAt: new Date('2022-10-07T15:04:59Z'),
-		visState: VIS_STATE,
-		...expenseCategoryProperties,
-	})
+	category: CATEGORY,
+	categoryId: CATEGORY_ID,
+	createdAt: new Date('2022-08-16T18:11:07Z'),
+	id: CATEGORY_ID,
+	isCogs: false,
+	isEditable: true,
+	parentId: PARENT_ID,
+	transactionPosted: true,
+	updatedAt: new Date('2022-10-07T15:04:59Z'),
+	visState: VIS_STATE,
+	...expenseCategoryProperties,
+})
 
 describe('@freshbooks/api', () => {
 	describe('ExpenseCategory', () => {

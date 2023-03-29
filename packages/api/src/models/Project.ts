@@ -52,6 +52,37 @@ export default interface Project {
 	group?: Nullable<ProjectGroup>
 }
 
+function transformProjectParsedResponse(project: any): Project {
+	return {
+		id: project.id,
+		title: project.title,
+		description: project.description,
+		dueDate: project.due_date && transformDateResponse(project.due_date, DateFormat['YYYY-MM-DD']),
+		clientId: project.client_id,
+		internal: project.internal,
+		budget: project.budget,
+		fixedPrice: project.fixed_price,
+		rate: project.rate,
+		billingMethod: project.billing_method,
+		projectType: project.project_type,
+		projectManagerId: project.project_manager_id,
+		active: project.active,
+		complete: project.complete,
+		sample: project.sample,
+		createdAt: transformDateResponse(project.created_at, DateFormat['YYYY-MM-DDThh:mm:ss']),
+		updatedAt: transformDateResponse(project.updated_at, DateFormat['YYYY-MM-DDThh:mm:ss']),
+		loggedDuration: project.logged_duration,
+		services:
+			project.services && project.services.map((service: any): Service => transformServiceParsedResponse(service)),
+		billedAmount: project.billed_amount,
+		billedStatus: project.billed_status,
+		retainerId: project.retainer_id,
+		expenseMarkup: project.expense_markup,
+		groupId: project.group_id,
+		group: project.group && transformProjectGroupParsedResponse(project.group),
+	}
+}
+
 export function transformProjectResponse(
 	data: string,
 	headers: Array<string>,
@@ -90,37 +121,6 @@ export function transformProjectListResponse(
 			pages,
 			page,
 		},
-	}
-}
-
-function transformProjectParsedResponse(project: any): Project {
-	return {
-		id: project.id,
-		title: project.title,
-		description: project.description,
-		dueDate: project.due_date && transformDateResponse(project.due_date, DateFormat['YYYY-MM-DD']),
-		clientId: project.client_id,
-		internal: project.internal,
-		budget: project.budget,
-		fixedPrice: project.fixed_price,
-		rate: project.rate,
-		billingMethod: project.billing_method,
-		projectType: project.project_type,
-		projectManagerId: project.project_manager_id,
-		active: project.active,
-		complete: project.complete,
-		sample: project.sample,
-		createdAt: transformDateResponse(project.created_at, DateFormat['YYYY-MM-DDThh:mm:ss']),
-		updatedAt: transformDateResponse(project.updated_at, DateFormat['YYYY-MM-DDThh:mm:ss']),
-		loggedDuration: project.logged_duration,
-		services:
-			project.services && project.services.map((service: any): Service => transformServiceParsedResponse(service)),
-		billedAmount: project.billed_amount,
-		billedStatus: project.billed_status,
-		retainerId: project.retainer_id,
-		expenseMarkup: project.expense_markup,
-		groupId: project.group_id,
-		group: project.group && transformProjectGroupParsedResponse(project.group),
 	}
 }
 
