@@ -137,46 +137,6 @@ export default interface Invoice {
 	visState?: VisState
 }
 
-export function transformInvoiceResponse(
-	data: string,
-	headers: Array<string>,
-	status: string
-): Invoice | ErrorResponse {
-	const response = JSON.parse(data)
-
-	if (isAccountingErrorResponse(status, response)) {
-		return transformAccountingErrorResponse(response)
-	}
-
-	const { invoice } = response.response.result
-
-	return transformInvoiceParsedResponse(invoice)
-}
-
-export function transformInvoiceListResponse(
-	data: string,
-	headers: Array<string>,
-	status: string
-): { invoices: Invoice[]; pages: Pagination } | ErrorResponse {
-	const response = JSON.parse(data)
-
-	if (isAccountingErrorResponse(status, response)) {
-		return transformAccountingErrorResponse(response)
-	}
-
-	const { invoices, per_page, total, page, pages } = response.response.result
-
-	return {
-		invoices: invoices.map((invoice: any): Invoice => transformInvoiceParsedResponse(invoice)),
-		pages: {
-			total,
-			size: per_page,
-			pages,
-			page,
-		},
-	}
-}
-
 function transformInvoiceParsedResponse(invoice: any): Invoice {
 	return {
 		id: invoice.id,
@@ -243,6 +203,46 @@ function transformInvoiceParsedResponse(invoice: any): Invoice {
 		vatName: invoice.vat_name,
 		vatNumber: invoice.vat_number,
 		visState: invoice.vis_state,
+	}
+}
+
+export function transformInvoiceResponse(
+	data: string,
+	headers: Array<string>,
+	status: string
+): Invoice | ErrorResponse {
+	const response = JSON.parse(data)
+
+	if (isAccountingErrorResponse(status, response)) {
+		return transformAccountingErrorResponse(response)
+	}
+
+	const { invoice } = response.response.result
+
+	return transformInvoiceParsedResponse(invoice)
+}
+
+export function transformInvoiceListResponse(
+	data: string,
+	headers: Array<string>,
+	status: string
+): { invoices: Invoice[]; pages: Pagination } | ErrorResponse {
+	const response = JSON.parse(data)
+
+	if (isAccountingErrorResponse(status, response)) {
+		return transformAccountingErrorResponse(response)
+	}
+
+	const { invoices, per_page, total, page, pages } = response.response.result
+
+	return {
+		invoices: invoices.map((invoice: any): Invoice => transformInvoiceParsedResponse(invoice)),
+		pages: {
+			total,
+			size: per_page,
+			pages,
+			page,
+		},
 	}
 }
 

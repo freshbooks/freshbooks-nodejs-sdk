@@ -32,6 +32,22 @@ export default interface OtherIncome {
 	visState?: VisState
 }
 
+function transformOtherIncomeParsedResponse(income: any): OtherIncome {
+	return {
+		incomeId: income.incomeid,
+		amount: income.amount && transformMoneyParsedResponse(income.amount),
+		categoryName: income.category_name,
+		createdAt: income.created_at && transformDateResponse(income.created_at, DateFormat['YYYY-MM-DD hh:mm:ss']),
+		date: income.date && transformDateResponse(income.date, DateFormat['YYYY-MM-DD']),
+		note: income.note,
+		paymentType: income.payment_type,
+		source: income.source,
+		taxes: income.taxes && income.taxes.map((tax: any): Tax => transformTaxParsedResponse(tax)),
+		updatedAt: income.updated_at && transformDateResponse(income.updated_at, DateFormat['YYYY-MM-DD hh:mm:ss']),
+		visState: income.vis_state,
+	}
+}
+
 export function transformOtherIncomeResponse(
 	data: string,
 	headers: Array<string>,
@@ -69,22 +85,6 @@ export function transformOtherIncomeListResponse(
 			pages,
 			page,
 		},
-	}
-}
-
-function transformOtherIncomeParsedResponse(income: any): OtherIncome {
-	return {
-		incomeId: income.incomeid,
-		amount: income.amount && transformMoneyParsedResponse(income.amount),
-		categoryName: income.category_name,
-		createdAt: income.created_at && transformDateResponse(income.created_at, DateFormat['YYYY-MM-DD hh:mm:ss']),
-		date: income.date && transformDateResponse(income.date, DateFormat['YYYY-MM-DD']),
-		note: income.note,
-		paymentType: income.payment_type,
-		source: income.source,
-		taxes: income.taxes && income.taxes.map((tax: any): Tax => transformTaxParsedResponse(tax)),
-		updatedAt: income.updated_at && transformDateResponse(income.updated_at, DateFormat['YYYY-MM-DD hh:mm:ss']),
-		visState: income.vis_state,
 	}
 }
 

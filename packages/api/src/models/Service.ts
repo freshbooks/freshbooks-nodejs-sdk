@@ -12,6 +12,16 @@ export default interface Service {
 	visState?: VisState
 }
 
+export function transformServiceParsedResponse(service: any): Service {
+	return {
+		businessId: service.business_id,
+		id: service.id,
+		name: service.name,
+		billable: service.billable,
+		visState: service.vis_state,
+	}
+}
+
 export function transformServiceResponse(
 	data: string,
 	headers: Array<string>,
@@ -50,16 +60,6 @@ export function transformServiceListResponse(
 			pages,
 			page,
 		},
-	}
-}
-
-export function transformServiceParsedResponse(service: any): Service {
-	return {
-		businessId: service.business_id,
-		id: service.id,
-		name: service.name,
-		billable: service.billable,
-		visState: service.vis_state,
 	}
 }
 

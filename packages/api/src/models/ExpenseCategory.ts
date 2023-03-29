@@ -17,6 +17,21 @@ export default interface ExpenseCategory {
 	visState: VisState
 }
 
+export function transformExpenseCategoryParsedResponse(category: any): ExpenseCategory {
+	return {
+		category: category.category,
+		categoryId: category.categoryid,
+		createdAt: category.created_at && transformDateResponse(category.created_at, DateFormat['YYYY-MM-DD hh:mm:ss']),
+		id: category.id,
+		isCogs: category.is_cogs,
+		isEditable: category.is_editable,
+		parentId: category.parentid,
+		transactionPosted: category.transaction_posted,
+		updatedAt: category.updated_at && transformDateResponse(category.updated_at, DateFormat['YYYY-MM-DD hh:mm:ss']),
+		visState: category.vis_state,
+	}
+}
+
 export function transformExpenseCategoryResponse(
 	data: string,
 	headers: Array<string>,
@@ -54,20 +69,5 @@ export function transformExpenseCategoryListResponse(
 			pages,
 			page,
 		},
-	}
-}
-
-export function transformExpenseCategoryParsedResponse(category: any): ExpenseCategory {
-	return {
-		category: category.category,
-		categoryId: category.categoryid,
-		createdAt: category.created_at && transformDateResponse(category.created_at, DateFormat['YYYY-MM-DD hh:mm:ss']),
-		id: category.id,
-		isCogs: category.is_cogs,
-		isEditable: category.is_editable,
-		parentId: category.parentid,
-		transactionPosted: category.transaction_posted,
-		updatedAt: category.updated_at && transformDateResponse(category.updated_at, DateFormat['YYYY-MM-DD hh:mm:ss']),
-		visState: category.vis_state,
 	}
 }

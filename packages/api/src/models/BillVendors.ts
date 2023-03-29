@@ -36,6 +36,41 @@ export default interface BillVendors {
 	updatedAt?: Date
 }
 
+export function transformBillVendorsParsedResponse(vendor: any): BillVendors {
+	return {
+		accountNumber: vendor.account_number,
+		city: vendor.city,
+		country: vendor.country,
+		currencyCode: vendor.currency_code,
+		is1099: vendor.is_1099,
+		language: vendor.language,
+		note: vendor.note,
+		outstandingBalance:
+			vendor.outstanding_balance &&
+			vendor.outstanding_balance.map((balance: any): Money => transformMoneyParsedResponse(balance)),
+		overdueBalance:
+			vendor.overdue_balance &&
+			vendor.overdue_balance.map((balance: any): Money => transformMoneyParsedResponse(balance)),
+		phone: vendor.phone,
+		postalCode: vendor.postal_code,
+		primaryContactEmail: vendor.primary_contact_email,
+		primaryContactFirstName: vendor.primary_contact_first_name,
+		primaryContactLastName: vendor.primary_contact_last_name,
+		province: vendor.province,
+		street: vendor.street,
+		street2: vendor.street2,
+		taxDefaults:
+			vendor.tax_defaults &&
+			vendor.tax_defaults.map((tax: any): BillVendorTax => transformBillVendorTaxParsedResponse(tax)),
+		vendorId: vendor.vendorid,
+		visState: vendor.vis_state,
+		website: vendor.website,
+		vendorName: vendor.vendor_name,
+		createdAt: vendor.created_at && transformDateResponse(vendor.created_at, DateFormat['YYYY-MM-DD hh:mm:ss']),
+		updatedAt: vendor.updated_at && transformDateResponse(vendor.updated_at, DateFormat['YYYY-MM-DD hh:mm:ss']),
+	}
+}
+
 export function transformBillVendorsResponse(
 	data: string,
 	headers: Array<string>,
@@ -73,41 +108,6 @@ export function transformBillVendorsListResponse(
 			pages,
 			page,
 		},
-	}
-}
-
-export function transformBillVendorsParsedResponse(vendor: any): BillVendors {
-	return {
-		accountNumber: vendor.account_number,
-		city: vendor.city,
-		country: vendor.country,
-		currencyCode: vendor.currency_code,
-		is1099: vendor.is_1099,
-		language: vendor.language,
-		note: vendor.note,
-		outstandingBalance:
-			vendor.outstanding_balance &&
-			vendor.outstanding_balance.map((balance: any): Money => transformMoneyParsedResponse(balance)),
-		overdueBalance:
-			vendor.overdue_balance &&
-			vendor.overdue_balance.map((balance: any): Money => transformMoneyParsedResponse(balance)),
-		phone: vendor.phone,
-		postalCode: vendor.postal_code,
-		primaryContactEmail: vendor.primary_contact_email,
-		primaryContactFirstName: vendor.primary_contact_first_name,
-		primaryContactLastName: vendor.primary_contact_last_name,
-		province: vendor.province,
-		street: vendor.street,
-		street2: vendor.street2,
-		taxDefaults:
-			vendor.tax_defaults &&
-			vendor.tax_defaults.map((tax: any): BillVendorTax => transformBillVendorTaxParsedResponse(tax)),
-		vendorId: vendor.vendorid,
-		visState: vendor.vis_state,
-		website: vendor.website,
-		vendorName: vendor.vendor_name,
-		createdAt: vendor.created_at && transformDateResponse(vendor.created_at, DateFormat['YYYY-MM-DD hh:mm:ss']),
-		updatedAt: vendor.updated_at && transformDateResponse(vendor.updated_at, DateFormat['YYYY-MM-DD hh:mm:ss']),
 	}
 }
 

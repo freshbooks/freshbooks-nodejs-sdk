@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 import APIClient, { Options } from '../src/APIClient'

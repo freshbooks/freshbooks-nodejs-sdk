@@ -7,6 +7,14 @@ export default interface ServiceRate {
 	serviceId?: number
 }
 
+function transformServiceRateParsedResponse(rate: any): ServiceRate {
+	return {
+		rate: rate.rate,
+		businessId: rate.business_id,
+		serviceId: rate.service_id,
+	}
+}
+
 export function transformServiceRateResponse(
 	data: string,
 	headers: Array<string>,
@@ -21,14 +29,6 @@ export function transformServiceRateResponse(
 	const { service_rate } = response
 
 	return transformServiceRateParsedResponse(service_rate)
-}
-
-function transformServiceRateParsedResponse(rate: any): ServiceRate {
-	return {
-		rate: rate.rate,
-		businessId: rate.business_id,
-		serviceId: rate.service_id,
-	}
 }
 
 export function transformServiceRateRequest(rate: ServiceRate): string {

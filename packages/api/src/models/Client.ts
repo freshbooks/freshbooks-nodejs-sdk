@@ -58,42 +58,6 @@ export default interface Client {
 	role?: Nullable<string>
 }
 
-export function transformClientResponse(data: string, headers: Array<string>, status: string): Client | ErrorResponse {
-	const response = JSON.parse(data)
-
-	if (isAccountingErrorResponse(status, response)) {
-		return transformAccountingErrorResponse(response)
-	}
-
-	const { client } = response.response.result
-
-	return transformClientParsedResponse(client)
-}
-
-export function transformClientListResponse(
-	data: string,
-	headers: Array<string>,
-	status: string
-): { clients: Client[]; pages: Pagination } | ErrorResponse {
-	const response = JSON.parse(data)
-
-	if (isAccountingErrorResponse(status, response)) {
-		return transformAccountingErrorResponse(response)
-	}
-
-	const { clients, per_page, total, page, pages } = response.response.result
-
-	return {
-		clients: clients.map((client: any): Client => transformClientParsedResponse(client)),
-		pages: {
-			total,
-			size: per_page,
-			pages,
-			page,
-		},
-	}
-}
-
 function transformClientParsedResponse(client: any): Client {
 	return {
 		id: client.id,
@@ -145,6 +109,42 @@ function transformClientParsedResponse(client: any): Client {
 		hasRetainer: client.has_retainer,
 		retainerId: client.retainer_id,
 		role: client.role,
+	}
+}
+
+export function transformClientResponse(data: string, headers: Array<string>, status: string): Client | ErrorResponse {
+	const response = JSON.parse(data)
+
+	if (isAccountingErrorResponse(status, response)) {
+		return transformAccountingErrorResponse(response)
+	}
+
+	const { client } = response.response.result
+
+	return transformClientParsedResponse(client)
+}
+
+export function transformClientListResponse(
+	data: string,
+	headers: Array<string>,
+	status: string
+): { clients: Client[]; pages: Pagination } | ErrorResponse {
+	const response = JSON.parse(data)
+
+	if (isAccountingErrorResponse(status, response)) {
+		return transformAccountingErrorResponse(response)
+	}
+
+	const { clients, per_page, total, page, pages } = response.response.result
+
+	return {
+		clients: clients.map((client: any): Client => transformClientParsedResponse(client)),
+		pages: {
+			total,
+			size: per_page,
+			pages,
+			page,
+		},
 	}
 }
 

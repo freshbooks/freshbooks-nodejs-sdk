@@ -34,6 +34,18 @@ export default interface BillPayments {
 	visState?: VisState
 }
 
+export function transformBillPaymentsParsedResponse(payment: any): BillPayments {
+	return {
+		id: payment.id,
+		amount: payment.amount && transformMoneyParsedResponse(payment.amount),
+		billId: payment.billid,
+		paidDate: payment.paid_date && transformDateResponse(payment.paid_date, DateFormat['YYYY-MM-DD']),
+		paymentType: payment.payment_type,
+		note: payment.note,
+		visState: payment.vis_state,
+	}
+}
+
 export function transformBillPaymentsResponse(
 	data: string,
 	headers: Array<string>,
@@ -71,18 +83,6 @@ export function transformBillPaymentsListResponse(
 			pages,
 			page,
 		},
-	}
-}
-
-export function transformBillPaymentsParsedResponse(payment: any): BillPayments {
-	return {
-		id: payment.id,
-		amount: payment.amount && transformMoneyParsedResponse(payment.amount),
-		billId: payment.billid,
-		paidDate: payment.paid_date && transformDateResponse(payment.paid_date, DateFormat['YYYY-MM-DD']),
-		paymentType: payment.payment_type,
-		note: payment.note,
-		visState: payment.vis_state,
 	}
 }
 

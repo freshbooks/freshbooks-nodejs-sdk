@@ -17,6 +17,23 @@ export default interface JournalEntryAccount {
 	subAccounts?: SubAccount[]
 }
 
+export function transformJournalEntryAccountParsedResponse(account: any): JournalEntryAccount {
+	return {
+		accountName: account.account_name,
+		accountNumber: account.account_number,
+		accountType: account.account_type,
+		accountId: account.accountid,
+		accountingSystemId: account.accounting_systemid,
+		balance: account.balance ? Number(account.balance) : account.balance,
+		createdAt: account.created_at && transformDateResponse(account.created_at, DateFormat['YYYY-MM-DD hh:mm:ss']),
+		currencyCode: account.currency_code,
+		id: account.id,
+		subAccounts:
+			account.sub_accounts &&
+			account.sub_accounts.map((subAccount: any): SubAccount => transformSubAccountParsedResponse(subAccount)),
+	}
+}
+
 export function transformJournalEntryAccountListResponse(
 	data: string,
 	headers: Array<string>,
@@ -40,22 +57,5 @@ export function transformJournalEntryAccountListResponse(
 			pages,
 			page,
 		},
-	}
-}
-
-export function transformJournalEntryAccountParsedResponse(account: any): JournalEntryAccount {
-	return {
-		accountName: account.account_name,
-		accountNumber: account.account_number,
-		accountType: account.account_type,
-		accountId: account.accountid,
-		accountingSystemId: account.accounting_systemid,
-		balance: account.balance ? Number(account.balance) : account.balance,
-		createdAt: account.created_at && transformDateResponse(account.created_at, DateFormat['YYYY-MM-DD hh:mm:ss']),
-		currencyCode: account.currency_code,
-		id: account.id,
-		subAccounts:
-			account.sub_accounts &&
-			account.sub_accounts.map((subAccount: any): SubAccount => transformSubAccountParsedResponse(subAccount)),
 	}
 }

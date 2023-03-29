@@ -28,6 +28,31 @@ export default interface TimeEntry {
 	timer?: Nullable<Timer>
 }
 
+function transformTimeEntryParsedResponse(entry: any): TimeEntry {
+	return {
+		id: entry.id,
+		identityId: entry.identity_id,
+		isLogged: entry.is_logged,
+		startedAt: transformDateResponse(entry.started_at, DateFormat['YYYY-MM-DDThh:mm:ss']),
+		createdAt: transformDateResponse(entry.created_at, DateFormat['YYYY-MM-DDThh:mm:ss']),
+		clientId: entry.client_id,
+		projectId: entry.project_id,
+		pendingClient: entry.pending_client,
+		pendingProject: entry.pending_project,
+		pendingTask: entry.pending_task,
+		taskId: entry.task_id,
+		serviceId: entry.service_id,
+		note: entry.note,
+		active: entry.active,
+		billable: entry.billable,
+		billed: entry.billed,
+		internal: entry.internal,
+		retainerId: entry.retainer_id,
+		duration: entry.duration,
+		timer: entry.timer && transformTimerParsedResponse(entry.timer),
+	}
+}
+
 export function transformTimeEntryResponse(
 	data: string,
 	headers: Array<string>,
@@ -65,31 +90,6 @@ export function transformTimeEntryListResponse(
 			pages,
 			page,
 		},
-	}
-}
-
-function transformTimeEntryParsedResponse(entry: any): TimeEntry {
-	return {
-		id: entry.id,
-		identityId: entry.identity_id,
-		isLogged: entry.is_logged,
-		startedAt: transformDateResponse(entry.started_at, DateFormat['YYYY-MM-DDThh:mm:ss']),
-		createdAt: transformDateResponse(entry.created_at, DateFormat['YYYY-MM-DDThh:mm:ss']),
-		clientId: entry.client_id,
-		projectId: entry.project_id,
-		pendingClient: entry.pending_client,
-		pendingProject: entry.pending_project,
-		pendingTask: entry.pending_task,
-		taskId: entry.task_id,
-		serviceId: entry.service_id,
-		note: entry.note,
-		active: entry.active,
-		billable: entry.billable,
-		billed: entry.billed,
-		internal: entry.internal,
-		retainerId: entry.retainer_id,
-		duration: entry.duration,
-		timer: entry.timer && transformTimerParsedResponse(entry.timer),
 	}
 }
 

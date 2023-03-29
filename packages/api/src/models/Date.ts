@@ -24,7 +24,7 @@ export const transformDateResponse = (
 
 export const transformDateRequest = (date: Date): string => {
 	if (typeof date === 'string') {
-		date = new Date(date);
+		date = new Date(date)
 	}
 	const year = date.getFullYear()
 	const month = date.toLocaleDateString(undefined, { month: '2-digit' })

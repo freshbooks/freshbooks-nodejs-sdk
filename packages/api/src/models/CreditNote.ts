@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import Pagination from './Pagination'
 import { transformAccountingErrorResponse, isAccountingErrorResponse, ErrorResponse } from './Error'
 import Money, { transformMoneyParsedRequest, transformMoneyParsedResponse } from './Money'
@@ -76,46 +77,6 @@ export default interface CreditNote {
 	visState?: VisState
 }
 
-export function transformCreditNoteResponse(
-	data: string,
-	headers: Array<string>,
-	status: string
-): CreditNote | ErrorResponse {
-	const response = JSON.parse(data)
-
-	if (isAccountingErrorResponse(status, response)) {
-		return transformAccountingErrorResponse(response)
-	}
-
-	const { credit_notes } = response.response.result
-
-	return transformCreditNoteParsedResponse(credit_notes)
-}
-
-export function transformCreditNoteListResponse(
-	data: string,
-	headers: Array<string>,
-	status: string
-): { creditNotes: CreditNote[]; pages: Pagination } | ErrorResponse {
-	const response = JSON.parse(data)
-
-	if (isAccountingErrorResponse(status, response)) {
-		return transformAccountingErrorResponse(response)
-	}
-
-	const { credit_notes, per_page, total, page, pages } = response.response.result
-
-	return {
-		creditNotes: credit_notes.map((creditNote: any): CreditNote => transformCreditNoteParsedResponse(creditNote)),
-		pages: {
-			total,
-			size: per_page,
-			pages,
-			page,
-		},
-	}
-}
-
 function transformCreditNoteParsedResponse(creditNote: any): CreditNote {
 	return {
 		id: creditNote.id,
@@ -155,6 +116,46 @@ function transformCreditNoteParsedResponse(creditNote: any): CreditNote {
 		vatName: creditNote.vat_name,
 		vatNumber: creditNote.vat_number,
 		visState: creditNote.vis_state,
+	}
+}
+
+export function transformCreditNoteResponse(
+	data: string,
+	headers: Array<string>,
+	status: string
+): CreditNote | ErrorResponse {
+	const response = JSON.parse(data)
+
+	if (isAccountingErrorResponse(status, response)) {
+		return transformAccountingErrorResponse(response)
+	}
+
+	const { credit_notes } = response.response.result
+
+	return transformCreditNoteParsedResponse(credit_notes)
+}
+
+export function transformCreditNoteListResponse(
+	data: string,
+	headers: Array<string>,
+	status: string
+): { creditNotes: CreditNote[]; pages: Pagination } | ErrorResponse {
+	const response = JSON.parse(data)
+
+	if (isAccountingErrorResponse(status, response)) {
+		return transformAccountingErrorResponse(response)
+	}
+
+	const { credit_notes, per_page, total, page, pages } = response.response.result
+
+	return {
+		creditNotes: credit_notes.map((creditNote: any): CreditNote => transformCreditNoteParsedResponse(creditNote)),
+		pages: {
+			total,
+			size: per_page,
+			pages,
+			page,
+		},
 	}
 }
 

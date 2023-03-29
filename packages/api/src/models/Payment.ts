@@ -45,6 +45,28 @@ export default interface Payment {
 	id?: string
 }
 
+function transformPaymentParsedResponse(payment: any): Payment {
+	return {
+		orderId: payment.orderid,
+		accountingSystemId: payment.accounting_systemid,
+		updated: transformDateResponse(payment.updated, DateFormat['YYYY-MM-DD hh:mm:ss']),
+		invoiceId: payment.invoiceid,
+		creditId: payment.creditid,
+		amount: transformMoneyParsedResponse(payment.amount),
+		clientId: payment.clientid,
+		visState: payment.vis_state,
+		logId: payment.logid,
+		note: payment.note,
+		overpaymentId: payment.overpaymentid,
+		gateway: payment.gateway,
+		date: transformDateResponse(payment.date, DateFormat['YYYY-MM-DD']),
+		transactionId: payment.transactionid,
+		fromCredit: payment.from_credit,
+		type: payment.type,
+		id: payment.id,
+	}
+}
+
 export function transformPaymentResponse(
 	data: string,
 	headers: Array<string>,
@@ -82,28 +104,6 @@ export function transformPaymentListResponse(
 			pages,
 			page,
 		},
-	}
-}
-
-function transformPaymentParsedResponse(payment: any): Payment {
-	return {
-		orderId: payment.orderid,
-		accountingSystemId: payment.accounting_systemid,
-		updated: transformDateResponse(payment.updated, DateFormat['YYYY-MM-DD hh:mm:ss']),
-		invoiceId: payment.invoiceid,
-		creditId: payment.creditid,
-		amount: transformMoneyParsedResponse(payment.amount),
-		clientId: payment.clientid,
-		visState: payment.vis_state,
-		logId: payment.logid,
-		note: payment.note,
-		overpaymentId: payment.overpaymentid,
-		gateway: payment.gateway,
-		date: transformDateResponse(payment.date, DateFormat['YYYY-MM-DD']),
-		transactionId: payment.transactionid,
-		fromCredit: payment.from_credit,
-		type: payment.type,
-		id: payment.id,
 	}
 }
 

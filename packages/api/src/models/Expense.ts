@@ -50,6 +50,44 @@ export default interface Expense {
 	category?: ExpenseCategory
 }
 
+function transformExpenseParsedResponse(expense: any): Expense {
+	return {
+		categoryId: transformIdResponse(expense.categoryid),
+		markupPercent: Number(expense.markup_percent),
+		projectId: transformIdResponse(expense.projectid),
+		clientId: transformIdResponse(expense.clientid),
+		taxPercent1: expense.taxPercent1,
+		taxName2: expense.taxName2,
+		taxName1: expense.taxName1,
+		isDuplicate: expense.isduplicate,
+		profileId: transformIdResponse(expense.profileid),
+		taxPercent2: expense.taxPercent2,
+		accountName: expense.account_name,
+		transactionId: transformIdResponse(expense.transactionid),
+		invoiceId: transformIdResponse(expense.invoiceid),
+		id: transformIdResponse(expense.id),
+		taxAmount2: expense.taxAmount2 && transformMoneyParsedResponse(expense.taxAmount2),
+		taxAmount1: expense.taxAmount1 && transformMoneyParsedResponse(expense.taxAmount1),
+		visState: expense.vis_state,
+		status: expense.status,
+		bankName: expense.bank_name,
+		updated: transformDateResponse(expense.updated, DateFormat['YYYY-MM-DD hh:mm:ss']),
+		vendor: expense.vendor,
+		extSystemId: transformIdResponse(expense.ext_systemid),
+		staffId: transformIdResponse(expense.staffid),
+		date: transformDateResponse(expense.date, DateFormat['YYYY-MM-DD']),
+		hasReceipt: expense.has_receipt,
+		accountingSystemId: transformIdResponse(expense.accounting_systemid),
+		notes: expense.notes,
+		extInvoiceId: transformIdResponse(expense.ext_invoiceid),
+		amount: transformMoneyParsedResponse(expense.amount),
+		expenseId: transformIdResponse(expense.expenseid),
+		compoundedTax: expense.compounded_tax,
+		accountId: transformIdResponse(expense.accountid),
+		category: expense.category && transformExpenseCategoryParsedResponse(expense.category),
+	}
+}
+
 export function transformExpenseResponse(
 	data: string,
 	headers: Array<string>,
@@ -87,44 +125,6 @@ export function transformExpenseListResponse(
 			pages,
 			page,
 		},
-	}
-}
-
-function transformExpenseParsedResponse(expense: any): Expense {
-	return {
-		categoryId: transformIdResponse(expense.categoryid),
-		markupPercent: Number(expense.markup_percent),
-		projectId: transformIdResponse(expense.projectid),
-		clientId: transformIdResponse(expense.clientid),
-		taxPercent1: expense.taxPercent1,
-		taxName2: expense.taxName2,
-		taxName1: expense.taxName1,
-		isDuplicate: expense.isduplicate,
-		profileId: transformIdResponse(expense.profileid),
-		taxPercent2: expense.taxPercent2,
-		accountName: expense.account_name,
-		transactionId: transformIdResponse(expense.transactionid),
-		invoiceId: transformIdResponse(expense.invoiceid),
-		id: transformIdResponse(expense.id),
-		taxAmount2: expense.taxAmount2 && transformMoneyParsedResponse(expense.taxAmount2),
-		taxAmount1: expense.taxAmount1 && transformMoneyParsedResponse(expense.taxAmount1),
-		visState: expense.vis_state,
-		status: expense.status,
-		bankName: expense.bank_name,
-		updated: transformDateResponse(expense.updated, DateFormat['YYYY-MM-DD hh:mm:ss']),
-		vendor: expense.vendor,
-		extSystemId: transformIdResponse(expense.ext_systemid),
-		staffId: transformIdResponse(expense.staffid),
-		date: transformDateResponse(expense.date, DateFormat['YYYY-MM-DD']),
-		hasReceipt: expense.has_receipt,
-		accountingSystemId: transformIdResponse(expense.accounting_systemid),
-		notes: expense.notes,
-		extInvoiceId: transformIdResponse(expense.ext_invoiceid),
-		amount: transformMoneyParsedResponse(expense.amount),
-		expenseId: transformIdResponse(expense.expenseid),
-		compoundedTax: expense.compounded_tax,
-		accountId: transformIdResponse(expense.accountid),
-		category: expense.category && transformExpenseCategoryParsedResponse(expense.category),
 	}
 }
 

@@ -17,13 +17,6 @@ export interface ProjectGroupMember {
 	email: string
 }
 
-export function transformProjectGroupParsedResponse(group: any): ProjectGroup {
-	return {
-		id: group.id,
-		members: group.members && group.members.map((member: any): ProjectGroupMember => transformProjectGroupMemberParsedResponse(member)),
-	}
-}
-
 export function transformProjectGroupMemberParsedResponse(member: any): ProjectGroupMember {
 	return {
 		firstName: member.first_name,
@@ -34,5 +27,14 @@ export function transformProjectGroupMemberParsedResponse(member: any): ProjectG
 		company: member.company,
 		id: member.id,
 		email: member.email,
+	}
+}
+
+export function transformProjectGroupParsedResponse(group: any): ProjectGroup {
+	return {
+		id: group.id,
+		members:
+			group.members &&
+			group.members.map((member: any): ProjectGroupMember => transformProjectGroupMemberParsedResponse(member)),
 	}
 }
