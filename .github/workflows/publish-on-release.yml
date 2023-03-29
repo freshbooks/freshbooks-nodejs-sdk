@@ -19,7 +19,7 @@ jobs:
     - run: yarn install
     - run: ./node_modules/.bin/lerna bootstrap
     - run: ./node_modules/.bin/lerna run build
-    - run: git co yarn.lock
+    - run: git checkout yarn.lock
     - run: ./node_modules/.bin/lerna publish from-package --yes
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
