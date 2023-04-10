@@ -976,7 +976,7 @@
     debug "^4.1.0"
     globals "^11.1.0"
 
-"@babel/types@^7.0.0", "@babel/types@^7.18.6", "@babel/types@^7.18.9", "@babel/types@^7.19.0", "@babel/types@^7.20.0", "@babel/types@^7.20.2", "@babel/types@^7.20.5", "@babel/types@^7.20.7", "@babel/types@^7.21.0", "@babel/types@^7.21.2", "@babel/types@^7.21.3", "@babel/types@^7.3.0", "@babel/types@^7.3.3", "@babel/types@^7.4.4":
+"@babel/types@^7.0.0", "@babel/types@^7.18.6", "@babel/types@^7.18.9", "@babel/types@^7.19.0", "@babel/types@^7.20.0", "@babel/types@^7.20.2", "@babel/types@^7.20.5", "@babel/types@^7.20.7", "@babel/types@^7.21.2", "@babel/types@^7.21.3", "@babel/types@^7.3.0", "@babel/types@^7.3.3", "@babel/types@^7.4.4":
   version "7.21.3"
   resolved "https://registry.yarnpkg.com/@babel/types/-/types-7.21.3.tgz#4865a5357ce40f64e3400b0f3b737dc6d4f64d05"
   integrity sha512-sBGdETxC+/M4o/zKC0sl6sjWv62WFR/uzxrJ6uYyMLZOUlPnwzw0tKgVHOXxaAd5l2g8pEDM5RZ495GPQI77kg==
@@ -1277,18 +1277,19 @@
     "@jridgewell/sourcemap-codec" "1.4.14"
 
 "@knodes/typedoc-plugin-pages@^0.23.1":
-  version "0.23.1"
-  resolved "https://registry.npmjs.org/@knodes/typedoc-plugin-pages/-/typedoc-plugin-pages-0.23.1.tgz"
-  integrity sha512-Zhe4ZTDbnxBNZir/aB4dP7WMaF4k8Idx/DlwJAizvhL6cv0a7W+ulpG2eTweU7R4B3uaiKoR9+c0Yulfq0W/9g==
+  version "0.23.4"
+  resolved "https://registry.yarnpkg.com/@knodes/typedoc-plugin-pages/-/typedoc-plugin-pages-0.23.4.tgz#0a647e6c2c48a4d1cd1092d1bfa2e5a2668cd118"
+  integrity sha512-3LMS2TDV/lH/BKfxNEjCEhAwSCxOuQRF742EoYoP63/AQmIM/EZKDwShn1AYu4CtVAHvJpixuKF0VeFDLjgrbQ==
   dependencies:
-    "@knodes/typedoc-pluginutils" "~0.23.1"
+    "@knodes/typedoc-pluginutils" "~0.23.4"
     lodash "^4.17.21"
 
-"@knodes/typedoc-pluginutils@~0.23.1":
-  version "0.23.1"
-  resolved "https://registry.npmjs.org/@knodes/typedoc-pluginutils/-/typedoc-pluginutils-0.23.1.tgz"
-  integrity sha512-WjGG7bSFpZ0um6R1Lr5bnQuDROgwHOCcbjeXpAHjFjrTpTXsQgmzkcK36ybhMLh9VBqjt5m1MK41pClpUzqYEA==
+"@knodes/typedoc-pluginutils@~0.23.4":
+  version "0.23.4"
+  resolved "https://registry.yarnpkg.com/@knodes/typedoc-pluginutils/-/typedoc-pluginutils-0.23.4.tgz#9132c2a9247d46dfa9bb2816f4a3f627005f933a"
+  integrity sha512-uO7t9XxYW1DMjVFTgmRs2p431+AsmvnX4CrrB/zkauo8mZSLS3CppMKHBVE/Lk1cFO73vgfyJReRK98X/8BzUA==
   dependencies:
+    fastest-levenshtein "^1.0.16"
     lodash "^4.17.21"
     pkg-up "^3.1.0"
     semver "^7.3.5"
@@ -3999,6 +4000,11 @@ fast-safe-stringify@^2.1.1:
   resolved "https://registry.yarnpkg.com/fast-safe-stringify/-/fast-safe-stringify-2.1.1.tgz#c406a83b6e70d9e35ce3b30a81141df30aeba884"
   integrity sha512-W+KJc2dmILlPplD/H4K9l9LcAHAfPtP6BY84uVLXQ6Evcz9Lcg33Y2z1IVblT6xdY54PXYVHEv+0Wpq8Io6zkA==
 
+fastest-levenshtein@^1.0.16:
+  version "1.0.16"
+  resolved "https://registry.yarnpkg.com/fastest-levenshtein/-/fastest-levenshtein-1.0.16.tgz#210e61b6ff181de91ea9b3d1b84fdedd47e034e5"
+  integrity sha512-eRnCtTTtGZFpQCwhJiUOuxPQWRXVKYDn0b2PeHfXL6/Zi53SLAzAHfVhVWK2AryC/WH05kGfxhFIPvTF0SXQzg==
+
 fastq@^1.6.0:
   version "1.15.0"
   resolved "https://registry.yarnpkg.com/fastq/-/fastq-1.15.0.tgz#d04d07c6a2a68fe4599fea8d2e103a937fae6b3a"
@@ -5456,7 +5462,7 @@ jest-snapshot@^29.5.0:
     pretty-format "^29.5.0"
     semver "^7.3.5"
 
-jest-util@^29.0.0, jest-util@^29.4.3:
+jest-util@^29.0.0:
   version "29.4.3"
   resolved "https://registry.yarnpkg.com/jest-util/-/jest-util-29.4.3.tgz#851a148e23fc2b633c55f6dad2e45d7f4579f496"
   integrity sha512-ToSGORAz4SSSoqxDSylWX8JzkOQR7zoBtNRsA7e+1WUX5F8jrOwaNpuh1YfJHJKDHXLHmObv5eOjejUd+/Ws+Q==
