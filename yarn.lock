@@ -1277,18 +1277,19 @@
     "@jridgewell/sourcemap-codec" "1.4.14"
 
 "@knodes/typedoc-plugin-pages@^0.23.1":
-  version "0.23.1"
-  resolved "https://registry.npmjs.org/@knodes/typedoc-plugin-pages/-/typedoc-plugin-pages-0.23.1.tgz"
-  integrity sha512-Zhe4ZTDbnxBNZir/aB4dP7WMaF4k8Idx/DlwJAizvhL6cv0a7W+ulpG2eTweU7R4B3uaiKoR9+c0Yulfq0W/9g==
+  version "0.23.4"
+  resolved "https://registry.yarnpkg.com/@knodes/typedoc-plugin-pages/-/typedoc-plugin-pages-0.23.4.tgz#0a647e6c2c48a4d1cd1092d1bfa2e5a2668cd118"
+  integrity sha512-3LMS2TDV/lH/BKfxNEjCEhAwSCxOuQRF742EoYoP63/AQmIM/EZKDwShn1AYu4CtVAHvJpixuKF0VeFDLjgrbQ==
   dependencies:
-    "@knodes/typedoc-pluginutils" "~0.23.1"
+    "@knodes/typedoc-pluginutils" "~0.23.4"
     lodash "^4.17.21"
 
-"@knodes/typedoc-pluginutils@~0.23.1":
-  version "0.23.1"
-  resolved "https://registry.npmjs.org/@knodes/typedoc-pluginutils/-/typedoc-pluginutils-0.23.1.tgz"
-  integrity sha512-WjGG7bSFpZ0um6R1Lr5bnQuDROgwHOCcbjeXpAHjFjrTpTXsQgmzkcK36ybhMLh9VBqjt5m1MK41pClpUzqYEA==
+"@knodes/typedoc-pluginutils@~0.23.4":
+  version "0.23.4"
+  resolved "https://registry.yarnpkg.com/@knodes/typedoc-pluginutils/-/typedoc-pluginutils-0.23.4.tgz#9132c2a9247d46dfa9bb2816f4a3f627005f933a"
+  integrity sha512-uO7t9XxYW1DMjVFTgmRs2p431+AsmvnX4CrrB/zkauo8mZSLS3CppMKHBVE/Lk1cFO73vgfyJReRK98X/8BzUA==
   dependencies:
+    fastest-levenshtein "^1.0.16"
     lodash "^4.17.21"
     pkg-up "^3.1.0"
     semver "^7.3.5"
@@ -3998,6 +3999,11 @@ fast-safe-stringify@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/fast-safe-stringify/-/fast-safe-stringify-2.1.1.tgz#c406a83b6e70d9e35ce3b30a81141df30aeba884"
   integrity sha512-W+KJc2dmILlPplD/H4K9l9LcAHAfPtP6BY84uVLXQ6Evcz9Lcg33Y2z1IVblT6xdY54PXYVHEv+0Wpq8Io6zkA==
+
+fastest-levenshtein@^1.0.16:
+  version "1.0.16"
+  resolved "https://registry.yarnpkg.com/fastest-levenshtein/-/fastest-levenshtein-1.0.16.tgz#210e61b6ff181de91ea9b3d1b84fdedd47e034e5"
+  integrity sha512-eRnCtTTtGZFpQCwhJiUOuxPQWRXVKYDn0b2PeHfXL6/Zi53SLAzAHfVhVWK2AryC/WH05kGfxhFIPvTF0SXQzg==
 
 fastq@^1.6.0:
   version "1.15.0"
