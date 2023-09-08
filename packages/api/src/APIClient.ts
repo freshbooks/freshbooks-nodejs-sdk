@@ -776,7 +776,7 @@ export default class APIClient {
 		list: (
 			accountId: string,
 			queryBuilders?: QueryBuilderType[]
-		): Promise<Result<{ expenseCategories: ExpenseCategory[]; pages: Pagination }>> =>
+		): Promise<Result<{ categories: ExpenseCategory[]; pages: Pagination }>> =>
 			this.call(
 				'GET',
 				`/accounting/account/${accountId}/expenses/categories${joinQueries(queryBuilders)}`,
