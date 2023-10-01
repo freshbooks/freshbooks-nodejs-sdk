@@ -63,6 +63,11 @@ export class SearchQueryBuilder {
 		return this
 	}
 
+	boolean(key: string, value: boolean): SearchQueryBuilder {
+		this.queryParams.push(new QueryParam('boolean', key, value))
+		return this
+	}
+
 	build(resourceType?: string): string {
 		let isAccountingLike = false
 		if (!resourceType || ['AccountingResource', 'EventsResource'].includes(resourceType)) {

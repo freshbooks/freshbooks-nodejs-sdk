@@ -4,7 +4,7 @@ import { PaginationQueryBuilder } from '../src/models/builders/PaginationQueryBu
 import { joinQueries } from '../src/models/builders'
 
 describe('@freshbooks/api', () => {
-	describe('Accounting Endpoint Builders', () => {
+	describe('Query Builders', () => {
 		test('IncludesQueryBuilder', () => {
 			const builder = new IncludesQueryBuilder().includes('lines').includes('direct_links')
 			const expected = 'include[]=lines&include[]=direct_links'
@@ -42,8 +42,12 @@ describe('@freshbooks/api', () => {
 			expect(result).toEqual(expected)
 		})
 		test('SearchQueryBuilder - ProjectLike', () => {
-			const result = new SearchQueryBuilder().equals('userid', 1234).build('ProjectResource')
-			const expected = 'userid=1234'
+			const result = new SearchQueryBuilder()
+				.equals('userid', 1234)
+				.boolean('show_all', true)
+				.boolean('something_false', false)
+				.build('ProjectResource')
+			const expected = 'userid=1234&show_all=true&something_false=false'
 			expect(result).toEqual(expected)
 		})
 		test('SearchQueryBuilder - Between options', () => {
