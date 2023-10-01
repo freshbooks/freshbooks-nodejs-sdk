@@ -6,3 +6,9 @@ updates:
     interval: daily
     time: "07:00"
   open-pull-requests-limit: 99
+  ignore:
+      # @knodes/typedoc-plugin-pages currently broken on 0.24.x
+      - dependency-name: "typedoc"
+        versions: ["0.24.x"]
+      # Passport had an API change
+      - dependency-name: "@types/passport"
