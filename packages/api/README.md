@@ -244,7 +244,7 @@ while (page <= totalPages) {
 To filter which results are return by `list` method calls, construct a `SearchQueryBuilder` and pass and pass it in
 the `list` call.
 
-The `SearchQueryBuilder` supports the patterns: `equals`, `in`, `like` and `between`.
+The `SearchQueryBuilder` supports the patterns: `equals`, `in`, `like`, `between`, and `boolean`.
 
 ```typescript
 s = SearchQueryBuilder()
@@ -265,7 +265,11 @@ console.log(s.build()) // "&search[amount_min]=1&search[amount_max]=10)"
 
 s = SearchQueryBuilder()
 s.between("start_date", date.today())
-console.log(s.build()) // &search[start_date]=2020-11-21
+console.log(s.build()) // "&search[start_date]=2020-11-21"
+
+s = SearchQueryBuilder()
+// Boolean filters are mostly used on Project-like resources
+s.boolean('complete', false) // "&complete=false"
 ```
 
 Example API client call with `SearchQueryBuilder`:
