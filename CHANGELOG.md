@@ -4,6 +4,8 @@
 
 ### Unreleased
 
+- Add boolean-type search queries
+
 ### 4.0.0
 
 - (**Breaking Change**) The `amount` field in money objects is now a string, not a number. This is to be consistent
