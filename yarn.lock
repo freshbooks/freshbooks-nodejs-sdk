@@ -2129,9 +2129,9 @@
   integrity sha512-//oorEZjL6sbPcKUaCdIGlIUeH26mgzimjBB77G6XRgnDl/L5wOnpyBGRe/Mmf5CVW3PwEBE1NjiMZ/ssFh4wA==
 
 "@types/passport-oauth2@^1.4.8":
-  version "1.4.13"
-  resolved "https://registry.npmjs.org/@types/passport-oauth2/-/passport-oauth2-1.4.13.tgz"
-  integrity sha512-SKjbAFSgV2ys7Vf8+BbQ2Fq09CZGi72xaHqbWPEKhi7czPSC0ff4gXuQEY3XXAuTynPjwj6dlL3YAta9M2K0AQ==
+  version "1.4.14"
+  resolved "https://registry.yarnpkg.com/@types/passport-oauth2/-/passport-oauth2-1.4.14.tgz#6982575b960eb7f001e28103ac3562349f1cded3"
+  integrity sha512-wZBvnRwqdvm35l1Jn9ebYm2Q7UtxYIdBu1PjoKXMoxJytniVjXxYJmrlDXn5fMZROWbJbnEnp1XSDANqtvMdGQ==
   dependencies:
     "@types/express" "*"
     "@types/oauth" "*"
