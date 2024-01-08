@@ -2056,9 +2056,9 @@
   integrity sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==
 
 "@types/luxon@^3.0.1":
-  version "3.3.8"
-  resolved "https://registry.yarnpkg.com/@types/luxon/-/luxon-3.3.8.tgz#84dbf2d020a9209a272058725e168f21d331a67e"
-  integrity sha512-jYvz8UMLDgy3a5SkGJne8H7VA7zPV2Lwohjx0V8V31+SqAjNmurWMkk9cQhfvlcnXWudBpK9xPM1n4rljOcHYQ==
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/@types/luxon/-/luxon-3.4.0.tgz#02c16b7c6ecea55426b404e13e4ea971fb057b87"
+  integrity sha512-PEVoA4MOfSsFNaPrZjIUGUZujBDxnO/tj2A2N9KfzlR+pNgpBdDuk0TmRvSMAVUP5q4q8IkMEZ8UOp3MIr+QgA==
 
 "@types/mime@*":
   version "3.0.1"
