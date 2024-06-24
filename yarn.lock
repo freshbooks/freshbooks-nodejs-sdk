@@ -2555,9 +2555,9 @@ axios-mock-adapter@^1.21.2:
     is-buffer "^2.0.5"
 
 axios-retry@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/axios-retry/-/axios-retry-4.0.0.tgz#d5cb8ea1db18e05ce6f08aa5fe8b2663bba48e60"
-  integrity sha512-F6P4HVGITD/v4z9Lw2mIA24IabTajvpDZmKa6zq/gGwn57wN5j1P3uWrAV0+diqnW6kTM2fTqmWNfgYWGmMuiA==
+  version "4.4.1"
+  resolved "https://registry.yarnpkg.com/axios-retry/-/axios-retry-4.4.1.tgz#e5d0c851e635fd4de866aec2b9b422f05d661257"
+  integrity sha512-JGzNoglDHtHWIEvvAampB0P7jxQ/sT4COmW0FgSQkVg6o4KqNjNMBI6uFVOq517hkw/OAYYAG08ADtBlV8lvmQ==
   dependencies:
     is-retry-allowed "^2.2.0"
 
