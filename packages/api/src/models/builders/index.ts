@@ -2,8 +2,9 @@
 import { IncludesQueryBuilder } from './IncludesQueryBuilder'
 import { SearchQueryBuilder } from './SearchQueryBuilder'
 import { PaginationQueryBuilder } from './PaginationQueryBuilder'
+import { SortQueryBuilder } from './SortQueryBuilder'
 
-export type QueryBuilderType = IncludesQueryBuilder | SearchQueryBuilder | PaginationQueryBuilder
+export type QueryBuilderType = IncludesQueryBuilder | SearchQueryBuilder | PaginationQueryBuilder | SortQueryBuilder
 export { IncludesQueryBuilder }
 export { SearchQueryBuilder }
 export { PaginationQueryBuilder }
