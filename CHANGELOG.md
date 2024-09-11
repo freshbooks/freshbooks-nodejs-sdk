@@ -2,9 +2,10 @@
 
 ## @freshbooks/api
 
-### Unreleased
+### 4.1.0
 
 - Add boolean-type search queries
+- Add list sorting parameters
 
 ### 4.0.0
 
