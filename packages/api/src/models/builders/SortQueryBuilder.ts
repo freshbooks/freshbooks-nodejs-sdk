@@ -13,14 +13,14 @@ class SortQueryParam {
  * for accounting endpoints
  */
 export class SortQueryBuilder {
-	queryParams: SortQueryParam[]
+	queryParam: SortQueryParam
 
 	constructor() {
-		this.queryParams = [] as SortQueryParam[]
+		this.queryParam = {} as SortQueryParam
 	}
 
 	asc(key: string): SortQueryBuilder {
-		this.queryParams.push(new SortQueryParam(key, 'asc'))
+		this.queryParam = new SortQueryParam(key, 'asc')
 		return this
 	}
 
@@ -29,7 +29,7 @@ export class SortQueryBuilder {
 	}
 
 	desc(key: string): SortQueryBuilder {
-		this.queryParams.push(new SortQueryParam(key, 'desc'))
+		this.queryParam = new SortQueryParam(key, 'desc')
 		return this
 	}
 
@@ -42,20 +42,21 @@ export class SortQueryBuilder {
 		if (!resourceType || ['AccountingResource', 'EventsResource'].includes(resourceType)) {
 			isAccountingLike = true
 		}
+
 		let queryString = ''
-		this.queryParams.forEach((param) => {
-			let key = param.key
-			let direction = param.direction
 
-			if (isAccountingLike) {
-				direction = direction === 'asc' ? '_asc' : '_desc'
-			} else {
-				key = `-${key}`
-				direction = ''
-			}
+		let key = this.queryParam.key
+		let direction = this.queryParam.direction
 
-			queryString = queryString.concat(`&sort=${key}${direction}`)
-		})
+		if (isAccountingLike) {
+			direction = direction === 'asc' ? '_asc' : '_desc'
+		} else {
+			key = `-${key}`
+			direction = ''
+		}
+
+		queryString = `&sort=${key}${direction}`
+	
 		return queryString.substr(1)
 	}
 }
