@@ -1,6 +1,6 @@
 {
 	"name": "sdk-examples",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"description": "Testing the sdk",
 	"type": "commonjs",
 	"private": true,
@@ -9,6 +9,6 @@
 	},
 	"license": "MIT",
 	"dependencies": {
-		"@freshbooks/api": "^4.0.0"
+		"@freshbooks/api": "^4.1.0"
 	}
 }
