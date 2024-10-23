@@ -8,6 +8,7 @@ describe('@freshbooks/api', () => {
 				id: 77128,
 				name: 'BillSpring',
 				account_id: 'zDmNq',
+				timezone: 'America/New_York',
 				address: {
 					id: 74595,
 					street: '123',
@@ -40,6 +41,7 @@ describe('@freshbooks/api', () => {
 					id: 77128,
 					name: 'BillSpring',
 					accountId: 'zDmNq',
+					timezone: 'America/New_York',
 					address: {
 						id: 74595,
 						street: '123',

@@ -189,6 +189,7 @@ describe('@freshbooks/api', () => {
 								"business_uuid":"046e4001-0002-616d-710a-a451d4421b13",
 								"name":"Fruity Loops",
 								"account_id":"xZNQ1X",
+								"timezone": "America/Toronto",
 								"date_format":"mm/dd/yyyy",
 								"address":{
 								   "id":3383026,
@@ -217,6 +218,7 @@ describe('@freshbooks/api', () => {
 								"business_uuid":"04710001-0002-ff38-0de2-a77e0c34a9a1",
 								"name":"Other business",
 								"account_id":"3xQ74o",
+								"timezone": "America/New_York",
 								"date_format":"mm/dd/yyyy",
 								"address":{
 								   "id":3292884,
