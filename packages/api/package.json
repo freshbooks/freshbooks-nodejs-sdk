@@ -35,7 +35,7 @@
 		"@types/luxon": "^3.0.1",
 		"@types/node": "^22.5.4",
 		"axios-mock-adapter": "^1.21.2",
-		"typedoc": "^0.23.24"
+		"typedoc": "^0.26.11"
 	},
 	"jest": {
 		"preset": "ts-jest",
