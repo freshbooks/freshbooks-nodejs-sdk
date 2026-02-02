@@ -194,14 +194,14 @@ const buildMockRequest = (creditNoteProperties: any = {}): any => ({
 
 describe('@freshbooks/api', () => {
 	describe('CreditNote', () => {
-		test('GET /accounting/account/<accountId>/credit_notes/cerdit_notes/<creditId>', async () => {
+		test('GET /accounting/account/<accountId>/credit_notes/credit_notes/<creditId>', async () => {
 			const client = new Client(CLIENT_ID, testOptions)
 
 			const mockResponse = `
                 {"response":
                     {
                         "result": {
-                            "credit_notes": ${buildMockResponse()}
+                            "credit_note": ${buildMockResponse()}
                         }
                     }
                 }`
@@ -335,7 +335,7 @@ describe('@freshbooks/api', () => {
             {"response":
                 {
                     "result": {
-                        "credit_notes": {
+                        "credit_note": {
                             "city": "",
                             "clientid": "2",
                             "code": "",
@@ -424,7 +424,7 @@ describe('@freshbooks/api', () => {
             {"response":
                 {
                     "result": {
-                        "credit_notes": {
+                        "credit_note": {
                             "city": "",
                             "clientid": "2",
                             "code": "",
@@ -513,7 +513,7 @@ describe('@freshbooks/api', () => {
             {"response":
                 {
                     "result": {
-                        "credit_notes": {
+                        "credit_note": {
                             "city": "",
                             "clientid": "2",
                             "code": "",
