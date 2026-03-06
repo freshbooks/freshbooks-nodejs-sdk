@@ -28,7 +28,7 @@
 		"lerna": "^6.4.1",
 		"lint-staged": "^13.1.0",
 		"prettier": "2.8.8",
-		"shx": "^0.3.2",
+		"shx": "^0.4.0",
 		"ts-jest": "29.2.6",
 		"typedoc": "^0.23.24",
 		"typescript": "^5.0.4"
