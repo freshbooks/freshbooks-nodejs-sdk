@@ -130,9 +130,9 @@ export function transformCreditNoteResponse(
 		return transformAccountingErrorResponse(response)
 	}
 
-	const { credit_notes } = response.response.result
+	const { credit_note } = response.response.result
 
-	return transformCreditNoteParsedResponse(credit_notes)
+	return transformCreditNoteParsedResponse(credit_note)
 }
 
 export function transformCreditNoteListResponse(
